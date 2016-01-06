@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B5DA4A91-B46B-43F3-A4AF-458D5552420E}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsApplication", "src\WindowsApplication\WindowsApplication.csproj", "{AC571229-558A-4AFA-B7AF-EB002BF90CAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resources", "src\Resources\Resources.csproj", "{3EFD438A-145D-4AE8-A3D3-B5EC48DAA361}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework", "src\Framework\Framework.csproj", "{4A619FDA-61A9-4CC8-A307-0EF755D49213}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC571229-558A-4AFA-B7AF-EB002BF90CAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC571229-558A-4AFA-B7AF-EB002BF90CAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC571229-558A-4AFA-B7AF-EB002BF90CAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC571229-558A-4AFA-B7AF-EB002BF90CAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EFD438A-145D-4AE8-A3D3-B5EC48DAA361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EFD438A-145D-4AE8-A3D3-B5EC48DAA361}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EFD438A-145D-4AE8-A3D3-B5EC48DAA361}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EFD438A-145D-4AE8-A3D3-B5EC48DAA361}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A619FDA-61A9-4CC8-A307-0EF755D49213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A619FDA-61A9-4CC8-A307-0EF755D49213}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A619FDA-61A9-4CC8-A307-0EF755D49213}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A619FDA-61A9-4CC8-A307-0EF755D49213}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

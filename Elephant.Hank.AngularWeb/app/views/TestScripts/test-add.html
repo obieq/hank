@@ -1,0 +1,141 @@
+<section class="content-header">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <h1>Create New Test Script
+        <small></small>
+      </h1>
+    </div>
+  </div>
+</section>
+
+
+<section class="content" ng-init="loadData()">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title"></h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" name="TestForm" ng-submit="TestForm.$valid && addTest()">
+          <div class="box-body">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Website</label>
+
+              <div class="col-sm-4">
+                <label class="control-label"> {{Website.Name}} </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Test Script Name</label>
+
+              <div class="col-sm-4">
+                <input type="text" class="form-control" ng-model="Test.TestName" name="State" placeholder="TestName"
+                       required>
+          <span ng-show="TestForm.TestName.$touched || TestForm.$submitted">
+          <small class="help-block" ng-show="TestForm.TestName.$error.required" style="color:red">Please enter test
+            script name.
+          </small>
+        </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Test Category</label>
+
+              <div class="col-sm-4">
+                <select class="form-control" ng-model="Test.CategoryId"
+                        ng-options="testCat.Id as testCat.Name for testCat in TestCatList">
+                  <option style="display:none" value="">--Select--</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Description</label>
+
+              <div class="col-sm-4">
+                <textarea type="text" class="form-control ng-pristine ng-valid ng-touched" ng-model="Test.Description"
+                          name="Description" placeholder="Description"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Copy Test Script Data</label>
+
+              <div class="col-sm-4">
+                <input type="checkbox" ng-model="CopyTestData.IsCopy" ng-click="getAllTestsIgnoreCat()"/>
+              </div>
+            </div>
+
+            <div class="form-group" ng-if="CopyTestData.IsCopy">
+              <label class="col-sm-2 control-label">Select Test Script To Copy</label>
+
+              <div class="col-sm-4">
+                <select class="form-control" ng-model="CopyTestData.Test"
+                        ng-options="test.TestName for test in TestList track by test.Id" name="TestCopyId"
+                        ng-change="loadTestData()" required>
+                  <option style="display:none" value="">--Select--</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+
+            <div class="row">
+              <div ng-if="CopyTestData.HasTestData && CopyTestData.IsCopy" class=".col-md-8">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th class="col-md-1">
+                      <input type="checkbox" ng-model="CopyTestData.AllTestDataChecked"
+                             ng-click="selectAllTestData()"/>
+                    </th>
+                    <th>Sequence</th>
+                    <th class="col-md-2">Display Name</th>
+                    <th>Action</th>
+                    <th>Value</th>
+                    <th>Variable Name</th>
+                    <th class="col-md-4">Description</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr style="{{testData.rowStyle}}" ng-repeat="testData in CopyTestData.TestDataList">
+                    <td><input type="checkbox" ng-model="testData.Checked"/></td>
+                    <td>{{testData.ExecutionSequence}}</td>
+                    <td ng-if="testData.LinkTestType==Step_Types.TestStep">{{testData.DisplayNameValue}}</td>
+                    <td ng-if="testData.LinkTestType==Step_Types.SharedTestStep" colspan="5" style="font-weight: bold;">
+                      <a href="javascript:void(0);" ng-click="onSharedTestLinkClick(testData.Id)">{{testData.SharedTest.TestName}}</a>
+                      <span ng-if="testData.Description.length>0">({{testData.Description}})</span>
+                    </td>
+
+                    <td ng-if="testData.LinkTestType==Step_Types.WebsiteTestStep" colspan="5"
+                        style="font-weight: bold;">
+                      <a href="javascript:void(0);">{{testData.SharedStepWebsiteName}} -
+                        ({{testData.SharedStepWebsiteTestName}})</a>
+                    </td>
+
+                    <td ng-if="testData.LinkTestType==Step_Types.TestStep">{{testData.ActionValue}}</td>
+                    <td ng-if="testData.LinkTestType==Step_Types.TestStep">{{testData.Value }}</td>
+                    <td ng-if="testData.LinkTestType==Step_Types.TestStep">{{testData.VariableName }}</td>
+                    <td ng-if="testData.LinkTestType==Step_Types.TestStep">{{testData.Description}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+

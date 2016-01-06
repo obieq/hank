@@ -1,0 +1,67 @@
+<section class="content-header">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <h1>
+        Update Test Category
+        <small></small>
+      </h1>
+    </div>
+  </div>
+</section>
+
+<section class="content" ng-init="getTestCatById();loadData();">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title"></h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" name="TestCatForm" ng-submit="TestCatForm.$valid && updateTestCat()">
+          <div class="box-body">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Website</label>
+
+              <div class="col-sm-4">
+                <label class="control-label">{{TestCat.WebsiteName}}</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Name</label>
+
+              <div class="col-sm-4">
+                <input type="text" class="form-control" ng-model="TestCat.Name" name="Value" placeholder="Name"
+                       required>
+       <span ng-show="TestCatForm.Name.$touched || TestCatForm.$submitted">
+        <small class="help-block" ng-show="TestCatForm.Name.$error.required" style="color:red">Please enter Name.
+        </small>
+        </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Description</label>
+
+              <div class="col-sm-4">
+                <textarea type="text" class="form-control ng-pristine ng-valid ng-touched"
+                          ng-model="TestCat.Description" name="Description" placeholder="Description"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

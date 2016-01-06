@@ -1,0 +1,3419 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Elephant.Hank.Api</name>
+    </assembly>
+    <members>
+        <member name="T:Elephant.Protractor.Testing.Api.BundleConfig">
+            <summary>
+            The bundle configurations.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.BundleConfig.RegisterBundles(System.Web.Optimization.BundleCollection)">
+            <summary>
+            The register bundles.
+            </summary>
+            <param name="bundles">The bundles.</param>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.FilterConfig">
+            <summary>
+            The FilterConfig class
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.FilterConfig.RegisterGlobalFilters(System.Web.Mvc.GlobalFilterCollection)">
+            <summary>
+            Registers the global filters.
+            </summary>
+            <param name="filters">The filters.</param>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.RouteConfig">
+            <summary>
+            The RouteConfig class
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.RouteConfig.RegisterRoutes(System.Web.Routing.RouteCollection)">
+            <summary>
+            Registers the routes.
+            </summary>
+            <param name="routes">The routes.</param>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.StructuremapMvc">
+            <summary>
+            The StructuremapMvc class
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.StructuremapMvc.End">
+            <summary>
+            Ends this instance.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.StructuremapMvc.Start">
+            <summary>
+            Starts this instance.
+            </summary>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.StructuremapMvc.StructureMapDependencyScope">
+            <summary>
+            Gets or sets the structure map dependency scope.
+            </summary>
+            <value>
+            The structure map dependency scope.
+            </value>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.StructuremapWebApi">
+            <summary>
+            The StructuremapWebApi class
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.StructuremapWebApi.Start">
+            <summary>
+            The start.
+            </summary>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.WebApiConfig">
+            <summary>
+            The WebApiConfig class
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.WebApiConfig.Register(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Registers the specified configuration.
+            </summary>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.ApiDescriptionExtensions">
+            <summary>
+            The ApiDescriptionExtensions class
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Generates an URI-friendly ID for the <see cref="T:System.Web.Http.Description.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
+            </summary>
+            <param name="description">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The ID as a string.</returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.App_Start.HelpPageConfig">
+            <summary>
+            Use this class to customize the Help Page.
+            For example you can set a custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> to supply the
+            documentation
+            or you can provide the samples for the requests/responses.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.App_Start.HelpPageConfig.Register(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Registers the specified configuration.
+            </summary>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.Controllers.HelpController">
+            <summary>
+            The controller that will handle requests for the help page.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.Controllers.HelpController.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.Controllers.HelpController"/> class.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.Controllers.HelpController.#ctor(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.Controllers.HelpController"/> class.
+            </summary>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.Controllers.HelpController.Index">
+            <summary>
+            The index.
+            </summary>
+            <returns>
+            The <see cref="T:System.Web.Mvc.ActionResult"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.Controllers.HelpController.Api(System.String)">
+            <summary>
+            APIs the specified API identifier.
+            </summary>
+            <param name="apiId">The API identifier.</param>
+            <returns>
+            The <see cref="T:System.Web.Mvc.ActionResult"/>.
+            </returns>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.Controllers.HelpController.Configuration">
+            <summary>
+            Gets the configuration.
+            </summary>
+            <value>
+            The configuration.
+            </value>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageAreaRegistration">
+            <summary>
+            The help page area registration.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageAreaRegistration.RegisterArea(System.Web.Mvc.AreaRegistrationContext)">
+            <summary>
+            The register area.
+            </summary>
+            <param name="context">The context.</param>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageAreaRegistration.AreaName">
+            <summary>
+            Gets the area name.
+            </summary>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageConfigurationExtensions">
+            <summary>
+            The help page configuration extensions.
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageConfigurationExtensions.ApiModelPrefix">
+            <summary>
+            The api model prefix.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageApiModel(System.Web.Http.HttpConfiguration,System.String)">
+            <summary>
+            Gets the model that represents an API displayed on the help page. The model is initialized on the first call and
+            cached for subsequent calls.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="apiDescriptionId">The <see cref="T:System.Web.Http.Description.ApiDescription"/> ID.</param>
+            <returns>
+            An <see cref="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.Models.HelpPageApiModel"/>
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <returns>
+            The help page sample generator.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the
+            <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the
+            <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the
+            <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the
+            <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetDocumentationProvider(System.Web.Http.HttpConfiguration,System.Web.Http.Description.IDocumentationProvider)">
+            <summary>
+            Sets the documentation provider for help page.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="documentationProvider">The documentation provider.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration,Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator)">
+            <summary>
+            Sets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleGenerator">The help page sample generator.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Sets the sample directly for all actions with the specified type and media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The parameter type or return type of an action.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleObjects(System.Web.Http.HttpConfiguration,System.Collections.Generic.IDictionary{System.Type,System.Object})">
+            <summary>
+            Sets the objects that will be used by the formatters to produce sample requests/responses.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleObjects">The sample objects.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type and action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample request directly for the specified media type and action with parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type of the action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample response directly for the specified media type of the action with specific parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageConfigurationExtensions.GenerateApiModel(System.Web.Http.Description.ApiDescription,Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator)">
+            <summary>
+            The generate api model.
+            </summary>
+            <param name="apiDescription">The api description.</param>
+            <param name="sampleGenerator">The sample generator.</param>
+            <returns>
+            The <see cref="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.Models.HelpPageApiModel"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.HelpPageConfigurationExtensions.LogInvalidSampleAsError(Elephant.Protractor.Testing.Api.Areas.HelpPage.Models.HelpPageApiModel,System.Object)">
+            <summary>
+            The log invalid sample as error.
+            </summary>
+            <param name="apiModel">The api model.</param>
+            <param name="sample">The sample.</param>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.Models.HelpPageApiModel">
+            <summary>
+            The model that represents an API displayed on the help page.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.Models.HelpPageApiModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.Models.HelpPageApiModel"/> class.
+            </summary>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription">
+            <summary>
+            Gets or sets the <see cref="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription"/> that describes the API.
+            </summary>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.Models.HelpPageApiModel.SampleRequests">
+            <summary>
+            Gets the sample requests associated with the API.
+            </summary>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.Models.HelpPageApiModel.SampleResponses">
+            <summary>
+            Gets the sample responses associated with the API.
+            </summary>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.Models.HelpPageApiModel.ErrorMessages">
+            <summary>
+            Gets the error messages associated with this model.
+            </summary>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator">
+            <summary>
+                This class will generate the samples for the help page.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator"/> class.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.GetActionSample(System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.Type,System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue,Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.SampleDirection)">
+            <summary>
+            Search for samples that are provided directly through <see cref="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.ActionSamples"/>.
+            </summary>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="type">The CLR type.</param>
+            <param name="formatter">The formatter.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>
+            The sample that matches the parameters.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.GetSample(System.Web.Http.Description.ApiDescription,Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.SampleDirection)">
+            <summary>
+            Gets the request or response body samples.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>
+            The samples keyed by media type.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.GetSampleObject(System.Type)">
+            <summary>
+            Gets the sample object that will be serialized by the formatters.
+            First, it will look at the <see cref="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.SampleObjects"/>. If no sample object is found, it will try to create one
+            using <see cref="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>
+            The sample object.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.GetSampleRequests(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the request body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>
+            The samples keyed by media type.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.GetSampleResponses(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the response body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>
+            The samples keyed by media type.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.ResolveType(System.Web.Http.Description.ApiDescription,System.String,System.String,System.Collections.Generic.IEnumerable{System.String},Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.SampleDirection,System.Collections.ObjectModel.Collection{System.Net.Http.Formatting.MediaTypeFormatter}@)">
+            <summary>
+            Resolves the type of the action parameter or return value when <see cref="T:System.Net.Http.HttpRequestMessage"/> or
+            <see cref="T:System.Net.Http.HttpResponseMessage"/> is used.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or a response.</param>
+            <param name="formatters">The formatters.</param>
+            <returns>
+            The <see cref="T:System.Type"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.WriteSampleObjectUsingFormatter(System.Net.Http.Formatting.MediaTypeFormatter,System.Object,System.Type,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Writes the sample object using formatter.
+            </summary>
+            <param name="formatter">The formatter.</param>
+            <param name="value">The value.</param>
+            <param name="type">The type.</param>
+            <param name="mediaType">Type of the media.</param>
+            <returns>
+            The <see cref="T:System.Object"/>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+            formatter
+            or
+            mediaType
+            </exception>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.IsFormatSupported(Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.SampleDirection,System.Net.Http.Formatting.MediaTypeFormatter,System.Type)">
+            <summary>
+            The is format supported.
+            </summary>
+            <param name="sampleDirection">The sample direction.</param>
+            <param name="formatter">The formatter.</param>
+            <param name="type">The type.</param>
+            <returns>
+            The <see cref="T:System.Boolean"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.TryFormatJson(System.String)">
+            <summary>
+            The try format json.
+            </summary>
+            <param name="str">The str.</param>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.TryFormatXml(System.String)">
+            <summary>
+            The try format xml.
+            </summary>
+            <param name="str">The str.</param>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.WrapSampleIfString(System.Object)">
+            <summary>
+            The wrap sample if string.
+            </summary>
+            <param name="sample">The sample.</param>
+            <returns>
+            The <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.GetAllActionSamples(System.String,System.String,System.Collections.Generic.IEnumerable{System.String},Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.SampleDirection)">
+            <summary>
+            The get all action samples.
+            </summary>
+            <param name="controllerName">The controller name.</param>
+            <param name="actionName">The action name.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="sampleDirection">The sample direction.</param>
+            <returns>
+            The <see cref="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey"/>.
+            </returns>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.ActionSamples">
+            <summary>
+            Gets the objects that are used directly as samples for certain actions.
+            </summary>
+            <value>
+            The action samples.
+            </value>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.ActualHttpMessageTypes">
+            <summary>
+            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or
+            <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </summary>
+            <value>
+            The actual HTTP message types.
+            </value>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleGenerator.SampleObjects">
+            <summary>
+            Gets the objects that are serialized as samples by the supported formatters.
+            </summary>
+            <value>
+            The sample objects.
+            </value>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey">
+            <summary>
+            This is used to identify the place where the sample should be applied.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey"/> class.
+            Creates a new <see cref="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey"/> based on media type and CLR type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The CLR type.</param>
+            <exception cref="T:System.ArgumentNullException">
+            mediaType
+            or
+            type
+            </exception>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.#ctor(Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey"/> class.
+            Creates a new <see cref="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey"/> based on <see cref="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="sampleDirection">The <see cref="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey"/> class.
+            Creates a new <see cref="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey"/> based on media type, <see cref="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The <see cref="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.Equals(System.Object)">
+            <summary>
+            The equals.
+            </summary>
+            <param name="obj">The obj.</param>
+            <returns>
+            The <see cref="T:System.Boolean"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.GetHashCode">
+            <summary>
+            The get hash code.
+            </summary>
+            <returns>
+            The <see cref="T:System.Int32"/>.
+            </returns>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.ControllerName">
+            <summary>
+            Gets the name of the controller.
+            </summary>
+            <value>
+            The name of the controller.
+            </value>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.ActionName">
+            <summary>
+            Gets the name of the action.
+            </summary>
+            <value>
+            The name of the action.
+            </value>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.MediaType">
+            <summary>
+            Gets the media type.
+            </summary>
+            <value>
+            The media type.
+            </value>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.ParameterNames">
+            <summary>
+            Gets the parameter names.
+            </summary>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.ParameterType">
+            <summary>
+            Gets the parameter type.
+            </summary>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.SampleDirection">
+            <summary>
+            Gets the <see cref="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.HelpPageSampleKey.SampleDirection"/>.
+            </summary>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ImageSample">
+            <summary>
+            This represents an image sample on the help page. There's a display template named ImageSample associated with this class.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ImageSample.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ImageSample"/> class.
+            </summary>
+            <param name="src">The URL of an image.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ImageSample.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/>, is equal to this instance.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object"/> to compare with this instance.</param>
+            <returns>
+              <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ImageSample.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ImageSample.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents this instance.
+            </returns>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ImageSample.Src">
+            <summary>
+            Gets the source.
+            </summary>
+            <value>
+            The source.
+            </value>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.InvalidSample">
+            <summary>
+            This represents an invalid sample on the help page. There's a display template named InvalidSample associated with this class.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.InvalidSample.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.InvalidSample"/> class.
+            </summary>
+            <param name="errorMessage">The error message.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.InvalidSample.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/>, is equal to this instance.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object"/> to compare with this instance.</param>
+            <returns>
+              <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.InvalidSample.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.InvalidSample.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents this instance.
+            </returns>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.InvalidSample.ErrorMessage">
+            <summary>
+            Gets the error message.
+            </summary>
+            <value>
+            The error message.
+            </value>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator">
+            <summary>
+                This class will create an object of a given type and populate it with sample data.
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.DefaultCollectionSize">
+            <summary>
+            The default collection size.
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.simpleObjectGenerator">
+            <summary>
+            The simple object generator.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.GenerateObject(System.Type)">
+            <summary>
+            Generates an object for a given type. The type needs to be public, have a public default constructor and settable
+            public properties/fields. Currently it supports the following types:
+            Simple types: <see cref="T:System.Int32"/>, <see cref="T:System.String"/>, <see cref="T:System.Enum"/>, <see cref="T:System.DateTime"/>,
+            <see cref="T:System.Uri"/>, etc.
+            Complex types: POCO types.
+            Nullables: <see cref="T:System.Nullable`1"/>.
+            Arrays: arrays of simple types or complex types.
+            Key value pairs: <see cref="T:System.Collections.Generic.KeyValuePair`2"/>
+            Tuples: <see cref="T:System.Tuple`1"/>, <see cref="T:System.Tuple`2"/>, etc
+            Dictionaries: <see cref="T:System.Collections.Generic.IDictionary`2"/> or anything deriving from
+            <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+            Collections: <see cref="T:System.Collections.Generic.IList`1"/>, <see cref="T:System.Collections.Generic.IEnumerable`1"/>, <see cref="T:System.Collections.Generic.ICollection`1"/>,
+            <see cref="T:System.Collections.IList"/>, <see cref="T:System.Collections.IEnumerable"/>, <see cref="T:System.Collections.ICollection"/> or anything deriving from
+            <see cref="T:System.Collections.Generic.ICollection`1"/> or <see cref="T:System.Collections.IList"/>.
+            Queryables: <see cref="T:System.Linq.IQueryable"/>, <see cref="T:System.Linq.IQueryable`1"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>
+            An object of the given type.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.GenerateArray(System.Type,System.Int32,System.Collections.Generic.Dictionary{System.Type,System.Object})">
+            <summary>
+            The generate array.
+            </summary>
+            <param name="arrayType">The array type.</param>
+            <param name="size">The size.</param>
+            <param name="createdObjectReferences">The created object references.</param>
+            <returns>
+            The <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.GenerateCollection(System.Type,System.Int32,System.Collections.Generic.Dictionary{System.Type,System.Object})">
+            <summary>
+            The generate collection.
+            </summary>
+            <param name="collectionType">The collection type.</param>
+            <param name="size">The size.</param>
+            <param name="createdObjectReferences">The created object references.</param>
+            <returns>
+            The <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.GenerateComplexObject(System.Type,System.Collections.Generic.Dictionary{System.Type,System.Object})">
+            <summary>
+            The generate complex object.
+            </summary>
+            <param name="type">The type.</param>
+            <param name="createdObjectReferences">The created object references.</param>
+            <returns>
+            The <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.GenerateDictionary(System.Type,System.Int32,System.Collections.Generic.Dictionary{System.Type,System.Object})">
+            <summary>
+            The generate dictionary.
+            </summary>
+            <param name="dictionaryType">The dictionary type.</param>
+            <param name="size">The size.</param>
+            <param name="createdObjectReferences">The created object references.</param>
+            <returns>
+            The <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.GenerateEnum(System.Type)">
+            <summary>
+            The generate enum.
+            </summary>
+            <param name="enumType">The enum type.</param>
+            <returns>
+            The <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.GenerateGenericType(System.Type,System.Int32,System.Collections.Generic.Dictionary{System.Type,System.Object})">
+            <summary>
+            The generate generic type.
+            </summary>
+            <param name="type">The type.</param>
+            <param name="collectionSize">The collection size.</param>
+            <param name="createdObjectReferences">The created object references.</param>
+            <returns>
+            The <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.GenerateKeyValuePair(System.Type,System.Collections.Generic.Dictionary{System.Type,System.Object})">
+            <summary>
+            The generate key value pair.
+            </summary>
+            <param name="keyValuePairType">The key value pair type.</param>
+            <param name="createdObjectReferences">The created object references.</param>
+            <returns>
+            The <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.GenerateNullable(System.Type,System.Collections.Generic.Dictionary{System.Type,System.Object})">
+            <summary>
+            The generate nullable.
+            </summary>
+            <param name="nullableType">The nullable type.</param>
+            <param name="createdObjectReferences">The created object references.</param>
+            <returns>
+            The <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.GenerateQueryable(System.Type,System.Int32,System.Collections.Generic.Dictionary{System.Type,System.Object})">
+            <summary>
+            The generate queryable.
+            </summary>
+            <param name="queryableType">The queryable type.</param>
+            <param name="size">The size.</param>
+            <param name="createdObjectReferences">The created object references.</param>
+            <returns>
+            The <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.GenerateTuple(System.Type,System.Collections.Generic.Dictionary{System.Type,System.Object})">
+            <summary>
+            The generate tuple.
+            </summary>
+            <param name="type">The type.</param>
+            <param name="createdObjectReferences">The created object references.</param>
+            <returns>
+            The <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.IsTuple(System.Type)">
+            <summary>
+            The is tuple.
+            </summary>
+            <param name="genericTypeDefinition">The generic type definition.</param>
+            <returns>
+            The <see cref="T:System.Boolean"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.SetPublicFields(System.Type,System.Object,System.Collections.Generic.Dictionary{System.Type,System.Object})">
+            <summary>
+            The set public fields.
+            </summary>
+            <param name="type">The type.</param>
+            <param name="obj">The obj.</param>
+            <param name="createdObjectReferences">The created object references.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.SetPublicProperties(System.Type,System.Object,System.Collections.Generic.Dictionary{System.Type,System.Object})">
+            <summary>
+            The set public properties.
+            </summary>
+            <param name="type">The type.</param>
+            <param name="obj">The obj.</param>
+            <param name="createdObjectReferences">The created object references.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.GenerateObject(System.Type,System.Collections.Generic.Dictionary{System.Type,System.Object})">
+            <summary>
+            The generate object.
+            </summary>
+            <param name="type">The type.</param>
+            <param name="createdObjectReferences">The created object references.</param>
+            <returns>
+            The <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.SimpleTypeObjectGenerator">
+            <summary>
+            The simple type object generator.
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.SimpleTypeObjectGenerator.DefaultGenerators">
+            <summary>
+            The default generators.
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.SimpleTypeObjectGenerator.index">
+            <summary>
+                The index.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.SimpleTypeObjectGenerator.CanGenerateObject(System.Type)">
+            <summary>
+            The can generate object.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>
+            The <see cref="T:System.Boolean"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.SimpleTypeObjectGenerator.GenerateObject(System.Type)">
+            <summary>
+            The generate object.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>
+            The <see cref="T:System.Object"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.ObjectGenerator.SimpleTypeObjectGenerator.InitializeGenerators">
+            <summary>
+            The initialize generators.
+            </summary>
+            <returns>
+            The
+            <see><cref>Dictionary</cref></see>.
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.SampleDirection">
+            <summary>
+            Indicates whether the sample is used for request or response
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.SampleDirection.Request">
+            <summary>
+            The request
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.SampleDirection.Response">
+            <summary>
+            The response
+            </summary>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.TextSample">
+            <summary>
+            This represents a preformatted text sample on the help page. There's a display template named TextSample associated with this class.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.TextSample.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.TextSample"/> class.
+            </summary>
+            <param name="text">The text.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.TextSample.Equals(System.Object)">
+            <summary>
+            The equals.
+            </summary>
+            <param name="obj">The obj.</param>
+            <returns>
+            The <see cref="T:System.Boolean"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.TextSample.GetHashCode">
+            <summary>
+            The get hash code.
+            </summary>
+            <returns>
+            The <see cref="T:System.Int32"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.TextSample.ToString">
+            <summary>
+            The to string.
+            </summary>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Areas.HelpPage.SampleGeneration.TextSample.Text">
+            <summary>
+            Gets the text.
+            </summary>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.XmlDocumentationProvider">
+            <summary>
+            A custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> that reads the API documentation from an XML documentation file.
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Areas.HelpPage.XmlDocumentationProvider.MethodExpression">
+            <summary>
+            The method expression.
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Areas.HelpPage.XmlDocumentationProvider.ParameterExpression">
+            <summary>
+            The parameter expression.
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Areas.HelpPage.XmlDocumentationProvider.TypeExpression">
+            <summary>
+            The type expression.
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Areas.HelpPage.XmlDocumentationProvider.documentNavigator">
+            <summary>
+            The document navigator.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.XmlDocumentationProvider.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Areas.HelpPage.XmlDocumentationProvider"/> class.
+            </summary>
+            <param name="documentPath">The physical path to XML document.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.XmlDocumentationProvider.GetDocumentation(System.Web.Http.Controllers.HttpControllerDescriptor)">
+            <summary>
+            The get documentation.
+            </summary>
+            <param name="controllerDescriptor">The controller descriptor.</param>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.XmlDocumentationProvider.GetDocumentation(System.Web.Http.Controllers.HttpActionDescriptor)">
+            <summary>
+            The get documentation.
+            </summary>
+            <param name="actionDescriptor">The action descriptor.</param>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.XmlDocumentationProvider.GetDocumentation(System.Web.Http.Controllers.HttpParameterDescriptor)">
+            <summary>
+            The get documentation.
+            </summary>
+            <param name="parameterDescriptor">The parameter descriptor.</param>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.XmlDocumentationProvider.GetResponseDocumentation(System.Web.Http.Controllers.HttpActionDescriptor)">
+            <summary>
+            The get response documentation.
+            </summary>
+            <param name="actionDescriptor">The action descriptor.</param>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.XmlDocumentationProvider.GetMemberName(System.Reflection.MethodInfo)">
+            <summary>
+            The get member name.
+            </summary>
+            <param name="method">The method.</param>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.XmlDocumentationProvider.GetTagValue(System.Xml.XPath.XPathNavigator,System.String)">
+            <summary>
+            The get tag value.
+            </summary>
+            <param name="parentNode">The parent node.</param>
+            <param name="tagName">The tag name.</param>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.XmlDocumentationProvider.GetTypeName(System.Type)">
+            <summary>
+            The get type name.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.XmlDocumentationProvider.GetMethodNode(System.Web.Http.Controllers.HttpActionDescriptor)">
+            <summary>
+            The get method node.
+            </summary>
+            <param name="actionDescriptor">The action descriptor.</param>
+            <returns>
+            The <see cref="T:System.Xml.XPath.XPathNavigator"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Areas.HelpPage.XmlDocumentationProvider.GetTypeNode(System.Web.Http.Controllers.HttpControllerDescriptor)">
+            <summary>
+            The get type node.
+            </summary>
+            <param name="controllerDescriptor">The controller descriptor.</param>
+            <returns>
+            The <see cref="T:System.Xml.XPath.XPathNavigator"/>.
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.ActionController">
+            <summary>
+            The ActionController class
+            </summary>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.BaseApiController">
+            <summary>
+            The base api controller.
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.BaseApiController.userId">
+            <summary>
+            The user identifier
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.BaseApiController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.BaseApiController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.BaseApiController.ModelStateToMessage">
+            <summary>
+            Models the state to message.
+            </summary>
+            <returns>Message list</returns>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Controllers.BaseApiController.UserId">
+            <summary>
+            Gets the user identifier.
+            </summary>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.Controllers.BaseApiController.LoggerService">
+            <summary>
+            Gets the logger service.
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.ActionController.actionsService">
+            <summary>
+            The actions service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.ActionController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.IActionsService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.ActionController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="actionsService">The actions service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.ActionController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblActionDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.ActionController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblActionDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.ActionController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.ActionController.Add(Elephant.Protractor.Testing.Resources.Dto.TblActionDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="actionDto">The action dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.ActionController.Update(Elephant.Protractor.Testing.Resources.Dto.TblActionDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="actionDto">The action dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.ActionController.GetActionConstants">
+            <summary>
+            Get all action constants
+            </summary>
+            <returns>ActionConstants object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.ActionController.GetActionForSqlTestStep">
+            <summary>
+            Get all action constants
+            </summary>
+            <returns>ActionConstants object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.ActionController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.TblActionDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="actionDto">The action dto.</param>
+            <returns>Newly added object</returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.BrowserController">
+            <summary>
+            The BrowserController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.BrowserController.browserService">
+            <summary>
+            The browser service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.BrowserController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.IBrowserService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.BrowserController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="browserService">The browser service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.BrowserController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblBrowsersDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.BrowserController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblBrowsersDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.BrowserController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.BrowserController.Add(Elephant.Protractor.Testing.Resources.Dto.TblBrowsersDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="browsersDto">The browser dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.BrowserController.Update(Elephant.Protractor.Testing.Resources.Dto.TblBrowsersDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="browsersDto">The browser dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.BrowserController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.TblBrowsersDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="browsersDto">The browser dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.DataBaseCategoriesController">
+            <summary>
+            The DataBaseCategoriesController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.DataBaseCategoriesController.databaseCategoriesService">
+            <summary>
+            The DataBaseCategories service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.DataBaseCategoriesController.databaseConnectionService">
+            <summary>
+            The DataBaseCategories service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DataBaseCategoriesController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.IDataBaseCategoriesService,Elephant.Protractor.Testing.Common.TestDataServices.IDataBaseConnectionService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.DataBaseCategoriesController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="databaseCategoriesService">The databaseCategories service.</param>
+            <param name="databaseConnectionService">The databaseConnection service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DataBaseCategoriesController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblDataBaseCategoriesDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DataBaseCategoriesController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblDataBaseCategoriesDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DataBaseCategoriesController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DataBaseCategoriesController.Add(Elephant.Protractor.Testing.Resources.Dto.TblDataBaseCategoriesDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="dataBaseCategoriesDto">The DataBaseCategories dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DataBaseCategoriesController.Update(Elephant.Protractor.Testing.Resources.Dto.TblDataBaseCategoriesDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="dataBaseCategoriesDto">The data base categories dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DataBaseCategoriesController.GetDataBaseConnectionByCategoryId(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="categoryId">The identifier.</param>
+            <returns>TblDataBaseCategoriesDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DataBaseCategoriesController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.TblDataBaseCategoriesDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="dataBaseCategoriesDto">The database categories dto.</param>
+            <returns>Newly added object</returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.DataBaseConnectionController">
+            <summary>
+            The DataBaseConnectionController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.DataBaseConnectionController.databaseConnectionService">
+            <summary>
+            The DataBaseConnection service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DataBaseConnectionController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.IDataBaseConnectionService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.DataBaseConnectionController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="databaseConnectionService">The actions service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DataBaseConnectionController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblDataBaseConnectionDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DataBaseConnectionController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblDataBaseConnectionDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DataBaseConnectionController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DataBaseConnectionController.Add(Elephant.Protractor.Testing.Resources.Dto.TblDataBaseConnectionDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="dataBaseConnectionDto">The DataBaseConnection dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DataBaseConnectionController.Update(Elephant.Protractor.Testing.Resources.Dto.TblDataBaseConnectionDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="dataBaseConnectionDto">The data base connection dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DataBaseConnectionController.GetAllDataBaseList(Elephant.Protractor.Testing.Resources.Dto.TblDataBaseConnectionDto)">
+            <summary>
+            Get the list of all data bases
+            </summary>
+            <param name="dataBaseConnectionDto">dataBaseConnectionDto object</param>
+            <returns>string list with all database name</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DataBaseConnectionController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.TblDataBaseConnectionDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="dataBaseConnectionDto">The database connection dto.</param>
+            <returns>Newly added object</returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.DbLogController">
+            <summary>
+            The DbLogController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.DbLogController.dbLogService">
+            <summary>
+            The DbLog service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DbLogController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.IDbLogService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.DbLogController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="dbLogService">The dbLog service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DbLogController.GetChunk(System.Int64,System.String,Elephant.Protractor.Testing.Resources.Models.SearchLogModel)">
+            <summary>
+            Get Data in chunks of 50
+            </summary>
+            <param name="chunk">last chunk identifier</param>
+            <param name="tableType">Table type filter</param>
+            <param name="model">date range filter</param>
+            <returns>TblDbLog List filtered object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DbLogController.RollData(Elephant.Protractor.Testing.Resources.Dto.RollDataDto)">
+            <summary>
+            Roll back/forward the data
+            </summary>
+            <param name="rollData">roll data object</param>
+            <returns>updated rolled value</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.DbLogController.GetDataWithInDateTimeRange(Elephant.Protractor.Testing.Resources.Models.SearchLogModel)">
+            <summary>
+            Get Data with in the time range
+            </summary>
+            <param name="model">search parameters</param>
+            <returns>TblDBLog Object</returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.EnvironmentController">
+            <summary>
+            The EnvironmentController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.EnvironmentController.environmentService">
+            <summary>
+            The environment service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.EnvironmentController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.IEnvironmentService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.EnvironmentController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="environmentService">The environment service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.EnvironmentController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblEnvironmentDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.EnvironmentController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblEnvironmentDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.EnvironmentController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.EnvironmentController.Add(Elephant.Protractor.Testing.Resources.Dto.TblEnvironmentDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="environmentDto">The environment dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.EnvironmentController.Update(Elephant.Protractor.Testing.Resources.Dto.TblEnvironmentDto,System.Int64)">
+            <summary>
+            Updates the specified environment dto.
+            </summary>
+            <param name="environmentDto">The environment dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.EnvironmentController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.TblEnvironmentDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="environmentDto">The environment dto.</param>
+            <returns>Newly added object</returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.ExecuteSqlController">
+            <summary>
+            The ExecuteSqlController class.
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.ExecuteSqlController.executeSqlForProtractorService">
+            <summary>
+            The execute sql for protractor service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.ExecuteSqlController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.IExecuteSqlForProtractorService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.ExecuteSqlController"/> class.
+            </summary>
+            <param name="loggerService">the logger service</param>
+            <param name="executeSqlForProtractorService">execute SQL for protractor service</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.ExecuteSqlController.ExecuteSqlForProtractor(Elephant.Protractor.Testing.Resources.Models.ExecutableTestData,System.Int64)">
+            <summary>
+            Execute the querry defined in protractor test script
+            </summary>
+            <param name="executableTestData">executable Test data step</param>
+            <param name="testQueueId">the test Queue identifier</param>
+            <returns>response object in string format</returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.PagesController">
+            <summary>
+            The Pages class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.PagesController.pagesService">
+            <summary>
+            The pages service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.PagesController.locatorIdentifierService">
+            <summary>
+            The locator identifier service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.PagesController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.IPagesService,Elephant.Protractor.Testing.Common.TestDataServices.ILocatorIdentifierService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.PagesController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="pagesService">The pages service.</param>
+            <param name="locatorIdentifierService">The locator identifier service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.PagesController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblPagesDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.PagesController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblPagesDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.PagesController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.PagesController.Add(Elephant.Protractor.Testing.Resources.Dto.TblPagesDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="pagesDto">The display name dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.PagesController.Update(Elephant.Protractor.Testing.Resources.Dto.TblPagesDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="pagesDto">The display name dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.PagesController.GetLocatorIdentifier(System.Int64)">
+            <summary>
+            get by website id
+            </summary>
+            <param name="pageId">The page identifier.</param>
+            <returns>
+            List of TblTestDto objects
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.PagesController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.TblPagesDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="pagesDto">The display name dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.LocatorController">
+            <summary>
+            The LocatorController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.LocatorController.locatorService">
+            <summary>
+            The locator service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.LocatorController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.ILocatorService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.LocatorController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="locatorService">The locator service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.LocatorController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblLocatorDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.LocatorController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblLocatorDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.LocatorController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.LocatorController.Add(Elephant.Protractor.Testing.Resources.Dto.TblLocatorDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="locatorDto">The locator dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.LocatorController.Update(Elephant.Protractor.Testing.Resources.Dto.TblLocatorDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="locatorDto">The locator dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.LocatorController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.TblLocatorDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="locatorDto">The locator dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.LocatorIdentifierController">
+            <summary>
+            The LocatorIdentifierController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.LocatorIdentifierController.locatorIdentifierService">
+            <summary>
+            The locator identifier service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.LocatorIdentifierController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.ILocatorIdentifierService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.LocatorIdentifierController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="locatorIdentifierService">The locator identifier service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.LocatorIdentifierController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblLocatorIdentifierDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.LocatorIdentifierController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblLocatorIdentifierDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.LocatorIdentifierController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.LocatorIdentifierController.Add(Elephant.Protractor.Testing.Resources.Dto.TblLocatorIdentifierDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="locatorIdentifierDto">The locator identifier dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.LocatorIdentifierController.Update(Elephant.Protractor.Testing.Resources.Dto.TblLocatorIdentifierDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="locatorIdentifierDto">The locator identifier dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.LocatorIdentifierController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.TblLocatorIdentifierDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="locatorIdentifierDto">The locator identifier dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.UserController">
+            <summary>
+            The User controller class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.UserController.userProfileService">
+            <summary>
+            The environment service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.UserController.authRepository">
+            <summary>
+            The environment service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.UserController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.IUserProfileService,Elephant.Protractor.Testing.Common.DataService.IAuthRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.UserController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="userProfileService">The user profile service.</param>
+            <param name="authRepository">The authRepository service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.UserController.GetAllUsers">
+            <summary>
+            Get List off all users
+            </summary>
+            <returns>List of Users</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.UserController.SetLockoutEnabled(System.Guid,System.Boolean)">
+            <summary>
+            Enable or disables the user
+            </summary>
+            <param name="activationId">activation id of user</param>
+            <param name="enabled">true to enable false for disable</param>
+            <returns>Returns list of users</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.UserController.GetByUserId">
+            <summary>
+            Get the user profile details
+            </summary>
+            <returns>TblUserProfileDto object </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.UserController.Update(Elephant.Protractor.Testing.Resources.Dto.TblUserProfileDto,System.Int64)">
+            <summary>
+            Update the user's profile
+            </summary>
+            <param name="userProfileDto">user profile object</param>
+            <param name="id">profile identifier</param>
+            <returns>updated user profile object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.UserController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.TblUserProfileDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="userProfileDto">The TblUserProfile dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.UserProfileController">
+            <summary>
+            The ProfileController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.UserProfileController.userProfileService">
+            <summary>
+            The User profile service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.UserProfileController.userManager">
+            <summary>
+            The User profile service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.UserProfileController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.IUserProfileService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.UserProfileController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="userProfileService">The user profile service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.UserProfileController.GetById(System.Int64)">
+            <summary>
+            Get the user profile details
+            </summary>
+            <param name="id">the user profile identifier</param>
+            <returns>TblUserProfileDto object </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.UserProfileController.Update(Elephant.Protractor.Testing.Resources.Dto.TblUserProfileDto,System.Int64)">
+            <summary>
+            Update the user's profile
+            </summary>
+            <param name="userProfileDto">user profile object</param>
+            <param name="id">user identifier</param>
+            <returns>updated user profile object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.UserProfileController.GetByUserId(System.Int64)">
+            <summary>
+            Get the user profile details
+            </summary>
+            <param name="id">the user profile identifier</param>
+            <returns>TblUserProfileDto object </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.UserProfileController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.TblUserProfileDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="userProfileDto">The TblUserProfile dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.ReportsController">
+            <summary>
+            The ReportsController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.ReportsController.reportDataService">
+            <summary>
+            The report data service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.ReportsController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.IReportDataService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.ReportsController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="reportDataService">The report data service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.ReportsController.SearchReport(Elephant.Protractor.Testing.Resources.Models.SearchReportObject)">
+            <summary>
+            Returns the protractor report
+            </summary>
+            <param name="searchReportObject">the searchReportObject</param>
+            <returns>ReportData object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.ReportsController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblReportDataDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.ReportsController.GetByGroupName(System.String)">
+            <summary>
+            Gets by Group Name.
+            </summary>
+            <param name="groupName">Name of the group.</param>
+            <returns>
+            TblReportDataDto objects
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.ReportsController.GetByGroupNameWhereScreenShotArrayExist(System.String)">
+            <summary>
+            Gets by Group Name.
+            </summary>
+            <param name="groupName">Name of the group.</param>
+            <returns>
+            TblReportDataDto objects
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.ReportsController.Add(Elephant.Protractor.Testing.Resources.Json.ReportJson)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="reportJson">The report json.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.ReportsController.GetAllUnprocessedForGroup(System.String)">
+            <summary>
+            get all unprocessed data item for group
+            </summary>
+            <param name="groupName">group identifier</param>
+            <returns>list of report data</returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.AccountController">
+            <summary>
+            The AccountController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.AccountController.authRepository">
+            <summary>
+            The authentication repository
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.AccountController.#ctor(Elephant.Protractor.Testing.Common.DataService.IAuthRepository,Elephant.Protractor.Testing.Common.LogService.ILoggerService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.AccountController"/> class.
+            </summary>
+            <param name="authRepository">The authentication repository.</param>
+            <param name="loggerService">The logger service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.AccountController.Activate(System.String)">
+            <summary>
+            The activate.
+            </summary>
+            <param name="activationId">The activation id.</param>
+            <returns>
+            The <see cref="T:System.Threading.Tasks.Task"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.AccountController.Register(Elephant.Protractor.Testing.Resources.Models.UserModel)">
+            <summary>
+            Registers the specified user model. POST api/Account/Register
+            </summary>
+            <param name="userModel">The user model.</param>
+            <returns>Registration status</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.AccountController.RegisterUser(Elephant.Protractor.Testing.Resources.Models.UserModel)">
+            <summary>
+            Registers the user.
+            </summary>
+            <param name="userModel">The user model.</param>
+            <returns>
+            Registration result message
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.AccountController.ChangePassword(Elephant.Protractor.Testing.Resources.Models.ChangePasswordModel)">
+            <summary>
+            Chane user password
+            </summary>
+            <param name="model">change password model</param>
+            <returns>message for result</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.AccountController.ResetPassword(Elephant.Protractor.Testing.Resources.Models.ResetPasswordModel)">
+            <summary>
+            Chane user password
+            </summary>
+            <param name="model">change password model</param>
+            <returns>message for result</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.AccountController.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources that are used by the object and, optionally, releases the managed resources.
+            </summary>
+            <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.AccountController.LoadErrorResult(Microsoft.AspNet.Identity.IdentityResult)">
+            <summary>
+            Loads the error result.
+            </summary>
+            <param name="result">The result.</param>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.HomeController">
+            <summary>
+            The HomeController controller
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.HomeController.Index">
+            <summary>
+            Indexes this instance.
+            </summary>
+            <returns>Index page</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.HomeController.GetScreenShot(System.String)">
+            <summary>
+            Gets my image.
+            </summary>
+            <param name="loc">The location.</param>
+            <returns>Image content</returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.SchedulerController">
+            <summary>
+            The LocatorController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.SchedulerController.schedulerService">
+            <summary>
+            The locator service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.SchedulerController.schedulerSuiteMapService">
+            <summary>
+            The scheduler suite service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.SchedulerController.schedulerHistoryService">
+            <summary>
+            The scheduler history service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.ISchedulerService,Elephant.Protractor.Testing.Common.TestDataServices.ISchedulerSuiteMapService,Elephant.Protractor.Testing.Common.TestDataServices.ISchedulerHistoryService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.SchedulerController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="schedulerService">The scheduler service.</param>
+            <param name="schedulerSuiteMapService">The schedulerSuite service.</param>
+            <param name="schedulerHistoryService">The scheduler history service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblSchedulerDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblSchedulerDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerController.Add(Elephant.Protractor.Testing.Resources.Dto.TblSchedulerDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="schedulerDto">The scheduler dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerController.Update(Elephant.Protractor.Testing.Resources.Dto.TblSchedulerDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="schedulerDto">The locator dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerController.GetSchedulerHistoryById(System.Int64)">
+            <summary>
+            Get Scheduler Suites
+            </summary>
+            <param name="schedulerId">the scheduler identifier</param>
+            <returns>TblSchedulerSuiteDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerController.ForceExecute(System.Int64)">
+            <summary>
+            sets the force execute flag to true
+            </summary>
+            <param name="schedulerId">the scheduler identifier</param>
+            <returns>TblSchedulerSuiteDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerController.AddMultipleSuiteLinks(System.Collections.Generic.List{Elephant.Protractor.Testing.Resources.Dto.Linking.TblLnkSchedulerSuiteDto},System.Int64)">
+            <summary>
+            Adds the multiple suite links.
+            </summary>
+            <param name="schedulerSuiteDto">The suite test dto.</param>
+            <param name="schedulerId">The scheduler identifier.</param>
+            <returns>
+            TblLnkSuiteTestDto objects
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerController.GetSchedulerSuite(System.Int64)">
+            <summary>
+            Get Scheduler Suites
+            </summary>
+            <param name="schedulerId">the scheduler identifier</param>
+            <returns>TblSchedulerSuiteDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.TblSchedulerDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="schedulerDto">The scheduler dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.SchedulerHistoryController">
+            <summary>
+            The SchedulerHistoryController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.SchedulerHistoryController.schedulerHistoryService">
+            <summary>
+            The scheduler history service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerHistoryController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.ISchedulerHistoryService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.SchedulerHistoryController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="schedulerHistoryService">The scheduler history service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerHistoryController.UpdateStatusByGroupName(System.String,Elephant.Protractor.Testing.Resources.Enum.SchedulerExecutionStatus)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="groupName">Name of the group.</param>
+            <param name="status">The status.</param>
+            <returns>
+            TblSchedulerHistoryDto objects
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerHistoryController.UpdateEmailStatusByGroupName(System.String,Elephant.Protractor.Testing.Resources.Enum.SchedulerHistoryEmailStatus)">
+            <summary>
+            Updates the name of the status by group.
+            </summary>
+            <param name="groupName">Name of the group.</param>
+            <param name="status">The status.</param>
+            <returns>TblSchedulerHistoryDto objects</returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.SchedulerSuiteMapController">
+            <summary>
+            The SchedulerSuiteMapController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.SchedulerSuiteMapController.schedulerSuiteService">
+            <summary>
+            The locator service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerSuiteMapController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.ISchedulerSuiteMapService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.SchedulerSuiteMapController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="schedulerSuiteService">The schedulerSuite Service</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerSuiteMapController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblSchedulerDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerSuiteMapController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblSchedulerDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerSuiteMapController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerSuiteMapController.Add(Elephant.Protractor.Testing.Resources.Dto.Linking.TblLnkSchedulerSuiteDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="schedulerSuiteDto">The scheduler dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerSuiteMapController.Update(Elephant.Protractor.Testing.Resources.Dto.Linking.TblLnkSchedulerSuiteDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="schedulerSuiteDto">The locator dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SchedulerSuiteMapController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.Linking.TblLnkSchedulerSuiteDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="schedulerSuiteDto">The scheduler dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.SharedTestController">
+            <summary>
+            The SharedTestController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.SharedTestController.sharedTestService">
+            <summary>
+            The test service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.SharedTestController.sharedTestDataService">
+            <summary>
+            The test data service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.SharedTestController.testDataSharedTestDataMapService">
+            <summary>
+            the test data shared test data service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SharedTestController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.ISharedTestService,Elephant.Protractor.Testing.Common.TestDataServices.ISharedTestDataService,Elephant.Protractor.Testing.Common.TestDataServices.ITestDataSharedTestDataMapService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.SharedTestController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="sharedTestService">The test service.</param>
+            <param name="sharedTestDataService">The shared test data service.</param>
+            <param name="testDataSharedTestDataMapService">The test data map service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SharedTestController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblTestDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SharedTestController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblTestDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SharedTestController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SharedTestController.Add(Elephant.Protractor.Testing.Resources.Dto.TblSharedTestDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="sharedTestDto">The test dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SharedTestController.Update(Elephant.Protractor.Testing.Resources.Dto.TblSharedTestDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="sharedTestDto">The test dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SharedTestController.GetAllTestData(System.Int64)">
+            <summary>
+            Gets all.
+            </summary>
+            <param name="sharedTestCaseId">The test case identifier.</param>
+            <returns>
+            List of TblTestDataDto objects
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SharedTestController.GetTestDataById(System.Int64,System.Int64)">
+            <summary>
+            Gets the test data by identifier.
+            </summary>
+            <param name="sharedTestCaseId">The test case identifier.</param>
+            <param name="testDataId">The test data identifier.</param>
+            <returns>TblTestDataDto object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SharedTestController.AddTestData(Elephant.Protractor.Testing.Resources.Dto.TblSharedTestDataDto,System.Int64)">
+            <summary>
+            Adds the test data.
+            </summary>
+            <param name="sharedtestDataDto">The test data dto.</param>
+            <param name="sharedTestCaseId">The test case identifier.</param>
+            <returns>Newly added object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SharedTestController.UpdateTestData(Elephant.Protractor.Testing.Resources.Dto.TblSharedTestDataDto,System.Int64,System.Int64)">
+            <summary>
+            Updates the test data.
+            </summary>
+            <param name="sharedtestDataDto">The test data dto.</param>
+            <param name="sharedTestCaseId">The test case identifier.</param>
+            <param name="testDataId">The test data identifier.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SharedTestController.DeleteTestData(System.Int64,System.Int64)">
+            <summary>
+            Deletes the test data.
+            </summary>
+            <param name="sharedTestCaseId">The test case identifier.</param>
+            <param name="testDataId">The test data identifier.</param>
+            <returns>Deleted TblTestDataDto object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SharedTestController.GetVariableTypeTestDataByTestCase(System.Int64)">
+            <summary>
+            Get the list of variable type test steps
+            </summary>
+            <param name="sharedTestCaseId">the shared test case identifier</param>
+            <returns>TblTestDataDto object list</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SharedTestController.AddUpdateSharedTestData(Elephant.Protractor.Testing.Resources.Dto.TblSharedTestDataDto)">
+            <summary>
+            Adds the update test data.
+            </summary>
+            <param name="sharedtestDataDto">The test data dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SharedTestController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.TblSharedTestDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="sharedTestDto">The test dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.SuiteController">
+            <summary>
+            The SuiteController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.SuiteController.suiteService">
+            <summary>
+            The suite service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.SuiteController.suiteTestMapService">
+            <summary>
+            The suite test map service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SuiteController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.ISuiteService,Elephant.Protractor.Testing.Common.TestDataServices.ISuiteTestMapService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.SuiteController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="suiteService">The suite service.</param>
+            <param name="suiteTestMapService">The suite test map service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SuiteController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblSuiteDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SuiteController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblSuiteDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SuiteController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SuiteController.Add(Elephant.Protractor.Testing.Resources.Dto.TblSuiteDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="suiteDto">The suite dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SuiteController.Update(Elephant.Protractor.Testing.Resources.Dto.TblSuiteDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="suiteDto">The suite dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SuiteController.GetMultipleTestLinks(System.Int64)">
+            <summary>
+            Gets the multiple test links.
+            </summary>
+            <param name="suiteId">The suite identifier.</param>
+            <returns>TblLnkSuiteTestDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SuiteController.GetMultipleTestLinks(System.String)">
+            <summary>
+            Gets the multiple test links.
+            </summary>
+            <param name="suiteIdList">The suite identifier.</param>
+            <returns>TblLnkSuiteTestDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SuiteController.AddMultipleTestLinks(System.Collections.Generic.List{Elephant.Protractor.Testing.Resources.Dto.Linking.TblLnkSuiteTestDto},System.Int64)">
+            <summary>
+            Adds the multiple test links.
+            </summary>
+            <param name="suiteTestDto">The suite test dto.</param>
+            <param name="suiteId">The suite identifier.</param>
+            <returns>
+            TblLnkSuiteTestDto objects
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SuiteController.ChangeTestSuiteCaseState(System.Int64,System.Int64,System.Int64)">
+            <summary>
+            Change the state of the test suite case.
+            </summary>
+            <param name="suiteId">The suite identifier.</param>
+            <param name="testCaseId">The test case identifier.</param>
+            <param name="stateId">The state identifier.</param>
+            <returns>TblLnkSuiteTestDto object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SuiteController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.TblSuiteDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="suiteDto">The suite dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.SuiteTestMapController">
+            <summary>
+            The SuiteTestMapController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.SuiteTestMapController.suiteTestMapService">
+            <summary>
+            The suite test map service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SuiteTestMapController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.ISuiteTestMapService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.SuiteTestMapController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="suiteTestMapService">The suite test map service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SuiteTestMapController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblLnkSuiteTestDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SuiteTestMapController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblLnkSuiteTestDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SuiteTestMapController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SuiteTestMapController.Add(Elephant.Protractor.Testing.Resources.Dto.Linking.TblLnkSuiteTestDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="suiteTestDto">The suite test dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SuiteTestMapController.Update(Elephant.Protractor.Testing.Resources.Dto.Linking.TblLnkSuiteTestDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="suiteTestDto">The suite test dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.SuiteTestMapController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.Linking.TblLnkSuiteTestDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="suiteTestDto">The suite test dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.TestCategoryController">
+            <summary>
+            The TestCategoryController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.TestCategoryController.testCategoryService">
+            <summary>
+            The test category service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.TestCategoryController.testService">
+            <summary>
+            The test service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestCategoryController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.ITestCategoryService,Elephant.Protractor.Testing.Common.TestDataServices.ITestService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.TestCategoryController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="testCategoryService">The test category service.</param>
+            <param name="testService">The test service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestCategoryController.GetAll(System.Int64)">
+            <summary>
+            Gets all.
+            </summary>
+            <param name="webSiteId">The web site identifier.</param>
+            <returns>
+            List of TblTestCategoriesDto objects
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestCategoryController.GetById(System.Int64,System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="webSiteId">The web site identifier.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            TblTestCategoriesDto objects
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestCategoryController.DeleteById(System.Int64,System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="webSiteId">The web site identifier.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Deleted object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestCategoryController.Add(System.Int64,Elephant.Protractor.Testing.Resources.Dto.TblTestCategoriesDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="webSiteId">The web site identifier.</param>
+            <param name="testCatDto">The display name dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestCategoryController.Update(System.Int64,Elephant.Protractor.Testing.Resources.Dto.TblTestCategoriesDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="webSiteId">The web site identifier.</param>
+            <param name="testCatDto">The display name dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestCategoryController.GetTestScriptsByCatId(System.Int64,System.Int64)">
+            <summary>
+            Gets the test scripts by category identifier.
+            </summary>
+            <param name="webSiteId">The web site identifier.</param>
+            <param name="catId">The category identifier.</param>
+            <returns>
+            List of TblTestDto objects
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestCategoryController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.TblTestCategoriesDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="testCatDto">The display name dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.TestController">
+            <summary>
+            The TestController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.TestController.testService">
+            <summary>
+            The test service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.TestController.testDataService">
+            <summary>
+            The test data service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.ITestService,Elephant.Protractor.Testing.Common.TestDataServices.ITestDataService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.TestController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="testService">The test service.</param>
+            <param name="testDataService">The test data service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblTestDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblTestDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestController.Add(Elephant.Protractor.Testing.Resources.Dto.TblTestDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="testDto">The test dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestController.Update(Elephant.Protractor.Testing.Resources.Dto.TblTestDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="testDto">The test dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestController.GetAllTestData(System.Int64)">
+            <summary>
+            Gets all.
+            </summary>
+            <param name="testCaseId">The test case identifier.</param>
+            <returns>
+            List of TblTestDataDto objects
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestController.GetTestDataById(System.Int64,System.Int64)">
+            <summary>
+            Gets the test data by identifier.
+            </summary>
+            <param name="testCaseId">The test case identifier.</param>
+            <param name="testDataId">The test data identifier.</param>
+            <returns>TblTestDataDto object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestController.AddTestData(Elephant.Protractor.Testing.Resources.Dto.TblTestDataDto,System.Int64)">
+            <summary>
+            Adds the test data.
+            </summary>
+            <param name="testDataDto">The test data dto.</param>
+            <param name="testCaseId">The test case identifier.</param>
+            <returns>Newly added object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestController.UpdateTestData(Elephant.Protractor.Testing.Resources.Dto.TblTestDataDto,System.Int64,System.Int64)">
+            <summary>
+            Updates the test data.
+            </summary>
+            <param name="testDataDto">The test data dto.</param>
+            <param name="testCaseId">The test case identifier.</param>
+            <param name="testDataId">The test data identifier.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestController.DeleteTestData(System.Int64,System.Int64)">
+            <summary>
+            Deletes the test data.
+            </summary>
+            <param name="testCaseId">The test case identifier.</param>
+            <param name="testDataId">The test data identifier.</param>
+            <returns>Deleted TblTestDataDto object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestController.GetVariableTypeTestDataByTestCase(System.Int64)">
+            <summary>
+            Get the list of variable type test steps
+            </summary>
+            <param name="testCaseId">the test case identifier</param>
+            <returns>TblTestDataDto object list</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestController.GetAllVariableByTestIdForAutoComplete(System.Int64)">
+            <summary>
+            Get the list of variable type test steps
+            </summary>
+            <param name="testCaseId">the test case identifier</param>
+            <returns>TblTestDataDto object list</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestController.AddUpdateTestData(Elephant.Protractor.Testing.Resources.Dto.TblTestDataDto)">
+            <summary>
+            Adds the update test data.
+            </summary>
+            <param name="testDataDto">The test data dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.TblTestDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="testDto">The test dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.TestDataController">
+            <summary>
+            The TestDataController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.TestDataController.testDataService">
+            <summary>
+            The test data service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.TestDataController.testDataSharedTestDataMapService">
+            <summary>
+            The TestDataSharedTestDataMap Service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestDataController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.ITestDataService,Elephant.Protractor.Testing.Common.TestDataServices.ITestDataSharedTestDataMapService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.TestDataController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="testDataService">The test data service.</param>
+            <param name="testDataSharedTestDataMapService">The shared test data service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestDataController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblTestDataDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestDataController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblTestDataDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestDataController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestDataController.Add(Elephant.Protractor.Testing.Resources.Dto.TblTestDataDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="testDataDto">The test data dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestDataController.Add(System.Collections.Generic.IEnumerable{Elephant.Protractor.Testing.Resources.Dto.TblTestDataDto})">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="testDataDto">The test data dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestDataController.Add(Elephant.Protractor.Testing.Resources.Models.CopyTestDataModel)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="copyTestDataModel">The test data dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestDataController.Update(Elephant.Protractor.Testing.Resources.Dto.TblTestDataDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="testDataDto">The test data dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestDataController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.TblTestDataDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="testDataDto">The test data dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.TestQueueController">
+            <summary>
+            The TestQueueController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.TestQueueController.testQueueService">
+            <summary>
+            The testQueueService service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.TestQueueController.testQueueExecutableService">
+            <summary>
+            The testQueueExecutable Service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestQueueController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.ITestQueueService,Elephant.Protractor.Testing.Common.TestDataServices.ITestQueueExecutableService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.TestQueueController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="testQueueService">The test service.</param>
+            /// <param name="testQueueExecutableService">The test Queue Executable service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestQueueController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblTestQueueDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestQueueController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblTestQueueDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestQueueController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestQueueController.Add(Elephant.Protractor.Testing.Resources.Dto.TblTestQueueDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="testQueueDto">The testQueue Dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestQueueController.Update(Elephant.Protractor.Testing.Resources.Dto.TblTestQueueDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="testQueueDto">The testQueue Dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestQueueController.UpdateBulk(Elephant.Protractor.Testing.Resources.Dto.TblTestQueueDto[])">
+            <summary>
+            Updates the bulk.
+            </summary>
+            <param name="testQueueDto">The test queue dto.</param>
+            <returns>Newly updated object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestQueueController.GetExecutableTestData(System.Int64)">
+            <summary>
+            get executable test data
+            </summary>
+            <param name="id">the test identifier</param>
+            <returns>GetTestQueueExecutableData object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestQueueController.ChangeTestQueueState(System.Int64,System.Int32)">
+            <summary>
+            change the status of test queue
+            </summary>
+            <param name="testQueueId">test queue identifier</param>
+            <param name="stateId">status of test queue</param>
+            <returns>TblTestQueueDto object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.TestQueueController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.TblTestQueueDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="testQueueDto">The testQueue dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Controllers.WebsiteController">
+            <summary>
+            The WebsiteController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.websiteService">
+            <summary>
+            The website service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.displayNameService">
+            <summary>
+            The display name service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.testService">
+            <summary>
+            The test service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.suiteService">
+            <summary>
+            The suite service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.sharedTestService">
+            <summary>
+            The suite service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.schedulerService">
+            <summary>
+            The suite service
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.dataBaseCategoriesService">
+            <summary>
+            The dbCategory service
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.#ctor(Elephant.Protractor.Testing.Common.LogService.ILoggerService,Elephant.Protractor.Testing.Common.TestDataServices.IWebsiteService,Elephant.Protractor.Testing.Common.TestDataServices.IPagesService,Elephant.Protractor.Testing.Common.TestDataServices.ITestService,Elephant.Protractor.Testing.Common.TestDataServices.ISuiteService,Elephant.Protractor.Testing.Common.TestDataServices.ISchedulerService,Elephant.Protractor.Testing.Common.TestDataServices.ISharedTestService,Elephant.Protractor.Testing.Common.TestDataServices.IDataBaseCategoriesService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Controllers.WebsiteController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="websiteService">The website service.</param>
+            <param name="displayNameService">The display name service.</param>
+            <param name="testService">The test service.</param>
+            <param name="suiteService">The suite service.</param>
+            <param name="schedulerService">The Scheduler service.</param>
+            <param name="sharedTestService">The shared test service.</param>
+            <param name="dataBaseCategoriesService">The data base Categories service.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblActionDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblActionDto objects</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.Add(Elephant.Protractor.Testing.Resources.Dto.TblWebsiteDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="websiteDto">The website dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.Update(Elephant.Protractor.Testing.Resources.Dto.TblWebsiteDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="websiteDto">The website dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.GetPages(System.Int64)">
+            <summary>
+            Gets the pages.
+            </summary>
+            <param name="websiteId">The website identifier.</param>
+            <returns>
+            List of TblActionDto objects
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.GetTestCase(System.Int64)">
+            <summary>
+            Gets the test case.
+            </summary>
+            <param name="websiteId">The website identifier.</param>
+            <returns>TblTestDto object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.GetAllVariableByTestIdForAutoComplete(System.Int64)">
+            <summary>
+            Get the list of variable type test steps
+            </summary>
+            <param name="websiteId">the test case identifier</param>
+            <returns>TblTestDataDto object list</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.GetSuites(System.Int64)">
+            <summary>
+            Gets the test case.
+            </summary>
+            <param name="websiteId">The website identifier.</param>
+            <returns>TblTestDto object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.GetScheduler(System.Int64)">
+            <summary>
+            Get the schedulers list by websiteId
+            </summary>
+            <param name="websiteId">website identifier</param>
+            <returns>List object of TblSchedulerDto</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.GetSharedTestCase(System.Int64)">
+            <summary>
+            Gets the test case.
+            </summary>
+            <param name="websiteId">The website identifier.</param>
+            <returns>TblTestDto object</returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.GetDBCategoriesByWebsiteId(System.Int64)">
+            <summary>
+            Get DBCategories by websiteid
+            </summary>
+            <param name="websiteId">website identifier</param>
+            <returns>
+            TblDBCategoriesDto object list
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Controllers.WebsiteController.AddUpdate(Elephant.Protractor.Testing.Resources.Dto.TblWebsiteDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="websiteDto">The website dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.DependencyResolution.DefaultRegistry">
+            <summary>
+            The DefaultRegistry class
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.DependencyResolution.DefaultRegistry.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.DependencyResolution.DefaultRegistry"/> class.
+            </summary>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.DependencyResolution.IoC">
+            <summary>
+            The IoC class
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.DependencyResolution.IoC.Initialize">
+            <summary>
+            Initializes this instance.
+            </summary>
+            <returns>
+            The <see cref="T:StructureMap.IContainer"/>.
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapDependencyScope">
+            <summary>
+            The structure map dependency scope.
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapDependencyScope.NestedContainerKey">
+            <summary>
+            The nested container key
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapDependencyScope.#ctor(StructureMap.IContainer)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapDependencyScope"/> class.
+            </summary>
+            <param name="container">The container.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapDependencyScope.CreateNestedContainer">
+            <summary>
+            Creates the nested container.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapDependencyScope.Dispose">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapDependencyScope.DisposeNestedContainer">
+            <summary>
+            Disposes the nested container.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapDependencyScope.GetServices(System.Type)">
+            <summary>
+            Gets the services.
+            </summary>
+            <param name="serviceType">Type of the service.</param>
+            <returns>
+            The <see><cref>IEnumerable</cref></see>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapDependencyScope.DoGetAllInstances(System.Type)">
+            <summary>
+            When implemented by inheriting classes, this method will do the actual work of
+            resolving all the requested service instances.
+            </summary>
+            <param name="serviceType">Type of service requested.</param>
+            <returns>
+            Sequence of service instance objects.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapDependencyScope.DoGetInstance(System.Type,System.String)">
+            <summary>
+            When implemented by inheriting classes, this method will do the actual work of resolving
+            the requested service instance.
+            </summary>
+            <param name="serviceType">Type of instance requested.</param>
+            <param name="key">Name of registered service you want. May be null.</param>
+            <returns>
+            The requested service instance.
+            </returns>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapDependencyScope.Container">
+            <summary>
+            Gets or sets the container.
+            </summary>
+            <value>
+            The container.
+            </value>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapDependencyScope.CurrentNestedContainer">
+            <summary>
+            Gets or sets the current nested container.
+            </summary>
+            <value>
+            The current nested container.
+            </value>
+        </member>
+        <member name="P:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapDependencyScope.HttpContext">
+            <summary>
+            Gets the HTTP context.
+            </summary>
+            <value>
+            The HTTP context.
+            </value>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapScopeModule">
+            <summary>
+            The StructureMapScopeModule class
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapScopeModule.Dispose">
+            <summary>
+            Disposes of the resources (other than memory) used by the module that implements <see cref="T:System.Web.IHttpModule" />.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapScopeModule.Init(System.Web.HttpApplication)">
+            <summary>
+            Initializes a module and prepares it to handle requests.
+            </summary>
+            <param name="context">An <see cref="T:System.Web.HttpApplication" /> that provides access to the methods, properties, and events common to all application objects within an ASP.NET application</param>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapWebApiDependencyResolver">
+            <summary>
+            The structure map dependency resolver.
+            </summary>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapWebApiDependencyScope">
+            <summary>
+            The structure map web api dependency scope.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapWebApiDependencyScope.#ctor(StructureMap.IContainer)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapWebApiDependencyScope"/> class.
+            </summary>
+            <param name="container">The container.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapWebApiDependencyResolver.#ctor(StructureMap.IContainer)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapWebApiDependencyResolver"/> class.
+            </summary>
+            <param name="container">
+            The container.
+            </param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.DependencyResolution.StructureMapWebApiDependencyResolver.BeginScope">
+            <summary>
+            The begin scope.
+            </summary>
+            <returns>
+            The System.Web.Http.Dependencies.IDependencyScope.
+            </returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.WebApiApplication">
+            <summary>
+            The web api application.
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.WebApiApplication.Application_Start">
+            <summary>
+            The application start.
+            </summary>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Providers.DirectAuthenticationMiddleware">
+            <summary>
+            The DirectAuthenticationMiddleware
+            </summary>
+        </member>
+        <member name="F:Elephant.Protractor.Testing.Api.Providers.DirectAuthenticationMiddleware.authRepository">
+            <summary>
+            The authentication repository
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Providers.DirectAuthenticationMiddleware.#ctor(Microsoft.Owin.OwinMiddleware)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Protractor.Testing.Api.Providers.DirectAuthenticationMiddleware"/> class.
+            </summary>
+            <param name="next">The OwinMiddleware.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Providers.DirectAuthenticationMiddleware.Invoke(Microsoft.Owin.IOwinContext)">
+            <summary>
+            Owin middleware overrided method
+            </summary>
+            <param name="context">the owin context</param>
+            <returns>next invoke task</returns>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Providers.SimpleAuthorizationServerProvider">
+            <summary>
+            The SimpleAuthorizationServerProvider class
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Providers.SimpleAuthorizationServerProvider.ValidateClientAuthentication(Microsoft.Owin.Security.OAuth.OAuthValidateClientAuthenticationContext)">
+            <summary>
+            Called to validate that the origin of the request is a registered "client_id", and that the correct credentials for that client are
+            present on the request. If the web application accepts Basic authentication credentials,
+            context.TryGetBasicCredentials(out clientId, out clientSecret) may be called to acquire those values if present in the request header. If the web
+            application accepts "client_id" and "client_secret" as form encoded POST parameters,
+            context.TryGetFormCredentials(out clientId, out clientSecret) may be called to acquire those values if present in the request body.
+            If context.Validated is not called the request will not proceed further.
+            </summary>
+            <param name="context">The context of the event carries information in and results out.</param>
+            <returns>
+            Task to enable asynchronous execution
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Providers.SimpleAuthorizationServerProvider.GrantResourceOwnerCredentials(Microsoft.Owin.Security.OAuth.OAuthGrantResourceOwnerCredentialsContext)">
+            <summary>
+            Called when a request to the Token endpoint arrives with a "grant_type" of "password". This occurs when the user has provided name and password
+            credentials directly into the client application's user interface, and the client application is using those to acquire an "access_token" and
+            optional "refresh_token". If the web application supports the
+            resource owner credentials grant type it must validate the context.Username and context.Password as appropriate. To issue an
+            access token the context.Validated must be called with a new ticket containing the claims about the resource owner which should be associated
+            with the access token. The application should take appropriate measures to ensure that the endpoint isn’t abused by malicious callers.
+            The default behavior is to reject this grant type.
+            See also http://tools.ietf.org/html/rfc6749#section-4.3.2
+            </summary>
+            <param name="context">The context of the event carries information in and results out.</param>
+            <returns>
+            Task to enable asynchronous execution
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Providers.SimpleAuthorizationServerProvider.GrantRefreshToken(Microsoft.Owin.Security.OAuth.OAuthGrantRefreshTokenContext)">
+            <summary>
+            Called when a request to the Token endpoint arrives with a "grant_type" of "refresh_token". This occurs if your application has issued a "refresh_token"
+            along with the "access_token", and the client is attempting to use the "refresh_token" to acquire a new "access_token", and possibly a new "refresh_token".
+            To issue a refresh token the an Options.RefreshTokenProvider must be assigned to create the value which is returned. The claims and properties
+            associated with the refresh token are present in the context.Ticket. The application must call context.Validated to instruct the
+            Authorization Server middleware to issue an access token based on those claims and properties. The call to context.Validated may
+            be given a different AuthenticationTicket or ClaimsIdentity in order to control which information flows from the refresh token to
+            the access token. The default behaviour when using the OAuthAuthorizationServerProvider is to flow information from the refresh token to
+            the access token unmodified.
+            See also http://tools.ietf.org/html/rfc6749#section-6
+            </summary>
+            <param name="context">The context of the event carries information in and results out.</param>
+            <returns>
+            Task to enable asynchronous execution
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Providers.SimpleAuthorizationServerProvider.TokenEndpoint(Microsoft.Owin.Security.OAuth.OAuthTokenEndpointContext)">
+            <summary>
+            Called at the final stage of a successful Token endpoint request. An application may implement this call in order to do any final
+            modification of the claims being used to issue access or refresh tokens. This call may also be used in order to add additional
+            response parameters to the Token endpoint's json response body.
+            </summary>
+            <param name="context">The context of the event carries information in and results out.</param>
+            <returns>
+            Task to enable asynchronous execution
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Providers.SimpleAuthorizationServerProvider.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Providers.SimpleRefreshTokenProvider">
+            <summary>
+            The SimpleRefreshTokenProvider class
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Providers.SimpleRefreshTokenProvider.CreateAsync(Microsoft.Owin.Security.Infrastructure.AuthenticationTokenCreateContext)">
+            <summary>
+            Creates the asynchronous.
+            </summary>
+            <param name="context">The context.</param>
+            <returns>
+            The <see cref="T:System.Threading.Tasks.Task"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Providers.SimpleRefreshTokenProvider.ReceiveAsync(Microsoft.Owin.Security.Infrastructure.AuthenticationTokenReceiveContext)">
+            <summary>
+            Receives the asynchronous.
+            </summary>
+            <param name="context">The context.</param>
+            <returns>
+            The <see cref="T:System.Threading.Tasks.Task"/>.
+            </returns>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Providers.SimpleRefreshTokenProvider.Create(Microsoft.Owin.Security.Infrastructure.AuthenticationTokenCreateContext)">
+            <summary>
+            Creates the specified context.
+            </summary>
+            <param name="context">The context.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Providers.SimpleRefreshTokenProvider.Receive(Microsoft.Owin.Security.Infrastructure.AuthenticationTokenReceiveContext)">
+            <summary>
+            Receives the specified context.
+            </summary>
+            <param name="context">The context.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Providers.SimpleRefreshTokenProvider.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:Elephant.Protractor.Testing.Api.Startup">
+            <summary>
+            The Start-up class
+            </summary>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Startup.Configuration(Owin.IAppBuilder)">
+            <summary>
+            Configurations the specified application.
+            </summary>
+            <param name="app">The application.</param>
+        </member>
+        <member name="M:Elephant.Protractor.Testing.Api.Startup.ConfigureOAuth(Owin.IAppBuilder)">
+            <summary>
+            Configures the o authentication.
+            </summary>
+            <param name="app">The application.</param>
+        </member>
+    </members>
+</doc>

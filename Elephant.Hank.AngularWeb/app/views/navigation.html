@@ -1,0 +1,107 @@
+<aside class="main-sidebar">
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    <!-- Sidebar user panel -->
+    <div class="user-panel">
+      <div class="pull-left image">
+        <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+      </div>
+      <div class="pull-left info">
+        <p>Alexander Pierce</p>
+        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+      </div>
+    </div>
+    <!-- search form -->
+    <form action="#" method="get" class="sidebar-form">
+      <div class="input-group">
+        <input type="text" name="q" class="form-control" placeholder="Search...">
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+              </span>
+      </div>
+    </form>
+    <!-- /.search form -->
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu">
+      <li class="header">MAIN NAVIGATION</li>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+          <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+        </ul>
+      </li>
+      <li class="treeview" ng-class="isActive(1, 'Website.List')">
+        <a href="#">
+          <i class="fa fa-files-o"></i>
+          <span>Website</span>
+          <span class="label label-primary pull-right">4</span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a ui-sref="Website.List"><i class="fa fa-circle-o"></i> List </a></li>
+          <li><a ui-sref="Website.Add"><i class="fa fa-circle-o"></i> Add New Website</a></li>
+        </ul>
+      </li>
+      <li><a href="../../documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
+
+    </ul>
+  </section>
+  <!-- /.sidebar -->
+</aside>
+
+
+
+<!--
+<div ng-controller="NavigationController">
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <span class="navbar-brand">Test System</span>
+
+    <div class="container">
+      &lt;!&ndash; Collect the nav links, forms, and other content for toggling &ndash;&gt;
+      &lt;!&ndash; Brand and toggle get grouped for better mobile display &ndash;&gt;
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li ng-class="isActive(1, 'Website.List')"><a ui-sref="Website.List">Website</a></li>
+
+          <li ng-class="isActive(1, 'Environment.List')" ng-hide="isWebsiteSelected"><a ui-sref="Environment.List">Environment</a></li>
+          <li ng-class="isActive(1, 'Browser.List')" ng-hide="isWebsiteSelected"><a ui-sref="Browser.List">Browser</a></li>
+
+          <li ng-class="isActive(1, 'Locator.List')" ng-hide="isWebsiteSelected"><a ui-sref="Locator.List">Locator</a></li>
+          <li ng-class="isActive(1, 'Action.List')" ng-hide="isWebsiteSelected"><a ui-sref="Action.List">Action</a></li>
+          <li ng-class="isActive(1, 'DbLog.List')" ng-hide="isWebsiteSelected"><a ui-sref="DbLog.List">DB Logs</a></li>
+          <li ng-class="isActive(2, 'Website.Test')" ng-show="isWebsiteSelected"><a ui-sref="Website.TestCat({WebsiteId: WebsiteId})">Test Script</a></li>
+          <li ng-class="isActive(2, 'Website.SharedTest')" ng-show="isWebsiteSelected"><a ui-sref="Website.SharedTest({WebsiteId: WebsiteId})">Shared Test</a></li>
+          <li ng-class="isActive(2, 'Website.Pages')" ng-show="isWebsiteSelected"><a ui-sref="Website.Pages({WebsiteId: WebsiteId})">Pages</a></li>
+          <li ng-class="isActive(2, 'Website.Suite')" ng-show="isWebsiteSelected"><a ui-sref="Website.Suite({WebsiteId: WebsiteId})">Suite</a></li>
+          <li ng-class="isActive(2, 'Website.Scheduler')" ng-show="isWebsiteSelected"><a ui-sref="Website.Scheduler({WebsiteId: WebsiteId})">Scheduler</a></li>
+          <li ng-class="isActive(2, 'Website.Report')" ng-show="isWebsiteSelected"><a ui-sref="Website.Report({WebsiteId: WebsiteId})">Report</a></li>
+          <li ng-class="isActive(2, 'Website.ScreenShotCompare')" ng-show="isWebsiteSelected"><a ui-sref="Website.ScreenShotCompare({WebsiteId: WebsiteId})">Compare Image</a></li>
+        </ul>
+      </div>
+      &lt;!&ndash; /.navbar-collapse &ndash;&gt;
+    </div>
+    &lt;!&ndash; /.container &ndash;&gt;
+  </nav>
+</div>
+<div class="container" style="margin-bottom: -36px">
+  <div ncy-breadcrumb></div>
+</div>
+
+
+-->
+
+
+
+
+

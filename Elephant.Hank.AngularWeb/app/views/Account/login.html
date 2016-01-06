@@ -1,0 +1,44 @@
+<style type="text/css">
+  .col-xs-12, .col-xs-6 {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .col-centered{
+    float: none;
+    margin: 0 auto;
+  }
+</style>
+<div style="padding-top: 10%;">
+  <form name="frmLogin" ng-submit="frmLogin.$valid && loginUser()">
+    <div class="col-xs-12">
+      <div class="col-sm-3"></div>
+      <div class="col-sm-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Login</h3>
+          </div>
+          <div class="panel-body">
+            <div class="column" style="padding: 10px;">
+
+              <div class="form-group">
+                <label>Email id:</label>
+                <input type="email" class="form-control" ng-model="User.UserName" name="UserName" required minlength="8" error="(frmLogin.UserName.$touched || frmLogin.$submitted) && !frmLogin.UserName.$valid">
+              </div><!-- /.form group -->
+
+              <div class="form-group">
+                <label>Password:</label>
+                <input type="password" class="form-control" ng-model="User.Password" name="UserName" required minlength="8" error="(frmLogin.UserName.$touched || frmLogin.$submitted) && !frmLogin.UserName.$valid">
+              </div><!-- /.form group -->
+
+              <div class="form-group" style="padding-top: 10px">
+                <div class="col-sm-6 col-centered">
+                  <button type="submit" class="btn btn-block btn-primary btn-lg">Login</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

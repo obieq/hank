@@ -1,0 +1,59 @@
+<section class="content-header">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-12 ">
+      <h1>Schedulers<small></small><a ui-sref="Website.SchedulerAdd({ WebsiteId: stateParamWebsiteId })"  class=" btn btn-primary" style="float:right;cursor: pointer">Add New Schedule</a></h1>
+    </div>
+  </div>
+</section>
+
+<section class="content">
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+              <th>Id</th>
+              <th class="col-md-1">Name</th>
+              <th class="col-md-2">Url</th>
+              <th class="col-md-2">Description</th>
+              <th>Last Updated By</th>
+              <th class="col-md-2">Start</th>
+              <th class="col-md-2">Last Executed</th>
+              <th class="col-md-2"></th>
+            </tr>
+            </thead>
+            <tbody ng-init="getAllScheduler()">
+            <tr ng-repeat="schedule in SchedulerList | orderBy: 'Id'" ng-class="schedule.IsDisabled ? 'alert-danger': ''">
+              <td>{{schedule.Id}}</td>
+              <td><a ui-sref="Website.SchedulerHistory({ WebsiteId: stateParamWebsiteId, Id: schedule.Id })">{{schedule.Name}}</a></td>
+              <td>{{schedule.Url}}</td>
+              <td>{{schedule.Description}}</td>
+              <td>{{schedule.LastUpdatedBy}}</td>
+              <td>{{schedule.StartDateTime | date:'MM-dd-yyyy hh:mm a'}}</td>
+              <td>{{schedule.LastExecuted | date:'MM-dd-yyyy hh:mm a'}}</td>
+              <td>
+                <a ui-sref="Website.SchedulerUpdate({ WebsiteId: stateParamWebsiteId, Id: schedule.Id })">Edit</a> |
+                <a ng-click="forceExecute(schedule.Id)" style="cursor: pointer">Execute</a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+  </div>
+
+</section>
+
+

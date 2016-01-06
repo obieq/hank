@@ -1,0 +1,13 @@
+<ol class="breadcrumb">
+  <li ng-repeat="step in steps | limitTo:(steps.length-1)">
+    <span ng-show="step.ncyBreadcrumb.label.indexOf('{{') == 0">
+      <a href="{{step.ncyBreadcrumbLink}}" ng-bind-html="step.ncyBreadcrumbLabel"></a>
+    </span>
+    <span ng-show="step.ncyBreadcrumb.label.indexOf('{{') != 0">
+      <b><a href="{{step.ncyBreadcrumbLink}}" ng-bind-html="step.ncyBreadcrumbLabel"></a></b>
+    </span>
+  </li>
+  <li ng-repeat="step in steps | limitTo:-1" class="active">
+    <span ng-bind-html="step.ncyBreadcrumbLabel"></span>
+  </li>
+</ol>

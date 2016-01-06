@@ -1,0 +1,57 @@
+<section class="content-header">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-12">
+      <h1>
+        Website's
+        <small></small>
+        <a ui-sref="Website.Add" class=" btn btn-primary" style="float:right;cursor: pointer">Add New Website</a></h1>
+      </h1>
+    </div>
+  </div>
+</section>
+
+<section class="content">
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Is Angular</th>
+              <th>Description</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody ng-init="getAllWebSites()">
+            <tr ng-repeat="website in WebsiteList | orderBy:'Id'">
+              <td>{{$index + 1}}</td>
+              <td><a ui-sref="Website.TestCat({ WebsiteId: website.Id})">{{website.Name}}</a></td>
+              <td>
+                <input type="checkbox" disabled="disabled" ng-model="website.IsAngular">
+              </td>
+              <td>{{website.Description}}</td>
+              <td>
+                <a ui-sref="Website.Update({ WebsiteId: website.Id})">Edit</a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+  </div>
+
+</section>
+

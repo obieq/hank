@@ -1,0 +1,124 @@
+<section class="content-header">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <h1>
+        Edit Website
+        <small></small>
+      </h1>
+    </div>
+  </div>
+</section>
+
+<section class="content" ng-init="onLoadUpdate()">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title"></h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" name="WebsiteForm" ng-submit="WebsiteForm.$valid && updateWebsite()">
+          <div class="box-body">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Name</label>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" ng-model="Website.Name" name="Name" placeholder="Name" required>
+       <span ng-show="WebsiteForm.Name.$touched || WebsiteForm.$submitted">
+        <small class="help-block" ng-show="WebsiteForm.Name.$error.required" style="color:red">Please enter name.
+        </small>
+        </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Description</label>
+
+              <div class="col-sm-6">
+                <textarea type="text" multiple="true" class="form-control" ng-model="Website.Description"
+                          name="Description"
+                          placeholder="Description"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group" ng-repeat="environment in EnvironmentList">
+              <label class="col-sm-2 control-label">Url for {{environment.Name}}</label>
+
+              <div class="col-sm-6">
+                <input type="url" class="form-control" ng-model="environment.Url" name="{{environment.Name}}"
+                       placeholder="Url" required>
+       <span ng-show="WebsiteForm.{{environment.Name}}.$touched || WebsiteForm.$submitted">
+        <small class="help-block" ng-show="WebsiteForm.{{environment.Name}}.$error.required" style="color:red">Please
+          enter url.
+        </small>
+        </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Is Angular</label>
+
+              <div class="col-sm-6">
+                <input type="checkbox" ng-model="this.Website.IsAngular" name="IsAngular" placeholder="IsAngular">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Selenium address</label>
+
+              <div class="col-sm-6">
+                <input type="url" class="form-control" ng-model="Website.Settings.SeleniumAddress"
+                       name="SeleniumAddress"
+                       placeholder="Selenium url address" required>
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Take Screen Shot On Url Changed</label>
+
+              <div class="col-sm-6">
+                <select class="form-control" ng-model="Website.Settings.TakeScreenShotOnUrlChanged"
+                        ng-options="browser.Id as browser.DisplayName for browser in BrowserList">
+                  <option value="">--Select--</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Browsers</label>
+
+              <div class="col-md-8">
+                <label class="col-md-12 paddingLeftZero">
+                  <input ng-click="markUnMarkAllBrowser()" type="checkbox" ng-model="SelectAllBrowsers"/>
+                  All
+                </label>
+
+                <label ng-repeat="browser in BrowserList | orderBy:'Id'" class="col-md-4 ellipsis paddingLeftZero"
+                       style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;"
+                       title="{{browser.DisplayName}}">
+                  <input type="checkbox" ng-model="browser.Checked" ng-click="markUnMarkAllBrowser(browser)"/>
+                  {{browser.DisplayName}}
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label"></label>
+
+              <div class="col-sm-6">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+

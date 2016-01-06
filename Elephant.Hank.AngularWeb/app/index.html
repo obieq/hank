@@ -1,0 +1,357 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Hank | Test System</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" href="styles/css/blueimp-gallery.min.css"/>
+  <link rel="stylesheet" href="styles/css/bootstrap-datetimepicker.min.css"/>
+  <!-- build:css(.) styles/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker-bs3.css" />
+  <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
+  <link rel="stylesheet" href="bower_components/admin-lte/dist/css/skins/_all-skins.min.css" />
+  <link rel="stylesheet" href="bower_components/admin-lte/dist/css/AdminLTE.css" />
+  <link rel="stylesheet" href="bower_components/admin-lte/bootstrap/css/bootstrap.min.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css(.tmp) styles/main.css -->
+
+  <!-- endbuild -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="styles/css/red.css">
+  <link rel="stylesheet" href="styles/css/style.css">
+  <style type="text/css">
+    .col-xs-12, .col-xs-6 {
+      background-color: #ecf0f5;
+    }
+
+    #loading-bar .bar {
+      height: 3px;
+      background: #b60000;
+    }
+
+    a {
+      cursor: pointer;
+    }
+
+    /* Fancy blur effect */
+    #loading-bar .peg {
+      height: 3px;
+
+      -moz-box-shadow: #b60000 1px 0 6px 1px;
+      -ms-box-shadow: #b60000 1px 0 6px 1px;
+      -webkit-box-shadow: #b60000 1px 0 6px 1px;
+      box-shadow: #b60000 1px 0 6px 1px;
+    }
+
+    #loading-bar-spinner .spinner-icon {
+      border-top-color: #b60000;
+      border-left-color: #b60000;
+    }
+
+    .hoverClass:hover {
+      color: red;
+    }
+  </style>
+
+</head>
+<body ng-app="elephantprotractorangularWebApp" class="skin-blue sidebar-mini ng-scope " ng-cloak=""
+      style="background-color: #ecf0f5;">
+
+<div class="wrapper">
+  <!--[if lte IE 8]>
+  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+  <![endif]-->
+  <div ng-controller="NavCtrl">
+    <header class="main-header">
+      <!-- Logo -->
+      <a href="/" class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><b>H</b>TS</span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg"><b>Hank</b>TS</span>
+      </a>
+      <!-- Header Navbar: style can be found in header.less -->
+      <nav class="navbar navbar-static-top" role="navigation">
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+          <span class="sr-only">Toggle navigation</span>
+        </a>
+
+        <div class="navbar-custom-menu" ng-show="IsLoggedIn">
+          <ul class="nav navbar-nav">
+            <!-- User Account: style can be found in dropdown.less -->
+            <li class="dropdown user user-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                <img src="styles/img/avatar.png" class="user-image" alt="User Image">
+                <span class="hidden-xs">Welcome {{FirstName}}!!</span>
+              </a>
+              <ul class="dropdown-menu">
+                <!-- User image -->
+                <li class="user-header">
+                  <img src="styles/img/avatar.png" class="img-circle" alt="User Image">
+
+                  <p>
+                    {{FirstName}} {{LastName}}
+                    <small>Member Since:- {{ membersince.split(' ')[0] }}</small>
+                  </p>
+                </li>
+
+                <!-- Menu Footer-->
+                <li class="user-footer">
+                  <div class="pull-left">
+                    <a ui-sref="User.Profile" class="btn btn-default btn-flat">Profile</a>
+                  </div>
+                  <div class="pull-right">
+                    <a ng-click="logout()" class="btn btn-default btn-flat">Sign out</a>
+                  </div>
+                </li>
+              </ul>
+            </li>
+
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <aside class="main-sidebar">
+      <!-- sidebar: style can be found in sidebar.less -->
+      <section class="sidebar">
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu">
+          <li ng-show="!IsLoggedIn">
+            <a ui-sref="Login">
+              <i class="fa fa-unlock"></i> <span>Login</span>
+            </a>
+          </li>
+          <li ng-show="IsLoggedIn && IsAdmin">
+            <a ui-sref="SignUp">
+              <i class="fa fa-sign-in"></i> <span>Sign up</span>
+            </a>
+          </li>
+
+          <li ng-class="isActive(1, 'Website.List')" ng-show="IsLoggedIn">
+            <a ui-sref="Website.List">
+              <i class="fa fa-globe"></i> <span>Website</span>
+            </a>
+          </li>
+
+          <li ng-class="isActive(1, 'Environment.List')" ng-show="IsLoggedIn &&  IsAdmin &&  !isWebsiteSelected">
+            <a ui-sref="Environment.List">
+              <i class="fa fa-tree"></i> <span>Environment</span>
+            </a>
+          </li>
+
+          <li ng-class="isActive(1, 'Browser.List')" ng-show="IsLoggedIn && IsAdmin && !isWebsiteSelected ">
+            <a ui-sref="Browser.List">
+              <i class="fa fa-chrome"></i> <span>Browser</span>
+            </a>
+          </li>
+
+          <li ng-class="isActive(1, 'Locator.List')" ng-show="IsLoggedIn &&  IsAdmin &&  !isWebsiteSelected">
+            <a ui-sref="Locator.List">
+              <i class="fa fa-location-arrow"></i> <span>Locator</span>
+            </a>
+          </li>
+
+          <li ng-class="isActive(1, 'Action.List')" ng-show="IsLoggedIn &&  IsAdmin &&  !isWebsiteSelected">
+            <a ui-sref="Action.List">
+              <i class="fa fa-play"></i> <span>Action</span>
+            </a>
+          </li>
+
+          <li ng-class="isActive(1, 'DbLog.List')" ng-show="IsLoggedIn &&  IsAdmin &&  !isWebsiteSelected">
+            <a ui-sref="DbLog.List">
+              <i class="fa fa-book"></i> <span>DB Logs</span>
+            </a>
+          </li>
+
+          <li ng-class="isActive(2, 'Website.Test')" ng-show="IsLoggedIn && WebsiteId &&  isWebsiteSelected">
+            <a ui-sref="Website.TestCat({WebsiteId: WebsiteId})">
+              <i class="fa fa-subscript"></i> <span>Test Scripts</span>
+            </a>
+          </li>
+          <!--Website.DBCat-->
+
+          <li ng-class="isActive(2, 'Website.DataBaseCategories')" ng-show="IsLoggedIn && WebsiteId &&  isWebsiteSelected">
+            <a ui-sref="Website.DataBaseCategories({WebsiteId: WebsiteId})">
+              <i class="fa fa-database"></i> <span>Data Base Categories</span>
+            </a>
+          </li>
+
+          <li ng-class="isActive(2, 'Website.SharedTest')" ng-show="IsLoggedIn  && WebsiteId &&  isWebsiteSelected">
+            <a ui-sref="Website.SharedTest({WebsiteId: WebsiteId})">
+              <i class="fa fa-share-square-o"></i> <span>Shared Test</span>
+            </a>
+          </li>
+
+          <li ng-class="isActive(2, 'Website.Pages')" ng-show="IsLoggedIn  && WebsiteId &&  isWebsiteSelected">
+            <a ui-sref="Website.Pages({WebsiteId: WebsiteId})">
+              <i class="fa fa-list-alt"></i> <span>Pages</span>
+            </a>
+          </li>
+
+          <li ng-class="isActive(2, 'Website.Suite')" ng-show="IsLoggedIn &&  WebsiteId &&  isWebsiteSelected">
+            <a ui-sref="Website.Suite({WebsiteId: WebsiteId})">
+              <i class="fa fa-suitcase"></i> <span>Suite</span>
+            </a>
+          </li>
+
+          <li ng-class="isActive(2, 'Website.Scheduler')" ng-show="IsLoggedIn &&  WebsiteId &&  isWebsiteSelected">
+            <a ui-sref="Website.Scheduler({WebsiteId: WebsiteId})">
+              <i class="fa fa-calendar"></i> <span>Scheduler</span>
+            </a>
+          </li>
+
+          <li ng-class="isActive(2, 'Website.Report')" ng-show="IsLoggedIn &&  WebsiteId && isWebsiteSelected">
+            <a ui-sref="Website.Report({WebsiteId: WebsiteId})">
+              <i class="fa fa-file-text"></i> <span>Reports</span>
+            </a>
+          </li>
+
+          <li ng-class="isActive(2, 'Website.ScreenShotCompare')"
+              ng-show="IsLoggedIn && WebsiteId && isWebsiteSelected">
+            <a ui-sref="Website.ScreenShotCompare({WebsiteId: WebsiteId})">
+              <i class="fa fa-compass"></i> <span>Compare Image</span>
+            </a>
+          </li>
+
+          <li ng-class="isActive(2, 'User.ChangePassword')" ng-show="IsLoggedIn">
+            <a ui-sref="User.ChangePassword">
+              <i class="fa fa-rotate-right"></i> <span>Change Password</span>
+            </a>
+          </li>
+
+          <li ng-class="isActive(1, 'UserManager.List')" ng-show="IsLoggedIn">
+            <a ui-sref="UserManager.List">
+              <i class="fa fa-users"></i> <span>Users</span>
+            </a>
+          </li>
+
+        </ul>
+      </section>
+      <!-- /.sidebar -->
+    </aside>
+  </div>
+  <div class="content-wrapper">
+    <div ncy-Breadcrumb></div>
+    <div ui-view="MainView"></div>
+    <div ui-view="TestQueueView"></div>
+  </div>
+
+</div>
+
+<div id="messageBox" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+          aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="messageBoxTitle">Error</h4>
+      </div>
+      <div class="modal-body">
+        <p id="messageBoxBody"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn--m btn--blue btn--raised" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+<script>
+  !function (A, n, g, u, l, a, r) {
+    A.GoogleAnalyticsObject = l, A[l] = A[l] || function () {
+      (A[l].q = A[l].q || []).push(arguments)
+    }, A[l].l = +new Date, a = n.createElement(g),
+      r = n.getElementsByTagName(g)[0], a.src = u, r.parentNode.insertBefore(a, r)
+  }(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+  ga('create', 'UA-XXXXX-X');
+  ga('send', 'pageview');
+</script>
+
+<!-- build:js(.) scripts/vendor.js -->
+<!-- bower:js -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-mocks/angular-mocks.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="bower_components/angular-breadcrumb/release/angular-breadcrumb.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="bower_components/moment/moment.js"></script>
+<script src="bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="bower_components/angular-daterangepicker/js/angular-daterangepicker.js"></script>
+<script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="bower_components/angular-touch/angular-touch.js"></script>
+<script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
+<script src="bower_components/jsdiff/diff.js"></script>
+<script src="bower_components/lodash/lodash.js"></script>
+<script src="bower_components/ngstorage/ngStorage.js"></script>
+<script src="bower_components/restangular/dist/restangular.js"></script>
+<script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+<script src="bower_components/admin-lte/dist/js/app.js"></script>
+<script src="bower_components/admin-lte/bootstrap/js/bootstrap.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js({.tmp,app}) scripts/scripts.js -->
+<script src="scripts/services/RestangularCustom.js"></script>
+<script src="scripts/services/appSettings.js"></script>
+<script src="scripts/app.js"></script>
+
+<script src="scripts/controllers/Navigation.js"></script>
+<script src="scripts/controllers/TestController.js"></script>
+<script src="scripts/controllers/PagesController.js"></script>
+<script src="scripts/controllers/LocatorController.js"></script>
+<script src="scripts/controllers/LocatorIdentifierController.js"></script>
+<script src="scripts/controllers/ActionController.js"></script>
+<script src="scripts/controllers/WebsiteController.js"></script>
+<script src="scripts/controllers/SuiteController.js"></script>
+<script src="scripts/controllers/SchedulerController.js"></script>
+<script src="scripts/controllers/TestCatController.js"></script>
+
+<script src="scripts/Helpers/JavaScriptExtensions.js"></script>
+<script src="scripts/controllers/ReportController.js"></script>
+<script src="scripts/controllers/SharedTestController.js"></script>
+<script src="scripts/controllers/BrowserController.js"></script>
+<script src="scripts/controllers/TestQueueController.js"></script>
+<script src="scripts/controllers/RegistrationController.js"></script>
+<script src="scripts/services/CommonUi.js"></script>
+<script src="scripts/services/CrudService.js"></script>
+<script src="scripts/services/CommonDataProvider.js"></script>
+<script src="scripts/services/authService.js"></script>
+<script src="styles/js/bootstrap-datetimepicker.min.js"></script>
+<script src="scripts/controllers/Environment.js"></script>
+<script src="scripts/controllers/Test_Data_Controller.js"></script>
+<script src="scripts/controllers/Shared_Test_Data_Controller.js"></script>
+<script src="scripts/controllers/DbLogController.js"></script>
+<script src="scripts/controllers/AccountController.js"></script>
+<script src="scripts/controllers/ScreenShotCompareController.js"></script>
+<script src="scripts/controllers/ProfileController.js"></script>
+<script src="scripts/controllers/UserController.js"></script>
+<script src="scripts/controllers/DataBaseCategoriesController.js"></script>
+<script src="scripts/controllers/DataBaseConnectionController.js"></script>
+<script src="scripts/services/StringComparisionService.js"></script>
+<script src="scripts/directives/whenScrollEnds.js"></script>
+<script src="styles/js/resemble.js"></script>
+<!-- endbuild -->
+<!-- build:js({.tmp,app}) scripts/scripts-custom.js -->
+<script src="styles/js/jquery.blueimp-gallery.min.js"></script>
+
+<script src="styles/js/jquery.carouFredSel-6.1.0-packed.js"></script>
+<!-- endbuild -->
+
+</body>
+</html>

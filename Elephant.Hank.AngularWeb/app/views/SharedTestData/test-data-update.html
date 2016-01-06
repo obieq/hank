@@ -1,0 +1,211 @@
+<section class="content-header">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <h1> Update Shared Test Data for
+        <small> {{SharedTest.WebsiteName}} - {{SharedTest.TestName}}</small>
+      </h1>
+    </div>
+  </div>
+</section>
+
+<section class="content" ng-init="onLoadEdit()">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title"></h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" name="SharedTestDataForm"
+              ng-submit="SharedTestDataForm.$valid && updateSharedTestData()">
+          <div class="box-body">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Execution Sequence</label>
+
+              <div class="col-sm-4">
+                <input type="number" class="form-control" ng-model="SharedTestData.ExecutionSequence"
+                       name="ExecutionSequence"
+                       placeholder="Execution Sequence" required>
+       <span ng-show="SharedTestDataForm.ExecutionSequence.$touched || SharedTestDataForm.$submitted">
+        <small class="help-block" ng-show="SharedTestDataForm.ExecutionSequence.$error.required" style="color:red">
+          Please
+          enter execution sequence.
+        </small>
+        </span>
+        <span ng-show="SharedTestDataForm.ExecutionSequence.$touched || SharedTestDataForm.$submitted">
+        <small class="help-block" ng-show="SharedTestDataForm.ExecutionSequence.$error.number" style="color:red">Only
+          integer
+          value is allowed.
+        </small>
+        </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Is Sql Test Step</label>
+              <div class="col-sm-4">
+                <input type="checkbox" ng-click="onIsSqlTestStepClickOnEdit()" ng-model="IsSqlTestStep" />
+              </div>
+            </div>
+
+            <div class="form-group" ng-if="InputControlDisplayStatus.ddlDataBaseCategory">
+              <label class="col-sm-2 control-label">Data Base Category </label>
+              <div class="col-sm-4">
+                <select class="form-control" ng-model="SharedTestData.DataBaseCategoryId" name="DataBaseCategoryId"
+                        ng-options="databaseCategory.Id as databaseCategory.Name for databaseCategory in DataBaseCategories | orderBy:'Name'"  required>
+                  <option style="display:none" value="">--Select--</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group" ng-if="InputControlDisplayStatus.ddlSQLAction">
+              <label class="col-sm-2 control-label">SQL Action </label>
+              <div class="col-sm-4">
+                <select class="form-control" ng-model="SharedTestData.ActionId" name="ActionId"
+                        ng-options="action.Id as action.Value for action in ActionList | orderBy:'Value'" ng-change="onSQLActionChange()" required>
+                  <option style="display:none" value="">--Select--</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group" ng-if="InputControlDisplayStatus.ddlAction">
+              <label class="col-sm-2 control-label">Action</label>
+
+              <div class="col-sm-4">
+                <select class="form-control" ng-model="SharedTestData.ActionId" name="ActionId"
+                        ng-options="action.Id as action.Value for action in ActionList | orderBy:'Value'" ng-change="onActionChange()"
+                        required>
+                  <option style="display:none" value="">--Select--</option>
+                </select>
+        <span ng-show="SharedTestDataForm.ActionId.$touched || SharedTestDataForm.$submitted">
+        <small class="help-block" ng-show="SharedTestDataForm.ActionId.$error.required" style="color:red">Please
+          select an Action.
+        </small>
+          </span>
+              </div>
+            </div>
+
+
+            <div class="form-group" ng-if="InputControlDisplayStatus.ddlPage">
+              <label class="col-sm-2 control-label">Page</label>
+
+              <div class="col-sm-4">
+                <select class="form-control" ng-model="SharedTestData.PageId"
+                        ng-options="page.Id as page.Value for page in PagesList | orderBy:'Value'"
+                        name="PageId" ng-change="onPageChange()" required>
+                  <option style="display:none" value="">--Select--</option>
+                </select>
+        <span ng-show="SharedTestDataForm.PageId.$touched || SharedTestDataForm.$submitted">
+        <small class="help-block" ng-show="SharedTestDataForm.PageId.$error.required" style="color:red">Please select
+          display
+          name.
+        </small>
+        </span>
+              </div>
+            </div>
+
+            <div class="form-group" ng-if="InputControlDisplayStatus.ddlDisplayName">
+              <label class="col-sm-2 control-label">Display Name</label>
+
+              <div class="col-sm-4">
+                <select class="form-control" ng-model="SharedTestData.LocatorIdentifierId"
+                        ng-options="displayName.Id as displayName.DisplayName for displayName in DisplayNameList | orderBy:'DisplayName'"
+                        name="LocatorIdentifierId" required>
+                  <option style="display:none" value="">--Select--</option>
+                </select>
+        <span ng-show="SharedTestDataForm.LocatorIdentifierId.$touched || SharedTestDataForm.$submitted">
+        <small class="help-block" ng-show="SharedTestDataForm.LocatorIdentifierId.$error.required" style="color:red">
+          Please
+          select display name.
+        </small>
+        </span>
+              </div>
+            </div>
+
+            <div class="form-group" ng-if="InputControlDisplayStatus.chkSkipByDefault">
+              <label class="col-sm-2 control-label">Skip by default</label>
+
+              <div class="col-sm-4">
+                <input type="checkbox" ng-model="SharedTestData.IsIgnored">
+              </div>
+            </div>
+
+            <div class="form-group" ng-if="InputControlDisplayStatus.chkOptional">
+              <label class="col-sm-2 control-label">Optional</label>
+
+              <div class="col-sm-4">
+                <input type="checkbox" ng-model="SharedTestData.IsOptional">
+              </div>
+            </div>
+
+            <div class="form-group"
+                 ng-if="InputControlDisplayStatus.chkAssignVariableValue">
+              <label class="col-sm-2 control-label">Assign Variable Value</label>
+
+              <div class="col-sm-4">
+                <input type="checkbox" ng-click="onAssignVariableClick()"
+                       ng-model="SharedTestData.IsAssignVariableName"/>
+              </div>
+            </div>
+
+            <div class="form-group"
+                 ng-if="InputControlDisplayStatus.txtValue">
+              <label class="col-sm-2 control-label">Value</label>
+
+              <div class="col-sm-4">
+                <input type="text" class="form-control" placeholder="Value" name="Value"
+                       ng-model="SharedTestData.Value">
+              </div>
+            </div>
+
+            <div class="form-group"
+                 ng-if="InputControlDisplayStatus.txtSQLQuery">
+              <label class="col-sm-2 control-label">SQL Query</label>
+
+              <div class="col-sm-4">
+                <textarea type="text" class="form-control" placeholder="Sql Query" name="Value" ng-model="SharedTestData.Value"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group"
+                 ng-if="InputControlDisplayStatus.txtAutoCompVariableName">
+              <label class="col-sm-2 control-label">Variable Name</label>
+
+              <div class="col-sm-4">
+                <input type="text" class="form-control" placeholder="Variable Name" name="VariableName"
+                       typeahead="variable for variable in VariableList | filter:$viewValue | limitTo:8"
+                       ng-model="SharedTestData.VariableName" required="">
+        <span ng-show="SharedTestDataForm.VariableName.$touched || SharedTestDataForm.$submitted">
+        <small class="help-block" ng-show="SharedTestDataForm.VariableName.$error.required" style="color:red">Please
+          enter variable name.
+        </small>
+        </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Description</label>
+
+              <div class="col-sm-4">
+                <textarea type="text" class="form-control ng-pristine ng-valid ng-touched"
+                          ng-model="SharedTestData.Description"
+                          name="Description" placeholder="Description"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+

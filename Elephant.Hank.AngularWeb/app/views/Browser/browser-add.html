@@ -1,0 +1,104 @@
+<section class="content-header">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <h1>
+        Create New Browser
+        <small></small>
+      </h1>
+    </div>
+  </div>
+</section>
+<section class="content" ng-init="onLoadAdd()">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title"></h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" name="BrowserForm" ng-submit="BrowserForm.$valid && addBrowser()">
+          <div class="box-body">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Display name</label>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" ng-model="Browser.DisplayName" name="DisplayName"
+                       placeholder="Display name (i.e firefox 33)" required>
+          <span ng-show="BrowserForm.DisplayName.$touched || BrowserForm.$submitted">
+            <small class="help-block" ng-show="BrowserForm.DisplayName.$error.required" style="color:red">Please enter
+              Display Name.
+            </small>
+          </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Config name</label>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" ng-model="Browser.ConfigName" name="ConfigName"
+                       placeholder="Config name i.e. firefox" required>
+          <span ng-show="BrowserForm.ConfigName.$touched || BrowserForm.$submitted">
+            <small class="help-block" ng-show="BrowserForm.ConfigName.$error.required" style="color:red">Please enter
+              Config Name.
+            </small>
+          </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Platform</label>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" ng-model="Browser.Platform" name="Platform"
+                       placeholder="Platform i.e. WINDOWS" required>
+          <span ng-show="BrowserForm.Platform.$touched || BrowserForm.$submitted">
+            <small class="help-block" ng-show="BrowserForm.Platform.$error.required" style="color:red">Please enter
+              specify the Platform.
+            </small>
+          </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Version</label>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" ng-model="Browser.Version" name="Version"
+                       placeholder="Version i.e. 33">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Shard test files</label>
+
+              <div class="col-sm-6">
+                <input type="checkbox" ng-model="Browser.ShardTestFiles" name="ShardTestFiles" placeholder="Value">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Max instances</label>
+
+              <div class="col-sm-6">
+                <input type="number" class="form-control" ng-model="Browser.MaxInstances" name="MaxInstances"
+                       placeholder="Value">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+

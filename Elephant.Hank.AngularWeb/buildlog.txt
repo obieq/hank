@@ -1,0 +1,79 @@
+[4mRunning "clean:dist" (clean) task[24m
+[32m>> [39m1 path cleaned.
+
+[4mRunning "wiredep:app" (wiredep) task[24m
+
+[4mRunning "wiredep:test" (wiredep) task[24m
+
+[4mRunning "wiredep:sass" (wiredep) task[24m
+
+[4mRunning "useminPrepare:html" (useminPrepare) task[24m
+Configuration changed for [36mconcat[39m, [36muglify[39m, [36mcssmin[39m
+
+[4mRunning "concurrent:dist" (concurrent) task[24m
+    
+[4mRunning "imagemin:dist" (imagemin) task[24m
+Minified 1 image (saved 5 kB)
+
+[32mDone, without errors.[39m
+
+
+Execution Time (2015-04-16 07:41:00 UTC)
+loading tasks    8ms  ██ 2%
+imagemin:dist  318ms  ██████████████████████████████████████████████ 97%
+Total 327ms
+    
+[4mRunning "svgmin:dist" (svgmin) task[24m
+Total saved: 0 B
+
+[32mDone, without errors.[39m
+
+
+Execution Time (2015-04-16 07:41:04 UTC)
+loading tasks   9ms  █████ 9%
+svgmin:dist    85ms  ███████████████████████████████████████████ 89%
+Total 95ms
+    
+[4mRunning "compass:dist" (compass) task[24m
+directory .tmp/styles
+        write .tmp/styles/main.css (2.985s)
+    
+[32mDone, without errors.[39m
+
+
+Execution Time (2015-04-16 07:41:05 UTC)
+compass:dist  4.5s  ████████████████████████████████████████████████ 100%
+Total 4.5s
+
+[4mRunning "autoprefixer:server" (autoprefixer) task[24m
+File .tmp/styles/main.css created.
+
+[4mRunning "autoprefixer:dist" (autoprefixer) task[24m
+File .tmp/styles/main.css created.
+
+[4mRunning "concat:generated" (concat) task[24m
+File .tmp\concat\scripts\vendor.js created.
+File .tmp\concat\scripts\scripts.js created.
+
+[4mRunning "ngAnnotate:dist" (ngAnnotate) task[24m
+[32m>> [39m2 files successfully generated.
+
+[4mRunning "copy:dist" (copy) task[24m
+Copied 39 files
+
+[4mRunning "cdnify:dist" (cdnify) task[24m
+Going through [36mdist/404.html[39m, [36mdist/index.html[39m to update script refs
+[33mWarning: git is not installed or not in the PATH Use --force to continue.[39m
+
+[31mAborted due to warnings.[39m
+
+
+Execution Time (2015-04-16 07:40:52 UTC)
+wiredep:app          321ms  █ 2%
+concurrent:dist        17s  █████████████████████████████████ 80%
+autoprefixer:server  668ms  ██ 3%
+ngAnnotate:dist       1.5s  ███ 7%
+copy:dist            372ms  █ 2%
+cdnify:dist           1.1s  ███ 5%
+Total 21.2s
+

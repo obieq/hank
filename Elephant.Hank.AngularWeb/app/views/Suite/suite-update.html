@@ -1,0 +1,97 @@
+<section class="content-header">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <h1>Edit Suite
+        <small></small>
+      </h1>
+    </div>
+  </div>
+</section>
+
+<section class="content" ng-init="getSuiteById()">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title"></h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start --><div class="col-md-12 text-center text-info"><label class="bg-success">{{message}}</label>
+      </div>
+      <form class="form-horizontal" name="SuiteForm" ng-submit="SuiteForm.$valid && updateSuite()">
+        <div class="box-body">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Website</label>
+
+            <div class="col-sm-4">{{Suite.Website.Name}}</div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Suite Name</label>
+
+            <div class="col-sm-4">
+              <input type="text" class="form-control" ng-model="Suite.Name" name="Value" placeholder="Name" required>
+       <span ng-show="SuiteForm.Name.$touched || SuiteForm.$submitted">
+        <small class="help-block" ng-show="SuiteForm.Name.$error.required" style="color:red">Please enter value.</small>
+        </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+      <div class="form-group">
+        <div class="row" >
+          <div class="col-md-12">
+            <div class="col-md-5">
+              <strong>All</strong>
+              <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th> <input ng-click="markUnMarkAll()" type="checkbox" ng-model="Mark" /></th>
+                  <th>Id</th>
+                  <th>Test Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="test in TestList | orderBy:'Id' | filter: { Checked: 'false' }">
+                  <td><input type="checkbox" ng-model="test.Checked" />  </td>
+                  <td>{{test.Id}} </td>
+                  <td>{{test.TestName}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-2">&nbsp;</div>
+            <div class="col-md-5">
+              <strong>Added</strong>
+              <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th> <input ng-click="markUnMarkAll()" type="checkbox" ng-model="Mark" /></th>
+                  <th>Id</th>
+                  <th>Test Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="test in TestList | orderBy:'Id' | filter: { Checked: 'true' }">
+                  <td><input type="checkbox" ng-model="test.Checked" />  </td>
+                  <td>{{test.Id}} </td>
+                  <td>{{test.TestName}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+   </div>
+
+  </div>
+</section>

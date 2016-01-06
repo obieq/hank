@@ -1,0 +1,1 @@
+ERROR - failed loading configuration file spec/05-11-2015-17-14-23/protractor.conf.js

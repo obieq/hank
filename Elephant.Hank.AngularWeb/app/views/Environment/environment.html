@@ -1,0 +1,52 @@
+<section class="content-header">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-12 ">
+      <h1>
+        Environment's
+        <small></small>
+        <a ui-sref="Environment.Add" class=" btn btn-primary" style="float:right;cursor: pointer">Add New Environment</a></h1>
+    </div>
+  </div>
+</section>
+
+<section class="content">
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+              <th>Id</th>
+              <th>Value</th>
+              <th>Description</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody ng-init="getAllEnvironment()">
+            <tr ng-repeat="environment in EnvironmentList | orderBy:'Id'">
+              <td>{{environment.Id}}</td>
+              <td>{{environment.Name}}</td>
+              <td>{{environment.Description}}</td>
+              <td>
+                <a ui-sref="Environment.Update({ Id: environment.Id })">Edit</a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+  </div>
+
+</section>
+

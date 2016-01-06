@@ -1,0 +1,85 @@
+<div id="testQueueModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+          aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Queue Test</h4>
+      </div>
+      <div class="modal-body">
+        <form name="TestQueueForm" ng-submit="TestQueueForm.$valid && addTestToTestQueue()">
+
+          <div class="form-group">
+            <label >Url</label>
+
+            <div >
+              <select class="form-control" ng-model="TestQueue.Settings.UrlObj"
+                      ng-options="websiteUrl as websiteUrl.Url for websiteUrl in Website.WebsiteUrlList"
+                      name="BrowserId" required>
+                <option style="display:none" value="">--Select--</option>
+              </select>
+
+              <!--locator.Id as locator.Value for locator in LocatorList-->
+              <span ng-show="TestQueueForm.BrowserId.$touched || TestQueueForm.$submitted">
+              <small class="help-block" ng-show="TestQueueForm.BrowserId.$error.required" style="color:red">Please select url to test n.
+              </small>
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label >Selenium address</label>
+
+            <div >
+              <input type="url" class="form-control" ng-model="TestQueue.Settings.SeleniumAddress" name="SeleniumAddress"
+                     placeholder="Selenium url address" required>
+               <span ng-show="TestQueueForm.SeleniumAddress.$touched || TestQueueForm.$submitted">
+              <small class="help-block" ng-show="TestQueueForm.SeleniumAddress.$error.required" style="color:red">Please enter selenium address.
+              </small>
+              </span>
+            </div>
+          </div>
+
+
+
+          <div class="form-group">
+            <label >Take Screen Shot On Url Changed</label>
+            <div >
+              <select class="form-control" ng-model="TestQueue.Settings.TakeScreenShotOnUrlChanged"
+                      ng-options="browser.Id as browser.DisplayName for browser in BrowserList">
+                <option  value="">--Select--</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label >Browsers</label>
+            <div>
+              <label class="col-md-12 paddingLeftZero">
+                <input ng-click="markUnMarkAllBrowser()" type="checkbox" ng-model="SelectAllBrowsers" />
+                All
+              </label>
+
+            </div>
+          </div>
+          <div class="form-group">
+            <label ng-repeat="browser in BrowserList | orderBy:'Id'" class="col-md-4 ellipsis paddingLeftZero" title="{{browser.DisplayName}}">
+              <input type="checkbox" ng-model="browser.Checked" ng-click="markUnMarkAllBrowser(browser)" />
+              {{browser.DisplayName}}
+            </label>
+            </div>
+          <br/>
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

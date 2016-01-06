@@ -1,0 +1,114 @@
+<section class="content-header">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <h1>
+        Update Data Base Connection for  Category - {{DataBaseCategory.Name}}
+        <small></small>
+      </h1>
+    </div>
+  </div>
+</section>
+
+
+<section class="content" ng-init="onDataBaseConnectionUpdatePageLoad()">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title"></h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" name="DataBaseConnectionForm" ng-submit="DataBaseConnectionForm.$valid && onDataBaseConnectionUpdatePageSubmit()">
+          <div class="box-body">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Website</label>
+
+              <div class="col-sm-6">
+                <label class="control-label"> {{Website.Name}}</label>
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Environment Name</label>
+
+              <div class="col-sm-6">
+                <select class="form-control" ng-model="DataBaseConnection.EnvironmentId"
+                        ng-options="environment.Id as environment.Name for environment in EnvironmentList"
+                        name="EnvironmentName" required>
+                  <option style="display:none" value="">--Select--</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Server Name</label>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" placeholder="Server Name" name="ServerName"
+                       ng-model="DataBaseConnection.ServerName" required="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Authentication</label>
+
+              <div class="col-sm-6">
+                <select ng-change="onAuthenticatonDropdownChange()" class="form-control" ng-model="DataBaseConnection.Authentication"
+                        ng-options="authentication.Id as authentication.Name for authentication in AuthenticationList"
+                        name="Authentication" required>
+                  <option style="display:none" value="">--Select--</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group" ng-if="DataBaseConnection.Authentication==2">
+              <label class="col-sm-2 control-label">User Name</label>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" placeholder="User Name" name="UserName"
+                       ng-model="DataBaseConnection.UserName" required="">
+              </div>
+            </div>
+
+            <div class="form-group" ng-if="DataBaseConnection.Authentication==2">
+              <label class="col-sm-2 control-label">Password</label>
+
+              <div class="col-sm-6">
+                <input type="password" class="form-control" placeholder="Password" name="Password"
+                       ng-model="DataBaseConnection.Password" required="">
+              </div>
+            </div>
+
+            <div class="form-group" ng-if="DataBaseList.Item.length>0">
+              <label class="col-sm-2 control-label">Data Base</label>
+
+              <div class="col-sm-6">
+                <select class="form-control" ng-model="DataBaseConnection.DataBaseName"
+                        ng-options="item as item for item in DataBaseList.Item"
+                        name="DataBaseName" required>
+                  <option style="display:none" value="">--Select--</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-2" ng-if="DataBaseList.Item.length">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+              <div class="col-sm-offset-2 col-sm-2" ng-if="!DataBaseList.Item.length">
+                <button type="button" ng-click="onClickLoadDataBaseList()" class="btn btn-primary">Get DB List</button>
+
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

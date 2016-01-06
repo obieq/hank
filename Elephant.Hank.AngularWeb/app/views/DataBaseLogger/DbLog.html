@@ -1,0 +1,228 @@
+<section class="content-header">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-12 ">
+      <h1>
+        Data Base Log's
+        <small></small>
+      </h1>
+    </div>
+  </div>
+</section>
+
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="form-group">
+      <div class="col-sm-4">
+        <input date-range-picker class="form-control date-picker" type="text" ng-model="date"
+               options="{timePicker: true,format: 'MM/DD/YYYY h:mm a',timePickerIncrement: 1}"/>
+      </div>
+      <button class="btn-primary" ng-click="dateSelected()">Filter</button>
+    </div>
+  </div>
+</div>
+
+
+<section class="content" ng-init="getAllDbLog();">
+
+  <div class="row">
+    <div class="col-xs-6">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding" style=" height: 500px; overflow: scroll;overflow-x: scroll;"
+             when-scroll-ends="getAllDbLog()">
+
+          <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+              <th>Id</th>
+              <th class="col-md-3">
+                Table Type
+                <select class="form-control" ng-change="queryReport()" ng-model="TableType"
+                        ng-options="TT.Value as TT.Value for TT in TableTypeList | orderBy: 'Id'" name="TableType">
+                  <option style="display:none" value="">All</option>
+                </select>
+              </th>
+              <th>Operation Type</th>
+              <th>Updated By</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody ng-if="TestDataList.length==0">
+            <tr>
+              <td colspan="4"> No Data Yet</td>
+            </tr>
+            </tbody>
+            <tbody ng-repeat="dbLog in DbLogList | orderBy:'-Id'" ng-if="DbLogList.length>0">
+            <tr>
+              <td ><a  ng-click="showComparision(dbLog.Id)" style="cursor: pointer">{{dbLog.Id}}</a>
+              </td>
+              <td>{{dbLog.TableType}}</td>
+              <td>{{dbLog.OperationType}}</td>
+              <td>{{dbLog.LastUpdatedBy}}</td>
+              <td>
+                <a style="cursor: pointer" ng-click="rollData(dbLog.Id,true)">Roll Back</a> |
+                <a style="cursor: pointer" ng-click="rollData(dbLog.Id,false)">Roll Forward</a>
+              </td>
+            </tr>
+            <tr>
+              <!--<td colspan="4" ng-if="dbLog.showComparision">
+
+              </td>-->
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+
+    <div class="col-xs-6">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding" style=" height: 500px; overflow: scroll;overflow-x: scroll;">
+          <table class="table table-bordered table-striped" ng-if="ComparisionObject.length!=0">
+            <tr>
+              <th class="col-md-2">Keys</td>
+              <th>Values</td>
+            </tr>
+            <tr ng-repeat="comp in ComparisionObject">
+              <td> {{comp.Key}}</td>
+              <td class="evalComp" data-setattr="false" data-prev="{{comp.PreviousValue}}" data-new="{{comp.NewValue}}"> </td>
+            </tr>
+          </table>
+
+         <!-- <table class="table table-bordered table-striped">
+            <tr>
+              <td></td>
+              <td ng-repeat="comp in dbLog.ComparisionObject">
+                {{comp.Key}}
+              </td>
+            </tr>
+            <tr>
+              <th>Values</th>
+              <td class="evalComp" data-prev="{{comp.PreviousValue}}" data-new="{{comp.NewValue}}"
+                  ng-repeat="comp in dbLog.ComparisionObject"></td>
+            </tr>
+
+          </table>-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!--
+<div ng-init="getAllDbLog();">
+
+  <div class="page-header">
+    <h1 id="spn">
+      Data Base Log
+    </h1>
+  </div>
+
+  <div class="row">
+    <div class=".col-md-8" >
+
+      <div class="form-group">
+        <div class="col-sm-4">
+          <input date-range-picker class="form-control date-picker" type="text" ng-model="date"
+                 options="{timePicker: true,format: 'MM/DD/YYYY h:mm a',timePickerIncrement: 1}"/>
+        </div>
+        <button class="btn-primary" ng-click="dateSelected()">Filter</button>
+      </div>
+
+      <div style=" height: 500px; overflow: scroll;overflow-x: scroll;" when-scroll-ends="getAllDbLog()">
+        <table class="table table-bordered table-striped">
+          <thead>
+          <tr>
+            <th>Id</th>
+            <th class="col-md-3">
+              Table Type
+              <select class="form-control" ng-change="queryReport()" ng-model="TableType"
+                      ng-options="TT.Value as TT.Value for TT in TableTypeList | orderBy: 'Id'" name="TableType">
+                <option style="display:none" value="">All</option>
+              </select>
+            </th>
+            <th>Operation Type</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody ng-if="TestDataList.length==0">
+          <tr>
+            <td colspan="4"> No Data Yet</td>
+          </tr>
+          </tbody>
+          <tbody ng-repeat="dbLog in DbLogList | orderBy:'-Id'" ng-if="DbLogList.length>0">
+          <tr>
+            <td onclick="evaluateComparision()"><a ng-click="showComparision(dbLog.Id)" style="cursor: pointer">{{dbLog.Id}}</a>
+            </td>
+            <td>{{dbLog.TableType}}</td>
+            <td>{{dbLog.OperationType}}</td>
+            <td>
+              <a style="cursor: pointer" ng-click="rollData(dbLog.Id,true)">Roll Back</a> |
+              <a style="cursor: pointer" ng-click="rollData(dbLog.Id,false)">Roll Forward</a>
+            </td>
+          </tr>
+          <tr  >
+            <td colspan="4" ng-if="dbLog.showComparision" >
+              <table class="table table-bordered table-striped">
+                <tr>
+                  <th></th>
+                  <th ng-repeat="comp in dbLog.ComparisionObject">
+                    {{comp.Key}}
+                  </th>
+                </tr>
+                <tr>
+                  <th>Values</th>
+                  <td class="evalComp" data-prev="{{comp.PreviousValue}}" data-new="{{comp.NewValue}}"
+                      ng-repeat="comp in dbLog.ComparisionObject"></td>
+                </tr>
+
+              </table>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>-->
+<!--
+
+<script type="text/javascript">
+  var evaluated = false;
+  evaluateComparision = function () {
+    $('.evalComp').each(function () {
+        var f = this.getAttribute('data-prev');
+        var s = this.getAttribute('data-new');
+        var k = this;
+        var diff = JsDiff.diffChars(f, s);
+        diff.forEach(function (part) {
+          // green for additions, red for deletions
+          // grey for common parts
+          var color = part.added ? 'green' :
+            part.removed ? 'red' : 'grey';
+          var span = document.createElement('span');
+          span.style.color = color;
+          span.appendChild(document
+            .createTextNode(part.value));
+          k.appendChild(span);
+        });
+      });
+    debugger;
+  };
+</script>
+-->
+

@@ -1,0 +1,110 @@
+<html>
+<body>
+    <div style="text-align: center"><h1>Hank Report - V4.0 InspopIndia VM</h1></div>
+    <div style="text-align: center">
+        <table border="1px" align="center" style="border: 1px">
+            <tr>
+                <th style="text-align: left;">Url Tested</th>
+                <td style="text-align: left;">&nbsp;<a href="##UrlTested##">##UrlTested##</a></td>
+            </tr>
+            <tr>
+                <th style="text-align: left;">Execution Started(EST)</th>
+                <td style="text-align: left;">&nbsp;##Execution Started##</td>
+            </tr>
+            <tr>
+                <th style="text-align: left;">Execution Completed(EST)</th>
+                <td style="text-align: left;">&nbsp;##Execution Completed##</td>
+            </tr>
+            <tr>
+                <th style="text-align: left;">Execution Group</th>
+                <td style="text-align: left;">&nbsp;##Execution Group##</td>
+            </tr>
+            <tr>
+                <th style="text-align: left;color:green"><h3>Passed</h3></th>
+                <td style="text-align: left;color:green"><h3>&nbsp;##Passed##</h3></td>
+            </tr>
+            <tr>
+                <th style="text-align: left;color:red"><h3>Faulted</h3></th>
+                <td style="text-align: left;color:red"><h3>&nbsp;##Faulted##</h3></td>
+            </tr>
+            <tr>
+                <th style="text-align: left;color:rgb(172, 148, 6)"><h3>Un-processed</h3></th>
+                <td style="text-align: left;color:rgb(172, 148, 6)"><h3>&nbsp;##UnProcessed##</h3></td>
+            </tr>
+            <tr>
+                <th style="text-align: left;"><h3>Total</h3></th>
+                <td style="text-align: left;"><h3>&nbsp;<a href="##ReportUrl##/##Execution Group##">##Total##</a></h3></td>
+            </tr>
+        </table>
+        <br />&nbsp;
+        <div style="text-align: center"><h2><span style="color:green">Passed: ##Passed##</span></h2></div>
+        <table border="1px" align="center">
+            <tr style="text-align: left">
+                <th style="text-align: left;">S.no.</th>
+                <th style="width: 74px;text-align: left;">Suite name</th>
+                <th style="text-align: left;">Test Case</th>
+                <th style="text-align: left;">Time Taken(Seconds)</th>
+                <th style="text-align: left;">Completed(EST)</th>
+                <th style="width: 114px;text-align: left;">Operating System</th>
+                <th style="text-align: left;">Browser Name</th>
+                <th style="text-align: left;">Browser Version</th>
+                <th style="text-align: left;">Screen shot</th>
+            </tr>
+            ##Tr-Repeat-Start##
+            <tr style="color:##Color##;text-align: left">
+                <td>##Sno##</td>
+                <td>##SuiteName##</td>
+                <td>##Test Case##</td>
+                <td>##Time Taken(Seconds)##</td>
+                <th>##Completed(EST)##</th>
+                <td>##Operating System##</td>
+                <td>##Browser Name##</td>
+                <td>##Browser Version##</td>
+                <td><a href="##ReportUrlById##">View</a></td>
+            </tr>
+            ##Tr-Repeat-End##
+            ##Tr-Passed##
+        </table>
+    </div>
+
+    <div style="text-align: center"><h2><span style="color:red">Faulted: ##Faulted##</span></h2></div>
+    <div style="text-align: center">
+        <table border="1px" align="center">
+            <tr>
+                <th style="text-align: left;">S.no.</th>
+                <th style="width: 74px;text-align: left;">State</th>
+                <th style="text-align: left;">Test Case</th>
+                <th style="text-align: left;">Time Taken(Seconds)</th>
+                <th style="text-align: left;">Completed(EST)</th>
+                <th style="width: 114px;text-align: left;">Operating System</th>
+                <th style="text-align: left;">Browser Name</th>
+                <th style="text-align: left;">Browser Version</th>
+                <th style="text-align: left;">Screen shot</th>
+            </tr>
+            ##Tr-Faulted##
+        </table>
+    </div>
+    <div style="text-align: center"><h2><span style="color:rgb(172, 148, 6)">Un-processed: ##UnProcessed##</span></h2></div>
+    <div style="text-align: center">
+        <table border="1px" align="center">
+            <tr>
+                <th style="text-align: left;">S.no.</th>
+                <th style="width: 74px;text-align: left;">State</th>
+                <th style="text-align: left;">Test Case</th>
+                <th style="text-align: left;">Time Taken(Seconds)</th>
+                <th style="text-align: left;">Completed(EST)</th>
+                <th style="width: 114px;text-align: left;">Operating System</th>
+                <th style="text-align: left;">Browser Name</th>
+                <th style="text-align: left;">Browser Version</th>
+                <th style="text-align: left;">Screen shot</th>
+            </tr>
+            ##Tr-UnProcessed##
+        </table>
+    </div>
+    <br />
+    <br />
+    <b>Thanks and Regards</b><br />
+    Elephant Team India<br />
+    (Inspop.com Limited(India Branch Office))
+</body>
+</html>

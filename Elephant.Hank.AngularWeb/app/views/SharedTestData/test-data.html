@@ -1,0 +1,78 @@
+
+<section class="content-header">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-12 ">
+      <h1>Shared Test Data for
+        <small> {{SharedTest.WebsiteName}} - {{SharedTest.TestName}}</small>
+        <a
+          ui-sref="Website.SharedTestDataAdd({WebsiteId: stateParamWebsiteId, SharedTestId: SharedTest.Id, ExecutionSequence: LastSeqNumber })"
+          class=" btn btn-primary" style="float:right;cursor: pointer">Add Shared Test Data</a></h1>
+    </div>
+  </div>
+</section>
+
+<section class="content" ng-init="onLoadList();">
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+              <th>Sequence</th>
+              <th class="col-md-2">Display Name</th>
+              <th>Skip</th>
+              <th>Action</th>
+              <th>Value</th>
+              <th>Variable Name</th>
+              <th class="col-md-4">Description</th>
+              <th class="col-md-2"></th>
+            </tr>
+            </thead>
+            <tbody ng-if="SharedTestDataList.length<=0">
+            <tr>
+              <td colspan="5"> No Data Yet</td>
+            </tr>
+            </tbody>
+            <tbody ng-if="SharedTestDataList.length>0">
+            <tr ng-repeat="sharedTestData in SharedTestDataList | orderBy:'ExecutionSequence'"
+                ng-class="sharedTestData.IsIgnored ? 'alert-danger' : ''">
+              <td>{{sharedTestData.ExecutionSequence}}</td>
+              <td>{{sharedTestData.DisplayNameValue}}</td>
+              <td>{{sharedTestData.IsIgnored}}</td>
+              <td>{{sharedTestData.ActionValue}}</td>
+              <td ng-class="sharedTestData.css">{{sharedTestData.Value}}</td>
+              <td ng-class="sharedTestData.css">{{sharedTestData.VariableName}}</td>
+              <td>{{sharedTestData.Description}}</td>
+              <td>
+                <a ng-show="$index == 0"
+                   ui-sref="Website.SharedTestDataAdd({WebsiteId: stateParamWebsiteId, SharedTestId: SharedTest.Id, ExecutionSequence: sharedTestData.ExecutionSequence })">Add
+                  Before</a>
+                <span ng-show="$index == 0">|</span>
+                <a
+                  ui-sref="Website.SharedTestDataAdd({WebsiteId: stateParamWebsiteId, SharedTestId: SharedTest.Id, ExecutionSequence: sharedTestData.ExecutionSequence + 1 })">Add
+                  After</a>
+                <span>|</span>
+                <a
+                  ui-sref="Website.SharedTestDataUpdate({WebsiteId: stateParamWebsiteId, SharedTestId: SharedTest.Id, TestDataId: sharedTestData.Id })">Update</a>
+                <span>|</span>
+                <a ng-click="deleteSharedTestData('{{sharedTestData.Id}}')" href="#" onclick="return false;">Delete</a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+  </div>
+
+</section>

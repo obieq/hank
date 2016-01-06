@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EA129783-210B-4D27-81B6-00F102D2B08B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Elephant.Hank.Resources</RootNamespace>
+    <AssemblyName>Elephant.Hank.Resources</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <StyleCopOverrideSettingsFile>Settings.StyleCop</StyleCopOverrideSettingsFile>
+    <BuildToolsStyleCopVersion>4.7.44.0</BuildToolsStyleCopVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <StyleCopEnabled>False</StyleCopEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <StyleCopEnabled>True</StyleCopEnabled>
+    <StyleCopTreatErrorsAsWarnings>False</StyleCopTreatErrorsAsWarnings>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.Core.2.0.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.EntityFramework.2.0.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\DisplayTextAttribute.cs" />
+    <Compile Include="Attributes\EfIgnoreAttribute.cs" />
+    <Compile Include="Attributes\EfIgnoreDbLogAttribute.cs" />
+    <Compile Include="Constants\ConfigConstants.cs" />
+    <Compile Include="Constants\RegexExpressionForValidation.cs" />
+    <Compile Include="Constants\RoleName.cs" />
+    <Compile Include="Constants\RouteConstants.cs" />
+    <Compile Include="Dto\CustomIdentity\CustomRoleDto.cs" />
+    <Compile Include="Dto\CustomIdentity\CustomUserClaimDto.cs" />
+    <Compile Include="Dto\CustomIdentity\CustomUserDto.cs" />
+    <Compile Include="Dto\CustomIdentity\CustomUserLoginDto.cs" />
+    <Compile Include="Dto\CustomIdentity\CustomUserRoleDto.cs" />
+    <Compile Include="Dto\InternalDtos\InternalTblDataBaseConnectionDto.cs" />
+    <Compile Include="Dto\Linking\TblLnkSchedulerSuiteDto.cs" />
+    <Compile Include="Dto\Linking\TblLnkTestDataSharedTestDataDto.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Dto\RollDataDto.cs" />
+    <Compile Include="Dto\TblBrowsersDto.cs" />
+    <Compile Include="Dto\TblDataBaseCategoriesDto.cs" />
+    <Compile Include="Dto\TblDataBaseConnectionDto.cs" />
+    <Compile Include="Dto\TblDBCategoriesDto.cs" />
+    <Compile Include="Dto\TblDbLogDto.cs" />
+    <Compile Include="Dto\TblEnvironmentDto.cs" />
+    <Compile Include="Dto\TblPagesDto.cs" />
+    <Compile Include="Dto\TblReportDataDto.cs" />
+    <Compile Include="Dto\TblSchedulerDto.cs" />
+    <Compile Include="Dto\TblSchedulerHistoryDto.cs" />
+    <Compile Include="Dto\TblSharedTestDataDto.cs" />
+    <Compile Include="Dto\TblSharedTestDto.cs" />
+    <Compile Include="Dto\TblTestCategoriesDto.cs" />
+    <Compile Include="Dto\TblTestQueueDto.cs" />
+    <Compile Include="Dto\TblUserProfileDto.cs" />
+    <Compile Include="Enum\ApplicationTypes.cs" />
+    <Compile Include="Enum\ExecutionReportStatus.cs" />
+    <Compile Include="Enum\FrequencyEnum.cs" />
+    <Compile Include="Enum\LinkTestType.cs" />
+    <Compile Include="Enum\SchedulerExecutionStatus.cs" />
+    <Compile Include="Enum\SchedulerHistoryEmailStatus.cs" />
+    <Compile Include="Enum\SqlAuthenticationType.cs" />
+    <Compile Include="Extensions\DateExtensions.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Json\ActionConstants.cs" />
+    <Compile Include="Json\SchedulerSettings.cs" />
+    <Compile Include="Json\TestQueueSettings.cs" />
+    <Compile Include="Json\UserProfileSettings.cs" />
+    <Compile Include="Json\WebsiteSettings.cs" />
+    <Compile Include="Json\WebsiteUrl.cs" />
+    <Compile Include="Json\ErrorTraceJson.cs" />
+    <Compile Include="Json\FullTraceJson.cs" />
+    <Compile Include="Json\ReportJson.cs" />
+    <Compile Include="Messages\Message.cs" />
+    <Compile Include="Messages\ResultMessage.cs" />
+    <Compile Include="Models\AutoGenModel.cs" />
+    <Compile Include="Models\ChangePasswordModel.cs" />
+    <Compile Include="Models\CopyTestDataModel.cs" />
+    <Compile Include="Models\ErrorTrace.cs" />
+    <Compile Include="Models\FullTrace.cs" />
+    <Compile Include="Models\NameValuePair.cs" />
+    <Compile Include="Models\ProtractorVariableModel.cs" />
+    <Compile Include="Models\ResetPasswordModel.cs" />
+    <Compile Include="Models\SearchData.cs" />
+    <Compile Include="Models\SearchLogModel.cs" />
+    <Compile Include="Models\SearchReportObject.cs" />
+    <Compile Include="Models\UserInfoModel.cs" />
+    <Compile Include="Dto\BaseTableDto.cs" />
+    <Compile Include="Dto\ClientDto.cs" />
+    <Compile Include="Dto\RefreshTokenDto.cs" />
+    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Dto\TblActionDto.cs" />
+    <Compile Include="Dto\Linking\TblLnkSuiteTestDto.cs" />
+    <Compile Include="Dto\TblLocatorDto.cs" />
+    <Compile Include="Dto\TblLocatorIdentifierDto.cs" />
+    <Compile Include="Dto\TblSuiteDto.cs" />
+    <Compile Include="Dto\TblTestDataDto.cs" />
+    <Compile Include="Dto\TblTestDto.cs" />
+    <Compile Include="Dto\TblWebsiteDto.cs" />
+    <Compile Include="Models\ExecutableTestData.cs" />
+    <Compile Include="ViewModal\TestQueue_FullTestData.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="Settings.StyleCop" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\BuildTools.StyleCop.4.7.49.0\tools\StyleCop.targets" Condition="Exists('..\..\packages\BuildTools.StyleCop.4.7.49.0\tools\StyleCop.targets')" />
+  <Target Name="___packages_BuildTools_StyleCop_4_7_49_0_tools_StyleCop_targets" Condition="$(StyleCopOutputFile)==''" BeforeTargets="BeforeBuild">
+    <Error Text="BuildTools_StyleCop - the BuildTools_StyleCop package has not been restored.&#xD;&#xA;If you are running this from an IDE, make sure NuGet Package Restore has been enabled, then reload the solution and re-run the build.&#xD;&#xA;If you are running this from the command line, run the build again.&#xD;&#xA;If this is a CI server, you may want to make sure NuGet Package Restore runs before your build with:&#xD;&#xA;	msbuild solution.sln /t:restorepackages" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

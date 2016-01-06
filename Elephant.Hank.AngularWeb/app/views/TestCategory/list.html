@@ -1,0 +1,61 @@
+<section class="content-header">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-12 ">
+      <h1>
+        Test Category - {{Website.Name}}<small></small><a ui-sref="Website.TestCatAdd({ WebsiteId: stateParamWebsiteId })" class=" btn btn-primary" style="float:right;cursor: pointer">Add Test Category</a></h1>
+    </div>
+  </div>
+</section>
+
+<section class="content">
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody ng-init="getAllTestCat()">
+            <tr>
+              <td>1</td>
+              <td>
+                <a ui-sref="Website.TestCatTest({ WebsiteId: stateParamWebsiteId, TestCatId: 0 })">View All</a>
+              </td>
+              <td>This one is to get all Test Scripts. And it is <B>system category</B>!</td>
+              <td>NA</td>
+            </tr>
+            <tr ng-repeat="testCat in TestCatList">
+              <td>{{$index + 2}}</td>
+              <td>
+                <a ui-sref="Website.TestCatTest({ WebsiteId: stateParamWebsiteId, TestCatId: testCat.Id })">{{testCat.Name}}</a>
+              </td>
+              <td>{{testCat.Description}}</td>
+              <td>
+                <a ui-sref="Website.TestCatUpdate({ WebsiteId: stateParamWebsiteId, TestCatId: testCat.Id })">Edit</a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+  </div>
+
+</section>
+
+

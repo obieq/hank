@@ -1,0 +1,89 @@
+﻿// ---------------------------------------------------------------------------------------------------
+// <copyright file="protractor.conf.js" company="Elephant Insurance Services, LLC">
+//     Copyright (c) 2015 All Right Reserved
+// </copyright>
+// <author>Gurpreet Singh</author>
+// <date>2015-06-10</date>
+// <summary>
+//     The protractor.conf template
+// </summary>
+// ---------------------------------------------------------------------------------------------------
+
+var reportPath = "";
+var curTestReportPath = "";
+var urlToTest = "";
+var CustomScreenShotReporter = require('./../../Reporter/CustomScreenShotReporter.js');
+var path = require('path');
+var RestApiHelper = require('./../../helpers/RestApiHelper.js');
+var restApiHelper = new RestApiHelper();
+var JsonHelper = require('./../../helpers/JsonHelper.js');
+var jsonHelper = new JsonHelper();
+var Constant = require('./../../constants/constant.js');
+var constant = new Constant();
+
+
+exports.config =
+{
+    seleniumAddress: '##SeleniumAddress##',
+
+    params:
+    {
+        config:
+        {
+            curLocation: '##CurLocation##',
+            baseApiUrl: '##BaseApiUrl##',
+            baseTestDataUrl: 'api/testqueue/{0}/exe-test-data',
+            baseTestStateUrl: 'api/testqueue/{0}/test-state/{1}',
+            baseSchedulerHistoryStatusUrl: 'api/scheduler-history/status/{0}/{1}',
+            baseTestReportUrl: 'api/report',
+            logContainer: [],
+            variableContainer:[],
+            variableStateContainer: [],
+            descriptionArray:[],
+            screenShotArray:[]
+        }
+    },
+
+    multiCapabilities: [
+##Browser-Repeat-Start##
+{
+    platform: "##Platform##",
+        browserName: "##BrowserName##",
+    version: '##Version##',
+    shardTestFiles: ##ShardTestFiles##,
+    maxInstances: ##MaxInstances## // Use number of instances you want
+}
+##Browser-Repeat-End##
+##BrowserDetails##
+],
+
+specs:
+    [
+        'spec/va/*-1-*.js'
+    ],
+
+        jasmineNodeOpts: {
+    onComplete: null,
+        isVerbose: true,
+        showColors: true,
+        includeStackTrace: true,
+        defaultTimeoutInterval: 1200000
+},
+
+allScriptsTimeout: 4600000,
+
+    onPrepare: function () {
+    require('./../../helpers/WaitReady.js');
+    browser.driver.manage().window().maximize();
+    reportPath = browser.params.config.curLocation;
+    urlToTest = browser.params.config.urlToTest;
+    jasmine.getEnv().addReporter(new CustomScreenShotReporter({
+
+    }));
+}
+};
+
+this.GetNumberToString = function (number) {
+    var value = number.toString();
+    return (value.length > 1 ? "" : "0") + value;
+};

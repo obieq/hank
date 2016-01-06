@@ -1,0 +1,428 @@
+<section class="content-header">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <h1>Screen Shot Comparer</h1>
+    </div>
+  </div>
+</section>
+
+
+<section class="content" ng-init="onPageLoad()">
+  <div class="row" >
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <!-- general form elements -->
+      <div class="box box-primary">
+
+        <!-- form start -->
+        <form class="form-horizontal" name="CompareForm" ng-submit="">
+          <div class="box-body">
+            <div class="col-md-6">
+
+              <h4><B>First Screen Shot</B></h4>
+              <HR>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Scheduler</label>
+
+                <div class="col-sm-8">
+                  <select class="form-control" ng-model="CompareData.SchedulerIdFirst"
+                          ng-options="scheduler.Id as scheduler.Name for scheduler in schedulerList"
+                          ng-change="onSchedulerFirstChange()" name="SchedulerFirst" required>
+                    <option style="display:none" value="">--Select--</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group" ng-if="schedulerHistoryFirstList.length>0">
+                <label class="col-sm-3 control-label">Group Name</label>
+
+                <div class="col-sm-8">
+                  <select class="form-control" ng-model="CompareData.GroupNameFirst"
+                          ng-options="schedulerHistory.GroupName as schedulerHistory.GroupName for schedulerHistory in schedulerHistoryFirstList"
+                          ng-change="onGroupNameFirstChange()" name="GroupNameFirst" required>
+                    <option style="display:none" value="">--Select--</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group" style="text-transform: capitalize;">
+                <label class="col-sm-3 control-label">Test name</label>
+                <label class="col-sm-9 control-label" style="text-align: left;">
+                  {{reportFirst.JsonValue.Description}} ( {{reportFirst.JsonValue.Os}} -
+                  {{reportFirst.JsonValue.BrowserName}}-{{reportFirst.JsonValue.BrowserVersion}} )
+                </label>
+              </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+              <h4><B>Second Screen Shot</B></h4>
+              <HR>
+
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Scheduler</label>
+
+                <div class="col-sm-8">
+                  <select class="form-control" ng-model="CompareData.SchedulerIdSecond"
+                          ng-options="scheduler.Id as scheduler.Name for scheduler in schedulerList"
+                          ng-change="onSchedulerSecondChange()" name="SchedulerSecond" required>
+                    <option style="display:none" value="">--Select--</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group" ng-if="schedulerHistorySecondList.length>0">
+                <label class="col-sm-3 control-label">Group Name</label>
+
+                <div class="col-sm-8">
+                  <select class="form-control" ng-model="CompareData.GroupNameSecond"
+                          ng-options="schedulerHistory.GroupName as schedulerHistory.GroupName for schedulerHistory in schedulerHistorySecondList"
+                          ng-change="onGroupNameSecondChange()" name="GroupNameSecond" required>
+                    <option style="display:none" value="">--Select--</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="form-group" style="text-transform: capitalize;">
+                <label class="col-sm-3 control-label">Test name</label>
+                <label class="col-sm-9 control-label" style="text-align: left">
+                  {{reportSecond.JsonValue.Description}} ( {{reportSecond.JsonValue.Os}} -
+                  {{reportSecond.JsonValue.BrowserName}}-{{reportSecond.JsonValue.BrowserVersion}} )
+                </label>
+              </div>
+
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="row" id="dvSliders" style="display: none">
+  <div class="col-md-8 col-md-offset-2">
+    <div class="box box-primary">
+      <div class="box-body">
+        <h4><B>First Screen Shot's</B></h4>
+        <HR>
+
+        <div class="recent-posts" ng-if="slidesFirst.length>0">
+          <div class="container">
+            <div class="row" style="width: 96%">
+              <div class="span12">
+                <div class="bor"></div>
+                <div class="carousel_nav pull-right">
+                  <!-- Navigation -->
+                  <a class="prev" id="car_prev_1" href="#"><i class="glyphicon glyphicon-arrow-left"></i></a>
+                  <a class="next" id="car_next_1" href="#"><i class="glyphicon glyphicon-arrow-right"></i></a>
+                </div>
+                <div class="clearfix"></div>
+                <ul class="rps-carousel" id="rps-carousel_1">
+                  <li ng-repeat="slide in slidesFirst" title="{{slide.Name}}" data-imgUrl="{{slide.Value}}"
+                      ondblclick="openImgInNewWindows(this)">
+                    <div data-img-src="{{slide.Value}}" onclick="onSlideSelected(this);" class="rp-item">
+                      <div class="rp-image">
+                        <!-- Image -->
+                        <a class="active"><img ng-src="{{slide.Value.replace('.png','-t200.png')}}" alt=""
+                                               style="height: 100px;"/></a>
+                      </div>
+
+                      <div class="rp-details">
+                        <!-- Title and para -->
+                        {{$index+1}}. {{getPageName(slide.Name)}}
+                      </div>
+
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-8 col-md-offset-2" style="margin-top: 30px;">
+    <div class="box box-primary">
+      <div class="box-body">
+        <h4>Second Screen Shot's</h4>
+        <hr>
+        <div class="recent-posts" ng-if="slidesSecond.length>0">
+          <div class="container">
+            <div class="row" style="width: 96%">
+              <div class="span12">
+                <div class="bor"></div>
+                <div class="carousel_nav pull-right">
+                  <!-- Navigation -->
+                  <a class="prev" id="car_prev_2" href="#"><i class="glyphicon glyphicon-arrow-left"></i></a>
+                  <a class="next" id="car_next_2" href="#"><i class="glyphicon glyphicon-arrow-right"></i></a>
+                </div>
+                <div class="clearfix"></div>
+                <ul class="rps-carousel" id="rps-carousel_2">
+                  <li ng-repeat="slide in slidesSecond" title="{{slide.Name}}" data-imgUrl="{{slide.Value}}"
+                      ondblclick="openImgInNewWindows(this)">
+                    <div data-img-src="{{slide.Value}}" onclick="onSlideSelected(this);" class="rp-item">
+                      <div class="rp-image">
+                        <!-- Image -->
+                        <a class="active"><img ng-src="{{slide.Value.replace('.png','-t200.png')}}" alt=""
+                                               style="height: 100px;"/></a>
+                      </div>
+                      <div class="rp-details">
+                        <!-- Title and para -->
+                        {{$index+1}}. {{getPageName(slide.Name)}}
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" id="dvResembleControl" style="display: none;">
+  <div class="col-md-8 col-md-offset-2" style="margin-top: 30px">
+    <div class="box box-primary">
+      <div class="box-body">
+    <h4><B>Screen Shot Comparision</B></h4>
+    <hr>
+    <div class="col-md-1">
+      <label class="control-label">Filters:</label>
+    </div>
+
+    <div class="col-md-3">
+      <select id="first" class="form-control setting1" onchange="applyCompareSettings(this)">
+        <option value="raw">Ignore nothing</option>
+        <option value="colors">Ignore colors</option>
+        <option value="antialising">Ignore antialiasing</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <select id="second" class="form-control setting2" onchange="applyCompareSettings(this)">
+        <option value="pink">Pink</option>
+        <option value="yellow">Yellow</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <select id="third" class="form-control setting3" onchange="applyCompareSettings(this)">
+        <option value="flat">Flat</option>
+        <option value="movement">Movement</option>
+        <option value="flatDifferenceIntensity">Flat with diff intensity</option>
+        <option value="movementDifferenceIntensity">Movement with diff intensity</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <select id="fourth" class="form-control setting4" onchange="applyCompareSettings(this)">
+        <option value="1">Opaque</option>
+        <option value="0.3">Transparent</option>
+      </select>
+    </div>
+  </div>
+
+
+
+
+  <div class="col-md-12" style="">
+    <div class="col-md-1">
+      <label class="control-label">Result:</label>
+    </div>
+
+    <div class="col-md-11">
+      <label id="diff-results" class="control-label" style="display: none;font-weight: normal;">
+        The second image is <strong><span id="mismatch">0</span></strong>% different compared to the first.
+        <span id="differentdimensions"
+              style="display:none;font-weight: bold;">And they have different dimensions.</span>
+      </label>
+      <label id="thesame" class="control-label" style="display: none">
+        <strong>These images are the same!</strong>
+      </label>
+
+    </div>
+
+  </div>
+  <div class="col-md-12 procCompare" style="text-align: center;">
+    <img src="\images\loading.gif" alt="Loading...">
+  </div>
+  <br>
+  <br>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row" style="margin-top: 30px">
+  <div class="col-md-10 col-md-offset-1">
+    <div id="image-diff"></div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+  var resembleControl;
+
+  function openImgInNewWindows(obj) {
+    var imgUrl = $(obj).attr("data-imgUrl");
+    if (imgUrl != undefined) {
+      window.open(imgUrl, "_blank");
+    }
+  }
+
+  function applyCompareSettings(ctrl) {
+    $(".procCompare").show();
+    $('#image-diff').html("");
+
+    var setting1 = $(".setting1").val();
+    var setting2 = $(".setting2").val();
+    var setting3 = $(".setting3").val();
+    var setting4 = $(".setting4").val();
+
+    if ($(ctrl).is('#first')) {
+      if (setting1 == 'raw') {
+        resembleControl.ignoreNothing();
+      }
+      else if (setting1 == 'colors') {
+        resembleControl.ignoreColors();
+      }
+      else if (setting1 == 'antialising') {
+        resembleControl.ignoreAntialiasing();
+      }
+    }
+
+    if ($(ctrl).is('#second')) {
+      if (setting2 == 'pink') {
+        resemble.outputSettings({errorColor: {red: 255, green: 0, blue: 255}});
+        resembleControl.repaint();
+      }
+      else if (setting2 == 'yellow') {
+        resemble.outputSettings({errorColor: {red: 255, green: 255, blue: 0}});
+        resembleControl.repaint();
+      }
+    }
+    if ($(ctrl).is('#third')) {
+      resemble.outputSettings({errorType: setting3});
+      resembleControl.repaint();
+    }
+    if ($(ctrl).is('#fourth')) {
+      resemble.outputSettings({transparency: setting4});
+      resembleControl.repaint();
+    }
+  }
+
+  function onSlideSelected(obj) {
+
+    $(obj).parent().parent().find(".rp-item-selected").removeClass("rp-item-selected");
+    $(obj).addClass("rp-item-selected");
+
+    var firstImage = $("#dvSliders .rp-item-selected:nth(0)").attr('data-img-src');
+    var secondImage = $("#dvSliders .rp-item-selected:nth(1)").attr('data-img-src');
+
+    if (secondImage != undefined && firstImage != undefined) {
+      $(".procCompare").show();
+
+      var xhr = new XMLHttpRequest();
+      var xhr2 = new XMLHttpRequest();
+      var done = $.Deferred();
+      var dtwo = $.Deferred();
+
+      xhr.open('GET', firstImage, true);
+      xhr.responseType = 'blob';
+      xhr.onload = function (e) {
+        done.resolve(this.response);
+      };
+      xhr.send();
+
+      xhr2.open('GET', secondImage, true);
+      xhr2.responseType = 'blob';
+      xhr2.onload = function (e) {
+        dtwo.resolve(this.response);
+      };
+      xhr2.send();
+
+      $('#image-diff').html("");
+      $('#dvResembleControl').show();
+
+      $.when(done, dtwo).done(function (file, file1) {
+        resembleControl = resemble(file).compareTo(file1).onComplete(onComplete);
+      });
+    }
+  }
+  ;
+
+
+  function onComplete(data) {
+    $(".procCompare").hide();
+
+    var diffImage = new Image();
+    diffImage.src = data.getImageDataUrl();
+    diffImage.setAttribute("style", "width:100%;");
+
+    $('#image-diff').html(diffImage);
+
+    $(diffImage).dblclick(function () {
+      window.open(diffImage.src, '_blank');
+    });
+
+    $('.buttons').show();
+
+    if (data.misMatchPercentage == 0) {
+      $('#thesame').show();
+      $('#diff-results').hide();
+    } else {
+      $('#mismatch').text(data.misMatchPercentage);
+      if (!data.isSameDimensions) {
+        $('#differentdimensions').show();
+      } else {
+        $('#differentdimensions').hide();
+      }
+      $('#diff-results').show();
+      $('#thesame').hide();
+    }
+  }
+
+  function loadSliders() {
+    $("#dvSliders").show();
+    setTimeout("loadSlider('#rps-carousel_1', '#car_prev_1', '#car_next_1')", 100);
+    setTimeout("loadSlider('#rps-carousel_2', '#car_prev_2', '#car_next_2')", 100);
+  }
+
+  function loadSlider(jqSel, jqSelLeft, jqSelRight, count) {
+    count = count == undefined ? 1 : count;
+
+    try {
+      if ($(jqSel).is(":visible")) {
+        $(jqSel).carouFredSel({
+          responsive: true,
+          width: '100%',
+          pauseOnHover: true,
+          auto: false,
+          circular: true,
+          infinite: false,
+          prev: {button: jqSelLeft, key: "left"},
+          next: {button: jqSelRight, key: "right"},
+          swipe: {onMouse: true, onTouch: true},
+          items: {
+            visible: {min: 1, max: 4}
+          }
+        });
+      }
+    }
+    catch (err) {
+      if (count <= 3) {
+        setTimeout("loadSlider('" + jqSel + "', '" + jqSelLeft + "', '" + jqSelLeft + "', " + count + ")", 500 * count);
+      }
+    }
+  }
+</script>
+
+
