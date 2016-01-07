@@ -112,7 +112,20 @@ var InputHelper = function () {
         browser.driver.getPageSource().then(function (response) {
           thisobj.setInput(response, testInstance);
         });
+        break;
       }
+      case locatorTypeConstant.css:
+      {
+        if (testInstance.IsOptional) {
+          this.checkForOptionalElement(element(by.css(testInstance.LocatorIdentifier)), testInstance);
+        }
+        else {
+          element(by.css(testInstance.LocatorIdentifier)).waitReady();
+          this.setInput(element(by.css(testInstance.LocatorIdentifier)), testInstance);
+        }
+        break;
+      }
+
       default :
       {
         this.setInput("", testInstance);
@@ -543,12 +556,25 @@ var InputHelper = function () {
   this.GetSharedVariable = function (testInstance) {
     if (testInstance.VariableName.trim() != '' && testInstance.Action != actionConstant.SetVariable && testInstance.Action != actionConstant.SetVariableManually) {
       browser.getCurrentUrl().then(function (actualUrl) {
+        console.log("INSIDE GetSharedVariable indexed testInstance.VariableName:= " + testInstance.VariableName);
         var toCompareValue = testInstance.Value;
         if (testInstance.VariableName.indexOf('[') == -1) {
-          for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
-            if (testInstance.VariableName == browser.params.config.variableContainer[k].Name) {
-              testInstance.Value = browser.params.config.variableContainer[k].Value;
-              break;
+          if (testInstance.VariableName.indexOf('{') == -1) {
+            for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
+              if (testInstance.VariableName == browser.params.config.variableContainer[k].Name) {
+                testInstance.Value = browser.params.config.variableContainer[k].Value;
+                break;
+              }
+            }
+          }
+          else {
+            for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
+              if (testInstance.VariableName.substring(0,testInstance.VariableName.indexOf('{')) == browser.params.config.variableContainer[k].Name) {
+                var subStrIndex = testInstance.VariableName.substring(testInstance.VariableName.indexOf('{') + 1, testInstance.VariableName.indexOf('}'));
+                testInstance.Value = eval("browser.params.config.variableContainer[k].Value.substring(" + subStrIndex + ")");
+                console.log("INSIDE GetSharedVariable indexed substr:= " + testInstance.Value);
+                break;
+              }
             }
           }
         }
@@ -624,10 +650,10 @@ var InputHelper = function () {
   };
 
   this.performAssertToEqual = function (executionSequence, key, value) {
-    thisobj.GetText(key, function (value) {
+    thisobj.GetText(key, function (_value) {
       var typeofText = typeof(value) + "";
       var textVal = ((value == null || typeofText == 'string' ? value : value[0]) + "").replace(/\n/gi, "");
-      expect(jsonHelper.customTrim(textVal)).toEqual(jsonHelper.customTrim(value));
+      expect(jsonHelper.customTrim(textVal)).toEqual(jsonHelper.customTrim(_value));
       browser.params.config.LastStepExecuted = executionSequence;
     });
   };
