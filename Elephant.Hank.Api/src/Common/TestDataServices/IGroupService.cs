@@ -26,6 +26,7 @@ namespace Elephant.Hank.Common.TestDataServices
         /// Add new Group
         /// </summary>
         /// <param name="group">group object</param>
+        /// <param name="userId">the user identifier</param>
         /// <returns>Added Group object</returns>
         ResultMessage<TblGroupDto> AddNewGroup(TblGroupDto group, long userId);
         
@@ -33,7 +34,7 @@ namespace Elephant.Hank.Common.TestDataServices
         /// Get the group by name 
         /// </summary>
         /// <param name="name">name of the group</param>
-        /// <returns>TblGroupObject </returns>
+        /// <returns>TblGroup Object</returns>
         ResultMessage<TblGroupDto> GetByGroupName(string name);
     }
 }

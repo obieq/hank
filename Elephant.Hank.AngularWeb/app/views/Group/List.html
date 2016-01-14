@@ -34,8 +34,8 @@
             <tbody ng-init="onLoadList()">
             <tr ng-repeat="group in GroupList | orderBy:'Id'">
               <td>{{group.Id}}</td>
-              <td><a ui-sref="Group.Module({GroupId: group.Id})"> {{group.GroupName}} </a></td>
-              <td>{{group.ModifiedByUserName}}</td>
+              <td><a ui-sref="Group.Manage.Website({GroupId: group.Id})"> {{group.GroupName}} </a></td>
+              <td> {{group.ModifiedByUserName}} </td>
               <td>
                 <a ui-sref="Group.Update({ GroupId: group.Id })">Edit</a>
               </td>

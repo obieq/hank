@@ -25,10 +25,10 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <summary>
         /// Add/Update the website to group
         /// </summary>
-        /// <param name="GroupId">the Group Identifier</param>
-        /// <param name="WebsiteIdList">Array of Website</param>
+        /// <param name="groupId">the Group Identifier</param>
+        /// <param name="websiteIdList">Array of Website</param>
         /// <returns>Added entries in table TblGroupModuleAccessDto</returns>
-        ResultMessage<IEnumerable<TblGroupModuleAccessDto>> AddUpdateWebsiteToGroup(long groupId, long[] WebsiteIdList);
+        ResultMessage<IEnumerable<TblGroupModuleAccessDto>> AddUpdateWebsiteToGroup(long groupId, long[] websiteIdList);
 
         /// <summary>
         /// Add the GroupModuleAccess entries in bulk
@@ -44,5 +44,20 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <param name="groupId">the group identifier</param>
         /// <returns>List if TblGroupModuleAccessDto that matched the groupidentifier provided in parameter</returns>
         ResultMessage<IEnumerable<TblGroupModuleAccessDto>> GetByGroupId(long groupId);
+
+        /// <summary>
+        /// Get the TblGroupModuleAccessDto list by group id and website id
+        /// </summary>
+        /// <param name="groupId">the group identifier</param>
+        ///  <param name="websiteId">the group identifier</param>
+        /// <returns>List if TblGroupModuleAccessDto that matched the groupidentifier provided in parameter</returns>
+        ResultMessage<IEnumerable<TblGroupModuleAccessDto>> GetByGroupIdAndWebsiteId(long groupId, long websiteId);
+
+        /// <summary>
+        /// Update the TblGroupModuleAccessDto table entries in one go
+        /// </summary>
+        /// <param name="groupModuleAccessList">TblGroupModuleAccessDto list object</param>
+        /// <returns>list of updated entries</returns>
+        ResultMessage<IEnumerable<TblGroupModuleAccessDto>> UpdateModuleAccessBulk(IEnumerable<TblGroupModuleAccessDto> groupModuleAccessList);
     }
 }

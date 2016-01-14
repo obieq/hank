@@ -1547,6 +1547,170 @@
             <param name="testQueueId">the test Queue identifier</param>
             <returns>response object in string format</returns>
         </member>
+        <member name="T:Elephant.Hank.Api.Controllers.GroupController">
+            <summary>
+            The GroupsController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Hank.Api.Controllers.GroupController.groupService">
+            <summary>
+            The group service
+            </summary>
+        </member>
+        <member name="F:Elephant.Hank.Api.Controllers.GroupController.groupModuleAccessService">
+            <summary>
+            The group module access service
+            </summary>
+        </member>
+        <member name="F:Elephant.Hank.Api.Controllers.GroupController.groupUserService">
+            <summary>
+            The group module access service
+            </summary>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.GroupController.#ctor(Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.IGroupService,Elephant.Hank.Common.TestDataServices.IGroupModuleAccessService,Elephant.Hank.Common.TestDataServices.IGroupUserService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.GroupController"/> class.
+            </summary>
+            <param name="loggerService">the logger service</param>
+            <param name="groupService">the group service</param>
+            <param name="groupModuleAccessService">the group module access service</param>
+            <param name="groupUserService">the group user service</param>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.GroupController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblGroupDto objects</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.GroupController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblGroupDto objects</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.GroupController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.GroupController.Add(Elephant.Hank.Resources.Dto.TblGroupDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="groupDto">The group dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.GroupController.Update(Elephant.Hank.Resources.Dto.TblGroupDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="groupDto">The group dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.GroupController.AddWebsiteToGroup(System.Int64,System.Int64[])">
+            <summary>
+            Add/Delete the permissions on website
+            </summary>
+            <param name="id">the group identifier</param>
+            <param name="websiteIdList">wibsite id list</param>
+            <returns>TblGroupModuleAccessDto list objects</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.GroupController.GetByGroupId(System.Int64)">
+            <summary>
+            Get the GroupModule Access entry by group id
+            </summary>
+            <param name="groupId">the group identifier</param>
+            <returns>List of TblGroupModuleAccessDto</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.GroupController.GetUserByGroupId(System.Int64)">
+            <summary>
+            Get the GroupUser by groupId
+            </summary>
+            <param name="groupId">the group identifier</param>
+            <returns>TblGroupUserDto object list</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.GroupController.GetByGroupId(System.Int64,System.Int64)">
+            <summary>
+            Get the GroupModule Access entry by group id
+            </summary>
+            <param name="groupId">the group identifier</param>
+            <param name="websiteId">the website identifier</param>
+            <returns>List of TblGroupModuleAccessDto</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.GroupController.AddUpdate(Elephant.Hank.Resources.Dto.TblGroupDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="groupDto">The browser dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Hank.Api.Controllers.GroupModuleAccessController">
+            <summary>
+            The GroupModuleAccessController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Hank.Api.Controllers.GroupModuleAccessController.groupModuleAccessService">
+            <summary>
+            The group module access service
+            </summary>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.GroupModuleAccessController.#ctor(Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.IGroupModuleAccessService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.GroupModuleAccessController"/> class.
+            </summary>
+            <param name="loggerService">the logger service</param>
+            <param name="groupModuleAccessService">the group module access service</param>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.GroupModuleAccessController.UpdateModuleAccessBulk(System.Collections.Generic.IEnumerable{Elephant.Hank.Resources.Dto.TblGroupModuleAccessDto})">
+            <summary>
+            Update the TblGroupModuleAccessDto table entries in one go
+            </summary>
+            <param name="groupModuleAccessList">TblGroupModuleAccessDto list object</param>
+            <returns>list of updated entries</returns>
+        </member>
+        <member name="T:Elephant.Hank.Api.Controllers.GroupUserController">
+            <summary>
+            The GroupUserController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Hank.Api.Controllers.GroupUserController.groupUserService">
+            <summary>
+            The group module access service
+            </summary>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.GroupUserController.#ctor(Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.IGroupUserService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.GroupUserController"/> class.
+            </summary>
+            <param name="loggerService">the logger service</param>
+            <param name="groupUserService">the group user service</param>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.GroupUserController.Add(Elephant.Hank.Resources.Dto.TblGroupUserDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="actionDto">The action dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.GroupUserController.AddUpdate(Elephant.Hank.Resources.Dto.TblGroupUserDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="groupUserDto">The action dto.</param>
+            <returns>Newly added object</returns>
+        </member>
         <member name="T:Elephant.Hank.Api.Controllers.PagesController">
             <summary>
             The Pages class

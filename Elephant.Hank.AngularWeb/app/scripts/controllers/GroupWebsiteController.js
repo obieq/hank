@@ -9,6 +9,7 @@ app.controller('GroupWebsiteController', ['$scope', '$stateParams', '$state', 'C
     $scope.WebsiteList = [];
     $scope.WebsiteIdList = [];
     $scope.GroupModuleList = [];
+    $scope.stateparamsGroupId=$stateParams.GroupId;
     crudService.getAll(ngAppSettings.WebSiteUrl).then(function (response) {
       $scope.WebsiteList = response;
       crudService.getAll(ngAppSettings.GroupModuleUrl.format($stateParams.GroupId)).then(function (response) {

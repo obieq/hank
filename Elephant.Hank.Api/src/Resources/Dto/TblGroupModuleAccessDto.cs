@@ -32,19 +32,24 @@ namespace Elephant.Hank.Resources.Dto
         public long WebsiteId { get; set; }
 
         /// <summary>
-        /// Gets or sets the CanRead
+        /// Gets or sets the a value indicating whether user can read or not
         /// </summary>
         public bool CanRead { get; set; }
 
         /// <summary>
-        /// Gets or sets the CanWrite
+        ///  Gets or sets the a value indicating whether user can write or not
         /// </summary>
         public bool CanWrite { get; set; }
 
         /// <summary>
-        /// Gets or sets the CanDelete
+        ///  Gets or sets the a value indicating whether user can delete or not
         /// </summary>
         public bool CanDelete { get; set; }
+
+        /// <summary>
+        /// Gets or sets the CanDelete
+        /// </summary>
+        public bool CanExecute { get; set; }
 
         /// <summary>
         /// Gets or sets the Group

@@ -6,7 +6,9 @@
         <label ng-repeat="website in WebsiteList | orderBy:'Id'" class="col-md-4 ellipsis paddingLeftZero"
                title="{{website.Name}}">
           <input type="checkbox" ng-model="website.Permission"/>
-          {{website.Name}}
+
+          <a ng-if="website.Permission" ui-sref="Group.Manage.Module({GroupId:stateparamsGroupId,WebsiteId:website.Id})"> {{website.Name}}</a>
+          <span ng-if="!website.Permission">{{website.Name}}</span>
         </label>
       </div>
     </div>

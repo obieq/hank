@@ -628,9 +628,12 @@ var app = angular
         permissionData: {Roles: ["TestAdmin"]}
       })
       .state('Group.Manage.Module', {
-        url: "/module",
+        url: "/website/{WebsiteId}",
         views: {
-          "TabContent": {templateUrl: 'views/GroupManager/GroupModules.html'}
+          "TabContent": {
+            templateUrl: 'views/GroupManager/GroupWebsiteModule.html',
+            controller:'GroupWebsiteModuleController'
+          }
         },
         ncyBreadcrumb: {label: 'New Group', parent: "Group.List"},
         permissionData: {Roles: ["TestAdmin"]}
@@ -638,7 +641,8 @@ var app = angular
       .state('Group.Manage.User', {
         url: "/users",
         views: {
-          "TabContent": {templateUrl: 'views/GroupManager/GroupUsers.html'}
+          "TabContent": {templateUrl: 'views/GroupManager/GroupUsers.html',controller:'GroupUserController'}
+
         },
         ncyBreadcrumb: {label: 'New Group', parent: "Group.List"},
         permissionData: {Roles: ["TestAdmin"]}
@@ -716,6 +720,10 @@ var app = angular
     DataBaseConnectionUrl: "data-base-connection",
     DataBaseConnectionGetDataBaseListUrl: "data-base-connection/get-database-list",
     GroupUrl: "group",
+    GroupUserAddUrl:'group-user',
+    GroupUserUrl: "group/{0}/user",
     GroupWebsiteUrl: "group/{0}/add-website-to-group",
-    GroupModuleUrl: "group/{0}/group-module-access"
+    GroupModuleUrl: "group/{0}/group-module-access",
+    GroupWebsiteModuleUrl: "group/{0}/website/{1}",
+    GroupModuleAccessBulkUpdate:"group-module-access/update-access-bulk"
   });

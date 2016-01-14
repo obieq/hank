@@ -26,7 +26,7 @@ namespace Elephant.Hank.Framework.TestDataServices
     /// <summary>
     /// The ModuleService class
     /// </summary>
-    public class ModuleService: GlobalService<TblModuleDto, TblModule>, IModuleService
+    public class ModuleService : GlobalService<TblModuleDto, TblModule>, IModuleService
     {
         /// <summary>
         /// The mapper factory

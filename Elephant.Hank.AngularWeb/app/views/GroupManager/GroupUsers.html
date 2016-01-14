@@ -1,5 +1,53 @@
-<div class="tab-pane active" >
-  <span><b>This Is Group User Section</b></span>
+<div class="tab-pane active">
+  <div class="row">
+    <div class="col-md-5">
+
+      <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+
+          <th>All User</th>
+          <th>Add to group</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="user in UserList | orderBy:'Id'">
+          <td>
+            {{user.UserName}}
+          </td>
+          <td class="col-md-2"><a style="cursor: pointer;" ng-click="onClickAddUserToGroup(user.Id)" ><i class="fa fa-chevron-right fa-pull-right"></i></a></td>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+
+    <div class="col-md-5 col-md-offset-1">
+
+      <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+          <th>Remove from group</th>
+          <th>User in Group</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="user in GroupUserList | orderBy:'Id'">
+          <td class="col-md-2"><a style="cursor: pointer;" ng-click="onClickRemoveUserFromGroup(user.Id)"><i class="fa fa-chevron-left fa-pull-left"></i></a></td>
+          <td>
+            {{ user.ModifiedByUserName }}
+          </td>
+
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+
 </div>
 
 

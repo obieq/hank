@@ -49,7 +49,7 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// </summary>
         private readonly IMapperFactory mapperFactory;
 
-         /// <summary>
+        /// <summary>
         /// The table
         /// </summary>
         private readonly IRepository<TblGroup> table;
@@ -59,6 +59,9 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// </summary>
         /// <param name="mapperFactory">The mapper factory.</param>
         /// <param name="table">The table.</param>
+        /// <param name="groupModuleAccessService">the group module access service</param>
+        /// <param name="moduleService">the module service</param>
+        /// <param name="websiteService">the website service</param>
         public GroupService(IMapperFactory mapperFactory, IRepository<TblGroup> table, IGroupModuleAccessService groupModuleAccessService, IModuleService moduleService, IWebsiteService websiteService)
             : base(mapperFactory, table)
         {
@@ -80,7 +83,7 @@ namespace Elephant.Hank.Framework.TestDataServices
             try
             {
                 var checkGroupExist = this.GetByGroupName(group.GroupName);
-                if(checkGroupExist.IsError)
+                if (checkGroupExist.IsError)
                 {
                     result = this.SaveOrUpdate(group, userId);
                     result = this.GetByGroupName(group.GroupName);
@@ -105,12 +108,11 @@ namespace Elephant.Hank.Framework.TestDataServices
                 {
                     return checkGroupExist;
                 }
-               
             }
             catch (Exception ex)
             {
-
             }
+
             return result;
         }
 

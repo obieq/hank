@@ -40,15 +40,23 @@ namespace Elephant.Hank.Api.Controllers
         private readonly IGroupModuleAccessService groupModuleAccessService;
 
         /// <summary>
+        /// The group module access service
+        /// </summary>
+        private readonly IGroupUserService groupUserService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GroupController"/> class.
         /// </summary>
         /// <param name="loggerService">the logger service</param>
         /// <param name="groupService">the group service</param>
-        public GroupController(ILoggerService loggerService, IGroupService groupService, IGroupModuleAccessService groupModuleAccessService)
+        /// <param name="groupModuleAccessService">the group module access service</param>
+        /// <param name="groupUserService">the group user service</param>
+        public GroupController(ILoggerService loggerService, IGroupService groupService, IGroupModuleAccessService groupModuleAccessService, IGroupUserService groupUserService)
             : base(loggerService)
         {
             this.groupService = groupService;
             this.groupModuleAccessService = groupModuleAccessService;
+            this.groupUserService = groupUserService;
         }
 
         /// <summary>
@@ -148,15 +156,17 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Add/Delete the permissions on website
         /// </summary>
-        /// <returns></returns>
+        /// <param name="id">the group identifier</param>
+        /// <param name="websiteIdList">wibsite id list</param>
+        /// <returns>TblGroupModuleAccessDto list objects</returns>
         [Route("{id}/add-website-to-group")]
         [HttpPost]
-        public IHttpActionResult AddWebsiteToGroup(long id, long[] WebsiteIdList)
+        public IHttpActionResult AddWebsiteToGroup(long id, long[] websiteIdList)
         {
             var result = new ResultMessage<IEnumerable<TblGroupModuleAccessDto>>();
             try
             {
-                result = this.groupModuleAccessService.AddUpdateWebsiteToGroup(id, WebsiteIdList);
+                result = this.groupModuleAccessService.AddUpdateWebsiteToGroup(id, websiteIdList);
             }
             catch (Exception ex)
             {
@@ -167,6 +177,11 @@ namespace Elephant.Hank.Api.Controllers
             return this.CreateCustomResponse(result);
         }
 
+        /// <summary>
+        /// Get the GroupModule Access entry by group id
+        /// </summary>
+        /// <param name="groupId">the group identifier</param>
+        /// <returns>List of TblGroupModuleAccessDto</returns>
         [Route("{groupId}/group-module-access")]
         [HttpGet]
         public IHttpActionResult GetByGroupId(long groupId)
@@ -175,6 +190,53 @@ namespace Elephant.Hank.Api.Controllers
             try
             {
                 result = this.groupModuleAccessService.GetByGroupId(groupId);
+            }
+            catch (Exception ex)
+            {
+                this.LoggerService.LogException(ex);
+                result.Messages.Add(new Message(null, ex.Message));
+            }
+
+            return this.CreateCustomResponse(result);
+        }
+
+        /// <summary>
+        /// Get the GroupUser by groupId
+        /// </summary>
+        /// <param name="groupId">the group identifier</param>
+        /// <returns>TblGroupUserDto object list</returns>
+        [Route("{groupId}/user")]
+        [HttpGet]
+        public IHttpActionResult GetUserByGroupId(long groupId)
+        {
+            var result = new ResultMessage<IEnumerable<TblGroupUserDto>>();
+            try
+            {
+                result = this.groupUserService.GetByGroupId(groupId);
+            }
+            catch (Exception ex)
+            {
+                this.LoggerService.LogException(ex);
+                result.Messages.Add(new Message(null, ex.Message));
+            }
+
+            return this.CreateCustomResponse(result);
+        }
+
+        /// <summary>
+        /// Get the GroupModule Access entry by group id
+        /// </summary>
+        /// <param name="groupId">the group identifier</param>
+        /// <param name="websiteId">the website identifier</param>
+        /// <returns>List of TblGroupModuleAccessDto</returns>
+        [Route("{groupId}/website/{websiteId}")]
+        [HttpGet]
+        public IHttpActionResult GetByGroupId(long groupId, long websiteId)
+        {
+            var result = new ResultMessage<IEnumerable<TblGroupModuleAccessDto>>();
+            try
+            {
+                result = this.groupModuleAccessService.GetByGroupIdAndWebsiteId(groupId, websiteId);
             }
             catch (Exception ex)
             {
@@ -214,7 +276,5 @@ namespace Elephant.Hank.Api.Controllers
 
             return this.CreateCustomResponse(result);
         }
-
-
     }
 }

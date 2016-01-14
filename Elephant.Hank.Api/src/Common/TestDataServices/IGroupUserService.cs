@@ -22,5 +22,19 @@ namespace Elephant.Hank.Common.TestDataServices
     /// </summary>
     public interface IGroupUserService : IBaseService<TblGroupUserDto>
     {
+        /// <summary>
+        /// the group user
+        /// </summary>
+        /// <param name="groupId">the group identifier</param>
+        /// <returns>TblGroupUserDto list object with the worvided group id</returns>
+        ResultMessage<IEnumerable<TblGroupUserDto>> GetByGroupId(long groupId);
+
+        /// <summary>
+        /// Get the GroupUser entry with groupid and user is whose isdeleted is either true or false
+        /// </summary>
+        /// <param name="groupId">the group identifier</param>
+        /// <param name="userId">the user identifier</param>
+        /// <returns>TblGroupUserDto object</returns>
+        ResultMessage<TblGroupUserDto> GetByGroupIdAndUserIdEitherDeletedOrNonDeleted(long groupId, long userId);
     }
 }

@@ -49,6 +49,11 @@ namespace Elephant.Hank.DataService.DBSchema
         public bool CanDelete { get; set; }
 
         /// <summary>
+        /// Gets or sets the CanDelete
+        /// </summary>
+        public bool CanExecute { get; set; }
+
+        /// <summary>
         /// Gets or sets the Group
         /// </summary>
         [ForeignKey("GroupId")]

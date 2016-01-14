@@ -39,6 +39,6 @@ namespace Elephant.Hank.DataService.DBSchema
         /// Gets or sets the User
         /// </summary>
         [ForeignKey("UserId")]
-        public virtual CustomUser User { get; set; }
+        public virtual CustomUser ModifiedByUser { get; set; }
     }
 }
