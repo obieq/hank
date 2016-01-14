@@ -94,6 +94,10 @@
     <Compile Include="DBSchema\TblDBCategories.cs" />
     <Compile Include="DBSchema\TblDbLog.cs" />
     <Compile Include="DBSchema\TblEnvironment.cs" />
+    <Compile Include="DBSchema\TblGroup.cs" />
+    <Compile Include="DBSchema\TblGroupModuleAccess.cs" />
+    <Compile Include="DBSchema\TblGroupUser.cs" />
+    <Compile Include="DBSchema\TblModule.cs" />
     <Compile Include="DBSchema\TblSharedTest.cs" />
     <Compile Include="DBSchema\TblAction.cs" />
     <Compile Include="AuthContext.cs" />

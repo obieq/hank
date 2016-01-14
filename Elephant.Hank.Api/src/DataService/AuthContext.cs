@@ -177,6 +177,26 @@ namespace Elephant.Hank.DataService
         public DbSet<TblDBCategories> TblDBCategories { get; set; }
 
         /// <summary>
+        /// Gets or sets the table Group.
+        /// </summary>
+        public DbSet<TblGroup> TblGroup { get; set; }
+
+        /// <summary>
+        /// Gets or sets the table Group User.
+        /// </summary>
+        public DbSet<TblGroupUser> TblGroupUser { get; set; }
+
+        /// <summary>
+        /// Gets or sets the table Group Module Access.
+        /// </summary>
+        public DbSet<TblGroupModuleAccess> TblGroupModuleAccess { get; set; }
+
+        /// <summary>
+        /// Gets or sets the table Module.
+        /// </summary>
+        public DbSet<TblModule> TblModule { get; set; }
+
+        /// <summary>
         /// override save changes
         /// </summary>
         /// <returns>Save status</returns>
@@ -206,10 +226,10 @@ namespace Elephant.Hank.DataService
                 if (!entityToIgnore.Contains(classname))
                 {
                     TblDbLog dbLog = new TblDbLog
-                                     {
-                                         TableType = classname,
-                                         ValueId = (long)item.CurrentValues["Id"]
-                                     };
+                    {
+                        TableType = classname,
+                        ValueId = (long)item.CurrentValues["Id"]
+                    };
                     dynamic vari = item.Entity;
                     dbLog.LogTracker = (Guid)vari.LogTracker;
                     dbLog.ModifiedOn = DateTime.Now;
@@ -325,6 +345,10 @@ namespace Elephant.Hank.DataService
             modelBuilder.Entity<TblUserProfile>().ToTable("TblUserProfile", DefaultSchema);
             modelBuilder.Entity<TblDataBaseCategories>().ToTable("TblDataBaseCategories", DefaultSchema);
             modelBuilder.Entity<TblDataBaseConnection>().ToTable("TblDataBaseConnection", DefaultSchema);
+            modelBuilder.Entity<TblGroup>().ToTable("TblGroup", DefaultSchema);
+            modelBuilder.Entity<TblGroupUser>().ToTable("TblGroupUser", DefaultSchema);
+            modelBuilder.Entity<TblGroupModuleAccess>().ToTable("TblGroupModuleAccess", DefaultSchema);
+            modelBuilder.Entity<TblModule>().ToTable("TblModule", DefaultSchema);
         }
 
         /// <summary>

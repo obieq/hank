@@ -246,6 +246,8 @@
     <Compile Include="Controllers\DbLogController.cs" />
     <Compile Include="Controllers\EnvironmentController.cs" />
     <Compile Include="Controllers\ExecuteSqlController.cs" />
+    <Compile Include="Controllers\GroupController.cs" />
+    <Compile Include="Controllers\GroupModuleAccessController.cs" />
     <Compile Include="Controllers\PagesController.cs" />
     <Compile Include="Controllers\LocatorController.cs" />
     <Compile Include="Controllers\LocatorIdentifierController.cs" />

@@ -86,7 +86,7 @@ namespace Elephant.Hank.Framework.Mapper
             AutoMapper.Mapper.CreateMap<TblLocator, TblLocatorDto>().ReverseMap();
             AutoMapper.Mapper.CreateMap<TblSuite, TblSuiteDto>().ReverseMap();
             AutoMapper.Mapper.CreateMap<TblWebsite, TblWebsiteDto>().ReverseMap();
-           
+
             AutoMapper.Mapper.CreateMap<TblTestData, TblTestDataDto>()
                 .ForMember(x => x.TestName, opt => opt.MapFrom(src => src.Test != null ? src.Test.TestName : null))
                 .ForMember(x => x.DisplayNameValue, opt => opt.MapFrom(src => src.LocatorIdentifier != null ? src.LocatorIdentifier.DisplayName : null))
@@ -172,6 +172,17 @@ namespace Elephant.Hank.Framework.Mapper
                 .ReverseMap();
 
             AutoMapper.Mapper.CreateMap<TblUserProfileDto, TblUserProfile>().ReverseMap();
+
+            AutoMapper.Mapper.CreateMap<TblGroup, TblGroupDto>()
+                .ForMember(x => x.ModifiedByUserName, opt => opt.MapFrom(x => x.ModifiedByUser != null ? x.ModifiedByUser.FirstName + " " + x.ModifiedByUser.LastName : string.Empty));
+
+            AutoMapper.Mapper.CreateMap<TblGroupDto, TblGroup>();
+
+            AutoMapper.Mapper.CreateMap<TblGroupUserDto, TblGroupUser>().ReverseMap();
+
+            AutoMapper.Mapper.CreateMap<TblModuleDto, TblModule>().ReverseMap();
+
+            AutoMapper.Mapper.CreateMap<TblGroupModuleAccessDto, TblGroupModuleAccess>().ReverseMap();
         }
     }
 }

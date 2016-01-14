@@ -98,6 +98,10 @@
     <Compile Include="TestDataServices\DbLogService.cs" />
     <Compile Include="TestDataServices\EnvironmentService.cs" />
     <Compile Include="TestDataServices\ExecuteSqlForProtractorService.cs" />
+    <Compile Include="TestDataServices\GroupModuleAccessService.cs" />
+    <Compile Include="TestDataServices\GroupService.cs" />
+    <Compile Include="TestDataServices\GroupUserService.cs" />
+    <Compile Include="TestDataServices\ModuleService.cs" />
     <Compile Include="TestDataServices\ReportDataService.cs" />
     <Compile Include="TestDataServices\ActionsService.cs" />
     <Compile Include="Data\AuthRepository.cs" />

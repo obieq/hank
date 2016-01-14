@@ -180,8 +180,12 @@ namespace Elephant.Hank.Framework.TestDataServices
                                     urlData = website.WebsiteUrlList.FirstOrDefault(m => m.Id == testQueue.Settings.UrlId);
                                 }
 
-                                TblTestDataDto dummyStep = new TblTestDataDto { ActionValue = this.actionService.GetById(long.Parse(ConfigurationManager.AppSettings["LoadNewUrlActionId"].ToString())).Item.Value, ActionId = long.Parse(ConfigurationManager.AppSettings["LoadNewUrlActionId"].ToString()), Value = urlData.Url, LinkTestType = (int)LinkTestType.TestStep };
-                                testDataDtoForSharedWebsiteTest.Insert(0, dummyStep);
+                                if (this.testPlan.Last().ActionId.Value != long.Parse(ConfigurationManager.AppSettings["IgnoreLoadNeUrlActionId"].ToString()))
+                                {
+                                    TblTestDataDto dummyStep = new TblTestDataDto { ActionValue = this.actionService.GetById(long.Parse(ConfigurationManager.AppSettings["LoadNewUrlActionId"].ToString())).Item.Value, ActionId = long.Parse(ConfigurationManager.AppSettings["LoadNewUrlActionId"].ToString()), Value = urlData.Url, LinkTestType = (int)LinkTestType.TestStep };
+                                    testDataDtoForSharedWebsiteTest.Insert(0, dummyStep);
+                                }
+
                                 this.ProcessTestQueueExecutableData(testDataDtoForSharedWebsiteTest, testQueue);
                                 break;
                             }

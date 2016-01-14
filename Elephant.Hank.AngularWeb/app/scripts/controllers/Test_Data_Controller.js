@@ -145,6 +145,10 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
             else if ($scope.TestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId) {
               $scope.InputControlDisplayStatus.txtValue = true;
             }
+            else if ($scope.TestData.ActionId == $scope.ActionConstants.SwitchWindowActionId) {
+            }
+            else if ($scope.TestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId) {
+            }
             else if ($scope.TestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId) {
               $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
               $scope.InputControlDisplayStatus.txtValue = true;
@@ -346,6 +350,10 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
       }
       else if ($scope.TestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId) {
         $scope.InputControlDisplayStatus.txtValue = true;
+      }
+      else if ($scope.TestData.ActionId == $scope.ActionConstants.SwitchWindowActionId) {
+      }
+      else if ($scope.TestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId) {
       }
       else if ($scope.TestData.ActionId == $scope.ActionConstants.SetVariableActionId) {
 

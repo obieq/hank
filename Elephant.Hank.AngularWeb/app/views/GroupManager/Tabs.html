@@ -1,0 +1,25 @@
+
+<section class="content" ng-controller="NavCtrl">
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="col-md-12">
+        <!-- Custom Tabs (Pulled to the right) -->
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs pull-right">
+            <li ng-class="isActive(3, 'Group.Manage.Website')" ><a ui-sref="Group.Manage.Website({GroupId:1})"  data-toggle="tab" aria-expanded="false">Website</a></li>
+            <li ng-class="isActive(3, 'Group.Manage.Module')" class=""><a ui-sref="Group.Manage.Module({GroupId:1})"  data-toggle="tab" aria-expanded="false">Module</a></li>
+            <li ng-class="isActive(3, 'Group.Manage.User')" class=""><a ui-sref="Group.Manage.User({GroupId:1})"  data-toggle="tab" aria-expanded="false">User</a></li>
+            <li class="pull-left header"><i class="fa fa-th"></i>Group Manager</li>
+          </ul>
+          <div class="tab-content">
+
+            <div ui-view="TabsView"></div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

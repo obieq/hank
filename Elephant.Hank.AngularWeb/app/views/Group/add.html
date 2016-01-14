@@ -1,0 +1,46 @@
+<section class="content-header">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <h1>
+        Create New Group
+        <small></small>
+      </h1>
+    </div>
+  </div>
+</section>
+
+
+<section class="content">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title"></h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" name="GroupForm" ng-submit="GroupForm.$valid && onAddSubmit()">
+          <div class="box-body">
+            <div class="form-group">
+              <label class="col-sm-2 control-label" >Group Name</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" ng-model="Group.GroupName" name="GroupName"  placeholder="Group Name" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+

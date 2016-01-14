@@ -72,6 +72,10 @@
     <Compile Include="TestDataServices\IDbLogService.cs" />
     <Compile Include="TestDataServices\IEnvironmentService.cs" />
     <Compile Include="TestDataServices\IExecuteSqlForProtractorService.cs" />
+    <Compile Include="TestDataServices\IGroupModuleAccessService.cs" />
+    <Compile Include="TestDataServices\IGroupService.cs" />
+    <Compile Include="TestDataServices\IGroupUserService.cs" />
+    <Compile Include="TestDataServices\IModuleService.cs" />
     <Compile Include="TestDataServices\IUserProfileService.cs" />
     <Compile Include="TestDataServices\IReportDataService.cs" />
     <Compile Include="TestDataServices\IActionsService.cs" />

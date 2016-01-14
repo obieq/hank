@@ -149,5 +149,27 @@ namespace Elephant.Hank.Resources.Json
                 return int.Parse(ConfigurationManager.AppSettings["AssertToEqualActionId"].ToString());
             }
         }
+
+        /// <summary>
+        /// Gets the Switch window Action's Identifier
+        /// </summary>
+        public int SwitchWindowActionId
+        {
+            get
+            {
+                return int.Parse(ConfigurationManager.AppSettings["SwitchWindowActionId"].ToString());
+            }
+        }
+
+        /// <summary>
+        /// Gets the Switch window Action's Identifier
+        /// </summary>
+        public int IgnoreLoadNeUrlActionId
+        {
+            get
+            {
+                return int.Parse(ConfigurationManager.AppSettings["IgnoreLoadNeUrlActionId"].ToString());
+            }
+        }
     }
 }

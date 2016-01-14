@@ -125,6 +125,86 @@ var InputHelper = function () {
         }
         break;
       }
+      case locatorTypeConstant.ButtonText:
+      {
+        if (testInstance.IsOptional) {
+          this.checkForOptionalElement(element(by.buttonText(testInstance.LocatorIdentifier)), testInstance);
+        }
+        else {
+          element(by.buttonText(testInstance.LocatorIdentifier)).waitReady();
+          this.setInput(element(by.buttonText(testInstance.LocatorIdentifier)), testInstance);
+        }
+        break;
+      }
+      case locatorTypeConstant.PartialButtonText:
+      {
+        if (testInstance.IsOptional) {
+          this.checkForOptionalElement(element(by.partialButtonText(testInstance.LocatorIdentifier)), testInstance);
+        }
+        else {
+          element(by.partialButtonText(testInstance.LocatorIdentifier)).waitReady();
+          this.setInput(element(by.partialButtonText(testInstance.LocatorIdentifier)), testInstance);
+        }
+        break;
+      }
+      case locatorTypeConstant.LinkText:
+      {
+        if (testInstance.IsOptional) {
+          this.checkForOptionalElement(element(by.linkText(testInstance.LocatorIdentifier)), testInstance);
+        }
+        else {
+          element(by.linkText(testInstance.LocatorIdentifier)).waitReady();
+          this.setInput(element(by.linkText(testInstance.LocatorIdentifier)), testInstance);
+        }
+        break;
+      }
+
+      case locatorTypeConstant.PartialLinkText:
+      {
+        if (testInstance.IsOptional) {
+          this.checkForOptionalElement(element(by.partialLinkText(testInstance.LocatorIdentifier)), testInstance);
+        }
+        else {
+          element(by.partialLinkText(testInstance.LocatorIdentifier)).waitReady();
+          this.setInput(element(by.partialLinkText(testInstance.LocatorIdentifier)), testInstance);
+        }
+        break;
+      }
+
+      case locatorTypeConstant.CssContainingText:
+      {
+        if (testInstance.IsOptional) {
+          this.checkForOptionalElement(element(by.cssContainingText(testInstance.LocatorIdentifier.split('~')[0], testInstance.LocatorIdentifier.split('~')[1])), testInstance);
+        }
+        else {
+          element(by.cssContainingText(testInstance.LocatorIdentifier.split('~')[0], testInstance.LocatorIdentifier.split('~')[1])).waitReady();
+          this.setInput(element(by.cssContainingText(testInstance.LocatorIdentifier.split('~')[0], testInstance.LocatorIdentifier.split('~')[1])), testInstance);
+        }
+        break;
+      }
+
+      case locatorTypeConstant.Name:
+      {
+        if (testInstance.IsOptional) {
+          this.checkForOptionalElement(element(by.name(testInstance.LocatorIdentifier)), testInstance);
+        }
+        else {
+          element(by.name(testInstance.LocatorIdentifier)).waitReady();
+          this.setInput(element(by.name(testInstance.LocatorIdentifier)), testInstance);
+        }
+        break;
+      }
+      case locatorTypeConstant.JS:
+      {
+        if (testInstance.IsOptional) {
+          this.checkForOptionalElement(element(by.js(testInstance.LocatorIdentifier)), testInstance);
+        }
+        else {
+          element(by.js(testInstance.LocatorIdentifier)).waitReady();
+          this.setInput(element(by.js(testInstance.LocatorIdentifier)), testInstance);
+        }
+        break;
+      }
 
       default :
       {
@@ -278,7 +358,7 @@ var InputHelper = function () {
             else {
               browser.sleep(10000);
             }
-            this.CheckExpectedCondition(testInstance);
+            this.CheckExpectedCondition(testInstance, false);
             break;
           }
           case actionConstant.AssertElementToBePresent:
@@ -462,6 +542,28 @@ var InputHelper = function () {
             browser.sleep(1000);
             break;
           }
+
+          case actionConstant.WaitForTheElementDisappear:
+          {
+            if (this.isInt(testInstance.Value)) {
+              browser.sleep(parseInt(testInstance.Value));
+            }
+            else {
+              browser.sleep(10000);
+            }
+            this.CheckExpectedCondition(testInstance, true);
+            break;
+          }
+
+          case actionConstant.SwitchToWindow:
+          {
+            browser.getAllWindowHandles().then(function (handles) {
+              newWindowHandle = handles[1];
+              browser.switchTo().window(newWindowHandle).then(function () {
+              });
+            });
+            break;
+          }
         }
       }
     }
@@ -569,7 +671,7 @@ var InputHelper = function () {
           }
           else {
             for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
-              if (testInstance.VariableName.substring(0,testInstance.VariableName.indexOf('{')) == browser.params.config.variableContainer[k].Name) {
+              if (testInstance.VariableName.substring(0, testInstance.VariableName.indexOf('{')) == browser.params.config.variableContainer[k].Name) {
                 var subStrIndex = testInstance.VariableName.substring(testInstance.VariableName.indexOf('{') + 1, testInstance.VariableName.indexOf('}'));
                 testInstance.Value = eval("browser.params.config.variableContainer[k].Value.substring(" + subStrIndex + ")");
                 console.log("INSIDE GetSharedVariable indexed substr:= " + testInstance.Value);
@@ -752,44 +854,83 @@ var InputHelper = function () {
     return promise;
   };
 
-  this.CheckExpectedCondition = function (testInstance) {
-    switch (testInstance.Locator) {
-      case locatorTypeConstant.model:
-      {
-        var EC = protractor.ExpectedConditions;
-        browser.wait(EC.presenceOf(element(by.model(testInstance.LocatorIdentifier))), 10000);
-        break;
-      }
+  this.CheckExpectedCondition = function (testInstance, IsNegate) {
+    var EC = protractor.ExpectedConditions;
+    if (IsNegate) {
+      var elementIsNotPresent;
+      switch (testInstance.Locator) {
+        case locatorTypeConstant.model:
+        {
+          elementIsNotPresent = EC.not(EC.presenceOf(element(by.model(testInstance.LocatorIdentifier))));
+          browser.wait(elementIsNotPresent, 10000);
+          break;
+        }
 
-      case locatorTypeConstant.class:
-      {
-        var EC = protractor.ExpectedConditions;
-        browser.wait(EC.presenceOf(element(by.css(testInstance.LocatorIdentifier))), 10000);
-        break;
-      }
-      case locatorTypeConstant.tagname:
-      {
-        var EC = protractor.ExpectedConditions;
-        browser.wait(EC.presenceOf(element(by.tagName(testInstance.LocatorIdentifier))), 10000);
-        break;
-      }
-      case locatorTypeConstant.id:
-      {
-        var EC = protractor.ExpectedConditions;
-        browser.wait(EC.presenceOf(element(by.id(testInstance.LocatorIdentifier))), 10000);
-        break;
-      }
-      case locatorTypeConstant.xpath:
-      {
-        var EC = protractor.ExpectedConditions;
-        browser.wait(EC.presenceOf(element(by.xpath(testInstance.LocatorIdentifier))), 10000);
-        break;
-      }
-      default :
-      {
-        break;
+        case locatorTypeConstant.class:
+        {
+          elementIsNotPresent = EC.not(EC.presenceOf(element(by.css(testInstance.LocatorIdentifier))));
+          browser.wait(elementIsNotPresent, 10000);
+          break;
+        }
+        case locatorTypeConstant.tagname:
+        {
+          elementIsNotPresent = EC.not(EC.presenceOf(element(by.tagName(testInstance.LocatorIdentifier))));
+          browser.wait(elementIsNotPresent, 10000);
+          break;
+        }
+        case locatorTypeConstant.id:
+        {
+          elementIsNotPresent = EC.not(EC.presenceOf(element(by.id(testInstance.LocatorIdentifier))));
+          browser.wait(elementIsNotPresent, 10000);
+          break;
+        }
+        case locatorTypeConstant.xpath:
+        {
+          elementIsNotPresent = EC.not(EC.presenceOf(element(by.xpath(testInstance.LocatorIdentifier))));
+          browser.wait(elementIsNotPresent, 10000);
+          break;
+        }
+        default :
+        {
+          break;
+        }
       }
     }
+    else {
+      switch (testInstance.Locator) {
+        case locatorTypeConstant.model:
+        {
+          browser.wait(EC.presenceOf(element(by.model(testInstance.LocatorIdentifier))), 10000);
+          break;
+        }
+
+        case locatorTypeConstant.class:
+        {
+          browser.wait(EC.presenceOf(element(by.css(testInstance.LocatorIdentifier))), 10000);
+          break;
+        }
+        case locatorTypeConstant.tagname:
+        {
+          browser.wait(EC.presenceOf(element(by.tagName(testInstance.LocatorIdentifier))), 10000);
+          break;
+        }
+        case locatorTypeConstant.id:
+        {
+          browser.wait(EC.presenceOf(element(by.id(testInstance.LocatorIdentifier))), 10000);
+          break;
+        }
+        case locatorTypeConstant.xpath:
+        {
+          browser.wait(EC.presenceOf(element(by.xpath(testInstance.LocatorIdentifier))), 10000);
+          break;
+        }
+        default :
+        {
+          break;
+        }
+      }
+    }
+
   };
 };
 module.exports = InputHelper;

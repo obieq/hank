@@ -18,7 +18,14 @@ var LocatorTypeConstant = function () {
   this.repeaterMultipleElements = 'repeaterMultipleElements';
   this.alert = 'alert';
   this.Regex = 'Regex';
-  this.css = 'css'
+  this.css = 'css';
+  this.ButtonText = 'Button Text';
+  this.PartialButtonText = 'Partial Button Text';
+  this.LinkText = 'Link Text';
+  this.PartialLinkText = 'Partial Link Text';
+  this.CssContainingText = 'CSS Containing Text';
+  this.Name = 'Name';
+  this.JS = 'JS';
 };
 
 module.exports = LocatorTypeConstant;

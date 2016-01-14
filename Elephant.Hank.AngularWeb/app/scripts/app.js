@@ -565,6 +565,85 @@ var app = angular
         ncyBreadcrumb: {label: 'Screen Shot Compare', parent: "Website.Update"},
         permissionData: {Roles: ["TestAdmin", "TestUser"]}
       })
+      .state('Group', {
+        abstract: true,
+        url: "/Group",
+        views: {
+          "NavView": {templateUrl: "views/navigation.html", controller: 'NavCtrl'},
+          "MainView": {template: '<div ui-view="GroupView"></div>'}
+        }
+      })
+      .state('Group.List', {
+        url: "",
+        views: {
+          "GroupView": {
+            templateUrl: 'views/Group/list.html',
+            controller: 'GroupController'
+          }
+        },
+        ncyBreadcrumb: {label: 'Group', parent: "Website.List"},
+        permissionData: {Roles: ["TestAdmin"]}
+      })
+      .state('Group.Update', {
+        url: "/{GroupId:int}",
+        views: {
+          "GroupView": {
+            templateUrl: 'views/Group/update.html',
+            controller: 'GroupController'
+          }
+        },
+        ncyBreadcrumb: {label: '{{Group.Value}}', parent: "Group.List"},
+        permissionData: {Roles: ["TestAdmin"]}
+      })
+      .state('Group.Add', {
+        url: "/Add",
+        views: {
+          "GroupView": {
+            templateUrl: 'views/Group/add.html',
+            controller: 'GroupController'
+          }
+        },
+        ncyBreadcrumb: {label: 'New Group', parent: "Group.List"},
+        permissionData: {Roles: ["TestAdmin"]}
+      })
+      .state('Group.Manage', {
+        abstract: true,
+        url: "/{GroupId:int}/manage",
+        views: {
+          "GroupView": {templateUrl: 'views/GroupManager/Tabs.html'},
+          "TabsView@Group.Manage": {template: '<div ui-view="TabContent"></div>'}
+        },
+        ncyBreadcrumb: {label: 'New Group', parent: "Group.List"},
+        permissionData: {Roles: ["TestAdmin"]}
+      })
+      .state('Group.Manage.Website', {
+        url: "/website",
+        views: {
+          "TabContent": {
+            templateUrl: 'views/GroupManager/GroupWebsites.html',
+            controller: 'GroupWebsiteController'
+          }
+        },
+        ncyBreadcrumb: {label: 'New Group', parent: "Group.List"},
+        permissionData: {Roles: ["TestAdmin"]}
+      })
+      .state('Group.Manage.Module', {
+        url: "/module",
+        views: {
+          "TabContent": {templateUrl: 'views/GroupManager/GroupModules.html'}
+        },
+        ncyBreadcrumb: {label: 'New Group', parent: "Group.List"},
+        permissionData: {Roles: ["TestAdmin"]}
+      })
+      .state('Group.Manage.User', {
+        url: "/users",
+        views: {
+          "TabContent": {templateUrl: 'views/GroupManager/GroupUsers.html'}
+        },
+        ncyBreadcrumb: {label: 'New Group', parent: "Group.List"},
+        permissionData: {Roles: ["TestAdmin"]}
+      })
+
   })
   .constant('ngAppSettings', {
     StorageTimeOut: 300000,
@@ -598,7 +677,7 @@ var app = angular
     ChangePasswordUrl: "account/change-password",
     LocatorUrl: "Locator",
     ActionUrl: "Action",
-    ActionForSqlTestStep:"action/action-for-sql-test-step",
+    ActionForSqlTestStep: "action/action-for-sql-test-step",
     ReportUrl: "Report",
     SearchReportUrl: "Report/SearchReport",
     ReportByExecutionGroupUrl: "report/execution-group/{0}",
@@ -635,5 +714,8 @@ var app = angular
     DataBaseCategoriesUrl: "data-base-categories",
     DataBaseCategoriesConnectionUrl: "data-base-categories/{0}/data-base-connection",
     DataBaseConnectionUrl: "data-base-connection",
-    DataBaseConnectionGetDataBaseListUrl: "data-base-connection/get-database-list"
+    DataBaseConnectionGetDataBaseListUrl: "data-base-connection/get-database-list",
+    GroupUrl: "group",
+    GroupWebsiteUrl: "group/{0}/add-website-to-group",
+    GroupModuleUrl: "group/{0}/group-module-access"
   });

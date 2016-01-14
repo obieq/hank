@@ -230,6 +230,12 @@
             </a>
           </li>
 
+          <li ng-class="isActive(1, 'Group.List')" ng-show="IsLoggedIn &&  IsAdmin &&  !isWebsiteSelected">
+            <a ui-sref="Group.List">
+              <i class="fa fa-play"></i> <span>Group</span>
+            </a>
+          </li>
+
         </ul>
       </section>
       <!-- /.sidebar -->
@@ -343,6 +349,8 @@
 <script src="scripts/controllers/UserController.js"></script>
 <script src="scripts/controllers/DataBaseCategoriesController.js"></script>
 <script src="scripts/controllers/DataBaseConnectionController.js"></script>
+<script src="scripts/controllers/GroupController.js"></script>
+<script src="scripts/controllers/GroupWebsiteController.js"></script>
 <script src="scripts/services/StringComparisionService.js"></script>
 <script src="scripts/directives/whenScrollEnds.js"></script>
 <script src="styles/js/resemble.js"></script>

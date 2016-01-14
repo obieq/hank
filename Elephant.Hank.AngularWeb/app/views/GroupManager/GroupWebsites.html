@@ -1,0 +1,23 @@
+<div class="tab-pane active">
+  <form class="form-horizontal" name="GroupWebsiteForm" ng-submit="GroupWebsiteForm.$valid && onGroupWebsiteSubmit()">
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Websites:-</label>
+      <div class="col-md-8">
+        <label ng-repeat="website in WebsiteList | orderBy:'Id'" class="col-md-4 ellipsis paddingLeftZero"
+               title="{{website.Name}}">
+          <input type="checkbox" ng-model="website.Permission"/>
+          {{website.Name}}
+        </label>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label"></label>
+
+      <div class="col-sm-6">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>

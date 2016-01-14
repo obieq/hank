@@ -96,6 +96,10 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
             $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
             $scope.InputControlDisplayStatus.txtValue = true;
           }
+          else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWindowActionId) {
+          }
+          else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId) {
+          }
           else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SetVariableActionId) {
             $scope.InputControlDisplayStatus.ddlPage = true;
             $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
@@ -139,6 +143,10 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
       else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId) {
         $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
         $scope.InputControlDisplayStatus.txtValue = true;
+      }
+      else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWindowActionId) {
+      }
+      else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId) {
       }
       else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SetVariableActionId) {
 
