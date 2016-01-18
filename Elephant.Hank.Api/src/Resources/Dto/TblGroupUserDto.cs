@@ -17,7 +17,7 @@ namespace Elephant.Hank.Resources.Dto
     public class TblGroupUserDto : BaseTableDto
     {
         /// <summary>
-        /// Gets or set the UserId
+        /// Gets or sets the UserId
         /// </summary>
         public long UserId { get; set; }
 

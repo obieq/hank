@@ -20,7 +20,7 @@ namespace Elephant.Hank.DataService.DBSchema
     public class TblGroupUser : BaseTable
     {
         /// <summary>
-        /// Gets or set the UserId
+        /// Gets or sets the UserId
         /// </summary>
         public long UserId { get; set; }
 

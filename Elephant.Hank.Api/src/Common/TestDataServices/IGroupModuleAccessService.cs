@@ -49,7 +49,7 @@ namespace Elephant.Hank.Common.TestDataServices
         /// Get the TblGroupModuleAccessDto list by group id and website id
         /// </summary>
         /// <param name="groupId">the group identifier</param>
-        ///  <param name="websiteId">the group identifier</param>
+        ///  <param name="websiteId">the website identifier</param>
         /// <returns>List if TblGroupModuleAccessDto that matched the groupidentifier provided in parameter</returns>
         ResultMessage<IEnumerable<TblGroupModuleAccessDto>> GetByGroupIdAndWebsiteId(long groupId, long websiteId);
 

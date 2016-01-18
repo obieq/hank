@@ -11,6 +11,7 @@
 
 namespace Elephant.Hank.Framework.TestDataServices
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -22,7 +23,6 @@ namespace Elephant.Hank.Framework.TestDataServices
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Json;
     using Elephant.Hank.Resources.Messages;
-    using System;
 
     /// <summary>
     /// The Group User class.
