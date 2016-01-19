@@ -34,6 +34,6 @@ namespace Elephant.Hank.Resources.Dto
         /// <summary>
         /// Gets or sets the User
         /// </summary>
-        public string ModifiedByUserName { get; set; }
+        public string UserName { get; set; }
     }
 }

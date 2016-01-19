@@ -29,5 +29,7 @@ var ActionConstant = function () {
   this.LoadPartialUrl = "Load Partial Url";
   this.WaitForTheElementDisappear = 'Wait For The Element To Disappear';
   this.SwitchToWindow = 'Switch To Window';
+  this.ScrollToTop = "Scroll To Top";
+  this.ScrollToBottom = "Scroll To Bottom";
 };
 module.exports = ActionConstant;

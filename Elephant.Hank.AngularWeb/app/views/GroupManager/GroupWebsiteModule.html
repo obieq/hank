@@ -12,14 +12,14 @@
         <th>Can Execute</th>
       </tr>
       </thead>
-      <tbody >
+      <tbody>
       <tr ng-repeat="groupModuleAccess in GroupModuleAccessList | orderBy:'Id'">
         <td>{{$index + 1}}</td>
         <td>
           {{groupModuleAccess.ModuleName}}
         </td>
         <td>
-          <input type="checkbox" ng-model="groupModuleAccess.CanRead"/>
+          <input type="checkbox" ng-model="groupModuleAccess.CanRead" disabled="disabled"/>
         </td>
         <td>
           <input type="checkbox" ng-model="groupModuleAccess.CanWrite"/>
@@ -29,7 +29,8 @@
         </td>
 
         <td>
-          <input type="checkbox" ng-model="groupModuleAccess.CanExecute"/>
+          <input ng-if="groupModuleAccess.ModuleId==5 || groupModuleAccess.ModuleId==2" type="checkbox"
+                 ng-model="groupModuleAccess.CanExecute"/>
         </td>
       </tr>
       </tbody>

@@ -18,9 +18,11 @@ app.controller('GroupWebsiteController', ['$scope', '$stateParams', '$state', 'C
         for (var i = 0; i < $scope.WebsiteList.length; i++) {
           var checkPrmission = _.where($scope.GroupModuleList, {'WebsiteId': $scope.WebsiteList[i].Id,'CanRead':true });
           if (checkPrmission.length > 0) {
+            $scope.WebsiteList[i].PermissionLink=true;
             $scope.WebsiteList[i].Permission=true;
           }
           else{
+            $scope.WebsiteList[i].PermissionLink=false;
             $scope.WebsiteList[i].Permission=false;
           }
         }
@@ -40,6 +42,7 @@ app.controller('GroupWebsiteController', ['$scope', '$stateParams', '$state', 'C
         }
       }
       crudService.add(ngAppSettings.GroupWebsiteUrl.format($stateParams.GroupId), $scope.WebsiteIdList).then(function (response) {
+        window.location.reload();
         commonUi.showMessagePopup("Website had been added to group successfully", "Success");
       }, function (response) {
         commonUi.showErrorPopup(response);

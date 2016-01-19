@@ -57,7 +57,7 @@ namespace Elephant.Hank.Api.Controllers
             var result = new ResultMessage<IEnumerable<TblGroupModuleAccessDto>>();
             try
             {
-                this.groupModuleAccessService.UpdateModuleAccessBulk(groupModuleAccessList);
+                this.groupModuleAccessService.UpdateModuleAccessBulk(groupModuleAccessList, this.UserId);
             }
             catch (Exception ex)
             {

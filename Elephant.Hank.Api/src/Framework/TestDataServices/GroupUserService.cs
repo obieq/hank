@@ -98,5 +98,32 @@ namespace Elephant.Hank.Framework.TestDataServices
 
             return result;
         }
+
+        /// <summary>
+        /// Deletes the TblGroupUserDto entry by group id and userId
+        /// </summary>
+        /// <param name="groupId">the group identifier</param>
+        /// <param name="userId">the user identifier</param>
+        /// <param name="modifiedByUserId">the user identifier for user who perform operation</param>
+        /// <returns>TblGroupUserDto object</returns>
+        public ResultMessage<TblGroupUserDto> DeleteByGroupIdAndUserId(long groupId, long userId, long modifiedByUserId)
+        {
+            var result = new ResultMessage<TblGroupUserDto>();
+
+            var entity = this.Table.Find(x => x.GroupId == groupId && x.UserId == userId && x.IsDeleted != true).FirstOrDefault();
+
+            if (entity == null)
+            {
+                result.Messages.Add(new Message(null, "Record not found!"));
+            }
+            else
+            {
+                this.DeleteById(entity.Id, modifiedByUserId);
+                entity = this.Table.Find(x => x.GroupId == groupId && x.UserId == userId && x.IsDeleted != true).FirstOrDefault();
+                result.Item = this.mapperFactory.GetMapper<TblGroupUser, TblGroupUserDto>().Map(entity);
+            }
+
+            return result;
+        }
     }
 }

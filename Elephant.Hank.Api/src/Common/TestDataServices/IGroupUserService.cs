@@ -36,5 +36,14 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <param name="userId">the user identifier</param>
         /// <returns>TblGroupUserDto object</returns>
         ResultMessage<TblGroupUserDto> GetByGroupIdAndUserIdEitherDeletedOrNonDeleted(long groupId, long userId);
+
+        /// <summary>
+        /// Deletes the TblGroupUserDto entry by group id and userId
+        /// </summary>
+        /// <param name="groupId">the group identifier</param>
+        /// <param name="userId">the user identifier</param>
+        /// <param name="modifiedByUserId">the user identifier for user who perform operation</param>
+        /// <returns>TblGroupUserDto object</returns>
+        ResultMessage<TblGroupUserDto> DeleteByGroupIdAndUserId(long groupId, long userId, long modifiedByUserId);
     }
 }

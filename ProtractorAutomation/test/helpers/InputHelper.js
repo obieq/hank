@@ -542,6 +542,18 @@ var InputHelper = function () {
             browser.sleep(1000);
             break;
           }
+          case actionConstant.ScrollToTop:
+          {
+            browser.executeScript('window.scrollTo(0,0)');
+            browser.sleep(1000);
+            break;
+          }
+          case actionConstant.ScrollToBottom:
+          {
+            browser.executeScript('window.scrollTo(0,document.body.scrollHeight)');
+            browser.sleep(1000);
+            break;
+          }
 
           case actionConstant.WaitForTheElementDisappear:
           {

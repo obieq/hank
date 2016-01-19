@@ -1645,6 +1645,14 @@
             <param name="websiteId">the website identifier</param>
             <returns>List of TblGroupModuleAccessDto</returns>
         </member>
+        <member name="M:Elephant.Hank.Api.Controllers.GroupController.DeleteByGroupIdAndUserId(System.Int64,System.Int64)">
+            <summary>
+            Deletes the TblGroupUserDto entry by group id and userId
+            </summary>
+            <param name="groupId">the group identifier</param>
+            <param name="userId">the user identifier</param>
+            <returns>TblGroupUserDto object</returns>
+        </member>
         <member name="M:Elephant.Hank.Api.Controllers.GroupController.AddUpdate(Elephant.Hank.Resources.Dto.TblGroupDto)">
             <summary>
             Adds the update.

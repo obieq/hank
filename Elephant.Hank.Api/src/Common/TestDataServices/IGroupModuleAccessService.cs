@@ -57,7 +57,8 @@ namespace Elephant.Hank.Common.TestDataServices
         /// Update the TblGroupModuleAccessDto table entries in one go
         /// </summary>
         /// <param name="groupModuleAccessList">TblGroupModuleAccessDto list object</param>
+        /// <param name="userId">user identifier</param>
         /// <returns>list of updated entries</returns>
-        ResultMessage<IEnumerable<TblGroupModuleAccessDto>> UpdateModuleAccessBulk(IEnumerable<TblGroupModuleAccessDto> groupModuleAccessList);
+        ResultMessage<IEnumerable<TblGroupModuleAccessDto>> UpdateModuleAccessBulk(IEnumerable<TblGroupModuleAccessDto> groupModuleAccessList, long userId);
     }
 }

@@ -179,10 +179,10 @@ namespace Elephant.Hank.Framework.Mapper
             AutoMapper.Mapper.CreateMap<TblGroupDto, TblGroup>();
 
             AutoMapper.Mapper.CreateMap<TblGroupUser, TblGroupUserDto>()
-                .ForMember(x => x.ModifiedByUserName, opt => opt.MapFrom(src => src.ModifiedByUser != null ? src.ModifiedByUser.UserName : null));
+                .ForMember(x => x.UserName, opt => opt.MapFrom(src => src.User != null ? src.User.UserName : null));
 
             AutoMapper.Mapper.CreateMap<TblGroupUserDto, TblGroupUser>()
-                .ForMember(x => x.ModifiedByUser, opt => opt.Ignore());
+                .ForMember(x => x.User, opt => opt.Ignore());
 
             AutoMapper.Mapper.CreateMap<TblModuleDto, TblModule>().ReverseMap();
 

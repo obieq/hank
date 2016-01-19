@@ -13,6 +13,7 @@ namespace Elephant.Hank.DataService.DBSchema
 {
     using System.ComponentModel.DataAnnotations.Schema;
     using Elephant.Hank.DataService.DBSchema.CustomIdentity;
+    using Elephant.Hank.Resources.Attributes;
 
     /// <summary>
     /// The TblGroupUser class.
@@ -39,6 +40,7 @@ namespace Elephant.Hank.DataService.DBSchema
         /// Gets or sets the User
         /// </summary>
         [ForeignKey("UserId")]
-        public virtual CustomUser ModifiedByUser { get; set; }
+        [EfIgnore]
+        public virtual CustomUser User { get; set; }
     }
 }

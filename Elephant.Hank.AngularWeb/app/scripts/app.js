@@ -722,6 +722,7 @@ var app = angular
     GroupUrl: "group",
     GroupUserAddUrl:'group-user',
     GroupUserUrl: "group/{0}/user",
+    GroupUserDeleteUrl:"group/{0}/user/{1}/remove-from-group",
     GroupWebsiteUrl: "group/{0}/add-website-to-group",
     GroupModuleUrl: "group/{0}/group-module-access",
     GroupWebsiteModuleUrl: "group/{0}/website/{1}",

@@ -24,6 +24,7 @@ namespace Elephant.Hank.DataService.DBSchema.CustomIdentity
     /// <summary>
     /// The CustomUser user.
     /// </summary>
+    [EfIgnoreDbLog]
     public class CustomUser : IdentityUser<long, CustomUserLogin, CustomUserRole, CustomUserClaim>
     {
         /// <summary>

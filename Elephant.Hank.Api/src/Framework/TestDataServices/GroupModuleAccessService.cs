@@ -152,8 +152,9 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// Update the TblGroupModuleAccessDto table entries in one go
         /// </summary>
         /// <param name="moduleAccessDtoList">TblGroupModuleAccessDto list object</param>
+        /// <param name="userId">the user identifier</param>
         /// <returns>list of updated entries</returns>
-        public ResultMessage<IEnumerable<TblGroupModuleAccessDto>> UpdateModuleAccessBulk(IEnumerable<TblGroupModuleAccessDto> moduleAccessDtoList)
+        public ResultMessage<IEnumerable<TblGroupModuleAccessDto>> UpdateModuleAccessBulk(IEnumerable<TblGroupModuleAccessDto> moduleAccessDtoList, long userId)
         {
             var result = new ResultMessage<IEnumerable<TblGroupModuleAccessDto>>();
             if (moduleAccessDtoList.Count() > 0)
@@ -162,7 +163,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                 var moduleAccessList = this.table.Find(x => x.GroupId == defaultGroupModule.GroupId && x.WebsiteId == defaultGroupModule.WebsiteId).ToList();
                 foreach (var item in moduleAccessDtoList)
                 {
-                    moduleAccessList.Where(x => x.Id == item.Id).ToList().ForEach(y => { y.CanRead = item.CanRead; y.CanWrite = item.CanWrite; y.CanDelete = item.CanDelete; y.CanExecute = item.CanExecute; });
+                    moduleAccessList.Where(x => x.Id == item.Id).ToList().ForEach(y => { y.ModifiedBy = userId; y.CreatedBy = userId; y.CanRead = item.CanRead; y.CanWrite = item.CanWrite; y.CanDelete = item.CanDelete; y.CanExecute = item.CanExecute; });
                 }
 
                 this.table.Commit();

@@ -248,6 +248,30 @@ namespace Elephant.Hank.Api.Controllers
         }
 
         /// <summary>
+        /// Deletes the TblGroupUserDto entry by group id and userId
+        /// </summary>
+        /// <param name="groupId">the group identifier</param>
+        /// <param name="userId">the user identifier</param>
+        /// <returns>TblGroupUserDto object</returns>
+        [HttpGet]
+        [Route("{groupId}/user/{userid}/remove-from-group")]
+        public IHttpActionResult DeleteByGroupIdAndUserId(long groupId, long userId)
+        {
+            var result = new ResultMessage<TblGroupUserDto>();
+            try
+            {
+                result = this.groupUserService.DeleteByGroupIdAndUserId(groupId, userId, this.UserId);
+            }
+            catch (Exception ex)
+            {
+                this.LoggerService.LogException(ex);
+                result.Messages.Add(new Message(null, ex.Message));
+            }
+
+            return this.CreateCustomResponse(result);
+        }
+
+        /// <summary>
         /// Adds the update.
         /// </summary>
         /// <param name="groupDto">The browser dto.</param>
