@@ -16,6 +16,7 @@ namespace Elephant.Hank.Api.Controllers
     using System.Net;
     using System.Web.Http;
 
+    using Elephant.Hank.Api.App_Start;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
@@ -26,7 +27,7 @@ namespace Elephant.Hank.Api.Controllers
     /// The WebsiteController class
     /// </summary>
     [RoutePrefix("api/website")]
-    [Authorize]
+    [CustomAuthorize(ModuleName = "Website")]
     public class WebsiteController : BaseApiController
     {
         /// <summary>

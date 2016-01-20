@@ -85,7 +85,7 @@ namespace Elephant.Hank.Framework.TestDataServices
         {
             var result = new ResultMessage<TblGroupUserDto>();
 
-            var entity = this.Table.Find(x => x.GroupId == groupId).FirstOrDefault();
+            var entity = this.Table.Find(x => x.GroupId == groupId && x.UserId == userId).FirstOrDefault();
 
             if (entity == null)
             {

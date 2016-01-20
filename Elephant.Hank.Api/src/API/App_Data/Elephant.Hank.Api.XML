@@ -15,6 +15,22 @@
             </summary>
             <param name="bundles">The bundles.</param>
         </member>
+        <member name="T:Elephant.Hank.Api.App_Start.CustomAuthorizeAttribute">
+            <summary>
+            The CustomAuthorizeAttribute class
+            </summary>
+        </member>
+        <member name="M:Elephant.Hank.Api.App_Start.CustomAuthorizeAttribute.IsAuthorized(System.Web.Http.Controllers.HttpActionContext)">
+            <summary>
+            calls while authorising the user
+            </summary>
+            <param name="filterContext"> The filter context</param>
+        </member>
+        <member name="P:Elephant.Hank.Api.App_Start.CustomAuthorizeAttribute.ModuleName">
+            <summary>
+            Gets or sets the module name
+            </summary>
+        </member>
         <member name="T:Elephant.Hank.Api.FilterConfig">
             <summary>
             The FilterConfig class
