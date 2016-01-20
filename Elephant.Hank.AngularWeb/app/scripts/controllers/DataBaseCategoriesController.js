@@ -22,7 +22,7 @@ app.controller('DataBaseCategoriesController', ['$scope', '$rootScope', '$q', '$
 
     $scope.onDataBaseCategoriesAddPageSubmit = function () {
       $scope.DataBaseCategory.WebsiteId = $stateParams.WebsiteId;
-      crudService.add(ngAppSettings.DataBaseCategoriesUrl, $scope.DataBaseCategory).then(function (response) {
+      crudService.add(ngAppSettings.DataBaseCategoriesUrl.format($stateParams.WebsiteId), $scope.DataBaseCategory).then(function (response) {
         $state.go("Website.DataBaseCategories", {WebsiteId: $stateParams.WebsiteId});
       }, function (response) {
         commonUi.showErrorPopup(response);
@@ -30,7 +30,7 @@ app.controller('DataBaseCategoriesController', ['$scope', '$rootScope', '$q', '$
     };
 
     $scope.onDataBaseCategoriesUpdatePageLoad = function () {
-      crudService.getById(ngAppSettings.DataBaseCategoriesUrl, $stateParams.DataBaseCategoryId).then(function (response) {
+      crudService.getById(ngAppSettings.DataBaseCategoriesUrl.format($stateParams.WebsiteId), $stateParams.DataBaseCategoryId).then(function (response) {
         $scope.DataBaseCategory = response.Item;
       }, function (response) {
         commonUi.showErrorPopup(response);
@@ -38,7 +38,7 @@ app.controller('DataBaseCategoriesController', ['$scope', '$rootScope', '$q', '$
     };
 
     $scope.onDataBaseCategoriesUpdatePageSubmit = function () {
-      crudService.update(ngAppSettings.DataBaseCategoriesUrl, $scope.DataBaseCategory).then(function (response) {
+      crudService.update(ngAppSettings.DataBaseCategoriesUrl.format($stateParams.WebsiteId), $scope.DataBaseCategory).then(function (response) {
         $state.go("Website.DataBaseCategories", {WebsiteId: $stateParams.WebsiteId});
       }, function () {
         commonUi.showErrorPopup(response);

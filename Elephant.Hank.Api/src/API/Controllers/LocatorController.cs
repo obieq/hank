@@ -68,15 +68,15 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="locatorId">The identifier.</param>
         /// <returns>TblLocatorDto objects</returns>
-        [Route("{id}")]
-        public IHttpActionResult GetById(long id)
+        [Route("{locatorId}")]
+        public IHttpActionResult GetById(long locatorId)
         {
             var result = new ResultMessage<TblLocatorDto>();
             try
             {
-                result = this.locatorService.GetById(id);
+                result = this.locatorService.GetById(locatorId);
             }
             catch (Exception ex)
             {
@@ -90,16 +90,16 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Deletes the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="locatorId">The identifier.</param>
         /// <returns>Deleted object</returns>
-        [Route("{id}")]
+        [Route("{locatorId}")]
         [HttpDelete]
-        public IHttpActionResult DeleteById(long id)
+        public IHttpActionResult DeleteById(long locatorId)
         {
             var result = new ResultMessage<TblLocatorDto>();
             try
             {
-                result = this.locatorService.DeleteById(id, this.UserId);
+                result = this.locatorService.DeleteById(locatorId, this.UserId);
             }
             catch (Exception ex)
             {
@@ -136,24 +136,24 @@ namespace Elephant.Hank.Api.Controllers
         /// Updates the specified action dto.
         /// </summary>
         /// <param name="locatorDto">The locator dto.</param>
-        /// <param name="id">The identifier.</param>
+        /// <param name="locatorId">The identifier.</param>
         /// <returns>
         /// Newly updated object
         /// </returns>
-        [Route("{id}")]
+        [Route("{locatorId}")]
         [HttpPut]
-        public IHttpActionResult Update([FromBody]TblLocatorDto locatorDto, long id)
+        public IHttpActionResult Update([FromBody]TblLocatorDto locatorDto, long locatorId)
         {
             var data = this.locatorService.GetByValue(locatorDto.Value);
 
-            if (!data.IsError && data.Item != null && id != data.Item.Id)
+            if (!data.IsError && data.Item != null && locatorId != data.Item.Id)
             {
                 data.Messages.Add(new Message(null, "Locator already exists with '" + locatorDto.Value + "' value!"));
 
                 return this.CreateCustomResponse(data, HttpStatusCode.BadRequest);
             }
 
-            locatorDto.Id = id;
+            locatorDto.Id = locatorId;
             return this.AddUpdate(locatorDto);
         }
 

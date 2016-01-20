@@ -56,17 +56,17 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets all.
         /// </summary>
-        /// <param name="webSiteId">The web site identifier.</param>
+        /// <param name="websiteId">The web site identifier.</param>
         /// <returns>
         /// List of TblTestCategoriesDto objects
         /// </returns>
-        [Route]
-        public IHttpActionResult GetAll(long webSiteId)
+        [Route("")]
+        public IHttpActionResult GetAll(long websiteId)
         {
             var result = new ResultMessage<IEnumerable<TblTestCategoriesDto>>();
             try
             {
-                result = this.testCategoryService.GetByWebSiteId(webSiteId);
+                result = this.testCategoryService.GetByWebSiteId(websiteId);
             }
             catch (Exception ex)
             {
@@ -80,18 +80,18 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
-        /// <param name="webSiteId">The web site identifier.</param>
-        /// <param name="id">The identifier.</param>
+        /// <param name="websiteId">The web site identifier.</param>
+        /// <param name="testCategoryId">The identifier.</param>
         /// <returns>
         /// TblTestCategoriesDto objects
         /// </returns>
-        [Route("{id}")]
-        public IHttpActionResult GetById(long webSiteId, long id)
+        [Route("{testCategoryId}")]
+        public IHttpActionResult GetById(long websiteId, long testCategoryId)
         {
             var result = new ResultMessage<TblTestCategoriesDto>();
             try
             {
-                result = this.testCategoryService.GetById(id);
+                result = this.testCategoryService.GetById(testCategoryId);
             }
             catch (Exception ex)
             {
@@ -105,19 +105,19 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Deletes the by identifier.
         /// </summary>
-        /// <param name="webSiteId">The web site identifier.</param>
-        /// <param name="id">The identifier.</param>
+        /// <param name="websiteId">The web site identifier.</param>
+        /// <param name="testCategoryId">The identifier.</param>
         /// <returns>
         /// Deleted object
         /// </returns>
-        [Route("{id}")]
+        [Route("{testCategoryId}")]
         [HttpDelete]
-        public IHttpActionResult DeleteById(long webSiteId, long id)
+        public IHttpActionResult DeleteById(long websiteId, long testCategoryId)
         {
             var result = new ResultMessage<TblTestCategoriesDto>();
             try
             {
-                result = this.testCategoryService.DeleteById(id, this.UserId);
+                result = this.testCategoryService.DeleteById(testCategoryId, this.UserId);
             }
             catch (Exception ex)
             {
@@ -131,16 +131,16 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
-        /// <param name="webSiteId">The web site identifier.</param>
+        /// <param name="websiteId">The web site identifier.</param>
         /// <param name="testCatDto">The display name dto.</param>
         /// <returns>
         /// Newly added object
         /// </returns>
-        [Route]
+        [Route("")]
         [HttpPost]
-        public IHttpActionResult Add(long webSiteId, [FromBody]TblTestCategoriesDto testCatDto)
+        public IHttpActionResult Add(long websiteId, [FromBody]TblTestCategoriesDto testCatDto)
         {
-            testCatDto.WebsiteId = webSiteId;
+            testCatDto.WebsiteId = websiteId;
 
             var data = this.testCategoryService.GetByName(testCatDto.Name, testCatDto.WebsiteId);
 
@@ -157,28 +157,28 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Updates the specified action dto.
         /// </summary>
-        /// <param name="webSiteId">The web site identifier.</param>
+        /// <param name="websiteId">The web site identifier.</param>
         /// <param name="testCatDto">The display name dto.</param>
-        /// <param name="id">The identifier.</param>
+        /// <param name="testCategoryId">The identifier.</param>
         /// <returns>
         /// Newly updated object
         /// </returns>
-        [Route("{id}")]
+        [Route("{testCategoryId}")]
         [HttpPut]
-        public IHttpActionResult Update(long webSiteId, [FromBody]TblTestCategoriesDto testCatDto, long id)
+        public IHttpActionResult Update(long websiteId, [FromBody]TblTestCategoriesDto testCatDto, long testCategoryId)
         {
-            testCatDto.WebsiteId = webSiteId;
+            testCatDto.WebsiteId = websiteId;
 
             var data = this.testCategoryService.GetByName(testCatDto.Name, testCatDto.WebsiteId);
 
-            if (!data.IsError && data.Item != null && id != data.Item.Id)
+            if (!data.IsError && data.Item != null && testCategoryId != data.Item.Id)
             {
                 data.Messages.Add(new Message(null, "Category already exists with '" + testCatDto.Name + "' name!"));
 
                 return this.CreateCustomResponse(data, HttpStatusCode.BadRequest);
             }
 
-            testCatDto.Id = id;
+            testCatDto.Id = testCategoryId;
             return this.AddUpdate(testCatDto);
         }
 
@@ -187,20 +187,20 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets the test scripts by category identifier.
         /// </summary>
-        /// <param name="webSiteId">The web site identifier.</param>
-        /// <param name="catId">The category identifier.</param>
+        /// <param name="websiteId">The web site identifier.</param>
+        /// <param name="testCategoryId">The category identifier.</param>
         /// <returns>
         /// List of TblTestDto objects
         /// </returns>
-        [Route("{catId}/test-scripts")]
-        public IHttpActionResult GetTestScriptsByCatId(long webSiteId, long catId)
+        [Route("{testCategoryId}/test-scripts")]
+        public IHttpActionResult GetTestScriptsByCatId(long websiteId, long testCategoryId)
         {
             var result = new ResultMessage<IEnumerable<TblTestDto>>();
             try
             {
-                result = catId == 0 
-                    ? this.testService.GetByWebSiteId(webSiteId)
-                    : this.testService.GetByCategory(catId);
+                result = testCategoryId == 0 
+                    ? this.testService.GetByWebSiteId(websiteId)
+                    : this.testService.GetByCategory(testCategoryId);
             }
             catch (Exception ex)
             {

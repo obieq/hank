@@ -25,7 +25,7 @@ namespace Elephant.Hank.Api.Controllers
     /// <summary>
     /// The SchedulerHistoryController class
     /// </summary>
-    [RoutePrefix("api/scheduler-history")]
+    [RoutePrefix("api/website/{websiteId}/scheduler/{schedulerId}/scheduler-history")]
     public class SchedulerHistoryController : BaseApiController
     {
         /// <summary>

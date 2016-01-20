@@ -26,7 +26,7 @@ namespace Elephant.Hank.Api.Controllers
     /// <summary>
     /// The TestQueueController class
     /// </summary>
-    [RoutePrefix("api/testqueue")]
+    [RoutePrefix("api/website/{websiteId}/test-queue")]
     public class TestQueueController : BaseApiController
     {
         /// <summary>
@@ -56,6 +56,7 @@ namespace Elephant.Hank.Api.Controllers
         /// Gets all.
         /// </summary>
         /// <returns>List of TblTestQueueDto objects</returns>
+        [Route("")]
         public IHttpActionResult GetAll()
         {
             var result = new ResultMessage<IEnumerable<TblTestQueueDto>>();
@@ -75,15 +76,15 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="testQueueId">The identifier.</param>
         /// <returns>TblTestQueueDto objects</returns>
-        [Route("{id}")]
-        public IHttpActionResult GetById(long id)
+        [Route("{testQueueId}")]
+        public IHttpActionResult GetById(long testQueueId)
         {
             var result = new ResultMessage<TblTestQueueDto>();
             try
             {
-                result = this.testQueueService.GetById(id);
+                result = this.testQueueService.GetById(testQueueId);
             }
             catch (Exception ex)
             {
@@ -97,16 +98,16 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Deletes the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="testQueueId">The identifier.</param>
         /// <returns>Deleted object</returns>
-        [Route("{id}")]
+        [Route("{testQueueId}")]
         [HttpDelete]
-        public IHttpActionResult DeleteById(long id)
+        public IHttpActionResult DeleteById(long testQueueId)
         {
             var result = new ResultMessage<TblTestQueueDto>();
             try
             {
-                result = this.testQueueService.DeleteById(id, this.UserId);
+                result = this.testQueueService.DeleteById(testQueueId, this.UserId);
             }
             catch (Exception ex)
             {
@@ -125,6 +126,7 @@ namespace Elephant.Hank.Api.Controllers
         /// Newly added object
         /// </returns>
         [HttpPost]
+        [Route("")]
         public IHttpActionResult Add([FromBody] TblTestQueueDto testQueueDto)
         {
             var result = new ResultMessage<TblTestQueueDto>();
@@ -142,15 +144,15 @@ namespace Elephant.Hank.Api.Controllers
         /// Updates the specified action dto.
         /// </summary>
         /// <param name="testQueueDto">The testQueue Dto.</param>
-        /// <param name="id">The identifier.</param>
+        /// <param name="testQueueId">The identifier.</param>
         /// <returns>
         /// Newly updated object
         /// </returns>
-        [Route("{id}")]
+        [Route("{testQueueId}")]
         [HttpPut]
-        public IHttpActionResult Update([FromBody]TblTestQueueDto testQueueDto, long id)
+        public IHttpActionResult Update([FromBody]TblTestQueueDto testQueueDto, long testQueueId)
         {
-            testQueueDto.Id = id;
+            testQueueDto.Id = testQueueId;
             return this.AddUpdate(testQueueDto);
         }
 
@@ -181,15 +183,15 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// get executable test data
         /// </summary>
-        /// <param name="id">the test identifier</param>
+        /// <param name="testQueueId">the test identifier</param>
         /// <returns>GetTestQueueExecutableData object</returns>
-        [Route("{id}/exe-test-data")]
-        public IHttpActionResult GetExecutableTestData(long id)
+        [Route("{testQueueId}/exe-test-data")]
+        public IHttpActionResult GetExecutableTestData(long testQueueId)
         {
             var result = new ResultMessage<TestQueue_FullTestData>();
             try
             {
-                result = this.testQueueExecutableService.GetTestQueueExecutableData(id);
+                result = this.testQueueExecutableService.GetTestQueueExecutableData(testQueueId);
             }
             catch (Exception ex)
             {

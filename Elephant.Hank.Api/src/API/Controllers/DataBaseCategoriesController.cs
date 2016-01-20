@@ -39,7 +39,7 @@ namespace Elephant.Hank.Api.Controllers
     /// The DataBaseCategoriesController class
     /// </summary>
     [Authorize]
-    [RoutePrefix("api/data-base-categories")]
+    [RoutePrefix("api/website/{websiteId}/data-base-categories")]
     public class DataBaseCategoriesController : BaseApiController
     {
         /// <summary>
@@ -68,15 +68,16 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets all.
         /// </summary>
+        /// <param name="websiteId">The website identifier.</param>
         /// <returns>List of TblDataBaseCategoriesDto objects</returns>
         [HttpGet]
         [Route("")]
-        public IHttpActionResult GetAll()
+        public IHttpActionResult GetAll(long websiteId)
         {
             var result = new ResultMessage<IEnumerable<TblDataBaseCategoriesDto>>();
             try
             {
-                result = this.databaseCategoriesService.GetAll();
+                result = this.databaseCategoriesService.GetByWebsiteId(websiteId);
             }
             catch (Exception ex)
             {
@@ -90,16 +91,16 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="databaseCategoryId">The identifier.</param>
         /// <returns>TblDataBaseCategoriesDto objects</returns>
-        [Route("{id}")]
+        [Route("{databaseCategoryId}")]
         [HttpGet]
-        public IHttpActionResult GetById(long id)
+        public IHttpActionResult GetById(long databaseCategoryId)
         {
             var result = new ResultMessage<TblDataBaseCategoriesDto>();
             try
             {
-                result = this.databaseCategoriesService.GetById(id);
+                result = this.databaseCategoriesService.GetById(databaseCategoryId);
             }
             catch (Exception ex)
             {
@@ -113,16 +114,16 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Deletes the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="databaseCategoryId">The identifier.</param>
         /// <returns>Deleted object</returns>
-        [Route("{id}")]
+        [Route("{databaseCategoryId}")]
         [HttpDelete]
-        public IHttpActionResult DeleteById(long id)
+        public IHttpActionResult DeleteById(long databaseCategoryId)
         {
             var result = new ResultMessage<TblDataBaseCategoriesDto>();
             try
             {
-                result = this.databaseCategoriesService.DeleteById(id, this.UserId);
+                result = this.databaseCategoriesService.DeleteById(databaseCategoryId, this.UserId);
             }
             catch (Exception ex)
             {
@@ -160,53 +161,26 @@ namespace Elephant.Hank.Api.Controllers
         /// Updates the specified action dto.
         /// </summary>
         /// <param name="dataBaseCategoriesDto">The data base categories dto.</param>
-        /// <param name="id">The identifier.</param>
+        /// <param name="databaseCategoryId">The identifier.</param>
         /// <returns>
         /// Newly updated object
         /// </returns>
-        [Route("{id}")]
+        [Route("{databaseCategoryId}")]
         [HttpPut]
-        public IHttpActionResult Update([FromBody]TblDataBaseCategoriesDto dataBaseCategoriesDto, long id)
+        public IHttpActionResult Update([FromBody]TblDataBaseCategoriesDto dataBaseCategoriesDto, long databaseCategoryId)
         {
             var data = this.databaseCategoriesService.GetByName(dataBaseCategoriesDto.Name);
 
-            if (!data.IsError && data.Item != null && id != data.Item.Id)
+            if (!data.IsError && data.Item != null && databaseCategoryId != data.Item.Id)
             {
                 data.Messages.Add(new Message(null, "Action already exists with '" + dataBaseCategoriesDto.Name + "' name!"));
 
                 return this.CreateCustomResponse(data, HttpStatusCode.BadRequest);
             }
 
-            dataBaseCategoriesDto.Id = id;
+            dataBaseCategoriesDto.Id = databaseCategoryId;
             return this.AddUpdate(dataBaseCategoriesDto);
         }
-
-        #region - Child DataBaseConnection
-
-        /// <summary>
-        /// Gets the by identifier.
-        /// </summary>
-        /// <param name="categoryId">The identifier.</param>
-        /// <returns>TblDataBaseCategoriesDto objects</returns>
-        [Route("{categoryId}/data-base-connection")]
-        [HttpGet]
-        public IHttpActionResult GetDataBaseConnectionByCategoryId(long categoryId)
-        {
-            var result = new ResultMessage<IEnumerable<TblDataBaseConnectionDto>>();
-            try
-            {
-                result = this.databaseConnectionService.GetByCategoryId(categoryId);
-            }
-            catch (Exception ex)
-            {
-                this.LoggerService.LogException(ex);
-                result.Messages.Add(new Message(null, ex.Message));
-            }
-
-            return this.CreateCustomResponse(result);
-        }
-
-        #endregion
 
         /// <summary>
         /// Adds the update.

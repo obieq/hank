@@ -24,7 +24,7 @@ namespace Elephant.Hank.Api.Controllers
     /// <summary>
     /// The SuiteTestMapController class
     /// </summary>
-    [RoutePrefix("api/suite-test-map")]
+    [RoutePrefix("api/website/{websiteId}/suite-test-map")]
     [Authorize]
     public class SuiteTestMapController : BaseApiController
     {
@@ -48,6 +48,7 @@ namespace Elephant.Hank.Api.Controllers
         /// Gets all.
         /// </summary>
         /// <returns>List of TblLnkSuiteTestDto objects</returns>
+        [Route("")]
         public IHttpActionResult GetAll()
         {
             var result = new ResultMessage<IEnumerable<TblLnkSuiteTestDto>>();
@@ -117,6 +118,7 @@ namespace Elephant.Hank.Api.Controllers
         /// Newly added object
         /// </returns>
         [HttpPut]
+        [Route("")]
         public IHttpActionResult Add([FromBody]TblLnkSuiteTestDto suiteTestDto)
         {
             return this.AddUpdate(suiteTestDto);

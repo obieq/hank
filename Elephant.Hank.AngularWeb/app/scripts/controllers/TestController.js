@@ -44,7 +44,7 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
     };
 
     $scope.getTestById = function () {
-      crudService.getById(ngAppSettings.TestUrl, $stateParams.TestId).then(function (response) {
+      crudService.getById(ngAppSettings.TestUrl.format($stateParams.WebsiteId, $stateParams.TestCatId), $stateParams.TestId).then(function (response) {
         $scope.Test = response.Item;
       }, function (response) {
         commonUi.showErrorPopup(response);
@@ -52,7 +52,7 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
     };
 
     $scope.updateTest = function () {
-      crudService.update(ngAppSettings.TestUrl, $scope.Test).then(function (response) {
+      crudService.update(ngAppSettings.TestUrl.format($stateParams.WebsiteId, $stateParams.TestCatId), $scope.Test).then(function (response) {
         $state.go("Website.TestCatTest", {WebsiteId: $scope.stateParamWebsiteId, TestCatId: $scope.TestCatId});
       }, function (response) {
         commonUi.showErrorPopup(response);
@@ -62,7 +62,7 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
     $scope.addTest = function () {
 
       $scope.Test.WebsiteId = $scope.stateParamWebsiteId;
-      crudService.add(ngAppSettings.TestUrl, $scope.Test).then(function (response) {
+      crudService.add(ngAppSettings.TestUrl.format($stateParams.WebsiteId, $stateParams.TestCatId), $scope.Test).then(function (response) {
 
         var j = 1;
         if ($scope.CopyTestData.HasTestData && $scope.CopyTestData.IsCopy && $scope.CopyTestData.Test != null) {
@@ -73,7 +73,7 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
               $scope.CopyTestData.DataToSend.TestDataIdList.push($scope.CopyTestData.TestDataList[i].Id);
             }
           }
-          crudService.add(ngAppSettings.TestDataListAddUrl, $scope.CopyTestData.DataToSend).then(function (response) {
+          crudService.add(ngAppSettings.TestDataListAddUrl.format($stateParams.WebsiteId, $stateParams.TestCatId, $stateParams.TestId), $scope.CopyTestData.DataToSend).then(function (response) {
             $state.go("Website.TestCatTest", {WebsiteId: $scope.stateParamWebsiteId, TestCatId: $scope.TestCatId});
           }, function (response) {
 
@@ -110,7 +110,7 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
 
     $scope.loadTestData = function () {
 
-      crudService.getAll(ngAppSettings.TestDataAllByTestIdUrl.format($scope.CopyTestData.Test.Id)).then(function (response) {
+      crudService.getAll(ngAppSettings.TestDataAllByTestIdUrl.format($stateParams.WebsiteId, $stateParams.TestCatId, $scope.CopyTestData.Test.Id)).then(function (response) {
 
         $scope.CopyTestData.HasTestData = true;
         $scope.CopyTestData.TestDataList = response;

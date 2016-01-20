@@ -15,7 +15,7 @@ app.controller('LocatorIdentifierController', ['$scope', '$stateParams', '$state
     $scope.getAllLocatorIdentifiers = function () {
       $scope.loadData(1);
 
-      crudService.getAll(ngAppSettings.PagesLocatorIdentifierUrl.format($stateParams.PageId)).then(function (response) {
+      crudService.getAll(ngAppSettings.LocatorIdentifierUrl.format($stateParams.WebsiteId,$stateParams.PageId)).then(function (response) {
         $scope.LocatorIdentifierList = response;
       }, function (response) {
         commonUi.showErrorPopup(response);
@@ -23,7 +23,7 @@ app.controller('LocatorIdentifierController', ['$scope', '$stateParams', '$state
     };
 
     $scope.getLocatorIdentifierById = function () {
-      crudService.getById(ngAppSettings.LocatorIdentifierUrl, $stateParams.LocatorIdentifierId).then(function (response) {
+      crudService.getById(ngAppSettings.LocatorIdentifierUrl.format($stateParams.WebsiteId,$stateParams.PageId), $stateParams.LocatorIdentifierId).then(function (response) {
         $scope.LocatorIdentifier = response.Item;
         $scope.loadData(2);
       }, function (response) {
@@ -32,7 +32,7 @@ app.controller('LocatorIdentifierController', ['$scope', '$stateParams', '$state
     };
 
     $scope.updateLocatorIdentifier = function () {
-      crudService.update(ngAppSettings.LocatorIdentifierUrl, $scope.LocatorIdentifier).then(function (response) {
+      crudService.update(ngAppSettings.LocatorIdentifierUrl.format($stateParams.WebsiteId,$stateParams.PageId), $scope.LocatorIdentifier).then(function (response) {
         $state.go("Website.PagesLocatorIdentifier", {
           WebsiteId: $scope.stateParamWebsiteId,
           PageId: $stateParams.PageId
@@ -67,7 +67,7 @@ app.controller('LocatorIdentifierController', ['$scope', '$stateParams', '$state
             commonUi.showMessagePopup("Regular expression is not correct in respect to 'To be applied'","Regex Error");
           }
           else{
-            crudService.add(ngAppSettings.LocatorIdentifierUrl, $scope.LocatorIdentifier).then(function (response) {
+            crudService.add(ngAppSettings.LocatorIdentifierUrl.format($stateParams.WebsiteId,$stateParams.PageId), $scope.LocatorIdentifier).then(function (response) {
               $state.go("Website.PagesLocatorIdentifier", {
                 WebsiteId: $scope.stateParamWebsiteId,
                 PageId: $stateParams.PageId
@@ -82,7 +82,7 @@ app.controller('LocatorIdentifierController', ['$scope', '$stateParams', '$state
         }
       }
       else{
-        crudService.add(ngAppSettings.LocatorIdentifierUrl, $scope.LocatorIdentifier).then(function (response) {
+        crudService.add(ngAppSettings.LocatorIdentifierUrl.format($stateParams.WebsiteId,$stateParams.PageId), $scope.LocatorIdentifier).then(function (response) {
           $state.go("Website.PagesLocatorIdentifier", {
             WebsiteId: $scope.stateParamWebsiteId,
             PageId: $stateParams.PageId

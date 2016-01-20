@@ -114,7 +114,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
           case 0:
           {
             if ($scope.VariableList.length == 0) {
-              crudService.getAll(ngAppSettings.TestDataGetVariableForAutoComplete.format($stateParams.TestId)).then(function (response) {
+              crudService.getAll(ngAppSettings.TestDataGetVariableForAutoComplete.format($stateParams.WebsiteId, $stateParams.TestCatId, $stateParams.TestId)).then(function (response) {
                 $scope.VariableList = response;
               }, function (response) {
                 //commonUi.showErrorPopup(response);
@@ -159,7 +159,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
               $scope.InputControlDisplayStatus.ddlDisplayName = true;
             }
 
-            else if ($scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId && $scope.TestData.LocatorIdentifierId==undefined) {
+            else if ($scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId && $scope.TestData.LocatorIdentifierId == undefined) {
               $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
               $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
               $scope.InputControlDisplayStatus.txtValue = true;
@@ -206,7 +206,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
             crudService.getAll(ngAppSettings.WebsiteDataBaseCategoriesUrl.format($stateParams.WebsiteId)).then(function (response) {
               $scope.DataBaseCategories = response;
               if ($scope.VariableList.length == 0) {
-                crudService.getAll(ngAppSettings.TestDataGetVariableForAutoComplete.format($stateParams.TestId)).then(function (response) {
+                crudService.getAll(ngAppSettings.TestDataGetVariableForAutoComplete.format($stateParams.WebsiteId, $stateParams.TestCatId, $stateParams.TestId)).then(function (response) {
                   $scope.VariableList = response;
                 }, function (response) {
                 });
@@ -254,7 +254,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
           });
 
           if ($scope.VariableList.length == 0) {
-            crudService.getAll(ngAppSettings.TestDataGetVariableForAutoComplete.format($stateParams.TestId)).then(function (response) {
+            crudService.getAll(ngAppSettings.TestDataGetVariableForAutoComplete.format($stateParams.WebsiteId, $stateParams.TestCatId, $stateParams.TestId)).then(function (response) {
               $scope.VariableList = response;
             }, function (response) {
               //commonUi.showErrorPopup(response);
@@ -302,7 +302,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
           crudService.getAll(ngAppSettings.WebsiteDataBaseCategoriesUrl.format($stateParams.WebsiteId)).then(function (response) {
             $scope.DataBaseCategories = response;
             if ($scope.VariableList.length == 0) {
-              crudService.getAll(ngAppSettings.TestDataGetVariableForAutoComplete.format($stateParams.TestId)).then(function (response) {
+              crudService.getAll(ngAppSettings.TestDataGetVariableForAutoComplete.format($stateParams.WebsiteId, $stateParams.TestCatId, $stateParams.TestId)).then(function (response) {
                 $scope.VariableList = response;
               }, function (response) {
               });
@@ -394,7 +394,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
     };
 
     $scope.onPageChange = function () {
-      crudService.getAll(ngAppSettings.PagesLocatorIdentifierUrl.format($scope.TestData.PageId)).then(function (response) {
+      crudService.getAll(ngAppSettings.LocatorIdentifierUrl.format($stateParams.WebsiteId, $scope.TestData.PageId)).then(function (response) {
         $scope.DisplayNameList = response;
         $scope.InputControlDisplayStatus.ddlDisplayName = true;
       }, function (response) {
@@ -404,7 +404,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
 
     $scope.onWebsiteChange = function () {
       if ($scope.TestData.SharedStepWebsiteId > 0) {
-        crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($scope.TestData.SharedStepWebsiteId)).then(function (response) {
+        crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($scope.TestData.SharedStepWebsiteId, 0)).then(function (response) {
 
           $scope.TestList = response;
           $scope.InputControlDisplayStatus.ddlTestList = true;
@@ -415,7 +415,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
     };
 
     $scope.onSharedTestListChange = function () {
-      crudService.getAll(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($scope.TestData.SharedTestId)).then(function (response) {
+      crudService.getAll(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.WebsiteId, $scope.TestData.SharedTestId)).then(function (response) {
         $scope.TestData.SharedTestDataList = response;
       }, function (response) {
         commonUi.showErrorPopup(response);
@@ -456,7 +456,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
           $scope.TestData.SharedTestSteps[i].NewOrder = $scope.TestData.SharedTestDataList[i].UIExecutionSequence;
         }
       }
-      crudService.add(ngAppSettings.TestDataAllByTestIdUrl.format($stateParams.TestId), $scope.TestData).then(function (response) {
+      crudService.add(ngAppSettings.TestDataAllByTestIdUrl.format($stateParams.WebsiteId, $stateParams.TestCatId, $stateParams.TestId), $scope.TestData).then(function (response) {
         $state.go("Website.TestData", {
           WebsiteId: $scope.stateParamWebsiteId,
           TestCatId: $scope.TestCatId,
@@ -484,7 +484,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
         }
       }
 
-      crudService.update(ngAppSettings.TestDataAllByTestIdUrl.format($stateParams.TestId), $scope.TestData).then(function (response) {
+      crudService.update(ngAppSettings.TestDataAllByTestIdUrl.format($stateParams.WebsiteId, $stateParams.TestCatId, $stateParams.TestId), $scope.TestData).then(function (response) {
         $state.go("Website.TestData", {
           WebsiteId: $scope.stateParamWebsiteId,
           TestCatId: $scope.TestCatId,
@@ -497,7 +497,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
 
     $scope.deleteTestData = function (testDataId) {
       if (confirm("Are you sure u want to delete step?")) {
-        crudService.delete(ngAppSettings.TestDataAllByTestIdUrl.format($stateParams.TestId), {Id: testDataId}).then(function (response) {
+        crudService.delete(ngAppSettings.TestDataAllByTestIdUrl.format($stateParams.WebsiteId, $stateParams.TestCatId, $stateParams.TestId), {Id: testDataId}).then(function (response) {
           $scope.onLoadList();
         }, function (response) {
           commonUi.showErrorPopup(response);
@@ -513,7 +513,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
       dataProvider.currentWebSite($scope);
       dataProvider.currentTest($scope);
 
-      promises.push(crudService.getAll(ngAppSettings.TestDataAllByTestIdUrl.format($stateParams.TestId)).then(function (response) {
+      promises.push(crudService.getAll(ngAppSettings.TestDataAllByTestIdUrl.format($stateParams.WebsiteId, $stateParams.TestCatId, $stateParams.TestId)).then(function (response) {
         $scope.TestDataList = response;
       }, function (response) {
         commonUi.showErrorPopup(response);
@@ -576,7 +576,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
         commonUi.showErrorPopup(response);
       }));
 
-      promises.push(crudService.getById(ngAppSettings.TestDataAllByTestIdUrl.format($stateParams.TestId), $stateParams.TestDataId).then(function (response) {
+      promises.push(crudService.getById(ngAppSettings.TestDataAllByTestIdUrl.format($stateParams.WebsiteId, $stateParams.TestCatId, $stateParams.TestId), $stateParams.TestDataId).then(function (response) {
         $scope.TestData = response.Item;
         switch ($scope.TestData.LinkTestType) {
           case 0:
@@ -590,7 +590,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
                 commonUi.showErrorPopup(response);
               }));
 
-              promises.push(crudService.getAll(ngAppSettings.PagesLocatorIdentifierUrl.format($scope.TestData.PageId)).then(function (response) {
+              promises.push(crudService.getAll(ngAppSettings.LocatorIdentifierUrl.format($stateParams.WebsiteId, $scope.TestData.PageId)).then(function (response) {
                 $scope.DisplayNameList = response;
               }, function (response) {
                 commonUi.showErrorPopup(response);
@@ -615,7 +615,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
               commonUi.showErrorPopup(response);
             }));
 
-            promises.push(crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($scope.TestData.SharedStepWebsiteId)).then(function (response) {
+            promises.push(crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($scope.TestData.SharedStepWebsiteId, $stateParams.TestCatId)).then(function (response) {
               $scope.TestList = response;
             }, function (response) {
               commonUi.showErrorPopup(response);

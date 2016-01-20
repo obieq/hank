@@ -20,7 +20,7 @@ app.controller('SharedTestController', ['$scope', '$stateParams', '$state', 'Cru
     };
 
     $scope.getSharedTestById = function () {
-      crudService.getById(ngAppSettings.SharedTestUrl, $stateParams.SharedTestId).then(function (response) {
+      crudService.getById(ngAppSettings.WebsiteSharedTestCasesUrl.format($stateParams.WebsiteId), $stateParams.SharedTestId).then(function (response) {
         $scope.SharedTest = response.Item;
       }, function (response) {
         commonUi.showErrorPopup(response);
@@ -28,7 +28,7 @@ app.controller('SharedTestController', ['$scope', '$stateParams', '$state', 'Cru
     };
 
     $scope.updateSharedTest = function () {
-      crudService.update(ngAppSettings.SharedTestUrl, $scope.SharedTest).then(function (response) {
+      crudService.update(ngAppSettings.WebsiteSharedTestCasesUrl.format($stateParams.WebsiteId), $scope.SharedTest).then(function (response) {
         $state.go("Website.SharedTest", {WebsiteId: $scope.stateParamWebsiteId});
       }, function (response) {
         commonUi.showErrorPopup(response);
@@ -37,7 +37,7 @@ app.controller('SharedTestController', ['$scope', '$stateParams', '$state', 'Cru
 
     $scope.addSharedTest = function () {
       $scope.SharedTest.WebsiteId = $scope.stateParamWebsiteId;
-      crudService.add(ngAppSettings.SharedTestUrl, $scope.SharedTest).then(function (response) {
+      crudService.add(ngAppSettings.WebsiteSharedTestCasesUrl.format($stateParams.WebsiteId), $scope.SharedTest).then(function (response) {
         $state.go("Website.SharedTest", {WebsiteId: $scope.stateParamWebsiteId});
       }, function (response) {
 

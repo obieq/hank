@@ -27,7 +27,7 @@ namespace Elephant.Hank.Api.Controllers
     /// <summary>
     /// The TestController class
     /// </summary>
-    [RoutePrefix("api/test")]
+    [RoutePrefix("api/website/{websiteId}/test-cat/{testCategoryId}/test")]
     [Authorize]
     public class TestController : BaseApiController
     {
@@ -57,13 +57,18 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets all.
         /// </summary>
+        /// <param name="websiteId">The website identifier.</param>
+        /// <param name="testCategoryId">The test categorytestCategoryId identifier.</param>
         /// <returns>List of TblTestDto objects</returns>
-        public IHttpActionResult GetAll()
+        [Route("")]
+        public IHttpActionResult GetAll(long websiteId, long testCategoryId)
         {
             var result = new ResultMessage<IEnumerable<TblTestDto>>();
             try
             {
-                result = this.testService.GetAll();
+                result = testCategoryId == 0
+                     ? this.testService.GetByWebSiteId(websiteId)
+                     : this.testService.GetByCategory(testCategoryId);
             }
             catch (Exception ex)
             {
@@ -77,15 +82,15 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="testId">The identifier.</param>
         /// <returns>TblTestDto objects</returns>
-        [Route("{id}")]
-        public IHttpActionResult GetById(long id)
+        [Route("{testId}")]
+        public IHttpActionResult GetById(long testId)
         {
             var result = new ResultMessage<TblTestDto>();
             try
             {
-                result = this.testService.GetById(id);
+                result = this.testService.GetById(testId);
             }
             catch (Exception ex)
             {
@@ -99,16 +104,16 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Deletes the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="testId">The identifier.</param>
         /// <returns>Deleted object</returns>
-        [Route("{id}")]
+        [Route("{testId}")]
         [HttpDelete]
-        public IHttpActionResult DeleteById(long id)
+        public IHttpActionResult DeleteById(long testId)
         {
             var result = new ResultMessage<TblTestDto>();
             try
             {
-                result = this.testService.DeleteById(id, this.UserId);
+                result = this.testService.DeleteById(testId, this.UserId);
             }
             catch (Exception ex)
             {
@@ -127,6 +132,7 @@ namespace Elephant.Hank.Api.Controllers
         /// Newly added object
         /// </returns>
         [HttpPost]
+        [Route("")]
         public IHttpActionResult Add([FromBody]TblTestDto testDto)
         {
             var data = this.testService.GetByName(testDto.TestName, testDto.WebsiteId);
@@ -145,145 +151,39 @@ namespace Elephant.Hank.Api.Controllers
         /// Updates the specified action dto.
         /// </summary>
         /// <param name="testDto">The test dto.</param>
-        /// <param name="id">The identifier.</param>
+        /// <param name="testId">The identifier.</param>
         /// <returns>
         /// Newly updated object
         /// </returns>
-        [Route("{id}")]
+        [Route("{testId}")]
         [HttpPut]
-        public IHttpActionResult Update([FromBody]TblTestDto testDto, long id)
+        public IHttpActionResult Update([FromBody]TblTestDto testDto, long testId)
         {
             var data = this.testService.GetByName(testDto.TestName, testDto.WebsiteId);
 
-            if (!data.IsError && data.Item != null && id != data.Item.Id)
+            if (!data.IsError && data.Item != null && testId != data.Item.Id)
             {
                 data.Messages.Add(new Message(null, "Website already exists with '" + testDto.TestName + "' name!"));
 
                 return this.CreateCustomResponse(data, HttpStatusCode.BadRequest);
             }
 
-            testDto.Id = id;
+            testDto.Id = testId;
             return this.AddUpdate(testDto);
-        }
-
-        #region Child Objects Test Data
-
-        /// <summary>
-        /// Gets all.
-        /// </summary>
-        /// <param name="testCaseId">The test case identifier.</param>
-        /// <returns>
-        /// List of TblTestDataDto objects
-        /// </returns>
-        [Route("{testCaseId}/test-data")]
-        public IHttpActionResult GetAllTestData(long testCaseId)
-        {
-            var result = new ResultMessage<IEnumerable<TblTestDataDto>>();
-            try
-            {
-                result = this.testDataService.GetTestDataByTestCase(testCaseId);
-            }
-            catch (Exception ex)
-            {
-                this.LoggerService.LogException(ex);
-                result.Messages.Add(new Message(null, ex.Message));
-            }
-
-            return this.CreateCustomResponse(result);
-        }
-
-        /// <summary>
-        /// Gets the test data by identifier.
-        /// </summary>
-        /// <param name="testCaseId">The test case identifier.</param>
-        /// <param name="testDataId">The test data identifier.</param>
-        /// <returns>TblTestDataDto object</returns>
-        [Route("{testCaseId}/test-data/{testDataId}")]
-        public IHttpActionResult GetTestDataById(long testCaseId, long testDataId)
-        {
-            var result = new ResultMessage<TblTestDataDto>();
-            try
-            {
-                result = this.testDataService.GetById(testDataId);
-            }
-            catch (Exception ex)
-            {
-                this.LoggerService.LogException(ex);
-                result.Messages.Add(new Message(null, ex.Message));
-            }
-
-            return this.CreateCustomResponse(result);
-        }
-
-        /// <summary>
-        /// Adds the test data.
-        /// </summary>
-        /// <param name="testDataDto">The test data dto.</param>
-        /// <param name="testCaseId">The test case identifier.</param>
-        /// <returns>Newly added object</returns>
-        [HttpPost]
-        [Route("{testCaseId}/test-data")]
-        public IHttpActionResult AddTestData([FromBody]TblTestDataDto testDataDto, long testCaseId)
-        {
-            return this.AddUpdateTestData(testDataDto);
-        }
-
-        /// <summary>
-        /// Updates the test data.
-        /// </summary>
-        /// <param name="testDataDto">The test data dto.</param>
-        /// <param name="testCaseId">The test case identifier.</param>
-        /// <param name="testDataId">The test data identifier.</param>
-        /// <returns>
-        /// Newly added object
-        /// </returns>
-        [HttpPut]
-        [Route("{testCaseId}/test-data/{testDataId}")]
-        public IHttpActionResult UpdateTestData([FromBody]TblTestDataDto testDataDto, long testCaseId, long testDataId)
-        {
-            testDataDto.Id = testDataId;
-            testDataDto.TestId = testCaseId;
-
-            return this.AddUpdateTestData(testDataDto);
-        }
-
-        /// <summary>
-        /// Deletes the test data.
-        /// </summary>
-        /// <param name="testCaseId">The test case identifier.</param>
-        /// <param name="testDataId">The test data identifier.</param>
-        /// <returns>Deleted TblTestDataDto object</returns>
-        [HttpDelete]
-        [Route("{testCaseId}/test-data/{testDataId}")]
-        public IHttpActionResult DeleteTestData(long testCaseId, long testDataId)
-        {
-            var result = new ResultMessage<TblTestDataDto>();
-            try
-            {
-                this.testDataService.ResetExecutionSequence(this.UserId, testCaseId, testDataId, 0);
-                result = this.testDataService.DeleteById(testDataId, this.UserId);
-            }
-            catch (Exception ex)
-            {
-                this.LoggerService.LogException(ex);
-                result.Messages.Add(new Message(null, ex.Message));
-            }
-
-            return this.AddUpdateTestData(result.Item);
         }
 
         /// <summary>
         /// Get the list of variable type test steps
         /// </summary>
-        /// <param name="testCaseId">the test case identifier</param>
+        /// <param name="testId">the test case identifier</param>
         /// <returns>TblTestDataDto object list</returns>
-        [Route("{testCaseId}/variable-test-steps")]
-        public IHttpActionResult GetVariableTypeTestDataByTestCase(long testCaseId)
+        [Route("{testId}/variable-test-steps")]
+        public IHttpActionResult GetVariableTypeTestDataByTestCase(long testId)
         {
             var result = new ResultMessage<IEnumerable<ProtractorVariableModel>>();
             try
             {
-                result = this.testDataService.GetVariableTypeTestDataByTestCase(testCaseId);
+                result = this.testDataService.GetVariableTypeTestDataByTestCase(testId);
             }
             catch (Exception ex)
             {
@@ -297,15 +197,15 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Get the list of variable type test steps
         /// </summary>
-        /// <param name="testCaseId">the test case identifier</param>
+        /// <param name="testId">the test case identifier</param>
         /// <returns>TblTestDataDto object list</returns>
-        [Route("{testCaseId}/variable-for-autocomplete")]
-        public IHttpActionResult GetAllVariableByTestIdForAutoComplete(long testCaseId)
+        [Route("{testId}/variable-for-autocomplete")]
+        public IHttpActionResult GetAllVariableByTestIdForAutoComplete(long testId)
         {
             var result = new ResultMessage<IEnumerable<string>>();
             try
             {
-                result = this.testDataService.GetAllVariableByTestIdForAutoComplete(testCaseId);
+                result = this.testDataService.GetAllVariableByTestIdForAutoComplete(testId);
             }
             catch (Exception ex)
             {
@@ -315,60 +215,6 @@ namespace Elephant.Hank.Api.Controllers
 
             return this.CreateCustomResponse(result);
         }
-
-        /// <summary>
-        /// Adds the update test data.
-        /// </summary>
-        /// <param name="testDataDto">The test data dto.</param>
-        /// <returns>
-        /// Newly added object
-        /// </returns>
-        private IHttpActionResult AddUpdateTestData(TblTestDataDto testDataDto)
-        {
-            var result = new ResultMessage<TblTestDataDto>();
-            try
-            {
-                if (testDataDto.Id == 0)
-                {
-                    testDataDto.ExecutionSequence = testDataDto.ExecutionSequence <= 0 ? 1 : testDataDto.ExecutionSequence;
-                    this.testDataService.ResetExecutionSequence(this.UserId, testDataDto.TestId, testDataDto.Id, testDataDto.ExecutionSequence);
-                    if (testDataDto.LinkTestType == (int)LinkTestType.SharedTest)
-                    {
-                        testDataDto.LocatorIdentifierId = null;
-                        testDataDto.ActionId = null;
-                        result = this.testDataService.SaveOrUpdateWithSharedTest(this.UserId, testDataDto);
-                    }
-                    else
-                    {
-                        result = this.testDataService.SaveOrUpdate(testDataDto, this.UserId);
-                    }
-                }
-                else
-                {
-                    testDataDto.ExecutionSequence = testDataDto.ExecutionSequence <= 0 ? 1 : testDataDto.ExecutionSequence;
-                    this.testDataService.ResetExecutionSequence(this.UserId, testDataDto.TestId, testDataDto.Id, testDataDto.ExecutionSequence);
-                    if (testDataDto.LinkTestType == (int)LinkTestType.SharedTest)
-                    {
-                        testDataDto.LocatorIdentifierId = null;
-                        testDataDto.ActionId = null;
-                        result = this.testDataService.SaveOrUpdateWithSharedTest(this.UserId, testDataDto);
-                    }
-                    else
-                    {
-                        result = this.testDataService.SaveOrUpdate(testDataDto, this.UserId);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                this.LoggerService.LogException(ex);
-                result.Messages.Add(new Message(null, ex.Message));
-            }
-
-            return this.CreateCustomResponse(result);
-        }
-
-        #endregion
 
         #region All private
 

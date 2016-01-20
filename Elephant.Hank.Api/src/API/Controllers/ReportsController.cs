@@ -72,15 +72,15 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="reportId">The identifier.</param>
         /// <returns>TblReportDataDto objects</returns>
-        [Route("{id}")]
-        public IHttpActionResult GetById(long id)
+        [Route("{reportId}")]
+        public IHttpActionResult GetById(long reportId)
         {
             var result = new ResultMessage<TblReportDataDto>();
             try
             {
-                result = this.reportDataService.GetReportDataById(id);
+                result = this.reportDataService.GetReportDataById(reportId);
             }
             catch (Exception ex)
             {

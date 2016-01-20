@@ -25,7 +25,7 @@ namespace Elephant.Hank.Api.Controllers
     /// <summary>
     /// The Pages class
     /// </summary>
-    [RoutePrefix("api/pages")]
+    [RoutePrefix("api/website/{websiteId}/pages")]
     [Authorize]
     public class PagesController : BaseApiController
     {
@@ -55,14 +55,15 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets all.
         /// </summary>
+        /// <param name="websiteId">The website identifier.</param>
         /// <returns>List of TblPagesDto objects</returns>
-        [Route]
-        public IHttpActionResult GetAll()
+        [Route("")]
+        public IHttpActionResult GetAll(long websiteId)
         {
             var result = new ResultMessage<IEnumerable<TblPagesDto>>();
             try
             {
-                result = this.pagesService.GetAll();
+                result = this.pagesService.GetByWebSiteId(websiteId);
             }
             catch (Exception ex)
             {
@@ -76,15 +77,15 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="pageId">The identifier.</param>
         /// <returns>TblPagesDto objects</returns>
-        [Route("{id}")]
-        public IHttpActionResult GetById(long id)
+        [Route("{pageId}")]
+        public IHttpActionResult GetById(long pageId)
         {
             var result = new ResultMessage<TblPagesDto>();
             try
             {
-                result = this.pagesService.GetById(id);
+                result = this.pagesService.GetById(pageId);
             }
             catch (Exception ex)
             {
@@ -98,16 +99,16 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Deletes the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="pageId">The identifier.</param>
         /// <returns>Deleted object</returns>
-        [Route("{id}")]
+        [Route("{pageId}")]
         [HttpDelete]
-        public IHttpActionResult DeleteById(long id)
+        public IHttpActionResult DeleteById(long pageId)
         {
             var result = new ResultMessage<TblPagesDto>();
             try
             {
-                result = this.pagesService.DeleteById(id, this.UserId);
+                result = this.pagesService.DeleteById(pageId, this.UserId);
             }
             catch (Exception ex)
             {
@@ -125,7 +126,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>
         /// Newly added object
         /// </returns>
-        [Route]
+        [Route("")]
         [HttpPost]
         public IHttpActionResult Add([FromBody]TblPagesDto pagesDto)
         {
@@ -145,54 +146,26 @@ namespace Elephant.Hank.Api.Controllers
         /// Updates the specified action dto.
         /// </summary>
         /// <param name="pagesDto">The display name dto.</param>
-        /// <param name="id">The identifier.</param>
+        /// <param name="pageId">The identifier.</param>
         /// <returns>
         /// Newly updated object
         /// </returns>
-        [Route("{id}")]
+        [Route("{pageId}")]
         [HttpPut]
-        public IHttpActionResult Update([FromBody]TblPagesDto pagesDto, long id)
+        public IHttpActionResult Update([FromBody]TblPagesDto pagesDto, long pageId)
         {
             var data = this.pagesService.GetByValue(pagesDto.Value, pagesDto.WebsiteId);
 
-            if (!data.IsError && data.Item != null && id != data.Item.Id)
+            if (!data.IsError && data.Item != null && pageId != data.Item.Id)
             {
                 data.Messages.Add(new Message(null, "Pages already exists with '" + pagesDto.Value + "' value!"));
 
                 return this.CreateCustomResponse(data, HttpStatusCode.BadRequest);
             }
 
-            pagesDto.Id = id;
+            pagesDto.Id = pageId;
             return this.AddUpdate(pagesDto);
         }
-
-        #region Website Child - Locator Identifier
-
-        /// <summary>
-        /// get by website id
-        /// </summary>
-        /// <param name="pageId">The page identifier.</param>
-        /// <returns>
-        /// List of TblTestDto objects
-        /// </returns>
-        [Route("{pageId}/locator-identifier")]
-        public IHttpActionResult GetLocatorIdentifier(long pageId)
-        {
-            var result = new ResultMessage<IEnumerable<TblLocatorIdentifierDto>>();
-            try
-            {
-                result = this.locatorIdentifierService.GetByPageId(pageId);
-            }
-            catch (Exception ex)
-            {
-                this.LoggerService.LogException(ex);
-                result.Messages.Add(new Message(null, ex.Message));
-            }
-
-            return this.CreateCustomResponse(result);
-        }
-
-        #endregion
         
         /// <summary>
         /// Adds the update.

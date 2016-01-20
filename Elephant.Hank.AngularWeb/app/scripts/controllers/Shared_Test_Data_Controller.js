@@ -54,7 +54,7 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
           crudService.getAll(ngAppSettings.WebsiteDataBaseCategoriesUrl.format($stateParams.WebsiteId)).then(function (response) {
             $scope.DataBaseCategories = response;
             if ($scope.VariableList.length == 0) {
-              crudService.getAll(ngAppSettings.TestDataGetVariableForAutoComplete.format($stateParams.TestId)).then(function (response) {
+              crudService.getAll(ngAppSettings.TestDataGetVariableForAutoComplete.format($stateParams.WebsiteId, $stateParams.TestCatId, $stateParams.TestId)).then(function (response) {
                 $scope.VariableList = response;
               }, function (response) {
               });
@@ -174,7 +174,7 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
     };
 
     $scope.onPageChange = function () {
-      crudService.getAll(ngAppSettings.PagesLocatorIdentifierUrl.format($scope.SharedTestData.PageId)).then(function (response) {
+      crudService.getAll(ngAppSettings.LocatorIdentifierUrl.format($stateParams.WebsiteId, $scope.SharedTestData.PageId)).then(function (response) {
         $scope.DisplayNameList = response;
         $scope.InputControlDisplayStatus.ddlDisplayName = true;
       }, function (response) {
@@ -205,7 +205,7 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
 
 
     $scope.addSharedTestData = function () {
-      crudService.add(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.SharedTestId), $scope.SharedTestData).then(function (response) {
+      crudService.add(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.WebsiteId,$stateParams.SharedTestId), $scope.SharedTestData).then(function (response) {
         $state.go("Website.SharedTestData", {
           WebsiteId: $scope.stateParamWebsiteId,
           SharedTestId: $scope.SharedTest.Id
@@ -217,7 +217,7 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
       if ($stateParams.ExecutionSequence < $scope.SharedTestData.ExecutionSequence) {
         $scope.SharedTestData.ExecutionSequence = $stateParams.ExecutionSequence;
       }
-      crudService.update(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.SharedTestId), $scope.SharedTestData).then(function (response) {
+      crudService.update(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.WebsiteId,$stateParams.SharedTestId), $scope.SharedTestData).then(function (response) {
         $state.go("Website.SharedTestData", {
           WebsiteId: $scope.stateParamWebsiteId,
           SharedTestId: $scope.SharedTest.Id
@@ -229,7 +229,7 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
 
     $scope.deleteSharedTestData = function (sharedTestDataId) {
       if (confirm("Are you sure u want to delete step?")) {
-        crudService.delete(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.SharedTestId), {'Id': sharedTestDataId}).then(function (response) {
+        crudService.delete(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.WebsiteId,$stateParams.SharedTestId), {'Id': sharedTestDataId}).then(function (response) {
           $scope.onLoadList();
         }, function (response) {
           commonUi.showErrorPopup(response);
@@ -246,7 +246,7 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
       dataProvider.currentTest($scope);
       dataProvider.currentSharedTest($scope);
 
-      promises.push(crudService.getAll(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.SharedTestId)).then(function (response) {
+      promises.push(crudService.getAll(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.WebsiteId,$stateParams.SharedTestId)).then(function (response) {
         $scope.SharedTestDataList = response;
       }, function (response) {
         commonUi.showErrorPopup(response);
@@ -323,7 +323,7 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
         commonUi.showErrorPopup(response);
       }));
 
-      promises.push(crudService.getById(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.SharedTestId), $stateParams.TestDataId).then(function (response) {
+      promises.push(crudService.getById(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.WebsiteId,$stateParams.SharedTestId), $stateParams.TestDataId).then(function (response) {
 
         $scope.SharedTestData = response.Item;
         if ($scope.SharedTestData.ActionId != $scope.ActionConstants.DeclareVariableActionId &&
@@ -335,7 +335,7 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
             commonUi.showErrorPopup(response);
           }));
 
-          promises.push(crudService.getAll(ngAppSettings.PagesLocatorIdentifierUrl.format($scope.SharedTestData.PageId)).then(function (response) {
+          promises.push(crudService.getAll(ngAppSettings.LocatorIdentifierUrl.format($stateParams.WebsiteId, $scope.SharedTestData.PageId)).then(function (response) {
             $scope.DisplayNameList = response;
           }, function (response) {
             commonUi.showErrorPopup(response);
@@ -383,7 +383,7 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
         crudService.getAll(ngAppSettings.WebsiteDataBaseCategoriesUrl.format($stateParams.WebsiteId)).then(function (response) {
           $scope.DataBaseCategories = response;
           if ($scope.VariableList.length == 0) {
-            crudService.getAll(ngAppSettings.TestDataGetVariableForAutoComplete.format($stateParams.TestId)).then(function (response) {
+            crudService.getAll(ngAppSettings.TestDataGetVariableForAutoComplete.format($stateParams.WebsiteId, $stateParams.TestCatId, $stateParams.TestId)).then(function (response) {
               $scope.VariableList = response;
             }, function (response) {
             });
@@ -410,7 +410,7 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
 
     $scope.onIsSqlTestStepClickOnEdit = function () {
       $scope.IsSqlTestStep = true;
-      commonUi.showMessagePopup("You Can't change the step type here to change it please delete and Re-Add the step","Not allowed")
+      commonUi.showMessagePopup("You Can't change the step type here to change it please delete and Re-Add the step", "Not allowed")
     }
 
   }]);

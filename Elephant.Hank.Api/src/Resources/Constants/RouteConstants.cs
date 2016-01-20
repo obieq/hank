@@ -24,6 +24,6 @@ namespace Elephant.Hank.Resources.Constants
         /// <summary>
         /// The test cat root
         /// </summary>
-        public const string TestCatRoot = "api/website/{webSiteId}/test-cat";
+        public const string TestCatRoot = "api/website/{websiteId}/test-cat";
     }
 }

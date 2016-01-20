@@ -83,7 +83,7 @@ app.controller('TestQueueController', ['$scope', '$stateParams', '$state', 'Crud
         }
       }
       if ($scope.TestQueue.Settings.Browsers.length > 0) {
-        crudService.add(ngAppSettings.TestQueueUrl, $scope.TestQueue).then(function (response) {
+        crudService.add(ngAppSettings.TestQueueUrl.format($stateParams.WebsiteId), $scope.TestQueue).then(function (response) {
           $("#testQueueModal").modal('hide');
           $("#testQueueModal").bind('hidden.bs.modal', function () {
             commonUi.showMessagePopup("Test has been queued successfully!");

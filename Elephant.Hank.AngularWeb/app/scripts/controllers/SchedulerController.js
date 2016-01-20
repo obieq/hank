@@ -27,7 +27,7 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
     dataProvider.currentWebSite($scope);
 
     $scope.forceExecute = function (id) {
-      crudService.search(ngAppSettings.SchedulerForceExecuteUrl.format(id)).then(function (response) {
+      crudService.search(ngAppSettings.SchedulerForceExecuteUrl.format($stateParams.WebsiteId, id)).then(function (response) {
         commonUi.showMessagePopup("Scheduler has been queued successfully!");
       }, function (response) {
         commonUi.showErrorPopup(response);
@@ -43,9 +43,9 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
     };
 
     $scope.getSchedulerHistory = function () {
-      crudService.getById(ngAppSettings.SchedulerUrl, $stateParams.Id).then(function (response) {
+      crudService.getById(ngAppSettings.SchedulerUrl.format($stateParams.WebsiteId), $stateParams.Id).then(function (response) {
         $scope.Scheduler = response.Item;
-        crudService.getAll(ngAppSettings.SchedulerHistoryUrl.format($stateParams.Id)).then(function (response) {
+        crudService.getAll(ngAppSettings.SchedulerHistoryUrl.format($stateParams.WebsiteId, $stateParams.Id)).then(function (response) {
           $scope.SchedulerHistory = response;
         }, function (response) {
           commonUi.showErrorPopup(response);
@@ -63,7 +63,7 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
         $scope.Scheduler.Settings.TakeScreenShotOnUrlChangedTestId = x.TestId;
         $scope.Scheduler.Settings.TakeScreenShotOnUrlChangedSuiteId = x.SuiteId;
       }
-      crudService.add(ngAppSettings.SchedulerUrl, $scope.Scheduler).then(function (response) {
+      crudService.add(ngAppSettings.SchedulerUrl.format($stateParams.WebsiteId), $scope.Scheduler).then(function (response) {
         $scope.addSchedulerSuiteLinks(response.Item.Id, true);
       }, function (response) {
         commonUi.showErrorPopup(response);
@@ -72,7 +72,7 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
 
     $scope.getSchedulerById = function () {
       $scope.loadData();
-      crudService.getById(ngAppSettings.SchedulerUrl, $stateParams.Id).then(function (response) {
+      crudService.getById(ngAppSettings.SchedulerUrl.format($stateParams.WebsiteId), $stateParams.Id).then(function (response) {
         $scope.Scheduler = response.Item;
         response.Item.Settings = response.Item.Settings == null ? $scope.Scheduler.Settings : response.Item.Settings;
         $scope.Scheduler.StartDateTime = $scope.Scheduler.StartDateTime.dateFormat($filter);
@@ -95,7 +95,7 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
         $scope.Scheduler.Settings.TakeScreenShotOnUrlChangedTestId = x.TestId;
         $scope.Scheduler.Settings.TakeScreenShotOnUrlChangedSuiteId = x.SuiteId;
       }
-      crudService.update(ngAppSettings.SchedulerUrl, $scope.Scheduler).then(function (response) {
+      crudService.update(ngAppSettings.SchedulerUrl.format($stateParams.WebsiteId), $scope.Scheduler).then(function (response) {
         $scope.addSchedulerSuiteLinks(response.Item.Id, true);
         //$state.go("Website.Scheduler",{ WebsiteId: $scope.stateParamWebsiteId});
       }, function (response) {
@@ -117,8 +117,8 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
           $scope.BrowserList = response;
           for (var i = 0; i < $scope.BrowserList.length; i++) {
             for (var j = 0; j < $scope.Website.Settings.Browsers.length; j++) {
-              if($scope.Website.Settings.Browsers[j]==$scope.BrowserList[i].Id){
-                $scope.BrowserList[i].Checked=true;
+              if ($scope.Website.Settings.Browsers[j] == $scope.BrowserList[i].Id) {
+                $scope.BrowserList[i].Checked = true;
               }
             }
           }
@@ -144,7 +144,7 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
     $scope.addSchedulerSuiteLinks = function (schedulerId, doRedirect) {
       var mapData = $scope.getSelectedSuite(schedulerId);
 
-      crudService.add(ngAppSettings.SchedulerSuiteUrl.format(schedulerId), mapData).then(function () {
+      crudService.add(ngAppSettings.SchedulerSuiteUrl.format($stateParams.WebsiteId, schedulerId), mapData).then(function () {
         if (doRedirect) {
           $state.go("Website.Scheduler", {WebsiteId: $scope.stateParamWebsiteId});
         }
@@ -165,7 +165,7 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
         }
       }
       if (suiteIdListToSend != '') {
-        crudService.getAll(ngAppSettings.SuiteTestMapBySuiteIdListUrl.format(suiteIdListToSend)).then(function (response) {
+        crudService.getAll(ngAppSettings.SuiteTestMapBySuiteIdListUrl.format($stateParams.WebsiteId, suiteIdListToSend)).then(function (response) {
           for (var k = 0; k < response.length; k++) {
             var checkEntryAddToDDL = _.where($scope.TestUnderSuite, {
               'SuiteId': response[k].SuiteId,
@@ -191,7 +191,7 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
         });
       }
       else {
-        crudService.getAll(ngAppSettings.SuiteTestMapUrl.format(suite.Id)).then(function (response) {
+        crudService.getAll(ngAppSettings.SuiteTestMapUrl.format($stateParams.WebsiteId, suite.Id)).then(function (response) {
 
           for (var k = 0; k < response.length; k++) {
             $scope.TestUnderSuite.push(response[k]);
@@ -254,7 +254,7 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
     };
 
     $scope.getSchedulerSuiteLinks = function (schedulerId) {
-      crudService.getAll(ngAppSettings.SchedulerSuiteUrl.format(schedulerId)).then(function (response) {
+      crudService.getAll(ngAppSettings.SchedulerSuiteUrl.format($stateParams.WebsiteId, schedulerId)).then(function (response) {
         $scope.LinkScheduleSuiteList = response;
         $scope.processTestData();
       }, function (response) {
@@ -311,7 +311,7 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
       var deferred = $q.defer();
       for (var l = 0; l < $scope.SuiteList.length; l++) {
         if ($scope.SuiteList[l].Checked) {
-          crudService.getAll(ngAppSettings.SuiteTestMapUrl.format(suite.Id)).then(function (response) {
+          crudService.getAll(ngAppSettings.SuiteTestMapUrl.format($stateParams.WebsiteId, suite.Id)).then(function (response) {
             for (var k = 0; k < response.length; k++) {
               var testAlreadyExist = _.where($scope.TestUnderSuite, {TestId: response[k].TestId})[0];
               if (testAlreadyExist == undefined || testAlreadyExist == null) {
@@ -341,7 +341,7 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
       }
 
       if (suiteIdListToSend != '') {
-        promises.push(crudService.getAll(ngAppSettings.SuiteTestMapBySuiteIdListUrl.format(suiteIdListToSend)).then(function (response) {
+        promises.push(crudService.getAll(ngAppSettings.SuiteTestMapBySuiteIdListUrl.format($stateParams.WebsiteId,suiteIdListToSend)).then(function (response) {
           for (var k = 0; k < response.length; k++) {
             var checkEntryAddToDDL = _.where($scope.TestUnderSuite, {
               'SuiteId': response[k].SuiteId,

@@ -214,6 +214,7 @@
     <Folder Include="Views\Profile\" />
     <Folder Include="Views\SchedulerSuite\" />
     <Folder Include="Views\Scheduler\" />
+    <Folder Include="Views\SharedTestData\" />
     <Folder Include="Views\SharedTest\" />
     <Folder Include="Views\TestQueue\" />
     <Folder Include="Views\User\" />
@@ -254,6 +255,7 @@
     <Compile Include="Controllers\PagesController.cs" />
     <Compile Include="Controllers\LocatorController.cs" />
     <Compile Include="Controllers\LocatorIdentifierController.cs" />
+    <Compile Include="Controllers\SharedTestDataController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserProfileController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />

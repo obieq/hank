@@ -67,15 +67,15 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="browserId">The identifier.</param>
         /// <returns>TblBrowsersDto objects</returns>
-        [Route("{id}")]
-        public IHttpActionResult GetById(long id)
+        [Route("{browserId}")]
+        public IHttpActionResult GetById(long browserId)
         {
             var result = new ResultMessage<TblBrowsersDto>();
             try
             {
-                result = this.browserService.GetById(id);
+                result = this.browserService.GetById(browserId);
             }
             catch (Exception ex)
             {
@@ -89,16 +89,16 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Deletes the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="browserId">The identifier.</param>
         /// <returns>Deleted object</returns>
-        [Route("{id}")]
+        [Route("{browserId}")]
         [HttpDelete]
-        public IHttpActionResult DeleteById(long id)
+        public IHttpActionResult DeleteById(long browserId)
         {
             var result = new ResultMessage<TblBrowsersDto>();
             try
             {
-                result = this.browserService.DeleteById(id, this.UserId);
+                result = this.browserService.DeleteById(browserId, this.UserId);
             }
             catch (Exception ex)
             {
@@ -126,15 +126,15 @@ namespace Elephant.Hank.Api.Controllers
         /// Updates the specified action dto.
         /// </summary>
         /// <param name="browsersDto">The browser dto.</param>
-        /// <param name="id">The identifier.</param>
+        /// <param name="browserId">The identifier.</param>
         /// <returns>
         /// Newly updated object
         /// </returns>
         [Route("{id}")]
         [HttpPut]
-        public IHttpActionResult Update([FromBody]TblBrowsersDto browsersDto, long id)
+        public IHttpActionResult Update([FromBody]TblBrowsersDto browsersDto, long browserId)
         {
-            browsersDto.Id = id;
+            browsersDto.Id = browserId;
             return this.AddUpdate(browsersDto);
         }
 

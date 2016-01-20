@@ -19,20 +19,20 @@ app.controller('PagesController',['$scope', '$stateParams', '$state', 'CrudServi
     };
 
     $scope.getPageById = function(){
-      crudService.getById(ngAppSettings.PagesUrl, $stateParams.PageId).then(function(response){
+      crudService.getById(ngAppSettings.PagesUrl.format($stateParams.WebsiteId), $stateParams.PageId).then(function(response){
         $scope.Page = response.Item;
       },function(response){ commonUi.showErrorPopup(response); });
     };
 
     $scope.updatePage = function(){
-      crudService.update(ngAppSettings.PagesUrl, $scope.Page).then(function(response){
+      crudService.update(ngAppSettings.PagesUrl.format($stateParams.WebsiteId), $scope.Page).then(function(response){
         $state.go("Website.Pages", { WebsiteId: $scope.stateParamWebsiteId });
       },function(response){ commonUi.showErrorPopup(response); });
     };
 
     $scope.addPage = function(){
       $scope.Page.WebsiteId = $scope.Website.Id;
-      crudService.add(ngAppSettings.PagesUrl, $scope.Page).then(function(response){
+      crudService.add(ngAppSettings.PagesUrl.format($stateParams.WebsiteId), $scope.Page).then(function(response){
         $state.go("Website.Pages", { WebsiteId: $scope.stateParamWebsiteId });
       },function(response){ commonUi.showErrorPopup(response); });
     };

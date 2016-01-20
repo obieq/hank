@@ -40,7 +40,7 @@ namespace Elephant.Hank.Api.Controllers
     /// The DataBaseConnectionController class
     /// </summary>
     [Authorize]
-    [RoutePrefix("api/data-base-connection")]
+    [RoutePrefix("api/website/{websiteId}/data-base-categories/{databaseCategoryId}/data-base-connection")]
     public class DataBaseConnectionController : BaseApiController
     {
         /// <summary>
@@ -60,17 +60,18 @@ namespace Elephant.Hank.Api.Controllers
         }
 
         /// <summary>
-        /// Gets all.
+        /// Get all data base connection by category identifier
         /// </summary>
-        /// <returns>List of TblDataBaseConnectionDto objects</returns>
-        [HttpGet]
+        /// <param name="databaseCategoryId">database category identifier</param>
+        /// <returns>TblDataBaseConnectionDto list object</returns>
         [Route("")]
-        public IHttpActionResult GetAll()
+        [HttpGet]
+        public IHttpActionResult GetAll(long databaseCategoryId)
         {
             var result = new ResultMessage<IEnumerable<TblDataBaseConnectionDto>>();
             try
             {
-                result = this.databaseConnectionService.GetAll();
+                result = this.databaseConnectionService.GetByCategoryId(databaseCategoryId);
             }
             catch (Exception ex)
             {
@@ -84,16 +85,16 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="databaseConnectionId">The identifier.</param>
         /// <returns>TblDataBaseConnectionDto objects</returns>
         [HttpGet]
-        [Route("{id}")]
-        public IHttpActionResult GetById(long id)
+        [Route("{databaseConnectionId}")]
+        public IHttpActionResult GetById(long databaseConnectionId)
         {
             var result = new ResultMessage<TblDataBaseConnectionDto>();
             try
             {
-                result = this.databaseConnectionService.GetById(id);
+                result = this.databaseConnectionService.GetById(databaseConnectionId);
             }
             catch (Exception ex)
             {
@@ -107,16 +108,16 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Deletes the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="databaseConnectionId">The identifier.</param>
         /// <returns>Deleted object</returns>
-        [Route("{id}")]
+        [Route("{databaseConnectionId}")]
         [HttpDelete]
-        public IHttpActionResult DeleteById(long id)
+        public IHttpActionResult DeleteById(long databaseConnectionId)
         {
             var result = new ResultMessage<TblDataBaseConnectionDto>();
             try
             {
-                result = this.databaseConnectionService.DeleteById(id, this.UserId);
+                result = this.databaseConnectionService.DeleteById(databaseConnectionId, this.UserId);
             }
             catch (Exception ex)
             {
@@ -154,24 +155,24 @@ namespace Elephant.Hank.Api.Controllers
         /// Updates the specified action dto.
         /// </summary>
         /// <param name="dataBaseConnectionDto">The data base connection dto.</param>
-        /// <param name="id">The identifier.</param>
+        /// <param name="databaseConnectionId">The identifier.</param>
         /// <returns>
         /// Newly updated object
         /// </returns>
-        [Route("{id}")]
+        [Route("{databaseConnectionId}")]
         [HttpPut]
-        public IHttpActionResult Update([FromBody]TblDataBaseConnectionDto dataBaseConnectionDto, long id)
+        public IHttpActionResult Update([FromBody]TblDataBaseConnectionDto dataBaseConnectionDto, long databaseConnectionId)
         {
             var data = this.databaseConnectionService.GetSensitiveDataByEnvironmentAndCategoryId(dataBaseConnectionDto.EnvironmentId, dataBaseConnectionDto.CategoryId);
 
-            if (!data.IsError && data.Item != null && id != data.Item.Id)
+            if (!data.IsError && data.Item != null && databaseConnectionId != data.Item.Id)
             {
                 data.Messages.Add(new Message(null, "DataBase Connection already exists with same environment and category combination"));
 
                 return this.CreateCustomResponse(data, HttpStatusCode.BadRequest);
             }
 
-            dataBaseConnectionDto.Id = id;
+            dataBaseConnectionDto.Id = databaseConnectionId;
             return this.AddUpdate(dataBaseConnectionDto);
         }
 

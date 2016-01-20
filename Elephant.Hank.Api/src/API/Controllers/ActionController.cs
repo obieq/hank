@@ -69,15 +69,15 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="actionId">The identifier.</param>
         /// <returns>TblActionDto objects</returns>
-        [Route("{id}")]
-        public IHttpActionResult GetById(long id)
+        [Route("{actionId}")]
+        public IHttpActionResult GetById(long actionId)
         {
             var result = new ResultMessage<TblActionDto>();
             try
             {
-                result = this.actionsService.GetById(id);
+                result = this.actionsService.GetById(actionId);
             }
             catch (Exception ex)
             {
@@ -91,16 +91,16 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Deletes the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="actionId">The identifier.</param>
         /// <returns>Deleted object</returns>
-        [Route("{id}")]
+        [Route("{actionId}")]
         [HttpDelete]
-        public IHttpActionResult DeleteById(long id)
+        public IHttpActionResult DeleteById(long actionId)
         {
             var result = new ResultMessage<TblActionDto>();
             try
             {
-                result = this.actionsService.DeleteById(id, this.UserId);
+                result = this.actionsService.DeleteById(actionId, this.UserId);
             }
             catch (Exception ex)
             {
@@ -137,24 +137,24 @@ namespace Elephant.Hank.Api.Controllers
         /// Updates the specified action dto.
         /// </summary>
         /// <param name="actionDto">The action dto.</param>
-        /// <param name="id">The identifier.</param>
+        /// <param name="actionId">The identifier.</param>
         /// <returns>
         /// Newly updated object
         /// </returns>
-        [Route("{id}")]
+        [Route("{actionId}")]
         [HttpPut]
-        public IHttpActionResult Update([FromBody]TblActionDto actionDto, long id)
+        public IHttpActionResult Update([FromBody]TblActionDto actionDto, long actionId)
         {
             var data = this.actionsService.GetByValue(actionDto.Value);
 
-            if (!data.IsError && data.Item != null && id != data.Item.Id)
+            if (!data.IsError && data.Item != null && actionId != data.Item.Id)
             {
                 data.Messages.Add(new Message(null, "Action already exists with '" + actionDto.Value + "' value!"));
 
                 return this.CreateCustomResponse(data, HttpStatusCode.BadRequest);
             }
 
-            actionDto.Id = id;
+            actionDto.Id = actionId;
             return this.AddUpdate(actionDto);
         }
 

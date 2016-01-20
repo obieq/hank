@@ -25,7 +25,7 @@ namespace Elephant.Hank.Api.Controllers
     /// <summary>
     /// The LocatorIdentifierController class
     /// </summary>
-    [RoutePrefix("api/locator-identifier")]
+    [RoutePrefix("api/website/{websiteId}/pages/{pageId}/locator-identifier")]
     [Authorize]
     public class LocatorIdentifierController : BaseApiController
     {
@@ -48,14 +48,15 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets all.
         /// </summary>
+        /// <param name="pageId">The page identoifier.</param>
         /// <returns>List of TblLocatorIdentifierDto objects</returns>
-        [Route]
-        public IHttpActionResult GetAll()
+        [Route("")]
+        public IHttpActionResult GetAll(long pageId)
         {
             var result = new ResultMessage<IEnumerable<TblLocatorIdentifierDto>>();
             try
             {
-                result = this.locatorIdentifierService.GetAll();
+                result = this.locatorIdentifierService.GetByPageId(pageId);
             }
             catch (Exception ex)
             {
@@ -69,15 +70,15 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="locatorIdentifierId">The identifier.</param>
         /// <returns>TblLocatorIdentifierDto objects</returns>
-        [Route("{id}")]
-        public IHttpActionResult GetById(long id)
+        [Route("{locatorIdentifierId}")]
+        public IHttpActionResult GetById(long locatorIdentifierId)
         {
             var result = new ResultMessage<TblLocatorIdentifierDto>();
             try
             {
-                result = this.locatorIdentifierService.GetById(id);
+                result = this.locatorIdentifierService.GetById(locatorIdentifierId);
             }
             catch (Exception ex)
             {
@@ -91,16 +92,16 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Deletes the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="locatorIdentifierId">The identifier.</param>
         /// <returns>Deleted object</returns>
-        [Route("{id}")]
+        [Route("{locatorIdentifierId}")]
         [HttpDelete]
-        public IHttpActionResult DeleteById(long id)
+        public IHttpActionResult DeleteById(long locatorIdentifierId)
         {
             var result = new ResultMessage<TblLocatorIdentifierDto>();
             try
             {
-                result = this.locatorIdentifierService.DeleteById(id, this.UserId);
+                result = this.locatorIdentifierService.DeleteById(locatorIdentifierId, this.UserId);
             }
             catch (Exception ex)
             {
@@ -118,7 +119,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>
         /// Newly added object
         /// </returns>
-        [Route]
+        [Route("")]
         [HttpPost]
         public IHttpActionResult Add([FromBody]TblLocatorIdentifierDto locatorIdentifierDto)
         {
@@ -138,24 +139,24 @@ namespace Elephant.Hank.Api.Controllers
         /// Updates the specified action dto.
         /// </summary>
         /// <param name="locatorIdentifierDto">The locator identifier dto.</param>
-        /// <param name="id">The identifier.</param>
+        /// <param name="locatorIdentifierId">The identifier.</param>
         /// <returns>
         /// Newly updated object
         /// </returns>
-        [Route("{id}")]
+        [Route("{locatorIdentifierId}")]
         [HttpPut]
-        public IHttpActionResult Update([FromBody]TblLocatorIdentifierDto locatorIdentifierDto, long id)
+        public IHttpActionResult Update([FromBody]TblLocatorIdentifierDto locatorIdentifierDto, long locatorIdentifierId)
         {
             var data = this.locatorIdentifierService.IsExisting(locatorIdentifierDto);
 
-            if (!data.IsError && data.Item != null && id != data.Item.Id)
+            if (!data.IsError && data.Item != null && locatorIdentifierId != data.Item.Id)
             {
                 data.Messages.Add(new Message(null, "Page already has '" + locatorIdentifierDto.DisplayName + "' as display name!"));
 
                 return this.CreateCustomResponse(data, HttpStatusCode.BadRequest);
             }
 
-            locatorIdentifierDto.Id = id;
+            locatorIdentifierDto.Id = locatorIdentifierId;
             return this.AddUpdate(locatorIdentifierDto);
         }
 

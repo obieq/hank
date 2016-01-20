@@ -1160,14 +1160,14 @@
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="actionId">The identifier.</param>
             <returns>TblActionDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.ActionController.DeleteById(System.Int64)">
             <summary>
             Deletes the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="actionId">The identifier.</param>
             <returns>Deleted object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.ActionController.Add(Elephant.Hank.Resources.Dto.TblActionDto)">
@@ -1184,7 +1184,7 @@
             Updates the specified action dto.
             </summary>
             <param name="actionDto">The action dto.</param>
-            <param name="id">The identifier.</param>
+            <param name="actionId">The identifier.</param>
             <returns>
             Newly updated object
             </returns>
@@ -1235,14 +1235,14 @@
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="browserId">The identifier.</param>
             <returns>TblBrowsersDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.BrowserController.DeleteById(System.Int64)">
             <summary>
             Deletes the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="browserId">The identifier.</param>
             <returns>Deleted object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.BrowserController.Add(Elephant.Hank.Resources.Dto.TblBrowsersDto)">
@@ -1259,7 +1259,7 @@
             Updates the specified action dto.
             </summary>
             <param name="browsersDto">The browser dto.</param>
-            <param name="id">The identifier.</param>
+            <param name="browserId">The identifier.</param>
             <returns>
             Newly updated object
             </returns>
@@ -1296,24 +1296,25 @@
             <param name="databaseCategoriesService">The databaseCategories service.</param>
             <param name="databaseConnectionService">The databaseConnection service.</param>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.DataBaseCategoriesController.GetAll">
+        <member name="M:Elephant.Hank.Api.Controllers.DataBaseCategoriesController.GetAll(System.Int64)">
             <summary>
             Gets all.
             </summary>
+            <param name="websiteId">The website identifier.</param>
             <returns>List of TblDataBaseCategoriesDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.DataBaseCategoriesController.GetById(System.Int64)">
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="databaseCategoryId">The identifier.</param>
             <returns>TblDataBaseCategoriesDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.DataBaseCategoriesController.DeleteById(System.Int64)">
             <summary>
             Deletes the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="databaseCategoryId">The identifier.</param>
             <returns>Deleted object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.DataBaseCategoriesController.Add(Elephant.Hank.Resources.Dto.TblDataBaseCategoriesDto)">
@@ -1330,17 +1331,10 @@
             Updates the specified action dto.
             </summary>
             <param name="dataBaseCategoriesDto">The data base categories dto.</param>
-            <param name="id">The identifier.</param>
+            <param name="databaseCategoryId">The identifier.</param>
             <returns>
             Newly updated object
             </returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.DataBaseCategoriesController.GetDataBaseConnectionByCategoryId(System.Int64)">
-            <summary>
-            Gets the by identifier.
-            </summary>
-            <param name="categoryId">The identifier.</param>
-            <returns>TblDataBaseCategoriesDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.DataBaseCategoriesController.AddUpdate(Elephant.Hank.Resources.Dto.TblDataBaseCategoriesDto)">
             <summary>
@@ -1366,24 +1360,25 @@
             <param name="loggerService">The logger service.</param>
             <param name="databaseConnectionService">The actions service.</param>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.DataBaseConnectionController.GetAll">
+        <member name="M:Elephant.Hank.Api.Controllers.DataBaseConnectionController.GetAll(System.Int64)">
             <summary>
-            Gets all.
+            Get all data base connection by category identifier
             </summary>
-            <returns>List of TblDataBaseConnectionDto objects</returns>
+            <param name="databaseCategoryId">database category identifier</param>
+            <returns>TblDataBaseConnectionDto list object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.DataBaseConnectionController.GetById(System.Int64)">
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="databaseConnectionId">The identifier.</param>
             <returns>TblDataBaseConnectionDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.DataBaseConnectionController.DeleteById(System.Int64)">
             <summary>
             Deletes the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="databaseConnectionId">The identifier.</param>
             <returns>Deleted object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.DataBaseConnectionController.Add(Elephant.Hank.Resources.Dto.TblDataBaseConnectionDto)">
@@ -1400,7 +1395,7 @@
             Updates the specified action dto.
             </summary>
             <param name="dataBaseConnectionDto">The data base connection dto.</param>
-            <param name="id">The identifier.</param>
+            <param name="databaseConnectionId">The identifier.</param>
             <returns>
             Newly updated object
             </returns>
@@ -1486,14 +1481,14 @@
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="environmentId">The identifier.</param>
             <returns>TblEnvironmentDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.EnvironmentController.DeleteById(System.Int64)">
             <summary>
             Deletes the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="environmentId">The identifier.</param>
             <returns>Deleted object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.EnvironmentController.Add(Elephant.Hank.Resources.Dto.TblEnvironmentDto)">
@@ -1510,7 +1505,7 @@
             Updates the specified environment dto.
             </summary>
             <param name="environmentDto">The environment dto.</param>
-            <param name="id">The identifier.</param>
+            <param name="environmentId">The identifier.</param>
             <returns>
             Newly updated object
             </returns>
@@ -1586,14 +1581,14 @@
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="groupId">The identifier.</param>
             <returns>TblGroupDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.GroupController.DeleteById(System.Int64)">
             <summary>
             Deletes the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="groupId">The identifier.</param>
             <returns>Deleted object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.GroupController.Add(Elephant.Hank.Resources.Dto.TblGroupDto)">
@@ -1610,7 +1605,7 @@
             Updates the specified action dto.
             </summary>
             <param name="groupDto">The group dto.</param>
-            <param name="id">The identifier.</param>
+            <param name="groupId">The identifier.</param>
             <returns>
             Newly updated object
             </returns>
@@ -1619,7 +1614,7 @@
             <summary>
             Add/Delete the permissions on website
             </summary>
-            <param name="id">the group identifier</param>
+            <param name="groupId">the group identifier</param>
             <param name="websiteIdList">wibsite id list</param>
             <returns>TblGroupModuleAccessDto list objects</returns>
         </member>
@@ -1742,24 +1737,25 @@
             <param name="pagesService">The pages service.</param>
             <param name="locatorIdentifierService">The locator identifier service.</param>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.PagesController.GetAll">
+        <member name="M:Elephant.Hank.Api.Controllers.PagesController.GetAll(System.Int64)">
             <summary>
             Gets all.
             </summary>
+            <param name="websiteId">The website identifier.</param>
             <returns>List of TblPagesDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.PagesController.GetById(System.Int64)">
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="pageId">The identifier.</param>
             <returns>TblPagesDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.PagesController.DeleteById(System.Int64)">
             <summary>
             Deletes the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="pageId">The identifier.</param>
             <returns>Deleted object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.PagesController.Add(Elephant.Hank.Resources.Dto.TblPagesDto)">
@@ -1776,18 +1772,9 @@
             Updates the specified action dto.
             </summary>
             <param name="pagesDto">The display name dto.</param>
-            <param name="id">The identifier.</param>
+            <param name="pageId">The identifier.</param>
             <returns>
             Newly updated object
-            </returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.PagesController.GetLocatorIdentifier(System.Int64)">
-            <summary>
-            get by website id
-            </summary>
-            <param name="pageId">The page identifier.</param>
-            <returns>
-            List of TblTestDto objects
             </returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.PagesController.AddUpdate(Elephant.Hank.Resources.Dto.TblPagesDto)">
@@ -1826,14 +1813,14 @@
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="locatorId">The identifier.</param>
             <returns>TblLocatorDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.LocatorController.DeleteById(System.Int64)">
             <summary>
             Deletes the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="locatorId">The identifier.</param>
             <returns>Deleted object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.LocatorController.Add(Elephant.Hank.Resources.Dto.TblLocatorDto)">
@@ -1850,7 +1837,7 @@
             Updates the specified action dto.
             </summary>
             <param name="locatorDto">The locator dto.</param>
-            <param name="id">The identifier.</param>
+            <param name="locatorId">The identifier.</param>
             <returns>
             Newly updated object
             </returns>
@@ -1881,24 +1868,25 @@
             <param name="loggerService">The logger service.</param>
             <param name="locatorIdentifierService">The locator identifier service.</param>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.LocatorIdentifierController.GetAll">
+        <member name="M:Elephant.Hank.Api.Controllers.LocatorIdentifierController.GetAll(System.Int64)">
             <summary>
             Gets all.
             </summary>
+            <param name="pageId">The page identoifier.</param>
             <returns>List of TblLocatorIdentifierDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.LocatorIdentifierController.GetById(System.Int64)">
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="locatorIdentifierId">The identifier.</param>
             <returns>TblLocatorIdentifierDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.LocatorIdentifierController.DeleteById(System.Int64)">
             <summary>
             Deletes the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="locatorIdentifierId">The identifier.</param>
             <returns>Deleted object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.LocatorIdentifierController.Add(Elephant.Hank.Resources.Dto.TblLocatorIdentifierDto)">
@@ -1915,7 +1903,7 @@
             Updates the specified action dto.
             </summary>
             <param name="locatorIdentifierDto">The locator identifier dto.</param>
-            <param name="id">The identifier.</param>
+            <param name="locatorIdentifierId">The identifier.</param>
             <returns>
             Newly updated object
             </returns>
@@ -1925,6 +1913,87 @@
             Adds the update.
             </summary>
             <param name="locatorIdentifierDto">The locator identifier dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Hank.Api.Controllers.SharedTestDataController">
+            <summary>
+            The SharedTestDataController class.
+            </summary>
+        </member>
+        <member name="F:Elephant.Hank.Api.Controllers.SharedTestDataController.sharedTestService">
+            <summary>
+            The test service
+            </summary>
+        </member>
+        <member name="F:Elephant.Hank.Api.Controllers.SharedTestDataController.sharedTestDataService">
+            <summary>
+            The test data service
+            </summary>
+        </member>
+        <member name="F:Elephant.Hank.Api.Controllers.SharedTestDataController.testDataSharedTestDataMapService">
+            <summary>
+            the test data shared test data service
+            </summary>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.SharedTestDataController.#ctor(Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.ISharedTestService,Elephant.Hank.Common.TestDataServices.ISharedTestDataService,Elephant.Hank.Common.TestDataServices.ITestDataSharedTestDataMapService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.SharedTestDataController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="sharedTestService">The test service.</param>
+            <param name="sharedTestDataService">The shared test data service.</param>
+            <param name="testDataSharedTestDataMapService">The test data map service.</param>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.SharedTestDataController.GetAllTestData(System.Int64)">
+            <summary>
+            Gets all.
+            </summary>
+            <param name="sharedTestId">The test case identifier.</param>
+            <returns>
+            List of TblTestDataDto objects
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.SharedTestDataController.GetTestDataById(System.Int64)">
+            <summary>
+            Gets the test data by identifier.
+            </summary>
+            <param name="sharedTestDataId">The test data identifier.</param>
+            <returns>TblTestDataDto object</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.SharedTestDataController.AddTestData(Elephant.Hank.Resources.Dto.TblSharedTestDataDto,System.Int64)">
+            <summary>
+            Adds the test data.
+            </summary>
+            <param name="sharedtestDataDto">The test data dto.</param>
+            <param name="sharedTestId">The test case identifier.</param>
+            <returns>Newly added object</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.SharedTestDataController.UpdateTestData(Elephant.Hank.Resources.Dto.TblSharedTestDataDto,System.Int64,System.Int64)">
+            <summary>
+            Updates the test data.
+            </summary>
+            <param name="sharedtestDataDto">The test data dto.</param>
+            <param name="sharedTestId">The test case identifier.</param>
+            <param name="sharedTestDataId">The test data identifier.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.SharedTestDataController.DeleteTestData(System.Int64,System.Int64)">
+            <summary>
+            Deletes the test data.
+            </summary>
+            <param name="sharedTestId">The test case identifier.</param>
+            <param name="sharedTestDataId">The test data identifier.</param>
+            <returns>Deleted TblTestDataDto object</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.SharedTestDataController.AddUpdateSharedTestData(Elephant.Hank.Resources.Dto.TblSharedTestDataDto)">
+            <summary>
+            Adds the update test data.
+            </summary>
+            <param name="sharedtestDataDto">The test data dto.</param>
             <returns>
             Newly added object
             </returns>
@@ -2070,7 +2139,7 @@
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="reportId">The identifier.</param>
             <returns>TblReportDataDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.ReportsController.GetByGroupName(System.String)">
@@ -2222,24 +2291,25 @@
             <param name="schedulerSuiteMapService">The schedulerSuite service.</param>
             <param name="schedulerHistoryService">The scheduler history service.</param>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.SchedulerController.GetAll">
+        <member name="M:Elephant.Hank.Api.Controllers.SchedulerController.GetAll(System.Int64)">
             <summary>
             Gets all.
             </summary>
+            <param name="websiteId">The website identifier.</param>
             <returns>List of TblSchedulerDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.SchedulerController.GetById(System.Int64)">
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="schedulerId">The identifier.</param>
             <returns>TblSchedulerDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.SchedulerController.DeleteById(System.Int64)">
             <summary>
             Deletes the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="schedulerId">The identifier.</param>
             <returns>Deleted object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.SchedulerController.Add(Elephant.Hank.Resources.Dto.TblSchedulerDto)">
@@ -2256,7 +2326,7 @@
             Updates the specified action dto.
             </summary>
             <param name="schedulerDto">The locator dto.</param>
-            <param name="id">The identifier.</param>
+            <param name="schedulerId">The identifier.</param>
             <returns>
             Newly updated object
             </returns>
@@ -2363,14 +2433,14 @@
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="schedulerSuiteId">The identifier.</param>
             <returns>TblSchedulerDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.SchedulerSuiteMapController.DeleteById(System.Int64)">
             <summary>
             Deletes the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="schedulerSuiteId">The identifier.</param>
             <returns>Deleted object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.SchedulerSuiteMapController.Add(Elephant.Hank.Resources.Dto.Linking.TblLnkSchedulerSuiteDto)">
@@ -2387,7 +2457,7 @@
             Updates the specified action dto.
             </summary>
             <param name="schedulerSuiteDto">The locator dto.</param>
-            <param name="id">The identifier.</param>
+            <param name="schedulerSuiteId">The identifier.</param>
             <returns>
             Newly updated object
             </returns>
@@ -2430,24 +2500,25 @@
             <param name="sharedTestDataService">The shared test data service.</param>
             <param name="testDataSharedTestDataMapService">The test data map service.</param>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.SharedTestController.GetAll">
+        <member name="M:Elephant.Hank.Api.Controllers.SharedTestController.GetAll(System.Int64)">
             <summary>
             Gets all.
             </summary>
+            <param name="websiteId">The website identifier.</param>
             <returns>List of TblTestDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.SharedTestController.GetById(System.Int64)">
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="sharedTestId">The identifier.</param>
             <returns>TblTestDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.SharedTestController.DeleteById(System.Int64)">
             <summary>
             Deletes the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="sharedTestId">The identifier.</param>
             <returns>Deleted object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.SharedTestController.Add(Elephant.Hank.Resources.Dto.TblSharedTestDto)">
@@ -2464,70 +2535,17 @@
             Updates the specified action dto.
             </summary>
             <param name="sharedTestDto">The test dto.</param>
-            <param name="id">The identifier.</param>
+            <param name="sharedTestId">The identifier.</param>
             <returns>
             Newly updated object
             </returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.SharedTestController.GetAllTestData(System.Int64)">
-            <summary>
-            Gets all.
-            </summary>
-            <param name="sharedTestCaseId">The test case identifier.</param>
-            <returns>
-            List of TblTestDataDto objects
-            </returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.SharedTestController.GetTestDataById(System.Int64,System.Int64)">
-            <summary>
-            Gets the test data by identifier.
-            </summary>
-            <param name="sharedTestCaseId">The test case identifier.</param>
-            <param name="testDataId">The test data identifier.</param>
-            <returns>TblTestDataDto object</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.SharedTestController.AddTestData(Elephant.Hank.Resources.Dto.TblSharedTestDataDto,System.Int64)">
-            <summary>
-            Adds the test data.
-            </summary>
-            <param name="sharedtestDataDto">The test data dto.</param>
-            <param name="sharedTestCaseId">The test case identifier.</param>
-            <returns>Newly added object</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.SharedTestController.UpdateTestData(Elephant.Hank.Resources.Dto.TblSharedTestDataDto,System.Int64,System.Int64)">
-            <summary>
-            Updates the test data.
-            </summary>
-            <param name="sharedtestDataDto">The test data dto.</param>
-            <param name="sharedTestCaseId">The test case identifier.</param>
-            <param name="testDataId">The test data identifier.</param>
-            <returns>
-            Newly added object
-            </returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.SharedTestController.DeleteTestData(System.Int64,System.Int64)">
-            <summary>
-            Deletes the test data.
-            </summary>
-            <param name="sharedTestCaseId">The test case identifier.</param>
-            <param name="testDataId">The test data identifier.</param>
-            <returns>Deleted TblTestDataDto object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.SharedTestController.GetVariableTypeTestDataByTestCase(System.Int64)">
             <summary>
             Get the list of variable type test steps
             </summary>
-            <param name="sharedTestCaseId">the shared test case identifier</param>
+            <param name="sharedTestId">the shared test case identifier</param>
             <returns>TblTestDataDto object list</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.SharedTestController.AddUpdateSharedTestData(Elephant.Hank.Resources.Dto.TblSharedTestDataDto)">
-            <summary>
-            Adds the update test data.
-            </summary>
-            <param name="sharedtestDataDto">The test data dto.</param>
-            <returns>
-            Newly added object
-            </returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.SharedTestController.AddUpdate(Elephant.Hank.Resources.Dto.TblSharedTestDto)">
             <summary>
@@ -2561,24 +2579,25 @@
             <param name="suiteService">The suite service.</param>
             <param name="suiteTestMapService">The suite test map service.</param>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.SuiteController.GetAll">
+        <member name="M:Elephant.Hank.Api.Controllers.SuiteController.GetAll(System.Int64)">
             <summary>
             Gets all.
             </summary>
+            <param name="websiteId">The website identifier.</param>
             <returns>List of TblSuiteDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.SuiteController.GetById(System.Int64)">
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="suiteId">The identifier.</param>
             <returns>TblSuiteDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.SuiteController.DeleteById(System.Int64)">
             <summary>
             Deletes the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="suiteId">The identifier.</param>
             <returns>Deleted object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.SuiteController.Add(Elephant.Hank.Resources.Dto.TblSuiteDto)">
@@ -2595,7 +2614,7 @@
             Updates the specified action dto.
             </summary>
             <param name="suiteDto">The suite dto.</param>
-            <param name="id">The identifier.</param>
+            <param name="suiteId">The identifier.</param>
             <returns>
             Newly updated object
             </returns>
@@ -2629,7 +2648,7 @@
             Change the state of the test suite case.
             </summary>
             <param name="suiteId">The suite identifier.</param>
-            <param name="testCaseId">The test case identifier.</param>
+            <param name="testId">The test case identifier.</param>
             <param name="stateId">The state identifier.</param>
             <returns>TblLnkSuiteTestDto object</returns>
         </member>
@@ -2734,7 +2753,7 @@
             <summary>
             Gets all.
             </summary>
-            <param name="webSiteId">The web site identifier.</param>
+            <param name="websiteId">The web site identifier.</param>
             <returns>
             List of TblTestCategoriesDto objects
             </returns>
@@ -2743,8 +2762,8 @@
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="webSiteId">The web site identifier.</param>
-            <param name="id">The identifier.</param>
+            <param name="websiteId">The web site identifier.</param>
+            <param name="testCategoryId">The identifier.</param>
             <returns>
             TblTestCategoriesDto objects
             </returns>
@@ -2753,8 +2772,8 @@
             <summary>
             Deletes the by identifier.
             </summary>
-            <param name="webSiteId">The web site identifier.</param>
-            <param name="id">The identifier.</param>
+            <param name="websiteId">The web site identifier.</param>
+            <param name="testCategoryId">The identifier.</param>
             <returns>
             Deleted object
             </returns>
@@ -2763,7 +2782,7 @@
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="webSiteId">The web site identifier.</param>
+            <param name="websiteId">The web site identifier.</param>
             <param name="testCatDto">The display name dto.</param>
             <returns>
             Newly added object
@@ -2773,9 +2792,9 @@
             <summary>
             Updates the specified action dto.
             </summary>
-            <param name="webSiteId">The web site identifier.</param>
+            <param name="websiteId">The web site identifier.</param>
             <param name="testCatDto">The display name dto.</param>
-            <param name="id">The identifier.</param>
+            <param name="testCategoryId">The identifier.</param>
             <returns>
             Newly updated object
             </returns>
@@ -2784,8 +2803,8 @@
             <summary>
             Gets the test scripts by category identifier.
             </summary>
-            <param name="webSiteId">The web site identifier.</param>
-            <param name="catId">The category identifier.</param>
+            <param name="websiteId">The web site identifier.</param>
+            <param name="testCategoryId">The category identifier.</param>
             <returns>
             List of TblTestDto objects
             </returns>
@@ -2822,24 +2841,26 @@
             <param name="testService">The test service.</param>
             <param name="testDataService">The test data service.</param>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TestController.GetAll">
+        <member name="M:Elephant.Hank.Api.Controllers.TestController.GetAll(System.Int64,System.Int64)">
             <summary>
             Gets all.
             </summary>
+            <param name="websiteId">The website identifier.</param>
+            <param name="testCategoryId">The test categorytestCategoryId identifier.</param>
             <returns>List of TblTestDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.TestController.GetById(System.Int64)">
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="testId">The identifier.</param>
             <returns>TblTestDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.TestController.DeleteById(System.Int64)">
             <summary>
             Deletes the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="testId">The identifier.</param>
             <returns>Deleted object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.TestController.Add(Elephant.Hank.Resources.Dto.TblTestDto)">
@@ -2856,77 +2877,24 @@
             Updates the specified action dto.
             </summary>
             <param name="testDto">The test dto.</param>
-            <param name="id">The identifier.</param>
+            <param name="testId">The identifier.</param>
             <returns>
             Newly updated object
             </returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TestController.GetAllTestData(System.Int64)">
-            <summary>
-            Gets all.
-            </summary>
-            <param name="testCaseId">The test case identifier.</param>
-            <returns>
-            List of TblTestDataDto objects
-            </returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TestController.GetTestDataById(System.Int64,System.Int64)">
-            <summary>
-            Gets the test data by identifier.
-            </summary>
-            <param name="testCaseId">The test case identifier.</param>
-            <param name="testDataId">The test data identifier.</param>
-            <returns>TblTestDataDto object</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TestController.AddTestData(Elephant.Hank.Resources.Dto.TblTestDataDto,System.Int64)">
-            <summary>
-            Adds the test data.
-            </summary>
-            <param name="testDataDto">The test data dto.</param>
-            <param name="testCaseId">The test case identifier.</param>
-            <returns>Newly added object</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TestController.UpdateTestData(Elephant.Hank.Resources.Dto.TblTestDataDto,System.Int64,System.Int64)">
-            <summary>
-            Updates the test data.
-            </summary>
-            <param name="testDataDto">The test data dto.</param>
-            <param name="testCaseId">The test case identifier.</param>
-            <param name="testDataId">The test data identifier.</param>
-            <returns>
-            Newly added object
-            </returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TestController.DeleteTestData(System.Int64,System.Int64)">
-            <summary>
-            Deletes the test data.
-            </summary>
-            <param name="testCaseId">The test case identifier.</param>
-            <param name="testDataId">The test data identifier.</param>
-            <returns>Deleted TblTestDataDto object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.TestController.GetVariableTypeTestDataByTestCase(System.Int64)">
             <summary>
             Get the list of variable type test steps
             </summary>
-            <param name="testCaseId">the test case identifier</param>
+            <param name="testId">the test case identifier</param>
             <returns>TblTestDataDto object list</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.TestController.GetAllVariableByTestIdForAutoComplete(System.Int64)">
             <summary>
             Get the list of variable type test steps
             </summary>
-            <param name="testCaseId">the test case identifier</param>
+            <param name="testId">the test case identifier</param>
             <returns>TblTestDataDto object list</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TestController.AddUpdateTestData(Elephant.Hank.Resources.Dto.TblTestDataDto)">
-            <summary>
-            Adds the update test data.
-            </summary>
-            <param name="testDataDto">The test data dto.</param>
-            <returns>
-            Newly added object
-            </returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.TestController.AddUpdate(Elephant.Hank.Resources.Dto.TblTestDto)">
             <summary>
@@ -2960,24 +2928,26 @@
             <param name="testDataService">The test data service.</param>
             <param name="testDataSharedTestDataMapService">The shared test data service.</param>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TestDataController.GetAll">
+        <member name="M:Elephant.Hank.Api.Controllers.TestDataController.GetAllTestData(System.Int64)">
             <summary>
-            Gets all.
+            Get all test data 
             </summary>
-            <returns>List of TblTestDataDto objects</returns>
+            <param name="testId">the test identifier</param>
+            <returns>TblTestDataDto object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.TestDataController.GetById(System.Int64)">
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="testDataId">The identifier.</param>
             <returns>TblTestDataDto objects</returns>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TestDataController.DeleteById(System.Int64)">
+        <member name="M:Elephant.Hank.Api.Controllers.TestDataController.DeleteById(System.Int64,System.Int64)">
             <summary>
             Deletes the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="testId">The test identifier.</param>
+            <param name="testDataId">The testdata identifier.</param>
             <returns>Deleted object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.TestDataController.Add(Elephant.Hank.Resources.Dto.TblTestDataDto)">
@@ -3007,12 +2977,13 @@
             Newly added object
             </returns>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TestDataController.Update(Elephant.Hank.Resources.Dto.TblTestDataDto,System.Int64)">
+        <member name="M:Elephant.Hank.Api.Controllers.TestDataController.Update(Elephant.Hank.Resources.Dto.TblTestDataDto,System.Int64,System.Int64)">
             <summary>
             Updates the specified action dto.
             </summary>
             <param name="testDataDto">The test data dto.</param>
-            <param name="id">The identifier.</param>
+            <param name="testId">The test identifier.</param>
+            <param name="testDataId">The test data identifier.</param>
             <returns>
             Newly updated object
             </returns>
@@ -3020,6 +2991,15 @@
         <member name="M:Elephant.Hank.Api.Controllers.TestDataController.AddUpdate(Elephant.Hank.Resources.Dto.TblTestDataDto)">
             <summary>
             Adds the update.
+            </summary>
+            <param name="testDataDto">The test data dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.TestDataController.AddUpdateTestData(Elephant.Hank.Resources.Dto.TblTestDataDto)">
+            <summary>
+            Adds the update test data.
             </summary>
             <param name="testDataDto">The test data dto.</param>
             <returns>
@@ -3059,14 +3039,14 @@
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="testQueueId">The identifier.</param>
             <returns>TblTestQueueDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.TestQueueController.DeleteById(System.Int64)">
             <summary>
             Deletes the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="testQueueId">The identifier.</param>
             <returns>Deleted object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.TestQueueController.Add(Elephant.Hank.Resources.Dto.TblTestQueueDto)">
@@ -3083,7 +3063,7 @@
             Updates the specified action dto.
             </summary>
             <param name="testQueueDto">The testQueue Dto.</param>
-            <param name="id">The identifier.</param>
+            <param name="testQueueId">The identifier.</param>
             <returns>
             Newly updated object
             </returns>
@@ -3099,7 +3079,7 @@
             <summary>
             get executable test data
             </summary>
-            <param name="id">the test identifier</param>
+            <param name="testQueueId">the test identifier</param>
             <returns>GetTestQueueExecutableData object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.TestQueueController.ChangeTestQueueState(System.Int64,System.Int32)">
@@ -3182,14 +3162,14 @@
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="websiteId">The identifier.</param>
             <returns>TblActionDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.WebsiteController.DeleteById(System.Int64)">
             <summary>
             Deletes the by identifier.
             </summary>
-            <param name="id">The identifier.</param>
+            <param name="websiteId">The identifier.</param>
             <returns>Deleted object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.WebsiteController.Add(Elephant.Hank.Resources.Dto.TblWebsiteDto)">
@@ -3206,26 +3186,10 @@
             Updates the specified action dto.
             </summary>
             <param name="websiteDto">The website dto.</param>
-            <param name="id">The identifier.</param>
+            <param name="websiteId">The identifier.</param>
             <returns>
             Newly updated object
             </returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.WebsiteController.GetPages(System.Int64)">
-            <summary>
-            Gets the pages.
-            </summary>
-            <param name="websiteId">The website identifier.</param>
-            <returns>
-            List of TblActionDto objects
-            </returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.WebsiteController.GetTestCase(System.Int64)">
-            <summary>
-            Gets the test case.
-            </summary>
-            <param name="websiteId">The website identifier.</param>
-            <returns>TblTestDto object</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.WebsiteController.GetAllVariableByTestIdForAutoComplete(System.Int64)">
             <summary>
@@ -3233,36 +3197,6 @@
             </summary>
             <param name="websiteId">the test case identifier</param>
             <returns>TblTestDataDto object list</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.WebsiteController.GetSuites(System.Int64)">
-            <summary>
-            Gets the test case.
-            </summary>
-            <param name="websiteId">The website identifier.</param>
-            <returns>TblTestDto object</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.WebsiteController.GetScheduler(System.Int64)">
-            <summary>
-            Get the schedulers list by websiteId
-            </summary>
-            <param name="websiteId">website identifier</param>
-            <returns>List object of TblSchedulerDto</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.WebsiteController.GetSharedTestCase(System.Int64)">
-            <summary>
-            Gets the test case.
-            </summary>
-            <param name="websiteId">The website identifier.</param>
-            <returns>TblTestDto object</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.WebsiteController.GetDBCategoriesByWebsiteId(System.Int64)">
-            <summary>
-            Get DBCategories by websiteid
-            </summary>
-            <param name="websiteId">website identifier</param>
-            <returns>
-            TblDBCategoriesDto object list
-            </returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.WebsiteController.AddUpdate(Elephant.Hank.Resources.Dto.TblWebsiteDto)">
             <summary>

@@ -25,7 +25,7 @@ namespace Elephant.Hank.Api.Controllers
     /// <summary>
     /// The SuiteController class
     /// </summary>
-    [RoutePrefix("api/suite")]
+    [RoutePrefix("api/website/{websiteId}/suite")]
     [Authorize]
     public class SuiteController : BaseApiController
     {
@@ -57,13 +57,15 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets all.
         /// </summary>
+        /// <param name="websiteId">The website identifier.</param>
         /// <returns>List of TblSuiteDto objects</returns>
-        public IHttpActionResult GetAll()
+        [Route("")]
+        public IHttpActionResult GetAll(long websiteId)
         {
             var result = new ResultMessage<IEnumerable<TblSuiteDto>>();
             try
             {
-                result = this.suiteService.GetAll();
+                result = this.suiteService.GetByWebsiteId(websiteId);
             }
             catch (Exception ex)
             {
@@ -77,15 +79,15 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="suiteId">The identifier.</param>
         /// <returns>TblSuiteDto objects</returns>
-        [Route("{id}")]
-        public IHttpActionResult GetById(long id)
+        [Route("{suiteId}")]
+        public IHttpActionResult GetById(long suiteId)
         {
             var result = new ResultMessage<TblSuiteDto>();
             try
             {
-                result = this.suiteService.GetById(id);
+                result = this.suiteService.GetById(suiteId);
             }
             catch (Exception ex)
             {
@@ -99,16 +101,16 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Deletes the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="suiteId">The identifier.</param>
         /// <returns>Deleted object</returns>
-        [Route("{id}")]
+        [Route("{suiteId}")]
         [HttpDelete]
-        public IHttpActionResult DeleteById(long id)
+        public IHttpActionResult DeleteById(long suiteId)
         {
             var result = new ResultMessage<TblSuiteDto>();
             try
             {
-                result = this.suiteService.DeleteById(id, this.UserId);
+                result = this.suiteService.DeleteById(suiteId, this.UserId);
             }
             catch (Exception ex)
             {
@@ -127,6 +129,7 @@ namespace Elephant.Hank.Api.Controllers
         /// Newly added object
         /// </returns>
         [HttpPost]
+        [Route("")]
         public IHttpActionResult Add([FromBody]TblSuiteDto suiteDto)
         {
             suiteDto.SuiteTestMapList = null;
@@ -137,16 +140,16 @@ namespace Elephant.Hank.Api.Controllers
         /// Updates the specified action dto.
         /// </summary>
         /// <param name="suiteDto">The suite dto.</param>
-        /// <param name="id">The identifier.</param>
+        /// <param name="suiteId">The identifier.</param>
         /// <returns>
         /// Newly updated object
         /// </returns>
-        [Route("{id}")]
+        [Route("{suiteId}")]
         [HttpPut]
-        public IHttpActionResult Update([FromBody]TblSuiteDto suiteDto, long id)
+        public IHttpActionResult Update([FromBody]TblSuiteDto suiteDto, long suiteId)
         {
             suiteDto.SuiteTestMapList = null;
-            suiteDto.Id = id;
+            suiteDto.Id = suiteId;
             return this.AddUpdate(suiteDto);
         }
 
@@ -234,17 +237,17 @@ namespace Elephant.Hank.Api.Controllers
         /// Change the state of the test suite case.
         /// </summary>
         /// <param name="suiteId">The suite identifier.</param>
-        /// <param name="testCaseId">The test case identifier.</param>
+        /// <param name="testId">The test case identifier.</param>
         /// <param name="stateId">The state identifier.</param>
         /// <returns>TblLnkSuiteTestDto object</returns>
-        [Route("{suiteId}/test-case/{testCaseId}/test-state/{stateId}")]
+        [Route("{suiteId}/test-case/{testId}/test-state/{stateId}")]
         [HttpPost]
-        public IHttpActionResult ChangeTestSuiteCaseState(long suiteId, long testCaseId, long stateId)
+        public IHttpActionResult ChangeTestSuiteCaseState(long suiteId, long testId, long stateId)
         {
             var result = new ResultMessage<TblLnkSuiteTestDto>();
             try
             {
-                result = this.suiteTestMapService.GetLinkBySuiteIdAndTestId(suiteId, testCaseId);
+                result = this.suiteTestMapService.GetLinkBySuiteIdAndTestId(suiteId, testId);
 
                 if (!result.IsError)
                 {

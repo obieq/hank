@@ -29,7 +29,7 @@ app.controller('ScreenShotCompareController', ['$scope', '$q', '$filter', '$stat
     };
 
     $scope.onSchedulerFirstChange = function () {
-      crudService.getAll(ngAppSettings.SchedulerHistoryUrl.format($scope.CompareData.SchedulerIdFirst)).then(function (response) {
+      crudService.getAll(ngAppSettings.SchedulerHistoryUrl.format($stateParams.WebsiteId,$scope.CompareData.SchedulerIdFirst)).then(function (response) {
         $scope.schedulerHistoryFirstList = response;
       }, function (response) {
         commonUi.showErrorPopup(response);
@@ -37,7 +37,7 @@ app.controller('ScreenShotCompareController', ['$scope', '$q', '$filter', '$stat
     };
 
     $scope.onSchedulerSecondChange = function () {
-      crudService.getAll(ngAppSettings.SchedulerHistoryUrl.format($scope.CompareData.SchedulerIdSecond)).then(function (response) {
+      crudService.getAll(ngAppSettings.SchedulerHistoryUrl.format($stateParams.WebsiteId,$scope.CompareData.SchedulerIdSecond)).then(function (response) {
         $scope.schedulerHistorySecondList = response;
       }, function (response) {
         commonUi.showErrorPopup(response);

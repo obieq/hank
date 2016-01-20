@@ -82,15 +82,15 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="groupId">The identifier.</param>
         /// <returns>TblGroupDto objects</returns>
-        [Route("{id}")]
-        public IHttpActionResult GetById(long id)
+        [Route("{groupId}")]
+        public IHttpActionResult GetById(long groupId)
         {
             var result = new ResultMessage<TblGroupDto>();
             try
             {
-                result = this.groupService.GetById(id);
+                result = this.groupService.GetById(groupId);
             }
             catch (Exception ex)
             {
@@ -104,16 +104,16 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Deletes the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="groupId">The identifier.</param>
         /// <returns>Deleted object</returns>
-        [Route("{id}")]
+        [Route("{groupId}")]
         [HttpDelete]
-        public IHttpActionResult DeleteById(long id)
+        public IHttpActionResult DeleteById(long groupId)
         {
             var result = new ResultMessage<TblGroupDto>();
             try
             {
-                result = this.groupService.DeleteById(id, this.UserId);
+                result = this.groupService.DeleteById(groupId, this.UserId);
             }
             catch (Exception ex)
             {
@@ -141,32 +141,32 @@ namespace Elephant.Hank.Api.Controllers
         /// Updates the specified action dto.
         /// </summary>
         /// <param name="groupDto">The group dto.</param>
-        /// <param name="id">The identifier.</param>
+        /// <param name="groupId">The identifier.</param>
         /// <returns>
         /// Newly updated object
         /// </returns>
-        [Route("{id}")]
+        [Route("{groupId}")]
         [HttpPut]
-        public IHttpActionResult Update([FromBody]TblGroupDto groupDto, long id)
+        public IHttpActionResult Update([FromBody]TblGroupDto groupDto, long groupId)
         {
-            groupDto.Id = id;
+            groupDto.Id = groupId;
             return this.AddUpdate(groupDto);
         }
 
         /// <summary>
         /// Add/Delete the permissions on website
         /// </summary>
-        /// <param name="id">the group identifier</param>
+        /// <param name="groupId">the group identifier</param>
         /// <param name="websiteIdList">wibsite id list</param>
         /// <returns>TblGroupModuleAccessDto list objects</returns>
-        [Route("{id}/add-website-to-group")]
+        [Route("{groupId}/add-website-to-group")]
         [HttpPost]
-        public IHttpActionResult AddWebsiteToGroup(long id, long[] websiteIdList)
+        public IHttpActionResult AddWebsiteToGroup(long groupId, long[] websiteIdList)
         {
             var result = new ResultMessage<IEnumerable<TblGroupModuleAccessDto>>();
             try
             {
-                result = this.groupModuleAccessService.AddUpdateWebsiteToGroup(id, websiteIdList);
+                result = this.groupModuleAccessService.AddUpdateWebsiteToGroup(groupId, websiteIdList);
             }
             catch (Exception ex)
             {

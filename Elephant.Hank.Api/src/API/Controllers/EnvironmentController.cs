@@ -68,15 +68,15 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="environmentId">The identifier.</param>
         /// <returns>TblEnvironmentDto objects</returns>
-        [Route("{id}")]
-        public IHttpActionResult GetById(long id)
+        [Route("{environmentId}")]
+        public IHttpActionResult GetById(long environmentId)
         {
             var result = new ResultMessage<TblEnvironmentDto>();
             try
             {
-                result = this.environmentService.GetById(id);
+                result = this.environmentService.GetById(environmentId);
             }
             catch (Exception ex)
             {
@@ -90,16 +90,16 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Deletes the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="environmentId">The identifier.</param>
         /// <returns>Deleted object</returns>
-        [Route("{id}")]
+        [Route("{environmentId}")]
         [HttpDelete]
-        public IHttpActionResult DeleteById(long id)
+        public IHttpActionResult DeleteById(long environmentId)
         {
             var result = new ResultMessage<TblEnvironmentDto>();
             try
             {
-                result = this.environmentService.DeleteById(id, this.UserId);
+                result = this.environmentService.DeleteById(environmentId, this.UserId);
             }
             catch (Exception ex)
             {
@@ -136,24 +136,24 @@ namespace Elephant.Hank.Api.Controllers
         /// Updates the specified environment dto.
         /// </summary>
         /// <param name="environmentDto">The environment dto.</param>
-        /// <param name="id">The identifier.</param>
+        /// <param name="environmentId">The identifier.</param>
         /// <returns>
         /// Newly updated object
         /// </returns>
-        [Route("{id}")]
+        [Route("{environmentId}")]
         [HttpPut]
-        public IHttpActionResult Update([FromBody]TblEnvironmentDto environmentDto, long id)
+        public IHttpActionResult Update([FromBody]TblEnvironmentDto environmentDto, long environmentId)
         {
             var data = this.environmentService.GetByName(environmentDto.Name);
 
-            if (!data.IsError && data.Item != null && id != data.Item.Id)
+            if (!data.IsError && data.Item != null && environmentId != data.Item.Id)
             {
                 data.Messages.Add(new Message(null, "Environment already exists with '" + environmentDto.Name + "' name!"));
 
                 return this.CreateCustomResponse(data, HttpStatusCode.BadRequest);
             }
 
-            environmentDto.Id = id;
+            environmentDto.Id = environmentId;
             return this.AddUpdate(environmentDto);
         }
 

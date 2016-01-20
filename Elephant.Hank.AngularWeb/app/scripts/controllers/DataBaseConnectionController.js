@@ -17,7 +17,7 @@ app.controller('DataBaseConnectionController', ['$scope', '$rootScope', '$q', '$
     $scope.DataBaseList = [];
     $scope.AuthenticationList = [{Id: 1, Name: 'Windows Authentication'}, {Id: 2, Name: 'SQL Server Authentication'}];
 
-    crudService.getById(ngAppSettings.DataBaseCategoriesUrl, $stateParams.DataBaseCategoryId).then(function (response) {
+    crudService.getById(ngAppSettings.DataBaseCategoriesUrl.format($stateParams.WebsiteId), $stateParams.DataBaseCategoryId).then(function (response) {
       $scope.DataBaseCategory = response.Item;
     }, function (response) {
       commonUi.showErrorPopup(response);
@@ -32,15 +32,15 @@ app.controller('DataBaseConnectionController', ['$scope', '$rootScope', '$q', '$
     };
 
     $scope.onClickLoadDataBaseList = function () {
-      crudService.add(ngAppSettings.DataBaseConnectionGetDataBaseListUrl, $scope.DataBaseConnection).then(function (response) {
+      crudService.add(ngAppSettings.DataBaseConnectionGetDataBaseListUrl.format($stateParams.WebsiteId, $stateParams.DataBaseCategoryId), $scope.DataBaseConnection).then(function (response) {
         $scope.DataBaseList = response;
-      },function(response){
-        commonUi.showMessagePopup("The server details u provide is incorrect","Invalid Credentials")
+      }, function (response) {
+        commonUi.showMessagePopup("The server details u provide is incorrect", "Invalid Credentials")
       });
     };
 
     $scope.onDataBaseConnectionListPageLoad = function () {
-      crudService.getAll(ngAppSettings.DataBaseCategoriesConnectionUrl.format($stateParams.DataBaseCategoryId)).then(function (response) {
+      crudService.getAll(ngAppSettings.DataBaseCategoriesConnectionUrl.format($stateParams.WebsiteId, $stateParams.DataBaseCategoryId)).then(function (response) {
         $scope.DataBaseConnections = response;
       }, function (response) {
         commonUi.showErrorPopup(response);
@@ -50,7 +50,7 @@ app.controller('DataBaseConnectionController', ['$scope', '$rootScope', '$q', '$
     $scope.onDataBaseConnectionAddPageSubmit = function () {
       $scope.DataBaseConnection.WebsiteId = $stateParams.WebsiteId;
       $scope.DataBaseConnection.CategoryId = $stateParams.DataBaseCategoryId;
-      crudService.add(ngAppSettings.DataBaseConnectionUrl, $scope.DataBaseConnection).then(function (response) {
+      crudService.add(ngAppSettings.DataBaseConnectionUrl.format($stateParams.WebsiteId, $stateParams.DataBaseCategoryId), $scope.DataBaseConnection).then(function (response) {
         $state.go("Website.DataBaseConnection", {
           WebsiteId: $stateParams.WebsiteId,
           DataBaseCategoryId: $stateParams.DataBaseCategoryId
@@ -63,7 +63,7 @@ app.controller('DataBaseConnectionController', ['$scope', '$rootScope', '$q', '$
     $scope.onDataBaseConnectionUpdatePageLoad = function () {
       crudService.getAll(ngAppSettings.EnvironmentUrl).then(function (response) {
         $scope.EnvironmentList = response;
-        crudService.getById(ngAppSettings.DataBaseConnectionUrl, $stateParams.DataBaseConnectionId).then(function (response) {
+        crudService.getById(ngAppSettings.DataBaseConnectionUrl.format($stateParams.WebsiteId, $stateParams.DataBaseCategoryId), $stateParams.DataBaseConnectionId).then(function (response) {
           $scope.DataBaseConnection = response.Item;
         }, function (response) {
           commonUi.showErrorPopup(response);
@@ -83,7 +83,7 @@ app.controller('DataBaseConnectionController', ['$scope', '$rootScope', '$q', '$
     };
 
     $scope.onDataBaseConnectionUpdatePageSubmit = function () {
-      crudService.update(ngAppSettings.DataBaseConnectionUrl, $scope.DataBaseConnection).then(function (response) {
+      crudService.update(ngAppSettings.DataBaseConnectionUrl.format($stateParams.WebsiteId, $stateParams.DataBaseCategoryId), $scope.DataBaseConnection).then(function (response) {
         $state.go("Website.DataBaseConnection", {
           WebsiteId: $stateParams.WebsiteId,
           DataBaseCategoryId: $stateParams.DataBaseCategoryId

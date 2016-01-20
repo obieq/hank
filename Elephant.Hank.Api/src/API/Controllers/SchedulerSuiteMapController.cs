@@ -24,7 +24,7 @@ namespace Elephant.Hank.Api.Controllers
     /// <summary>
     /// The SchedulerSuiteMapController class
     /// </summary>
-    [RoutePrefix("api/scheduler-suite")]
+    [RoutePrefix("api/website/{websiteId}/scheduler-suite")]
     [Authorize]
     public class SchedulerSuiteMapController : BaseApiController
     {
@@ -48,6 +48,7 @@ namespace Elephant.Hank.Api.Controllers
         /// Gets all.
         /// </summary>
         /// <returns>List of TblSchedulerDto objects</returns>
+        [Route("")]
         public IHttpActionResult GetAll()
         {
             var result = new ResultMessage<IEnumerable<TblLnkSchedulerSuiteDto>>();
@@ -67,15 +68,15 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="schedulerSuiteId">The identifier.</param>
         /// <returns>TblSchedulerDto objects</returns>
-        [Route("{id}")]
-        public IHttpActionResult GetById(long id)
+        [Route("{schedulerSuiteId}")]
+        public IHttpActionResult GetById(long schedulerSuiteId)
         {
             var result = new ResultMessage<TblLnkSchedulerSuiteDto>();
             try
             {
-                result = this.schedulerSuiteService.GetById(id);
+                result = this.schedulerSuiteService.GetById(schedulerSuiteId);
             }
             catch (Exception ex)
             {
@@ -89,16 +90,16 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Deletes the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="schedulerSuiteId">The identifier.</param>
         /// <returns>Deleted object</returns>
-        [Route("{id}")]
+        [Route("{schedulerSuiteId}")]
         [HttpDelete]
-        public IHttpActionResult DeleteById(long id)
+        public IHttpActionResult DeleteById(long schedulerSuiteId)
         {
             var result = new ResultMessage<TblLnkSchedulerSuiteDto>();
             try
             {
-                result = this.schedulerSuiteService.DeleteById(id, this.UserId);
+                result = this.schedulerSuiteService.DeleteById(schedulerSuiteId, this.UserId);
             }
             catch (Exception ex)
             {
@@ -117,6 +118,7 @@ namespace Elephant.Hank.Api.Controllers
         /// Newly added object
         /// </returns>
         [HttpPost]
+        [Route("")]
         public IHttpActionResult Add([FromBody]TblLnkSchedulerSuiteDto schedulerSuiteDto)
         {
             return this.AddUpdate(schedulerSuiteDto);
@@ -126,15 +128,15 @@ namespace Elephant.Hank.Api.Controllers
         /// Updates the specified action dto.
         /// </summary>
         /// <param name="schedulerSuiteDto">The locator dto.</param>
-        /// <param name="id">The identifier.</param>
+        /// <param name="schedulerSuiteId">The identifier.</param>
         /// <returns>
         /// Newly updated object
         /// </returns>
-        [Route("{id}")]
+        [Route("{schedulerSuiteId}")]
         [HttpPut]
-        public IHttpActionResult Update([FromBody]TblLnkSchedulerSuiteDto schedulerSuiteDto, long id)
+        public IHttpActionResult Update([FromBody]TblLnkSchedulerSuiteDto schedulerSuiteDto, long schedulerSuiteId)
         {
-            schedulerSuiteDto.Id = id;
+            schedulerSuiteDto.Id = schedulerSuiteId;
             return this.AddUpdate(schedulerSuiteDto);
         }
 

@@ -95,8 +95,6 @@ namespace Elephant.Hank.Api.Controllers
             this.dataBaseCategoriesService = dataBaseCategoriesService;
         }
 
-        #region WebSite
-
         /// <summary>
         /// Gets all.
         /// </summary>
@@ -120,15 +118,15 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="websiteId">The identifier.</param>
         /// <returns>TblActionDto objects</returns>
-        [Route("{id}")]
-        public IHttpActionResult GetById(long id)
+        [Route("{websiteId}")]
+        public IHttpActionResult GetById(long websiteId)
         {
             var result = new ResultMessage<TblWebsiteDto>();
             try
             {
-                result = this.websiteService.GetById(id);
+                result = this.websiteService.GetById(websiteId);
             }
             catch (Exception ex)
             {
@@ -142,16 +140,16 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Deletes the by identifier.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="websiteId">The identifier.</param>
         /// <returns>Deleted object</returns>
-        [Route("{id}")]
+        [Route("{websiteId}")]
         [HttpDelete]
-        public IHttpActionResult DeleteById(long id)
+        public IHttpActionResult DeleteById(long websiteId)
         {
             var result = new ResultMessage<TblWebsiteDto>();
             try
             {
-                result = this.websiteService.DeleteById(id, this.UserId);
+                result = this.websiteService.DeleteById(websiteId, this.UserId);
             }
             catch (Exception ex)
             {
@@ -188,80 +186,26 @@ namespace Elephant.Hank.Api.Controllers
         /// Updates the specified action dto.
         /// </summary>
         /// <param name="websiteDto">The website dto.</param>
-        /// <param name="id">The identifier.</param>
+        /// <param name="websiteId">The identifier.</param>
         /// <returns>
         /// Newly updated object
         /// </returns>
-        [Route("{id}")]
+        [Route("{websiteId}")]
         [HttpPut]
-        public IHttpActionResult Update([FromBody]TblWebsiteDto websiteDto, long id)
+        public IHttpActionResult Update([FromBody]TblWebsiteDto websiteDto, long websiteId)
         {
             var data = this.websiteService.GetByName(websiteDto.Name);
 
-            if (!data.IsError && data.Item != null && id != data.Item.Id)
+            if (!data.IsError && data.Item != null && websiteId != data.Item.Id)
             {
                 data.Messages.Add(new Message(null, "Website already exists with '" + websiteDto.Name + "' name!"));
 
                 return this.CreateCustomResponse(data, HttpStatusCode.BadRequest);
             }
 
-            websiteDto.Id = id;
+            websiteDto.Id = websiteId;
 
             return this.AddUpdate(websiteDto);
-        }
-
-        #endregion
-
-        #region WebSite Child - Pages
-
-        /// <summary>
-        /// Gets the pages.
-        /// </summary>
-        /// <param name="websiteId">The website identifier.</param>
-        /// <returns>
-        /// List of TblActionDto objects
-        /// </returns>
-        [Route("{websiteId}/pages")]
-        public IHttpActionResult GetPages(long websiteId)
-        {
-            var result = new ResultMessage<IEnumerable<TblPagesDto>>();
-            try
-            {
-                result = this.displayNameService.GetByWebSiteId(websiteId);
-            }
-            catch (Exception ex)
-            {
-                this.LoggerService.LogException(ex);
-                result.Messages.Add(new Message(null, ex.Message));
-            }
-
-            return this.CreateCustomResponse(result);
-        }
-
-        #endregion
-
-        #region WebSite Child - TestCases
-
-        /// <summary>
-        /// Gets the test case.
-        /// </summary>
-        /// <param name="websiteId">The website identifier.</param>
-        /// <returns>TblTestDto object</returns>
-        [Route("{websiteId}/test-case")]
-        public IHttpActionResult GetTestCase(long websiteId)
-        {
-            var result = new ResultMessage<IEnumerable<TblTestDto>>();
-            try
-            {
-                result = this.testService.GetByWebSiteId(websiteId);
-            }
-            catch (Exception ex)
-            {
-                this.LoggerService.LogException(ex);
-                result.Messages.Add(new Message(null, ex.Message));
-            }
-
-            return this.CreateCustomResponse(result);
         }
 
         /// <summary>
@@ -285,114 +229,6 @@ namespace Elephant.Hank.Api.Controllers
 
             return this.CreateCustomResponse(result);
         }
-
-        #endregion
-
-        #region WebSite Child - Suite
-
-        /// <summary>
-        /// Gets the test case.
-        /// </summary>
-        /// <param name="websiteId">The website identifier.</param>
-        /// <returns>TblTestDto object</returns>
-        [Route("{websiteId}/suite")]
-        public IHttpActionResult GetSuites(long websiteId)
-        {
-            var result = new ResultMessage<IEnumerable<TblSuiteDto>>();
-            try
-            {
-                result = this.suiteService.GetByWebsiteId(websiteId);
-            }
-            catch (Exception ex)
-            {
-                this.LoggerService.LogException(ex);
-                result.Messages.Add(new Message(null, ex.Message));
-            }
-
-            return this.CreateCustomResponse(result);
-        }
-
-        #endregion
-
-        #region Website Child - Scheduler
-
-        /// <summary>
-        /// Get the schedulers list by websiteId
-        /// </summary>
-        /// <param name="websiteId">website identifier</param>
-        /// <returns>List object of TblSchedulerDto</returns>
-        [Route("{websiteId}/scheduler")]
-        public IHttpActionResult GetScheduler(long websiteId)
-        {
-            var result = new ResultMessage<IEnumerable<TblSchedulerDto>>();
-            try
-            {
-                result = this.schedulerService.GetByWebsiteId(websiteId);
-            }
-            catch (Exception ex)
-            {
-                this.LoggerService.LogException(ex);
-                result.Messages.Add(new Message(null, ex.Message));
-            }
-
-            return this.CreateCustomResponse(result);
-        }
-
-        #endregion
-
-        #region WebSite Child - SharedTestCases
-
-        /// <summary>
-        /// Gets the test case.
-        /// </summary>
-        /// <param name="websiteId">The website identifier.</param>
-        /// <returns>TblTestDto object</returns>
-        [Route("{websiteId}/shared-test-case")]
-        public IHttpActionResult GetSharedTestCase(long websiteId)
-        {
-            var result = new ResultMessage<IEnumerable<TblSharedTestDto>>();
-            try
-            {
-                result = this.sharedTestService.GetByWebSiteId(websiteId);
-            }
-            catch (Exception ex)
-            {
-                this.LoggerService.LogException(ex);
-                result.Messages.Add(new Message(null, ex.Message));
-            }
-
-            return this.CreateCustomResponse(result);
-        }
-
-        #endregion
-
-        #region Website Child - DataBaseCategories
-
-        /// <summary>
-        /// Get DBCategories by websiteid
-        /// </summary>
-        /// <param name="websiteId">website identifier</param>
-        /// <returns>
-        /// TblDBCategoriesDto object list
-        /// </returns>
-        [Route("{websiteId}/data-base-categories")]
-        public IHttpActionResult GetDBCategoriesByWebsiteId(long websiteId)
-        {
-            var result = new ResultMessage<IEnumerable<TblDataBaseCategoriesDto>>();
-            try
-            {
-                result = this.dataBaseCategoriesService.GetByWebsiteId(websiteId);
-            }
-            catch (Exception ex)
-            {
-                this.LoggerService.LogException(ex);
-                result.Messages.Add(new Message(null, ex.Message));
-            }
-
-            return this.CreateCustomResponse(result);
-        }
-
-        #endregion
 
         #region All private
 
