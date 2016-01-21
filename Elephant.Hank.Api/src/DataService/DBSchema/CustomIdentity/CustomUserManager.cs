@@ -30,6 +30,7 @@ namespace Elephant.Hank.DataService.DBSchema.CustomIdentity
         public CustomUserManager(CustomUserStore store)
             : base(store)
         {
+            this.UserTokenProvider = new TokenProvider();
         }
 
         /// <summary>

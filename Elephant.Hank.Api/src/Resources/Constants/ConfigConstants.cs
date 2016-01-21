@@ -45,5 +45,10 @@ namespace Elephant.Hank.Resources.Constants
         /// The declare variable action identifier
         /// </summary>
         public const string DeclareVariableActionId = "DeclareVariableActionId";
+
+        /// <summary>
+        /// The token expiration time hours
+        /// </summary>
+        public const string TokenExpirationTimeHours = "TokenExpirationTimeHours";
     }
 }

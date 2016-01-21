@@ -105,18 +105,18 @@ namespace Elephant.Hank.Common.DataService
         List<RefreshTokenDto> GetAllRefreshTokens();
 
         /// <summary>
-        /// Change the user passsword
+        /// Change the user password
         /// </summary>
         /// <param name="userId">the user identifier</param>
         /// <param name="currentPassword">user current password</param>
         /// <param name="newPassword">user new password</param>
         /// <returns>Result for password change </returns>
-        Task<IdentityResult> ChangePassword(long userId, string currentPassword, string newPassword);
+        Task<ResultMessage<bool>> ChangePassword(long userId, string currentPassword, string newPassword);
 
         /// <summary>
         /// Get List of all users in the system
         /// </summary>
-        /// <returns>resturns list of users</returns>
+        /// <returns>returns list of users</returns>
         ResultMessage<IEnumerable<CustomUserDto>> GetAllUsers();
 
         /// <summary>
@@ -133,6 +133,6 @@ namespace Elephant.Hank.Common.DataService
         /// <param name="userId">id of the user for which u want to reset the password</param>
         /// <param name="newPassword">new password for the user</param>
         /// <returns>Identity result with status of the operation</returns>
-        Task<IdentityResult> ResetPassword(long userId, string newPassword);
+        Task<ResultMessage<bool>> ResetPassword(long userId, string newPassword);
     }
 }

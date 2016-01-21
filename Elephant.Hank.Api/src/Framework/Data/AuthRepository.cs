@@ -20,6 +20,7 @@ namespace Elephant.Hank.Framework.Data
     using Elephant.Hank.Common.Mapper;
     using Elephant.Hank.DataService.DBSchema;
     using Elephant.Hank.DataService.DBSchema.CustomIdentity;
+    using Elephant.Hank.Framework.Extensions;
     using Elephant.Hank.Framework.TestDataServices;
     using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto;
@@ -186,7 +187,7 @@ namespace Elephant.Hank.Framework.Data
 
                 return this.mapperFactory.GetMapper<CustomUser, CustomUserDto>().Map(user);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -332,9 +333,20 @@ namespace Elephant.Hank.Framework.Data
         /// <returns>
         /// IdentityResult object
         /// </returns>
-        public async Task<IdentityResult> ChangePassword(long userId, string currentPassword, string newPassword)
+        public async Task<ResultMessage<bool>> ChangePassword(long userId, string currentPassword, string newPassword)
         {
-            return await this.userManager.ChangePasswordAsync(userId, currentPassword, newPassword);
+            var result = new ResultMessage<bool>();
+
+            var data = await this.userManager.ChangePasswordAsync(userId, currentPassword, newPassword);
+
+            result.Item = data.Succeeded;
+
+            if (!data.Succeeded)
+            {
+                result.Messages.AddRange(data.ToMessages());
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -386,11 +398,22 @@ namespace Elephant.Hank.Framework.Data
         /// <param name="userId">id of the user for which u want to reset the password</param>
         /// <param name="newPassword">new password for the user</param>
         /// <returns>Identity result with status of the operation</returns>
-        public async Task<IdentityResult> ResetPassword(long userId, string newPassword)
+        public async Task<ResultMessage<bool>> ResetPassword(long userId, string newPassword)
         {
+            var result = new ResultMessage<bool>();
+
             var token = await this.userManager.GeneratePasswordResetTokenAsync(userId);
 
-            return await this.userManager.ResetPasswordAsync(userId, token, newPassword);
+            var data = await this.userManager.ResetPasswordAsync(userId, token, newPassword);
+
+            result.Item = data.Succeeded;
+
+            if (!data.Succeeded)
+            {
+                result.Messages.AddRange(data.ToMessages());
+            }
+
+            return result;
         }
     }
 }

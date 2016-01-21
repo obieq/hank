@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBSchema\CustomIdentity\TokenProvider.cs" />
     <Compile Include="DbHelper.cs" />
     <Compile Include="DBSchema\CustomIdentity\CustomRole.cs" />
     <Compile Include="DBSchema\CustomIdentity\CustomRoleManager.cs" />

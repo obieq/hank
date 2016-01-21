@@ -38,6 +38,26 @@ namespace Elephant.Hank.DataService.DBSchema.CustomIdentity
         }
 
         /// <summary>
+        /// Gets or sets the reset password token.
+        /// </summary>
+        public string ResetPasswordToken { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reset password sent at.
+        /// </summary>
+        public DateTime? ResetPasswordSentAt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email confirmation token.
+        /// </summary>
+        public string EmailConfirmationToken { get; set; }
+
+        /// <summary>
+        /// Gets or sets the email confirmation sent at.
+        /// </summary>
+        public DateTime? EmailConfirmationSentAt { get; set; }
+
+        /// <summary>
         /// Gets or sets the first name.
         /// </summary>
         public string FirstName { get; set; }

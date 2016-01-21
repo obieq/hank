@@ -52,13 +52,11 @@ app.controller('ProfileController', ['$scope', '$state', '$stateParams', 'authSe
     $scope.onChangePasswordSubmit = function () {
       if ($scope.ChangePassword.NewPassword == $scope.ChangePassword.ConfirmNewPassword) {
         crudService.add(ngAppSettings.ChangePasswordUrl, $scope.ChangePassword).then(function (response) {
-          debugger;
-          if(!response.IsError){
-            commonUi.showMessagePopup("Password changed successfully", "Password Changed");
-          }
-          else{
-            commonUi.showMessagePopup("Password is incorrect", "Password Not Changed");
-          }
+          $scope.ChangePassword.CurrentPassword = "";
+          $scope.ChangePassword.NewPassword = "";
+          $scope.ChangePassword.ConfirmNewPassword = "";
+
+          commonUi.showMessagePopup("Password has been changed successfully", "Password Changed");
         }, function (response) {
           commonUi.showErrorPopup(response);
         });

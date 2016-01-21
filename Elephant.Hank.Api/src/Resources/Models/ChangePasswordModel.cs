@@ -11,6 +11,8 @@
 
 namespace Elephant.Hank.Resources.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     /// <summary>
     /// The ChangePasswordModel class
     /// </summary>
@@ -19,16 +21,21 @@ namespace Elephant.Hank.Resources.Models
         /// <summary>
         /// Gets or sets the current password
         /// </summary>
+        [Required]
         public string CurrentPassword { get; set; }
 
         /// <summary>
         /// Gets or sets the NewPassword
         /// </summary>
+        [Required]
+        [MinLength(6)]
         public string NewPassword { get; set; }
 
         /// <summary>
         /// Gets or sets the Confirm new password
         /// </summary>
+        [Required]
+        [Compare("NewPassword")]
         public string ConfirmNewPassword { get; set; }
     }
 }

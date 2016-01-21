@@ -24,6 +24,14 @@ namespace Elephant.Hank.Resources.Messages
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Message" /> class.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        public Message(string value) : this(null, value)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Message"/> class.
         /// </summary>
         /// <param name="name">The name.</param>

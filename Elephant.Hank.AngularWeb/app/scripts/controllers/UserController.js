@@ -26,6 +26,8 @@ app.controller('UserController', ['$scope', '$rootScope', '$stateParams', '$stat
         crudService.add(ngAppSettings.ResetPasswordUrl, $scope.ResetPasswordModel).then(function (response) {
           if (response.Item  && !response.IsError) {
             commonUi.showMessagePopup("Successfully reset password", "Reset Password");
+            $scope.ResetPasswordModel.NewPassword = ""
+            $scope.ResetPasswordModel.ConfirmNewPassword = "";
           }
           else {
             commonUi.showErrorPopup(response, "Reset Password");

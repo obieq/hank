@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="CustomApi\CustomResult.cs" />
     <Compile Include="Data\GlobalService.cs" />
+    <Compile Include="Extensions\IdentityResultExtensions.cs" />
     <Compile Include="Mapper\TypeConverters\TblTestDataExecutableTestDataConverter.cs" />
     <Compile Include="TestDataServices\BrowserService.cs" />
     <Compile Include="TestDataServices\DataBaseCategoriesService.cs" />

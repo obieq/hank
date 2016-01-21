@@ -12,9 +12,6 @@
 namespace Elephant.Hank.Api.Controllers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Security.Claims;
     using System.Threading.Tasks;
     using System.Web.Http;
 
@@ -22,14 +19,11 @@ namespace Elephant.Hank.Api.Controllers
     using Common.LogService;
 
     using Elephant.Hank.Framework.Extensions;
-    using Elephant.Hank.Resources.Dto.CustomIdentity;
+    using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Extensions;
     using Elephant.Hank.Resources.Messages;
 
     using Microsoft.AspNet.Identity;
-    using Microsoft.Owin.Security;
-
-    using Newtonsoft.Json.Linq;
 
     using Resources.Models;
 
@@ -137,9 +131,7 @@ namespace Elephant.Hank.Api.Controllers
                 this.ModelState.AddModelError("Exception", ex.Message);
             }
 
-            this.LoadErrorResult(regResult);
-
-            result.Messages.AddRange(this.ModelStateToMessage());
+            result.Messages.AddRange(regResult.ToMessages());
 
             return result;
         }
@@ -149,16 +141,21 @@ namespace Elephant.Hank.Api.Controllers
         /// </summary>
         /// <param name="model">change password model</param>
         /// <returns>message for result</returns>
-        [Authorize]
+        [Authorize(Roles = RoleName.TestAdminRole)]
         [Route("change-password")]
-        public async Task<ResultMessage<bool>> ChangePassword(ChangePasswordModel model)
+        public async Task<IHttpActionResult> ChangePassword(ChangePasswordModel model)
         {
             var result = new ResultMessage<bool>();
-            IdentityResult regResult = null;
+
+            if (!this.ModelState.IsValid)
+            {
+                result.Messages.AddRange(this.ModelStateToMessage());
+                return this.CreateCustomResponse(result);
+            }
+
             try
             {
-                regResult = await this.authRepository.ChangePassword(this.UserId, model.CurrentPassword, model.NewPassword);
-                result.Item = true;
+                result = await this.authRepository.ChangePassword(this.UserId, model.CurrentPassword, model.NewPassword);
             }
             catch (Exception ex)
             {
@@ -166,11 +163,7 @@ namespace Elephant.Hank.Api.Controllers
                 this.ModelState.AddModelError("Exception", ex.Message);
             }
 
-            this.LoadErrorResult(regResult);
-
-            result.Messages.AddRange(this.ModelStateToMessage());
-
-            return result;
+            return this.CreateCustomResponse(result);
         }
 
         /// <summary>
@@ -181,14 +174,19 @@ namespace Elephant.Hank.Api.Controllers
         [Authorize]
         [Route("reset-password")]
         [HttpPost]
-        public async Task<ResultMessage<bool>> ResetPassword(ResetPasswordModel model)
+        public async Task<IHttpActionResult> ResetPassword(ResetPasswordModel model)
         {
             var result = new ResultMessage<bool>();
-            IdentityResult regResult = null;
+
+            if (!this.ModelState.IsValid)
+            {
+                result.Messages.AddRange(this.ModelStateToMessage());
+                return this.CreateCustomResponse(result);
+            }
+
             try
             {
-                regResult = await this.authRepository.ResetPassword(model.UserId, model.NewPassword);
-                result.Item = regResult.Succeeded;
+                result = await this.authRepository.ResetPassword(model.UserId, model.NewPassword);
             }
             catch (Exception ex)
             {
@@ -196,11 +194,7 @@ namespace Elephant.Hank.Api.Controllers
                 this.ModelState.AddModelError("Exception", ex.Message);
             }
 
-            this.LoadErrorResult(regResult);
-
-            result.Messages.AddRange(this.ModelStateToMessage());
-
-            return result;
+            return this.CreateCustomResponse(result);
         }
 
         /// <summary>
@@ -215,24 +209,6 @@ namespace Elephant.Hank.Api.Controllers
             }
 
             base.Dispose(disposing);
-        }
-
-        /// <summary>
-        /// Loads the error result.
-        /// </summary>
-        /// <param name="result">The result.</param>
-        private void LoadErrorResult(IdentityResult result)
-        {
-            if (result != null && !result.Succeeded)
-            {
-                if (result.Errors != null)
-                {
-                    foreach (string error in result.Errors)
-                    {
-                        this.ModelState.AddModelError(string.Empty, error);
-                    }
-                }
-            }
         }
     }
 }
