@@ -287,9 +287,10 @@
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\DirectAuthenticationMiddleware.cs" />
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Providers\SimpleRefreshTokenProvider.cs" />
+    <Compile Include="Security\AuthorizationMiddleware.cs" />
+    <Compile Include="Security\AuthorizeUserAttribute.cs" />
     <Compile Include="Startup.cs">
       <SubType>Code</SubType>
     </Compile>

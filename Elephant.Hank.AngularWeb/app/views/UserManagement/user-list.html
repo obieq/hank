@@ -38,7 +38,7 @@
             </thead>
             <tbody>
             <tr ng-class="!user.IsActive?'alert-danger':''" ng-repeat="user in UserList | orderBy:'Id'">
-              <td>{{$index}}</td>
+              <td>{{$index+1}}</td>
               <td>{{user.FirstName}}</td>
               <td>{{user.LastName}}</td>
               <td>{{user.UserName}}</td>

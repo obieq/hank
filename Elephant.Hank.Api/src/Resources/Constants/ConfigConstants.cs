@@ -50,5 +50,10 @@ namespace Elephant.Hank.Resources.Constants
         /// The token expiration time hours
         /// </summary>
         public const string TokenExpirationTimeHours = "TokenExpirationTimeHours";
+
+        /// <summary>
+        /// The cache exp minutes
+        /// </summary>
+        public const string CacheExpMinutes = "CacheExpMinutes";
     }
 }

@@ -117,6 +117,7 @@
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Json\ActionConstants.cs" />
+    <Compile Include="Json\AuthToken.cs" />
     <Compile Include="Json\SchedulerSettings.cs" />
     <Compile Include="Json\TestQueueSettings.cs" />
     <Compile Include="Json\UserProfileSettings.cs" />

@@ -29,6 +29,25 @@ namespace Elephant.Hank.Resources.Messages
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ResultMessage{T}"/> class.
+        /// </summary>
+        /// <param name="messages">The messages.</param>
+        public ResultMessage(List<Message> messages)
+        {
+            this.Messages = messages ?? new List<Message>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResultMessage{T}" /> class.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        public ResultMessage(Message message)
+        {
+            this.Messages = new List<Message>();
+            this.Messages.Add(message);
+        }
+
+        /// <summary>
         /// Gets or sets the item.
         /// </summary>
         public T Item { get; set; }

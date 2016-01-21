@@ -17,10 +17,13 @@ using Microsoft.Owin;
 namespace Elephant.Hank.Api
 {
     using System;
+    using System.Data.Entity;
     using System.Web.Http;
 
     using Elephant.Hank.Api.DependencyResolution;
     using Elephant.Hank.Api.Providers;
+    using Elephant.Hank.Api.Security;
+    using Elephant.Hank.DataService;
     using Elephant.Hank.Framework.Mapper;
 
     using Microsoft.Owin;
@@ -41,6 +44,8 @@ namespace Elephant.Hank.Api
         {
             HttpConfiguration config = new HttpConfiguration();
 
+            app.Use(typeof(AuthorizationMiddleware));
+
             this.ConfigureOAuth(app);
 
             WebApiConfig.Register(config);
@@ -52,7 +57,7 @@ namespace Elephant.Hank.Api
             app.UseWebApi(config);
             AutoMapperBootstraper.Initialize();
 
-            //// Database.SetInitializer(new MigrateDatabaseToLatestVersion<AuthContext, DataService.Migrations.Configuration>());
+            Database.SetInitializer<AuthContext>(null);
         }
 
         /// <summary>
@@ -65,13 +70,11 @@ namespace Elephant.Hank.Api
             {
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/api/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(30),
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(60),
                 Provider = new SimpleAuthorizationServerProvider(),
                 RefreshTokenProvider = new SimpleRefreshTokenProvider()
             };
 
-            app.Use(typeof(DirectAuthenticationMiddleware));
-            
             // Token Generation
             app.UseOAuthAuthorizationServer(authServerOptions);
 
