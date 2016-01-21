@@ -25,6 +25,7 @@
             calls while authorising the user
             </summary>
             <param name="filterContext"> The filter context</param>
+            <returns>returns the Authorization status</returns>
         </member>
         <member name="P:Elephant.Hank.Api.App_Start.CustomAuthorizeAttribute.ModuleName">
             <summary>

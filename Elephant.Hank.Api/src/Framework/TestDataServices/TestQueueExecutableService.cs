@@ -316,18 +316,28 @@ namespace Elephant.Hank.Framework.TestDataServices
 
             string[] splittedValue = val.Split('#');
 
+            int randomStringLength = 0;
+            try
+            {
+                randomStringLength = splittedValue[0].Trim() == string.Empty ? 10 : int.Parse(splittedValue[0]);
+            }
+            catch
+            {
+                randomStringLength = 10;
+            }
+
             if (splittedValue.Length > 1)
             {
-                if (splittedValue[1].ToLower() == "autogen")
+                if (splittedValue[1].ToLower() == "autogen" || splittedValue[1].ToLower() == "autogennum" || splittedValue[1].ToLower() == "autogenalpha")
                 {
                     var autoGenModel = new AutoGenModel();
                     if (splittedValue.Length > 3)
                     {
-                        autoGenModel.AutoGenText = this.GenerateAutoString(string.Empty);
+                        autoGenModel.AutoGenText = this.GenerateAutoString(string.Empty, splittedValue[1].ToLower(), randomStringLength);
                     }
                     else
                     {
-                        autoGenModel.AutoGenText = this.GenerateAutoString(splittedValue[3]);
+                        autoGenModel.AutoGenText = this.GenerateAutoString(splittedValue[3], splittedValue[1].ToLower(), randomStringLength);
                         autoGenModel.Prefix = splittedValue[3];
                     }
 
@@ -347,30 +357,55 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// Generates the automatic string.
         /// </summary>
         /// <param name="preFix">The pre fix.</param>
+        /// <param name="type">The autogen type.</param>
+        /// <param name="length">The lenth of auto gen string generated.</param>
         /// <returns>string Random value</returns>
-        private string GenerateAutoString(string preFix)
+        private string GenerateAutoString(string preFix, string type, int length)
         {
-            char[] charArr = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".ToCharArray();
+            char[] charArr;
+
+            if (type.ToLower() == "autogennum")
+            {
+                charArr = "0123456789".ToCharArray();
+            }
+            else if (type.ToLower() == "autogenalpha")
+            {
+                charArr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".ToCharArray();
+            }
+            else
+            {
+                charArr = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".ToCharArray();
+            }
 
             string randomString = string.Empty;
 
             Random objRandom = new Random();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < length; i++)
             {
                 int x = objRandom.Next(1, charArr.Length);
-
-                if (!randomString.Contains(charArr.GetValue(x).ToString()))
+                if (type.ToLower() == "autogennum")
                 {
                     randomString += charArr.GetValue(x);
                 }
                 else
                 {
-                    i--;
+                    if (!randomString.Contains(charArr.GetValue(x).ToString()))
+                    {
+                        randomString += charArr.GetValue(x);
+                    }
+                    else
+                    {
+                        i--;
+                    }
                 }
             }
 
-            randomString = (preFix == null || preFix.Trim() == string.Empty ? "Test" : preFix) + randomString;
+            if (preFix != null || preFix.Trim() != string.Empty)
+            {
+                randomString = preFix + randomString;
+            }
+
             return randomString;
         }
 

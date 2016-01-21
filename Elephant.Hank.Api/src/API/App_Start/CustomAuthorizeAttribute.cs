@@ -29,6 +29,7 @@ namespace Elephant.Hank.Api.App_Start
         /// calls while authorising the user
         /// </summary>
         /// <param name="filterContext"> The filter context</param>
+        /// <returns>returns the Authorization status</returns>
         protected override bool IsAuthorized(HttpActionContext filterContext)
         {
             if (base.IsAuthorized(filterContext))
