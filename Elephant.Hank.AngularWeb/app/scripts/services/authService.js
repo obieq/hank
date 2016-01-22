@@ -14,10 +14,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'AppSettings',
   };
 
   var _saveRegistration = function (registration) {
-    _logOut();
-    return $http.post(serviceBase + '/account/register', registration).then(function (response) {
-      return response;
-    });
+    return $http.post(serviceBase + '/account/register', registration);
   };
 
   var _login = function (loginData) {
@@ -62,7 +59,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'AppSettings',
   var _refreshToken = function () {
     var deferred = $q.defer();
     var authData = _getAuthData();
-    console.log(authData);
+
     if (authData) {
       var data = "grant_type=refresh_token&refresh_token=" + authData.refresh_token + "&client_id=" + appSettings.ClientId;
 

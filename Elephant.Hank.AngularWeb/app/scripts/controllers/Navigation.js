@@ -39,61 +39,34 @@ app.controller('NavCtrl', ['$scope', '$state', 'authService', '$stateParams', '$
       return state.indexOf(targetState[matchIndex]) == 0 ? "active" : "";
     };
 
-    /* $scope.$on('$stateChangeStart', function (ev, to, toParams, from, fromParams) {
-     var permissionData = to.permissionData;
-     if (permissionData && aryValIndex(permissionData.Roles, 'All') == -1) {
-     var authData = authService.getAuthData();
-     }
-     });*/
-
     $scope.$on('$stateChangeStart', function (ev, to, toParams, from, fromParams) {
       var permissionData = to.permissionData;
       var isNotAuth = false;
+
       if (permissionData && aryValIndex(permissionData.Roles, 'All') == -1) {
         var authData = authService.getAuthData();
         if (authData.type) {
           var roleIdx = aryValIndex(permissionData.Roles, authData.type);
           isNotAuth = roleIdx == -1;
-          if ($rootScope.returnToState != undefined) {
-            var returnToState = $rootScope.returnToState;
-            var returnToStateParams = $rootScope.returnToStateParams;
-            $rootScope.returnToState = undefined;
-            $rootScope.returnToStateParams = undefined;
-            ev.preventDefault();
-            $state.go(returnToState, returnToStateParams);
-          }
         }
         else if (permissionData.Roles && permissionData.Roles.length > 0) {
           isNotAuth = true;
         }
 
+        if (to.name && to.name != '' && to.name.indexOf($scope.DefaultState) == -1) {
+          $rootScope.returnToState = to.name;
+          $rootScope.returnToStateParams = toParams;
+        }
+
         if (isNotAuth || (permissionData.NotAllowdedIfLoggedIn && authData.type)) {
           var redirectSate = $scope.DefaultState;
-          if (to.name != '' || to.name != undefined) {
-            $rootScope.returnToState = to.name;
-            $rootScope.returnToStateParams = toParams;
-          }
           var mappedObj = aryfindObjIndex($scope.RoleDefaultStateMapping, 'Role', authData.type);
           if (mappedObj != -1) {
             redirectSate = $scope.RoleDefaultStateMapping[mappedObj].StateName;
           }
           if (redirectSate != to.name) {
-            ev.preventDefault();
-            $state.go(redirectSate);
+            setTimeout(function(){$state.go(redirectSate);}, 200);
           }
-        }
-      }
-      else {
-        if (!isNotAuth || permissionData.NotAllowdedIfLoggedIn) {
-          var authData = authService.getAuthData();
-          for (var t = 0; t <= $scope.RoleDefaultStateMapping.length; t++) {
-            if (authData.type == $scope.RoleDefaultStateMapping[t].Role) {
-              ev.preventDefault();
-              $state.go($scope.RoleDefaultStateMapping[t].StateName);
-              break;
-            }
-          }
-
         }
       }
     });

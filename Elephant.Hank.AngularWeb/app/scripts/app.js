@@ -156,7 +156,7 @@ var app = angular
         views: {
           "MainView": {templateUrl: "views/Account/login.html", controller: 'AccountController'}
         },
-        permissionData: {Roles: ["All"], NotAllowdedIfLoggedIn: true}
+        permissionData: { NotAllowdedIfLoggedIn: true}
       })
       .state('LoginWithMsg', {
         url: "/Login/:mid?",
@@ -164,7 +164,7 @@ var app = angular
         views: {
           "MainView": {templateUrl: "views/Account/login.html", controller: 'AccountController'}
         },
-        permissionData: {Roles: ["All"], NotAllowdedIfLoggedIn: true}
+        permissionData: { NotAllowdedIfLoggedIn: true}
       })
       .state('SignUp', {
         url: "/SignUp",

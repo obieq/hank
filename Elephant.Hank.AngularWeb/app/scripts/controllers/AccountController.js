@@ -22,16 +22,9 @@ app.controller('AccountController', ['$scope', '$state', '$stateParams', 'authSe
     }
 
     $scope.loginUser = function () {
-
       authService.login($scope.User).then(
         function (response) {
-          var user = authService.getAuthData();
-          if (user.type == "TestAdmin") {
-            $state.go("Website.List");
-          }
-          else if (user.type == "TestUser") {
-            $state.go("Website.List");
-          }
+          loginRedirect();
         },
         function (err) {
           commonUi.showErrorPopup(err);
@@ -40,10 +33,10 @@ app.controller('AccountController', ['$scope', '$state', '$stateParams', 'authSe
     };
 
     $scope.registerUser = function () {
-
       $scope.User.ConfirmPassword = $scope.User.Password;
       authService.saveRegistration($scope.User).then(function (response) {
-          $state.go("LoginWithMsg", {mid: 1});
+          commonUi.showMessagePopup("Registeration has been done successfully!", "Success!");
+          $scope.User = [];
         },
         function (err) {
           commonUi.showErrorPopup(err);
@@ -78,5 +71,23 @@ app.controller('AccountController', ['$scope', '$state', '$stateParams', 'authSe
         commonUi.showErrorPopup(response);
       });
     };
+
+    function loginRedirect() {
+      var user = authService.getAuthData();
+
+      if ($scope.returnToState != undefined) {
+        var returnToState = $scope.returnToState;
+        var returnToStateParams = $scope.returnToStateParams;
+        $scope.returnToState = undefined;
+        $scope.returnToStateParams = undefined;
+        $state.go(returnToState, returnToStateParams);
+      }
+      else if (user.type == "TestAdmin") {
+        $state.go("Website.List");
+      }
+      else if (user.type == "TestUser") {
+        $state.go("Website.List");
+      }
+    }
   }]);
 
