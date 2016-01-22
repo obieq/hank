@@ -68,10 +68,13 @@ namespace Elephant.Hank.DataService.DBSchema.CustomIdentity
         /// <param name="manager">The manager.</param>
         /// <param name="user">The user.</param>
         /// <returns>Status as bool</returns>
-        /// <exception cref="System.ArgumentNullException"></exception>
+        /// <exception cref="System.ArgumentNullException">returns argument exception</exception>
         public Task<bool> IsValidProviderForUserAsync(UserManager<CustomUser, long> manager, CustomUser user)
         {
-            if (manager == null) throw new ArgumentNullException();
+            if (manager == null)
+            {
+                throw new ArgumentNullException();
+            }
 
             return Task.FromResult(manager.SupportsUserPassword);
         }

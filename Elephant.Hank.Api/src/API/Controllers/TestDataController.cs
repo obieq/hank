@@ -182,10 +182,14 @@ namespace Elephant.Hank.Api.Controllers
         [Route("copy-test-data")]
         public IHttpActionResult Add([FromBody]CopyTestDataModel copyTestDataModel)
         {
-            var result = new ResultMessage<IEnumerable<TblTestDataDto>>();
+            var result = new ResultMessage<bool>();
             try
             {
-                result = this.testDataService.CopyTestData(this.UserId, copyTestDataModel);
+                bool executionStatus = this.testDataService.CopyTestData(this.UserId, copyTestDataModel);
+                if (executionStatus)
+                {
+                    result.Item = true;
+                }
             }
             catch (Exception ex)
             {

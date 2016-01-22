@@ -91,9 +91,7 @@ CustomScreenShotReporter.prototype.reportSpecResults =
           }
         });
 
-        restApiHelper.doPost(jsonHelper.format(config.baseApiUrl + config.baseTestStateUrl, config.TestQueueId, 4), {}, function () {
-          restApiHelper.doPost(jsonHelper.format(config.baseApiUrl + config.baseTestReportUrl), reportData, function () {
-          });
+        restApiHelper.doPost(jsonHelper.format(config.baseApiUrl + config.baseTestReportUrl), reportData, function () {
         });
       });
     });

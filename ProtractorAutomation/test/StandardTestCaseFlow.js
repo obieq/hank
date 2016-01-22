@@ -37,12 +37,11 @@ var StandardTestCaseFlow =
           var restApiHelper = new RestApiHelper();
 
           beforeEach(function () {
-            restApiHelper.doPost(jsonHelper.format(params.config.baseApiUrl + params.config.baseTestStateUrl, params.config.TestQueueId, 2), {}, function () {
-            });
-
             var testDataUrl = jsonHelper.format(params.config.baseApiUrl + params.config.baseTestDataUrl, params.config.TestQueueId);
 
             restApiHelper.doGet(testDataUrl, function (msg) {
+              console.log("console1");
+              console.log(msg);
               var resultMessage = JSON.parse(msg.body);
               expect(resultMessage.IsError).toEqual(false);
               params.config.urlToTest = resultMessage.Item.UrlToTest;

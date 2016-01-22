@@ -70,7 +70,7 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <returns>
         /// TblTestDataDto List object
         /// </returns>
-        ResultMessage<IEnumerable<TblTestDataDto>> CopyTestData(long userId, CopyTestDataModel copyTestDataModel);
+       bool CopyTestData(long userId, CopyTestDataModel copyTestDataModel);
 
         /// <summary>
         /// Get the Variable type test steps

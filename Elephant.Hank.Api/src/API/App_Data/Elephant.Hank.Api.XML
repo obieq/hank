@@ -2255,12 +2255,6 @@
             </summary>
             <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.AccountController.LoadErrorResult(Microsoft.AspNet.Identity.IdentityResult)">
-            <summary>
-            Loads the error result.
-            </summary>
-            <param name="result">The result.</param>
-        </member>
         <member name="T:Elephant.Hank.Api.Controllers.HomeController">
             <summary>
             The HomeController controller
@@ -3390,29 +3384,6 @@
             The application start.
             </summary>
         </member>
-        <member name="T:Elephant.Hank.Api.Providers.DirectAuthenticationMiddleware">
-            <summary>
-            The DirectAuthenticationMiddleware
-            </summary>
-        </member>
-        <member name="F:Elephant.Hank.Api.Providers.DirectAuthenticationMiddleware.authRepository">
-            <summary>
-            The authentication repository
-            </summary>
-        </member>
-        <member name="M:Elephant.Hank.Api.Providers.DirectAuthenticationMiddleware.#ctor(Microsoft.Owin.OwinMiddleware)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Providers.DirectAuthenticationMiddleware"/> class.
-            </summary>
-            <param name="next">The OwinMiddleware.</param>
-        </member>
-        <member name="M:Elephant.Hank.Api.Providers.DirectAuthenticationMiddleware.Invoke(Microsoft.Owin.IOwinContext)">
-            <summary>
-            Owin middleware overrided method
-            </summary>
-            <param name="context">the owin context</param>
-            <returns>next invoke task</returns>
-        </member>
         <member name="T:Elephant.Hank.Api.Providers.SimpleAuthorizationServerProvider">
             <summary>
             The SimpleAuthorizationServerProvider class
@@ -3519,6 +3490,54 @@
         <member name="M:Elephant.Hank.Api.Providers.SimpleRefreshTokenProvider.Dispose">
             <summary>
             Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:Elephant.Hank.Api.Security.AuthorizationMiddleware">
+            <summary>
+            The AuthorizationMiddleware class
+            </summary>
+        </member>
+        <member name="M:Elephant.Hank.Api.Security.AuthorizationMiddleware.#ctor(Microsoft.Owin.OwinMiddleware)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Security.AuthorizationMiddleware"/> class.
+            </summary>
+            <param name="next">next pointer</param>
+        </member>
+        <member name="M:Elephant.Hank.Api.Security.AuthorizationMiddleware.Invoke(Microsoft.Owin.IOwinContext)">
+            <summary>
+            Process an individual request.
+            </summary>
+            <param name="context">request context</param>
+            <returns>
+            response context
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Security.AuthorizationMiddleware.ProcessAuthLoading(Microsoft.Owin.IOwinContext)">
+            <summary>
+            Processes the authentication loading.
+            </summary>
+            <param name="context">The context.</param>
+            <returns>
+            Task promise
+            </returns>
+        </member>
+        <member name="T:Elephant.Hank.Api.Security.AuthorizeUserAttribute">
+            <summary>
+            The AuthorizeUserAttribute class
+            </summary>
+        </member>
+        <member name="M:Elephant.Hank.Api.Security.AuthorizeUserAttribute.IsAuthorized(System.Web.Http.Controllers.HttpActionContext)">
+            <summary>
+            Indicates whether the specified control is authorized.
+            </summary>
+            <param name="actionContext">The context.</param>
+            <returns>
+            true if the control is authorized; otherwise, false.
+            </returns>
+        </member>
+        <member name="P:Elephant.Hank.Api.Security.AuthorizeUserAttribute.IsAdminRoleRequired">
+            <summary>
+            Gets or sets a value indicating whether this instance is admin role required.
             </summary>
         </member>
         <member name="T:Elephant.Hank.Api.Startup">

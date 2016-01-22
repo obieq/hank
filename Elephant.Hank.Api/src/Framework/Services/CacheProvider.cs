@@ -82,6 +82,7 @@ namespace Elephant.Hank.Framework.Services
             {
                 return true;
             }
+
             returnData = getData();
             this.Set(cacheKey, returnData, expMinutes);
             return returnData != null;

@@ -68,6 +68,7 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
         if ($scope.CopyTestData.HasTestData && $scope.CopyTestData.IsCopy && $scope.CopyTestData.Test != null) {
           $scope.CopyTestData.DataToSend.ToTestId = response.Item.Id;
           $scope.CopyTestData.DataToSend.FromTestId = $scope.CopyTestData.Test.Id;
+          $scope.CopyTestData.DataToSend.CopyAll = $scope.CopyTestData.AllTestDataChecked;
           for (var i = 0; i < $scope.CopyTestData.TestDataList.length; i++) {
             if ($scope.CopyTestData.TestDataList[i].Checked == true) {
               $scope.CopyTestData.DataToSend.TestDataIdList.push($scope.CopyTestData.TestDataList[i].Id);

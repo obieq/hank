@@ -331,7 +331,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                 if (splittedValue[1].ToLower() == "autogen" || splittedValue[1].ToLower() == "autogennum" || splittedValue[1].ToLower() == "autogenalpha")
                 {
                     var autoGenModel = new AutoGenModel();
-                    if (splittedValue.Length > 3)
+                    if (splittedValue.Length < 4)
                     {
                         autoGenModel.AutoGenText = this.GenerateAutoString(string.Empty, splittedValue[1].ToLower(), randomStringLength);
                     }

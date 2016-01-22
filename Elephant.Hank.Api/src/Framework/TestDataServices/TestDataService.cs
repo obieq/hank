@@ -208,30 +208,45 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <returns>
         /// TblTestDataDto List object
         /// </returns>
-        public ResultMessage<IEnumerable<TblTestDataDto>> CopyTestData(long userId, CopyTestDataModel copyTestDataModel)
+        public bool CopyTestData(long userId, CopyTestDataModel copyTestDataModel)
         {
             var result = new ResultMessage<IEnumerable<TblTestDataDto>>();
-            if (copyTestDataModel.FromTestId > 0 && copyTestDataModel.TestDataIdList.Count > 0 && copyTestDataModel.ToTestId > 0)
+            Dictionary<string, object> dictionary = new Dictionary<string, object>
+                                                    {
+                                                        { "fromtestid", copyTestDataModel.FromTestId },
+                                                        { "totestid", copyTestDataModel.ToTestId },
+                                                        { "createdby", userId }
+                                                    };
+
+            if (copyTestDataModel.CopyAll)
             {
-                var mapper = this.mapperFactory.GetMapper<TblTestData, TblTestDataDto>();
-                List<TblTestDataDto> testDataList = this.Table.Find(t => copyTestDataModel.TestDataIdList.Contains(t.Id)).OrderBy(m => m.ExecutionSequence).Select(mapper.Map).ToList();
-                long executionSequence = 1;
-                testDataList.ForEach(m =>
+                dictionary.Add("testdataids", string.Empty);
+                dictionary.Add("copycompletetest", true);
+            }
+            else
+            {
+                string paramStrToSend = string.Empty;
+                int i = 0;
+                foreach (var item in copyTestDataModel.TestDataIdList)
                 {
-                    m.Id = 0; m.ExecutionSequence = executionSequence++;
-                    m.TestId = copyTestDataModel.ToTestId;
-                    if (m.LinkTestType == (int)LinkTestType.TestStep || m.LinkTestType == (int)LinkTestType.SharedWebsiteTest)
+                    if (i == 0)
                     {
-                        this.SaveOrUpdate(m, userId);
+                        paramStrToSend = item.ToString();
+                        i++;
                     }
                     else
                     {
-                        this.SaveOrUpdateWithSharedTest(userId, m);
+                        paramStrToSend = paramStrToSend + "," + item.ToString();
                     }
-                });
+                }
+
+                dictionary.Add("testdataids", paramStrToSend);
+                dictionary.Add("copycompletetest", false);
             }
 
-            return result;
+            var mapper = this.mapperFactory.GetMapper<TblTestData, TblTestDataDto>();
+            this.Table.SqlQuery<TblTestDataDto>("Select * from proccopytestdata(@fromtestid,@totestid,@createdby,@testdataids,@copycompletetest);", dictionary).ToList();
+            return true;
         }
 
         /// <summary>

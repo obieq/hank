@@ -231,11 +231,7 @@ var InputHelper = function () {
           }
           case actionConstant.ClearThenSetText:
           {
-            key.sendKeys(protractor.Key.chord(protractor.Key.CONTROL, "a")).then(function () {
-              key.sendKeys(protractor.Key.BACK_SPACE).then(function () {
-                thisobj.setText(testInstance.ExecutionSequence, key, testInstance.Value);
-              });
-            });
+            this.setText(testInstance.ExecutionSequence, key, testInstance.Value, true, undefined, testInstance);
             break;
           }
           case actionConstant.SetTextByClick:
