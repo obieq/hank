@@ -19,12 +19,16 @@ namespace Elephant.Hank.Api.Providers
     using System.Threading.Tasks;
 
     using Elephant.Hank.Common.DataService;
+    using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.DataService;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Enum;
-
+      
+    using Elephant.Hank.Resources.Messages;
+    using Elephant.Hank.Resources.Models;
     using Microsoft.Owin.Security;
     using Microsoft.Owin.Security.OAuth;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// The SimpleAuthorizationServerProvider class
@@ -145,6 +149,11 @@ namespace Elephant.Hank.Api.Providers
             identity.AddClaim(new Claim(ClaimTypes.Role, roleName));
             identity.AddClaim(new Claim("sub", user.UserName));
             identity.AddClaim(new Claim("role", roleName));
+
+            var moduleAccessService = StructuremapMvc.StructureMapDependencyScope.Container.GetInstance<IGroupModuleAccessService>();
+            ResultMessage<IEnumerable<ModuleAuthenticationModel>> moduleAuthenticated = moduleAccessService.GetModuleAuthenticatedToUser(user.Id);
+            string modules = JsonConvert.SerializeObject(moduleAuthenticated.Item);
+            identity.AddClaim(new Claim("ModuleAuthenticated", modules));
 
             var props = new AuthenticationProperties(new Dictionary<string, string>
                 {

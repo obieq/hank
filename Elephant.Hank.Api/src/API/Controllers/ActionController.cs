@@ -16,18 +16,19 @@ namespace Elephant.Hank.Api.Controllers
     using System.Net;
     using System.Web.Http;
 
+    using Elephant.Hank.Api.App_Start;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Json;
-    using Elephant.Hank.Resources.Messages;    
+    using Elephant.Hank.Resources.Messages;
 
     /// <summary>
     /// The ActionController class
     /// </summary>
     [RoutePrefix("api/action")]
-    [Authorize]
+    [CustomAuthorize(Role = "TestAdmin")]
     public class ActionController : BaseApiController
     {
         /// <summary>

@@ -16,6 +16,7 @@ namespace Elephant.Hank.Api.Controllers
     using System.Linq;
     using System.Web.Http;
 
+    using Elephant.Hank.Api.App_Start;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
@@ -29,7 +30,6 @@ namespace Elephant.Hank.Api.Controllers
     /// The TestDataController class
     /// </summary>
     [RoutePrefix("api/website/{websiteId}/test-cat/{testCategoryId}/test/{testId}/test-data")]
-    [Authorize]
     public class TestDataController : BaseApiController
     {
         /// <summary>

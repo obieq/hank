@@ -21,10 +21,12 @@ namespace Elephant.Hank.Api.Controllers
     using Common.DataService;
     using Common.LogService;
 
+    using Elephant.Hank.Api.App_Start;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Dto.CustomIdentity;
+    using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Extensions;
     using Elephant.Hank.Resources.Messages;
 
@@ -38,7 +40,6 @@ namespace Elephant.Hank.Api.Controllers
     /// <summary>
     /// The DataBaseCategoriesController class
     /// </summary>
-    [Authorize]
     [RoutePrefix("api/website/{websiteId}/data-base-categories")]
     public class DataBaseCategoriesController : BaseApiController
     {

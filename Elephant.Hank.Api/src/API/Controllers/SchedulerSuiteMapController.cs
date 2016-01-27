@@ -25,7 +25,6 @@ namespace Elephant.Hank.Api.Controllers
     /// The SchedulerSuiteMapController class
     /// </summary>
     [RoutePrefix("api/website/{websiteId}/scheduler-suite")]
-    [Authorize]
     public class SchedulerSuiteMapController : BaseApiController
     {
         /// <summary>

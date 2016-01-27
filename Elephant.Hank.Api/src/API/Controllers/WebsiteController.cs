@@ -27,7 +27,6 @@ namespace Elephant.Hank.Api.Controllers
     /// The WebsiteController class
     /// </summary>
     [RoutePrefix("api/website")]
-    [CustomAuthorize(ModuleName = "Website")]
     public class WebsiteController : BaseApiController
     {
         /// <summary>

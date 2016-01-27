@@ -16,6 +16,7 @@ namespace Elephant.Hank.Api.Controllers
     using System.Net;
     using System.Web.Http;
 
+    using Elephant.Hank.Api.App_Start;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
@@ -26,7 +27,6 @@ namespace Elephant.Hank.Api.Controllers
     /// The LocatorIdentifierController class
     /// </summary>
     [RoutePrefix("api/website/{websiteId}/pages/{pageId}/locator-identifier")]
-    [Authorize]
     public class LocatorIdentifierController : BaseApiController
     {
         /// <summary>

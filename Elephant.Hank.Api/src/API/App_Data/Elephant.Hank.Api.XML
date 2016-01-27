@@ -24,10 +24,20 @@
             <summary>
             calls while authorising the user
             </summary>
-            <param name="filterContext"> The filter context</param>
+            <param name="filterContext">The filter context</param>
             <returns>returns the Authorization status</returns>
         </member>
-        <member name="P:Elephant.Hank.Api.App_Start.CustomAuthorizeAttribute.ModuleName">
+        <member name="P:Elephant.Hank.Api.App_Start.CustomAuthorizeAttribute.Role">
+            <summary>
+            Gets or sets the Roles
+            </summary>
+        </member>
+        <member name="P:Elephant.Hank.Api.App_Start.CustomAuthorizeAttribute.ModuleId">
+            <summary>
+            Gets or sets the module name
+            </summary>
+        </member>
+        <member name="P:Elephant.Hank.Api.App_Start.CustomAuthorizeAttribute.ActionType">
             <summary>
             Gets or sets the module name
             </summary>

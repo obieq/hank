@@ -27,7 +27,6 @@ namespace Elephant.Hank.Api.Controllers
     /// The TestCategoryController class
     /// </summary>
     [RoutePrefix(RouteConstants.TestCatRoot)]
-    [Authorize]
     public class TestCategoryController : BaseApiController
     {
         /// <summary>

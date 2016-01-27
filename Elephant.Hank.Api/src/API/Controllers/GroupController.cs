@@ -16,6 +16,7 @@ namespace Elephant.Hank.Api.Controllers
     using System.Net;
     using System.Web.Http;
 
+    using Elephant.Hank.Api.App_Start;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
@@ -26,7 +27,7 @@ namespace Elephant.Hank.Api.Controllers
     /// The GroupsController class
     /// </summary>
     [RoutePrefix("api/group")]
-    [Authorize]
+    [CustomAuthorize(Role = "TestAdmin")]
     public class GroupController : BaseApiController
     {
         /// <summary>
@@ -166,7 +167,7 @@ namespace Elephant.Hank.Api.Controllers
             var result = new ResultMessage<IEnumerable<TblGroupModuleAccessDto>>();
             try
             {
-                result = this.groupModuleAccessService.AddUpdateWebsiteToGroup(groupId, websiteIdList);
+                result = this.groupModuleAccessService.AddUpdateWebsiteToGroup(groupId, websiteIdList, this.UserId);
             }
             catch (Exception ex)
             {

@@ -27,7 +27,6 @@ namespace Elephant.Hank.Api.Controllers
     /// The ProfileController class
     /// </summary>
     [RoutePrefix("api/profile")]
-    [Authorize]
     public class UserProfileController : BaseApiController
     {
         /// <summary>

@@ -16,6 +16,7 @@ namespace Elephant.Hank.Common.TestDataServices
     using Elephant.Hank.Common.DataService;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Messages;
+    using Elephant.Hank.Resources.Models;
 
     /// <summary>
     /// The IGroupModuleAccessService interface
@@ -27,8 +28,9 @@ namespace Elephant.Hank.Common.TestDataServices
         /// </summary>
         /// <param name="groupId">the Group Identifier</param>
         /// <param name="websiteIdList">Array of Website</param>
+        /// <param name="userId">the user identifier</param>
         /// <returns>Added entries in table TblGroupModuleAccessDto</returns>
-        ResultMessage<IEnumerable<TblGroupModuleAccessDto>> AddUpdateWebsiteToGroup(long groupId, long[] websiteIdList);
+        ResultMessage<IEnumerable<TblGroupModuleAccessDto>> AddUpdateWebsiteToGroup(long groupId, long[] websiteIdList, long userId);
 
         /// <summary>
         /// Add the GroupModuleAccess entries in bulk
@@ -60,5 +62,12 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <param name="userId">user identifier</param>
         /// <returns>list of updated entries</returns>
         ResultMessage<IEnumerable<TblGroupModuleAccessDto>> UpdateModuleAccessBulk(IEnumerable<TblGroupModuleAccessDto> groupModuleAccessList, long userId);
+
+        /// <summary>
+        /// Get all module authenticated to user
+        /// </summary>
+        /// <param name="userId">the user identifier</param>
+        /// <returns>List of authenticated module for each website</returns>
+        ResultMessage<IEnumerable<ModuleAuthenticationModel>> GetModuleAuthenticatedToUser(long userId);
     }
 }

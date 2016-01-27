@@ -10,8 +10,8 @@ var StandardTestCaseFlow =
     var suite = null;
     var testCase = null;
     var testDataList = null;
-    var TakeScreenShot=false;
-    var TakeScreenShotBrowser=null;
+    var TakeScreenShot = false;
+    var TakeScreenShotBrowser = null;
 
     var InputHelper = require('./helpers/InputHelper.js');
     var inputHelper = new InputHelper();
@@ -37,6 +37,8 @@ var StandardTestCaseFlow =
           var restApiHelper = new RestApiHelper();
 
           beforeEach(function () {
+            restApiHelper.doPost(jsonHelper.format(params.config.baseApiUrl + params.config.baseTestStateUrl, params.config.TestQueueId, 2), {}, function () {
+            });
             var testDataUrl = jsonHelper.format(params.config.baseApiUrl + params.config.baseTestDataUrl, params.config.TestQueueId);
 
             restApiHelper.doGet(testDataUrl, function (msg) {
@@ -51,8 +53,8 @@ var StandardTestCaseFlow =
               testDataList = resultMessage.Item.TestData;
               params.config.TestSuiteId = resultMessage.Item.Suite != null ? resultMessage.Item.Suite.Id : 0;
               params.config.TestCaseId = resultMessage.Item.TestCase.Id;
-              TakeScreenShot=resultMessage.Item.TakeScreenShot;
-              TakeScreenShotBrowser=resultMessage.Item.TakeScreenShotBrowser;
+              TakeScreenShot = resultMessage.Item.TakeScreenShot;
+              TakeScreenShotBrowser = resultMessage.Item.TakeScreenShotBrowser;
             });
           });
 
@@ -72,7 +74,7 @@ var StandardTestCaseFlow =
                 browser.get(params.config.urlToTest);
 
                 for (var i = 0; i < testDataList.length; i++) {
-                  var key = inputHelper.setLocator(testDataList[i], testCase.TestName,TakeScreenShot,TakeScreenShotBrowser);
+                  var key = inputHelper.setLocator(testDataList[i], testCase.TestName, TakeScreenShot, TakeScreenShotBrowser);
                 }
               }
               catch (err) {

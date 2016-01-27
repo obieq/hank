@@ -34,13 +34,13 @@ app.controller('GroupWebsiteController', ['$scope', '$stateParams', '$state', 'C
     });
 
     $scope.onGroupWebsiteSubmit = function () {
-      debugger;//
       $scope.WebsiteIdList = [];
       for (var i = 0; i < $scope.WebsiteList.length; i++) {
         if ($scope.WebsiteList[i].Permission) {
           $scope.WebsiteIdList.push($scope.WebsiteList[i].Id);
         }
       }
+
       crudService.add(ngAppSettings.GroupWebsiteUrl.format($stateParams.GroupId), $scope.WebsiteIdList).then(function (response) {
         window.location.reload();
         commonUi.showMessagePopup("Website had been added to group successfully", "Success");

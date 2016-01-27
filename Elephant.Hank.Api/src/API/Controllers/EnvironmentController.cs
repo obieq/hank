@@ -16,17 +16,18 @@ namespace Elephant.Hank.Api.Controllers
     using System.Net;
     using System.Web.Http;
 
+    using Elephant.Hank.Api.App_Start;   
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;    
     using Elephant.Hank.Framework.Extensions;
     using Elephant.Hank.Resources.Dto;
-    using Elephant.Hank.Resources.Messages;   
+    using Elephant.Hank.Resources.Messages;
     
     /// <summary>
     /// The EnvironmentController class
     /// </summary>
     [RoutePrefix("api/environment")]
-    [Authorize]
+    [CustomAuthorize(Role = "TestAdmin")]
     public class EnvironmentController : BaseApiController
     {
         /// <summary>

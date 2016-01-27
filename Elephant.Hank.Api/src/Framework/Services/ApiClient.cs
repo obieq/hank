@@ -97,6 +97,7 @@ namespace Elephant.Hank.Framework.Services
                         {
                             errorMessage = "Error: " + ex.Message;
                         }
+
                         if (errorMessage.IsNotBlank())
                         {
                             var testData = await response.Content.ReadAsStringAsync();
@@ -131,7 +132,7 @@ namespace Elephant.Hank.Framework.Services
         /// <returns>
         /// Object of type T
         /// </returns>
-        /// <exception cref="Exception"></exception>
+        /// <exception cref="Exception">returns argument exception</exception>
         public async Task<ResultMessage<T>> Post<T, Tin>(string relativePath, Tin data, string contentType = null, bool changeToPutReq = false)
         {
             using (HttpClient client = new HttpClient())

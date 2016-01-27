@@ -26,7 +26,6 @@ namespace Elephant.Hank.Api.Controllers
     /// The SuiteController class
     /// </summary>
     [RoutePrefix("api/website/{websiteId}/suite")]
-    [Authorize]
     public class SuiteController : BaseApiController
     {
         /// <summary>

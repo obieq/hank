@@ -26,7 +26,6 @@ namespace Elephant.Hank.Api.Controllers
     /// The SharedTestDataController class.
     /// </summary>
     [RoutePrefix("api/website/{websiteId}/shared-test/{sharedTestId}/shared-test-data")]
-    [Authorize]
     public class SharedTestDataController : BaseApiController
     {
         /// <summary>

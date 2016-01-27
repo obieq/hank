@@ -15,6 +15,7 @@ namespace Elephant.Hank.Api.Controllers
     using System.Collections.Generic;
     using System.Web.Http;
 
+    using Elephant.Hank.Api.App_Start;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
@@ -26,7 +27,6 @@ namespace Elephant.Hank.Api.Controllers
     /// The LocatorController class
     /// </summary>
     [RoutePrefix("api/website/{websiteId}/scheduler")]
-    [Authorize]
     public class SchedulerController : BaseApiController
     {
         /// <summary>

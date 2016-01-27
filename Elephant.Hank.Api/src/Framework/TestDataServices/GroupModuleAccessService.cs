@@ -24,6 +24,7 @@ namespace Elephant.Hank.Framework.TestDataServices
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Json;
     using Elephant.Hank.Resources.Messages;
+    using Elephant.Hank.Resources.Models;
 
     /// <summary>
     /// The GroupModuleAccessService class
@@ -56,6 +57,11 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly IRepository<TblGroupModuleAccess> table;
 
         /// <summary>
+        /// The tableGroup
+        /// </summary>
+        private readonly IRepository<TblGroup> tableGroup;
+
+        /// <summary>
         ///  Initializes a new instance of the <see cref="GroupModuleAccessService"/> class.
         /// </summary>
         /// <param name="mapperFactory">the mapper factory </param>
@@ -63,13 +69,15 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <param name="moduleService">the module service object</param>
         /// <param name="loggerService">the logger service</param>
         /// <param name="websiteService">the website service</param>
-        public GroupModuleAccessService(IMapperFactory mapperFactory, IRepository<TblGroupModuleAccess> table, IModuleService moduleService, ILoggerService loggerService, IWebsiteService websiteService)
+        /// <param name="tableGroup">the table group</param>
+        public GroupModuleAccessService(IMapperFactory mapperFactory, IRepository<TblGroupModuleAccess> table, IModuleService moduleService, ILoggerService loggerService, IWebsiteService websiteService, IRepository<TblGroup> tableGroup)
             : base(mapperFactory, table)
         {
             this.mapperFactory = mapperFactory;
             this.moduleService = moduleService;
             this.websiteService = websiteService;
             this.table = table;
+            this.tableGroup = tableGroup;
         }
 
         /// <summary>
@@ -77,8 +85,9 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// </summary>
         /// <param name="groupId">the Group Identifier</param>
         /// <param name="websiteIdList">Array of Website</param>
+        /// <param name="userId">the User Identifier</param>
         /// <returns>Added entries in table TblGroupModuleAccessDto</returns>
-        public ResultMessage<IEnumerable<TblGroupModuleAccessDto>> AddUpdateWebsiteToGroup(long groupId, long[] websiteIdList)
+        public ResultMessage<IEnumerable<TblGroupModuleAccessDto>> AddUpdateWebsiteToGroup(long groupId, long[] websiteIdList, long userId)
         {
             var result = new ResultMessage<IEnumerable<TblGroupModuleAccessDto>>();
             try
@@ -89,9 +98,38 @@ namespace Elephant.Hank.Framework.TestDataServices
                 {
                     groupModuleAccessList.Where(x => websiteIdList.All(web => web != x.WebsiteId)).ToList().ForEach(x => { x.IsDeleted = true; x.CanRead = false; x.CanWrite = false; x.CanDelete = false; x.CanExecute = false; });
                     groupModuleAccessList.Where(x => websiteIdList.Any(web => web == x.WebsiteId)).ToList().ForEach(x => { x.IsDeleted = false; x.CanRead = true; x.CanWrite = false; x.CanDelete = false; x.CanExecute = false; });
-                    this.table.Commit();
                 }
 
+                long[] websiteRefNotExist = websiteIdList.Where(x => groupModuleAccessList.All(y => y.WebsiteId != x)).ToArray();
+                if (websiteRefNotExist.Count() > 0)
+                {
+                    var groupList = this.tableGroup.GetAll();
+                    var moduleResult = this.moduleService.GetAll();
+                    foreach (var website in websiteRefNotExist)
+                    {
+                        foreach (var group in groupList)
+                        {
+                            foreach (var module in moduleResult.Item)
+                            {
+                                TblGroupModuleAccess groupModuleAccess;
+                                if (groupId == group.Id)
+                                {
+                                    TblGroupModuleAccessDto groupModuleAccessDto = new TblGroupModuleAccessDto { GroupId = group.Id, IsDeleted = false, ModifiedBy = userId, CreatedBy = userId, ModuleId = module.Id, WebsiteId = website, CanDelete = false, CanRead = true, CanWrite = false, CanExecute = false };
+                                    groupModuleAccess = this.mapperFactory.GetMapper<TblGroupModuleAccessDto, TblGroupModuleAccess>().Map(groupModuleAccessDto);
+                                }
+                                else
+                                {
+                                    TblGroupModuleAccessDto groupModuleAccessDto = new TblGroupModuleAccessDto { GroupId = group.Id, IsDeleted = true, ModifiedBy = userId, CreatedBy = userId, ModuleId = module.Id, WebsiteId = website, CanDelete = false, CanRead = false, CanWrite = false, CanExecute = false };
+                                    groupModuleAccess = this.mapperFactory.GetMapper<TblGroupModuleAccessDto, TblGroupModuleAccess>().Map(groupModuleAccessDto);
+                                }
+
+                                this.table.Insert(groupModuleAccess);
+                            }
+                        }
+                    }                   
+                }
+
+                this.table.Commit();
                 var mapper = this.mapperFactory.GetMapper<TblGroupModuleAccess, TblGroupModuleAccessDto>();
                 result.Item = groupModuleAccessList.Select(mapper.Map).ToList();
             }
@@ -173,6 +211,30 @@ namespace Elephant.Hank.Framework.TestDataServices
             else
             {
                 result.Messages.Add(new Message(string.Empty, "No Record to update"));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Get all module authenticated to user
+        /// </summary>
+        /// <param name="userId">the user identifier</param>
+        /// <returns>List of authenticated module for each website</returns>
+        public ResultMessage<IEnumerable<ModuleAuthenticationModel>> GetModuleAuthenticatedToUser(long userId)
+        {
+            var result = new ResultMessage<IEnumerable<ModuleAuthenticationModel>>();
+            Dictionary<string, object> dictionary = new Dictionary<string, object> { { "userid", userId } };
+
+            var entities = this.Table.SqlQuery<ModuleAuthenticationModel>("Select * from procgetmoduleauthenticatedtouser(@userid);", dictionary).ToList();
+
+            if (!entities.Any())
+            {
+                result.Messages.Add(new Message(null, "Record not found!"));
+            }
+            else
+            {
+                result.Item = entities;
             }
 
             return result;

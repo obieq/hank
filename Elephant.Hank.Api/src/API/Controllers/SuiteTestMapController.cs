@@ -25,7 +25,6 @@ namespace Elephant.Hank.Api.Controllers
     /// The SuiteTestMapController class
     /// </summary>
     [RoutePrefix("api/website/{websiteId}/suite-test-map")]
-    [Authorize]
     public class SuiteTestMapController : BaseApiController
     {
         /// <summary>

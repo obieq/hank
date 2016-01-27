@@ -96,7 +96,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                         {
                             foreach (var module in moduleResult.Item)
                             {
-                                TblGroupModuleAccessDto groupModuleAccess = new TblGroupModuleAccessDto { GroupId = result.Item.Id, IsDeleted = true, ModifiedBy = userId, CreatedBy = userId, ModuleId = module.Id, WebsiteId = website.Id, CanDelete = false, CanRead = false, CanWrite = false };
+                                TblGroupModuleAccessDto groupModuleAccess = new TblGroupModuleAccessDto { GroupId = result.Item.Id, IsDeleted = true, ModifiedBy = userId, CreatedBy = userId, ModuleId = module.Id, WebsiteId = website.Id, CanDelete = false, CanRead = false, CanWrite = false, CanExecute = false };
                                 groupModuleAccessList.Add(groupModuleAccess);
                             }
                         }

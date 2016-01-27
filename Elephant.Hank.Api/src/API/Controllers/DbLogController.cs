@@ -26,7 +26,6 @@ namespace Elephant.Hank.Api.Controllers
     /// The DbLogController class
     /// </summary>
     [RoutePrefix("api/dblog")]
-    [Authorize]
     public class DbLogController : BaseApiController
     {
         /// <summary>

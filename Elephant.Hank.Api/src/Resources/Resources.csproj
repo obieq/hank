@@ -106,8 +106,11 @@
     <Compile Include="Dto\TblTestCategoriesDto.cs" />
     <Compile Include="Dto\TblTestQueueDto.cs" />
     <Compile Include="Dto\TblUserProfileDto.cs" />
+    <Compile Include="Enum\ActionTypes.cs" />
     <Compile Include="Enum\ApplicationTypes.cs" />
     <Compile Include="Enum\ExecutionReportStatus.cs" />
+    <Compile Include="Enum\FrameworkModules.cs" />
+    <Compile Include="Enum\FrameworkRoles.cs" />
     <Compile Include="Enum\FrequencyEnum.cs" />
     <Compile Include="Enum\LinkTestType.cs" />
     <Compile Include="Enum\SchedulerExecutionStatus.cs" />
@@ -133,6 +136,7 @@
     <Compile Include="Models\CopyTestDataModel.cs" />
     <Compile Include="Models\ErrorTrace.cs" />
     <Compile Include="Models\FullTrace.cs" />
+    <Compile Include="Models\ModuleAuthenticationModel.cs" />
     <Compile Include="Models\NameValuePair.cs" />
     <Compile Include="Models\ProtractorVariableModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />

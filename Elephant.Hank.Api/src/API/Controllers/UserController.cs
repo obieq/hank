@@ -28,7 +28,6 @@ namespace Elephant.Hank.Api.Controllers
     /// The User controller class
     /// </summary>
     [RoutePrefix("api/user")]
-    [Authorize(Roles = "TestUser,TestAdmin")]
     public class UserController : BaseApiController
     {
         /// <summary>
