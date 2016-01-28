@@ -12,14 +12,13 @@
 namespace Elephant.Hank.Api.Controllers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Net;
     using System.Web.Http;
 
-    using Elephant.Hank.Api.App_Start;
+    using Elephant.Hank.Api.Security;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
+    using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Messages;
 
@@ -27,7 +26,7 @@ namespace Elephant.Hank.Api.Controllers
     /// The GroupUserController class
     /// </summary>
     [RoutePrefix("api/group-user")]
-    [CustomAuthorize(Role = "TestAdmin")]
+    [CustomAuthorize(Roles = RoleName.TestAdminRole)]
     public class GroupUserController : BaseApiController
     {
         /// <summary>

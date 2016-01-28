@@ -16,10 +16,11 @@ namespace Elephant.Hank.Api.Controllers
     using System.Net;
     using System.Web.Http;
 
-    using Elephant.Hank.Api.App_Start;
+    using Elephant.Hank.Api.Security;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
+    using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Messages;
@@ -59,7 +60,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="websiteId">The website identifier.</param>
         /// <returns>List of TblPagesDto objects</returns>
         [Route("")]
-        [CustomAuthorize(Role = "TestUser", ActionType = ActionTypes.Read, ModuleId = FrameworkModules.Page)]
+        [CustomAuthorize(Roles = RoleName.TestUserRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Page)]
         public IHttpActionResult GetAll(long websiteId)
         {
             var result = new ResultMessage<IEnumerable<TblPagesDto>>();
@@ -82,7 +83,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="pageId">The identifier.</param>
         /// <returns>TblPagesDto objects</returns>
         [Route("{pageId}")]
-        [CustomAuthorize(Role = "TestUser", ActionType = ActionTypes.Read, ModuleId = FrameworkModules.Page)]
+        [CustomAuthorize(Roles = RoleName.TestUserRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Page)]
         public IHttpActionResult GetById(long pageId)
         {
             var result = new ResultMessage<TblPagesDto>();
@@ -106,7 +107,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>Deleted object</returns>
         [Route("{pageId}")]
         [HttpDelete]
-        [CustomAuthorize(Role = "TestUser", ActionType = ActionTypes.Delete, ModuleId = FrameworkModules.Page)]
+        [CustomAuthorize(Roles = RoleName.TestUserRole, ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.Page)]
         public IHttpActionResult DeleteById(long pageId)
         {
             var result = new ResultMessage<TblPagesDto>();
@@ -132,7 +133,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route("")]
         [HttpPost]
-        [CustomAuthorize(Role = "TestUser", ActionType = ActionTypes.Write, ModuleId = FrameworkModules.Page)]
+        [CustomAuthorize(Roles = RoleName.TestUserRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.Page)]
         public IHttpActionResult Add([FromBody]TblPagesDto pagesDto)
         {
             var data = this.pagesService.GetByValue(pagesDto.Value, pagesDto.WebsiteId);
@@ -157,7 +158,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route("{pageId}")]
         [HttpPut]
-        [CustomAuthorize(Role = "TestUser", ActionType = ActionTypes.Write, ModuleId = FrameworkModules.Page)]
+        [CustomAuthorize(Roles = RoleName.TestUserRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.Page)]
         public IHttpActionResult Update([FromBody]TblPagesDto pagesDto, long pageId)
         {
             var data = this.pagesService.GetByValue(pagesDto.Value, pagesDto.WebsiteId);

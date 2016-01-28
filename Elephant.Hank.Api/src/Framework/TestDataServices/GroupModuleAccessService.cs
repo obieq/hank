@@ -11,18 +11,15 @@
 
 namespace Elephant.Hank.Framework.TestDataServices
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using Elephant.Hank.Common.DataService;
-    using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.Mapper;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.DataService.DBSchema;
     using Elephant.Hank.Framework.Data;
     using Elephant.Hank.Resources.Dto;
-    using Elephant.Hank.Resources.Json;
     using Elephant.Hank.Resources.Messages;
     using Elephant.Hank.Resources.Models;
 
@@ -42,16 +39,6 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly IModuleService moduleService;
 
         /// <summary>
-        /// The Module service
-        /// </summary>
-        private readonly IWebsiteService websiteService;
-
-        /// <summary>
-        /// The Module service
-        /// </summary>
-        private readonly ILoggerService loggerService;
-
-        /// <summary>
         /// The table
         /// </summary>
         private readonly IRepository<TblGroupModuleAccess> table;
@@ -67,15 +54,12 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <param name="mapperFactory">the mapper factory </param>
         /// <param name="table">the table</param>
         /// <param name="moduleService">the module service object</param>
-        /// <param name="loggerService">the logger service</param>
-        /// <param name="websiteService">the website service</param>
         /// <param name="tableGroup">the table group</param>
-        public GroupModuleAccessService(IMapperFactory mapperFactory, IRepository<TblGroupModuleAccess> table, IModuleService moduleService, ILoggerService loggerService, IWebsiteService websiteService, IRepository<TblGroup> tableGroup)
+        public GroupModuleAccessService(IMapperFactory mapperFactory, IRepository<TblGroupModuleAccess> table, IModuleService moduleService, IRepository<TblGroup> tableGroup)
             : base(mapperFactory, table)
         {
             this.mapperFactory = mapperFactory;
             this.moduleService = moduleService;
-            this.websiteService = websiteService;
             this.table = table;
             this.tableGroup = tableGroup;
         }
@@ -90,54 +74,48 @@ namespace Elephant.Hank.Framework.TestDataServices
         public ResultMessage<IEnumerable<TblGroupModuleAccessDto>> AddUpdateWebsiteToGroup(long groupId, long[] websiteIdList, long userId)
         {
             var result = new ResultMessage<IEnumerable<TblGroupModuleAccessDto>>();
-            try
+
+            var groupModuleAccessList = this.table.Find(x => x.GroupId == groupId).ToList();
+
+            if (groupModuleAccessList.Count > 0)
             {
-                var groupModuleAccessList = this.table.Find(x => x.GroupId == groupId).ToList();
+                groupModuleAccessList.Where(x => websiteIdList.All(web => web != x.WebsiteId)).ToList().ForEach(x => { x.IsDeleted = true; x.CanRead = false; x.CanWrite = false; x.CanDelete = false; x.CanExecute = false; });
+                groupModuleAccessList.Where(x => websiteIdList.Any(web => web == x.WebsiteId)).ToList().ForEach(x => { x.IsDeleted = false; x.CanRead = true; x.CanWrite = false; x.CanDelete = false; x.CanExecute = false; });
+            }
 
-                if (groupModuleAccessList.Count > 0)
+            long[] websiteRefNotExist = websiteIdList.Where(x => groupModuleAccessList.All(y => y.WebsiteId != x)).ToArray();
+            if (websiteRefNotExist.Count() > 0)
+            {
+                var groupList = this.tableGroup.GetAll();
+                var moduleResult = this.moduleService.GetAll();
+                foreach (var website in websiteRefNotExist)
                 {
-                    groupModuleAccessList.Where(x => websiteIdList.All(web => web != x.WebsiteId)).ToList().ForEach(x => { x.IsDeleted = true; x.CanRead = false; x.CanWrite = false; x.CanDelete = false; x.CanExecute = false; });
-                    groupModuleAccessList.Where(x => websiteIdList.Any(web => web == x.WebsiteId)).ToList().ForEach(x => { x.IsDeleted = false; x.CanRead = true; x.CanWrite = false; x.CanDelete = false; x.CanExecute = false; });
-                }
-
-                long[] websiteRefNotExist = websiteIdList.Where(x => groupModuleAccessList.All(y => y.WebsiteId != x)).ToArray();
-                if (websiteRefNotExist.Count() > 0)
-                {
-                    var groupList = this.tableGroup.GetAll();
-                    var moduleResult = this.moduleService.GetAll();
-                    foreach (var website in websiteRefNotExist)
+                    foreach (var group in groupList)
                     {
-                        foreach (var group in groupList)
+                        foreach (var module in moduleResult.Item)
                         {
-                            foreach (var module in moduleResult.Item)
+                            TblGroupModuleAccess groupModuleAccess;
+                            if (groupId == group.Id)
                             {
-                                TblGroupModuleAccess groupModuleAccess;
-                                if (groupId == group.Id)
-                                {
-                                    TblGroupModuleAccessDto groupModuleAccessDto = new TblGroupModuleAccessDto { GroupId = group.Id, IsDeleted = false, ModifiedBy = userId, CreatedBy = userId, ModuleId = module.Id, WebsiteId = website, CanDelete = false, CanRead = true, CanWrite = false, CanExecute = false };
-                                    groupModuleAccess = this.mapperFactory.GetMapper<TblGroupModuleAccessDto, TblGroupModuleAccess>().Map(groupModuleAccessDto);
-                                }
-                                else
-                                {
-                                    TblGroupModuleAccessDto groupModuleAccessDto = new TblGroupModuleAccessDto { GroupId = group.Id, IsDeleted = true, ModifiedBy = userId, CreatedBy = userId, ModuleId = module.Id, WebsiteId = website, CanDelete = false, CanRead = false, CanWrite = false, CanExecute = false };
-                                    groupModuleAccess = this.mapperFactory.GetMapper<TblGroupModuleAccessDto, TblGroupModuleAccess>().Map(groupModuleAccessDto);
-                                }
-
-                                this.table.Insert(groupModuleAccess);
+                                TblGroupModuleAccessDto groupModuleAccessDto = new TblGroupModuleAccessDto { GroupId = group.Id, IsDeleted = false, ModifiedBy = userId, CreatedBy = userId, ModuleId = module.Id, WebsiteId = website, CanDelete = false, CanRead = true, CanWrite = false, CanExecute = false };
+                                groupModuleAccess = this.mapperFactory.GetMapper<TblGroupModuleAccessDto, TblGroupModuleAccess>().Map(groupModuleAccessDto);
                             }
-                        }
-                    }                   
-                }
+                            else
+                            {
+                                TblGroupModuleAccessDto groupModuleAccessDto = new TblGroupModuleAccessDto { GroupId = group.Id, IsDeleted = true, ModifiedBy = userId, CreatedBy = userId, ModuleId = module.Id, WebsiteId = website, CanDelete = false, CanRead = false, CanWrite = false, CanExecute = false };
+                                groupModuleAccess = this.mapperFactory.GetMapper<TblGroupModuleAccessDto, TblGroupModuleAccess>().Map(groupModuleAccessDto);
+                            }
 
-                this.table.Commit();
-                var mapper = this.mapperFactory.GetMapper<TblGroupModuleAccess, TblGroupModuleAccessDto>();
-                result.Item = groupModuleAccessList.Select(mapper.Map).ToList();
+                            this.table.Insert(groupModuleAccess);
+                        }
+                    }
+                }
             }
-            catch (Exception ex)
-            {
-                this.loggerService.LogException(ex);
-                result.Messages.Add(new Message("function exception", ex.Message));
-            }
+
+            this.table.Commit();
+            var mapper = this.mapperFactory.GetMapper<TblGroupModuleAccess, TblGroupModuleAccessDto>();
+            result.Item = groupModuleAccessList.Select(mapper.Map).ToList();
+
 
             return result;
         }
@@ -161,7 +139,7 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// Get the TblGroupModuleAccessDto list by group id
         /// </summary>
         /// <param name="groupId">the group identifier</param>
-        /// <returns>List if TblGroupModuleAccessDto that matched the groupidentifier provided in parameter</returns>
+        /// <returns>List if TblGroupModuleAccessDto that matched the group identifier provided in parameter</returns>
         public ResultMessage<IEnumerable<TblGroupModuleAccessDto>> GetByGroupId(long groupId)
         {
             var result = new ResultMessage<IEnumerable<TblGroupModuleAccessDto>>();
@@ -176,7 +154,7 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// </summary>
         /// <param name="groupId">the group identifier</param>
         ///  <param name="websiteId">the website identifier</param>
-        /// <returns>List if TblGroupModuleAccessDto that matched the groupidentifier provided in parameter</returns>
+        /// <returns>List if TblGroupModuleAccessDto that matched the group identifier provided in parameter</returns>
         public ResultMessage<IEnumerable<TblGroupModuleAccessDto>> GetByGroupIdAndWebsiteId(long groupId, long websiteId)
         {
             var result = new ResultMessage<IEnumerable<TblGroupModuleAccessDto>>();
@@ -195,7 +173,7 @@ namespace Elephant.Hank.Framework.TestDataServices
         public ResultMessage<IEnumerable<TblGroupModuleAccessDto>> UpdateModuleAccessBulk(IEnumerable<TblGroupModuleAccessDto> moduleAccessDtoList, long userId)
         {
             var result = new ResultMessage<IEnumerable<TblGroupModuleAccessDto>>();
-            if (moduleAccessDtoList.Count() > 0)
+            if (moduleAccessDtoList != null && moduleAccessDtoList.Any())
             {
                 TblGroupModuleAccessDto defaultGroupModule = moduleAccessDtoList.FirstOrDefault();
                 var moduleAccessList = this.table.Find(x => x.GroupId == defaultGroupModule.GroupId && x.WebsiteId == defaultGroupModule.WebsiteId).ToList();

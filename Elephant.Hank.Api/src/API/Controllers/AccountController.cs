@@ -18,7 +18,6 @@ namespace Elephant.Hank.Api.Controllers
     using Common.DataService;
     using Common.LogService;
 
-    using Elephant.Hank.Api.App_Start;
     using Elephant.Hank.Framework.Extensions;
     using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Extensions;

@@ -13,30 +13,15 @@ namespace Elephant.Hank.Api.Controllers
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Net;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
     using System.Web.Http;
 
-    using Common.DataService;
     using Common.LogService;
 
-    using Elephant.Hank.Api.App_Start;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
     using Elephant.Hank.Resources.Dto;
-    using Elephant.Hank.Resources.Dto.CustomIdentity;
-    using Elephant.Hank.Resources.Enum;
-    using Elephant.Hank.Resources.Extensions;
     using Elephant.Hank.Resources.Messages;
-
-    using Microsoft.AspNet.Identity;
-    using Microsoft.Owin.Security;
-
-    using Newtonsoft.Json.Linq;
-
-    using Resources.Models;
 
     /// <summary>
     /// The DataBaseConnectionController class

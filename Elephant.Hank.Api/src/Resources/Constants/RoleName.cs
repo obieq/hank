@@ -25,5 +25,10 @@ namespace Elephant.Hank.Resources.Constants
         /// The admin role
         /// </summary>
         public const string TestAdminRole = "TestAdmin";
+
+        /// <summary>
+        /// The window service role
+        /// </summary>
+        public const string WindowServiceRole = "WindowService";
     }
 }

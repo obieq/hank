@@ -11,6 +11,8 @@
 
 namespace Elephant.Hank.Resources.Models
 {
+    using Elephant.Hank.Resources.Enum;
+
     /// <summary>
     /// The ModuleAuthenticationModel class.
     /// </summary>
@@ -24,7 +26,7 @@ namespace Elephant.Hank.Resources.Models
         /// <summary>
         /// Gets or sets the ModuleId.
         /// </summary>
-        public int ModuleId { get; set; }
+        public FrameworkModules ModuleId { get; set; }
 
         /// <summary>
         /// Gets or sets the ModuleName.
