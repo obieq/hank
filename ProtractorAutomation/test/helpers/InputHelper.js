@@ -769,7 +769,9 @@ var InputHelper = function () {
   };
 
   this.setDropDown = function selectOption(executionSequence, key, value, selectFirst, milliseconds) {
-    if (selectFirst && (value == undefined || value == '')) {
+    thisobj.anyTextToBePresentInElement(key, value);
+
+    if (selectFirst || (value == undefined || value == '')) {
       value = "\uE015"; // DOWN arrow
       //element(key).sendKeys(value);
       key.sendKeys(value).then(function () {
@@ -777,6 +779,8 @@ var InputHelper = function () {
       });
     }
     else {
+      value = value.replace('  ', ' ').toLowerCase().trim()
+
       var desiredOption;
       var hasMatchedValue = false;
       var count = 0;
@@ -787,7 +791,7 @@ var InputHelper = function () {
           (
             function (option) {
 
-              if (option.replace('  ', ' ').toLowerCase().trim() == value.replace('  ', ' ').toLowerCase().trim()) {
+              if (option.replace('  ', ' ').toLowerCase().trim() == value) {
                 desiredOption = count;
                 hasMatchedValue = true;
                 return true;
@@ -853,6 +857,29 @@ var InputHelper = function () {
     return promise;
   };
 
+  this.anyTextToBePresentInElement = function(elementFinder, targetText, timeOut) {
+    if(targetText) {
+      targetText = targetText.replace('  ', ' ').toLowerCase().trim()
+    }
+    else{
+      return;
+    }
+
+    var EC = protractor.ExpectedConditions;
+    timeOut = timeOut ? timeOut : maxTimeOut;
+
+    var hasText = function() {
+      return elementFinder.getText().then(function(actualText) {
+        actualText = actualText.replace('  ', ' ').toLowerCase().trim();
+        console.log("******* 1 2 *******", actualText);
+        return actualText.indexOf(targetText) > -1;
+      });
+    };
+    var expectedConditions = EC.and(EC.presenceOf(elementFinder), hasText);
+
+    browser.wait(expectedConditions, timeOut);
+  };
+
   this.CheckExpectedCondition = function (testInstance, isNegate, timeOut) {
     timeOut = timeOut ? timeOut : maxTimeOut;
 
@@ -883,6 +910,11 @@ var InputHelper = function () {
       case locatorTypeConstant.xpath:
       {
         expectedConditions = EC.presenceOf(element(by.xpath(testInstance.LocatorIdentifier)));
+        break;
+      }
+      case locatorTypeConstant.css:
+      {
+        expectedConditions = EC.presenceOf(element(by.css(testInstance.LocatorIdentifier)));
         break;
       }
     }
