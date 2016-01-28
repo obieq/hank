@@ -856,25 +856,27 @@ var InputHelper = function () {
   };
 
   this.anyTextToBePresentInElement = function(elementFinder, targetText, timeOut) {
-    if(targetText) {
-      targetText = targetText.replace('  ', ' ').toLowerCase().trim()
+    if(browser.ignoreSynchronization) {
+      if (targetText) {
+        targetText = targetText.replace('  ', ' ').toLowerCase().trim()
+      }
+      else {
+        return;
+      }
+
+      var EC = protractor.ExpectedConditions;
+      timeOut = timeOut ? timeOut : maxTimeOut;
+
+      var hasText = function () {
+        return elementFinder.getText().then(function (actualText) {
+          actualText = actualText.replace('  ', ' ').toLowerCase().trim();
+          return actualText.indexOf(targetText) > -1;
+        });
+      };
+      var expectedConditions = EC.and(EC.presenceOf(elementFinder), hasText);
+
+      browser.wait(expectedConditions, timeOut, "Element not found");
     }
-    else{
-      return;
-    }
-
-    var EC = protractor.ExpectedConditions;
-    timeOut = timeOut ? timeOut : maxTimeOut;
-
-    var hasText = function() {
-      return elementFinder.getText().then(function(actualText) {
-        actualText = actualText.replace('  ', ' ').toLowerCase().trim();
-        return actualText.indexOf(targetText) > -1;
-      });
-    };
-    var expectedConditions = EC.and(EC.presenceOf(elementFinder), hasText);
-
-    browser.wait(expectedConditions, timeOut);
   };
 
   this.CheckExpectedCondition = function (testInstance, isNegate, timeOut) {
