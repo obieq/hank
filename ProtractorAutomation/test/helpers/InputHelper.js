@@ -335,7 +335,6 @@ var InputHelper = function () {
             if (testInstance.StepType == 3) {
               browser.getCurrentUrl().then(function (urle) {
                 console.log("inside  actionConstant.LogText a=" + testInstance.VariableName);
-                console.log(testInstance);
                 jsonHelper.parseJsonToExecuteSql(testInstance).then(function (a) {
                   browser.params.config.logContainer.push({Name: testInstance.VariableName, Value: JSON.stringify(a)});
                 });
@@ -363,7 +362,6 @@ var InputHelper = function () {
             if (testInstance.StepType == 3) {
               browser.getCurrentUrl().then(function (urle) {
                 jsonHelper.parseJsonToExecuteSql(testInstance).then(function (a) {
-                  console.log("inside  actionConstant.SetVariable a=" + JSON.stringify(a));
                   thisobj.setVariable(testInstance.VariableName, JSON.stringify(a), testInstance.DisplayName);
                   browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
                 });
@@ -871,7 +869,6 @@ var InputHelper = function () {
     var hasText = function() {
       return elementFinder.getText().then(function(actualText) {
         actualText = actualText.replace('  ', ' ').toLowerCase().trim();
-        console.log("******* 1 2 *******", actualText);
         return actualText.indexOf(targetText) > -1;
       });
     };

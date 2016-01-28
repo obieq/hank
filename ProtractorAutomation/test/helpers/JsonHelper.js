@@ -49,12 +49,9 @@ var JsonHelper = function () {
     var defer = protractor.promise.defer();
     console.log("Inside set variable step type 3");
     var params = browser.params;
-    console.log("params.config=");
-    console.log(params.config);
+
     var urleTohit = this.format(params.config.baseApiUrl + params.config.executeSqlUrl, params.config.TestQueueId);
     console.log("urleTohit= " + urleTohit);
-    console.log("testInstance= ");
-    console.log(testInstance);
     var rex = /\{([^}]+)\}/g;
     var matches = testInstance.Value.match(rex);
     console.log("matches= " + matches);
@@ -78,11 +75,7 @@ var JsonHelper = function () {
     }
     var a = [];
     restApiHelper.doPost(urleTohit, testInstance, function (msg) {
-      console.log("msg.body:- ");
-      console.log(msg.body);
       var resultMessage = JSON.parse(msg.body);
-      console.log("resultMessage.Item:- ");
-      console.log(resultMessage.Item);
       console.log("Length= " + resultMessage.Item.length);
       if (resultMessage.Item != "null") {
         for (var i = 0; i < resultMessage.Item.length; i++) {
@@ -92,9 +85,6 @@ var JsonHelper = function () {
             a[i][j] = resultMessage.Item[i][keys[j]];
           }
         }
-        console.log("a:- ");
-        console.log(a);
-
       }
       defer.fulfill(a);
     });
