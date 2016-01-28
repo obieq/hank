@@ -69,7 +69,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
           count++;
         }
       }
-      console.log($scope.TestDataList)
+
       return result;
     };
 
