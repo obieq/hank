@@ -20,6 +20,7 @@ var app = angular
     'restangular',
     'ui.router',
     'ngStorage',
+    'ngCsv',
     'ui.bootstrap',
     'ncy-angular-breadcrumb',
     'daterangepicker',

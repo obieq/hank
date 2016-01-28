@@ -5,10 +5,12 @@
       <h1>Test Data for
         <small> {{Test.WebsiteName}} - {{Test.TestName}}</small>
         <a class=" btn btn-primary" style="float:right;cursor: pointer" ng-click="onQueueClick();" >Queue</a>
-        <a
-          ui-sref="Website.TestDataAdd({WebsiteId: stateParamWebsiteId, TestCatId: TestCatId, TestId: Test.Id, ExecutionSequence: LastSeqNumber })"
-          class=" btn btn-primary" style="float:right;cursor: pointer;margin-right: 5px;">Add Test Data</a>   &nbsp;&nbsp;
 
+        <a type="button" class="btn btn-primary" style="float:right;cursor: pointer;margin-right: 5px;"
+           ng-csv="getCsvData()" csv-header="getCsvHeaders()" lazy-load="true" filename="{{Test.WebsiteName}} - {{Test.TestName}}.csv">To Excel</a>
+
+        <a ui-sref="Website.TestDataAdd({WebsiteId: stateParamWebsiteId, TestCatId: TestCatId, TestId: Test.Id, ExecutionSequence: LastSeqNumber })"
+          class=" btn btn-primary" style="float:right;cursor: pointer;margin-right: 5px;">Add Test Data</a>   &nbsp;&nbsp;
       </h1>
     </div>
   </div>
@@ -28,7 +30,7 @@
           <table class="table table-hover table-bordered">
             <thead>
             <tr>
-              <th>Sequence</th>
+              <th>Seq</th>
               <th class="col-md-2">Display Name</th>
               <th>Action</th>
               <th>Value</th>

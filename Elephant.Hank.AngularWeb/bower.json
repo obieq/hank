@@ -21,7 +21,8 @@
     "ngstorage": "~0.3.0",
     "restangular": "^1.5.1",
     "angular-local-storage": "~0.2.2",
-    "admin-lte": "~2.3.0"
+    "admin-lte": "~2.3.0",
+    "ng-csv": "~0.3.6"
   },
   "overrides": {
     "admin-lte": {
