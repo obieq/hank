@@ -6,6 +6,7 @@ var InputHelper = function () {
   require('./WaitReady.js');
   var ActionConstant = require('./../constants/ActionConstant.js');
   var actionConstant = new ActionConstant();
+  var maxTimeOut = 10000;
   var thisobj = this;
   var LocatorTypeConstant = require('./../constants/LocatorTypeConstant.js');
   var locatorTypeConstant = new LocatorTypeConstant();
@@ -348,13 +349,8 @@ var InputHelper = function () {
           }
           case actionConstant.WaitForTheElement:
           {
-            if (this.isInt(testInstance.Value)) {
-              browser.sleep(parseInt(testInstance.Value));
-            }
-            else {
-              browser.sleep(10000);
-            }
-            this.CheckExpectedCondition(testInstance, false);
+            var timeOut = this.isInt(testInstance.Value) ? parseInt(testInstance.Value) : maxTimeOut;
+            this.CheckExpectedCondition(testInstance, false, timeOut);
             break;
           }
           case actionConstant.AssertElementToBePresent:
@@ -553,13 +549,8 @@ var InputHelper = function () {
 
           case actionConstant.WaitForTheElementDisappear:
           {
-            if (this.isInt(testInstance.Value)) {
-              browser.sleep(parseInt(testInstance.Value));
-            }
-            else {
-              browser.sleep(10000);
-            }
-            this.CheckExpectedCondition(testInstance, true);
+            var timeOut = this.isInt(testInstance.Value) ? parseInt(testInstance.Value) : maxTimeOut;
+            this.CheckExpectedCondition(testInstance, true, timeOut);
             break;
           }
 
@@ -862,83 +853,50 @@ var InputHelper = function () {
     return promise;
   };
 
-  this.CheckExpectedCondition = function (testInstance, IsNegate) {
+  this.CheckExpectedCondition = function (testInstance, isNegate, timeOut) {
+    timeOut = timeOut ? timeOut : maxTimeOut;
+
     var EC = protractor.ExpectedConditions;
-    if (IsNegate) {
-      var elementIsNotPresent;
-      switch (testInstance.Locator) {
-        case locatorTypeConstant.model:
-        {
-          elementIsNotPresent = EC.not(EC.presenceOf(element(by.model(testInstance.LocatorIdentifier))));
-          browser.wait(elementIsNotPresent, 10000);
-          break;
-        }
+    var expectedConditions = undefined;
 
-        case locatorTypeConstant.class:
-        {
-          elementIsNotPresent = EC.not(EC.presenceOf(element(by.css(testInstance.LocatorIdentifier))));
-          browser.wait(elementIsNotPresent, 10000);
-          break;
-        }
-        case locatorTypeConstant.tagname:
-        {
-          elementIsNotPresent = EC.not(EC.presenceOf(element(by.tagName(testInstance.LocatorIdentifier))));
-          browser.wait(elementIsNotPresent, 10000);
-          break;
-        }
-        case locatorTypeConstant.id:
-        {
-          elementIsNotPresent = EC.not(EC.presenceOf(element(by.id(testInstance.LocatorIdentifier))));
-          browser.wait(elementIsNotPresent, 10000);
-          break;
-        }
-        case locatorTypeConstant.xpath:
-        {
-          elementIsNotPresent = EC.not(EC.presenceOf(element(by.xpath(testInstance.LocatorIdentifier))));
-          browser.wait(elementIsNotPresent, 10000);
-          break;
-        }
-        default :
-        {
-          break;
-        }
+    switch (testInstance.Locator) {
+      case locatorTypeConstant.model:
+      {
+        expectedConditions = EC.presenceOf(element(by.model(testInstance.LocatorIdentifier)));
+        break;
       }
-    }
-    else {
-      switch (testInstance.Locator) {
-        case locatorTypeConstant.model:
-        {
-          browser.wait(EC.presenceOf(element(by.model(testInstance.LocatorIdentifier))), 10000);
-          break;
-        }
-
-        case locatorTypeConstant.class:
-        {
-          browser.wait(EC.presenceOf(element(by.css(testInstance.LocatorIdentifier))), 10000);
-          break;
-        }
-        case locatorTypeConstant.tagname:
-        {
-          browser.wait(EC.presenceOf(element(by.tagName(testInstance.LocatorIdentifier))), 10000);
-          break;
-        }
-        case locatorTypeConstant.id:
-        {
-          browser.wait(EC.presenceOf(element(by.id(testInstance.LocatorIdentifier))), 10000);
-          break;
-        }
-        case locatorTypeConstant.xpath:
-        {
-          browser.wait(EC.presenceOf(element(by.xpath(testInstance.LocatorIdentifier))), 10000);
-          break;
-        }
-        default :
-        {
-          break;
-        }
+      case locatorTypeConstant.class:
+      {
+        expectedConditions = EC.presenceOf(element(by.css(testInstance.LocatorIdentifier)));
+        break;
+      }
+      case locatorTypeConstant.tagname:
+      {
+        expectedConditions = EC.presenceOf(element(by.tagName(testInstance.LocatorIdentifier)));
+        break;
+      }
+      case locatorTypeConstant.id:
+      {
+        expectedConditions = EC.presenceOf(element(by.id(testInstance.LocatorIdentifier)));
+        break;
+      }
+      case locatorTypeConstant.xpath:
+      {
+        expectedConditions = EC.presenceOf(element(by.xpath(testInstance.LocatorIdentifier)));
+        break;
       }
     }
 
+    if(expectedConditions) {
+      if(isNegate){
+        expectedConditions = EC.not(expectedConditions);
+      }
+      browser.wait(expectedConditions, timeOut);
+    }
+    else{
+      console.log("********** Support not been added for wait for locator '" + testInstance.Locator + "' **********");
+      browser.sleep(timeOut);
+    }
   };
 };
 module.exports = InputHelper;
