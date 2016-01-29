@@ -510,16 +510,11 @@ var InputHelper = function () {
 
           case actionConstant.Wait:
           {
-            if (this.isInt(testInstance.Value)) {
-              browser.sleep(parseInt(testInstance.Value)).then(function () {
-                browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
-              });
-            }
-            else {
-              browser.sleep(10000).then(function () {
-                browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
-              });
-            }
+            var timeOut = this.isInt(testInstance.Value) ? parseInt(testInstance.Value) : maxTimeOut;
+            browser.sleep(timeOut).then(function () {
+              browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
+            });
+
             break;
           }
 
@@ -856,29 +851,37 @@ var InputHelper = function () {
   };
 
   this.anyTextToBePresentInElement = function(elementFinder, targetText, timeOut) {
-    if(browser.ignoreSynchronization)
-    {
-      if(targetText) {
-        targetText = targetText.replace('  ', ' ').toLowerCase().trim()
+    browser.getCurrentUrl().then(function(){
+      if(browser.ignoreSynchronization)
+      {
+        if(targetText) {
+          targetText = targetText.replace('  ', ' ').toLowerCase().trim()
+        }
+        else{
+          return;
+        }
+
+        var EC = protractor.ExpectedConditions;
+        timeOut = timeOut ? timeOut : maxTimeOut;
+
+        var hasText = function() {
+          return elementFinder.getText().then(function(actualText) {
+            actualText = actualText.replace('  ', ' ').toLowerCase().trim();
+            return actualText.indexOf(targetText) > -1;
+          });
+        };
+
+        var isPresentOnUi = function() {
+          return elementFinder.isPresent().then(function(status) {
+            return status;
+          });
+        };
+
+        var expectedConditions = EC.and(isPresentOnUi, hasText);
+
+        browser.wait(expectedConditions, timeOut);
       }
-      else{
-        return;
-      }
-
-      var EC = protractor.ExpectedConditions;
-      timeOut = timeOut ? timeOut : maxTimeOut;
-
-      var hasText = function() {
-        return elementFinder.getText().then(function(actualText) {
-          actualText = actualText.replace('  ', ' ').toLowerCase().trim();
-          return actualText.indexOf(targetText) > -1;
-        });
-      };
-
-      var expectedConditions = EC.and(EC.presenceOf(elementFinder), hasText);
-
-      browser.wait(expectedConditions, timeOut, "Element not found");
-    }
+    });
   };
 
   this.CheckExpectedCondition = function (testInstance, isNegate, timeOut) {
@@ -904,19 +907,23 @@ var InputHelper = function () {
         elementObj = element(by.xpath(testInstance.LocatorIdentifier));
         break;
       case locatorTypeConstant.css:
-        // elementObj = element(by.css(testInstance.LocatorIdentifier));
+        elementObj = element(by.css(testInstance.LocatorIdentifier));
         break;
     }
 
     if(elementObj) {
-      browser.sleep(2000);
+      var isPresentOnUi = function() {
+        return elementObj.isPresent().then(function(status) {
+          return status;
+        });
+      };
+
+      browser.sleep(2000); // Because of POST back sites, can be higher if site is too slow with post backs
       if(isNegate){
-        browser.wait(EC.not(EC.presenceOf(elementObj)), timeOut, "Attempt 1: " + testInstance.LocatorIdentifier + " not found by " + testInstance.Locator);
-        browser.sleep(2000);
-        browser.wait(EC.not(EC.presenceOf(elementObj)), timeOut/2, "Attempt 2: " + testInstance.LocatorIdentifier + " not found by " + testInstance.Locator);
+        browser.wait(EC.not(isPresentOnUi), timeOut);
       }
       else{
-        browser.wait(EC.presenceOf(elementObj), timeOut);
+        browser.wait(isPresentOnUi, timeOut);
       }
     }
     else{
