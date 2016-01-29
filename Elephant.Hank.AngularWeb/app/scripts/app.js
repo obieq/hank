@@ -157,7 +157,7 @@ var app = angular
         views: {
           "MainView": {templateUrl: "views/Account/login.html", controller: 'AccountController'}
         },
-        permissionData: { NotAllowdedIfLoggedIn: true}
+        permissionData: {NotAllowdedIfLoggedIn: true}
       })
       .state('LoginWithMsg', {
         url: "/Login/:mid?",
@@ -165,7 +165,7 @@ var app = angular
         views: {
           "MainView": {templateUrl: "views/Account/login.html", controller: 'AccountController'}
         },
-        permissionData: { NotAllowdedIfLoggedIn: true}
+        permissionData: {NotAllowdedIfLoggedIn: true}
       })
       .state('SignUp', {
         url: "/SignUp",
@@ -633,7 +633,7 @@ var app = angular
         views: {
           "TabContent": {
             templateUrl: 'views/GroupManager/GroupWebsiteModule.html',
-            controller:'GroupWebsiteModuleController'
+            controller: 'GroupWebsiteModuleController'
           }
         },
         ncyBreadcrumb: {label: 'New Group', parent: "Group.List"},
@@ -642,7 +642,7 @@ var app = angular
       .state('Group.Manage.User', {
         url: "/users",
         views: {
-          "TabContent": {templateUrl: 'views/GroupManager/GroupUsers.html',controller:'GroupUserController'}
+          "TabContent": {templateUrl: 'views/GroupManager/GroupUsers.html', controller: 'GroupUserController'}
 
         },
         ncyBreadcrumb: {label: 'New Group', parent: "Group.List"},
@@ -658,6 +658,17 @@ var app = angular
       SharedTestStep: 1,
       WebsiteTestStep: 2,
       SqlTestStep: 3
+    },
+
+    ModuleType: {
+      Page: 1,
+      Scheduler: 2,
+      Suites: 3,
+      SharedTestCases: 4,
+      TestScripts: 5,
+      DataBaseCategories: 6,
+      DataBaseConnection: 7,
+      LocatorIdentifier: 8
     },
 
     WebSiteUrl: "website",
@@ -719,11 +730,11 @@ var app = angular
     DataBaseConnectionUrl: "website/{0}/data-base-categories/{1}/data-base-connection",
     DataBaseConnectionGetDataBaseListUrl: "website/{0}/data-base-categories/{1}/data-base-connection/get-database-list",
     GroupUrl: "group",
-    GroupUserAddUrl:'group-user',
+    GroupUserAddUrl: 'group-user',
     GroupUserUrl: "group/{0}/user",
-    GroupUserDeleteUrl:"group/{0}/user/{1}/remove-from-group",
+    GroupUserDeleteUrl: "group/{0}/user/{1}/remove-from-group",
     GroupWebsiteUrl: "group/{0}/add-website-to-group",
     GroupModuleUrl: "group/{0}/group-module-access",
     GroupWebsiteModuleUrl: "group/{0}/website/{1}",
-    GroupModuleAccessBulkUpdate:"group-module-access/update-access-bulk"
+    GroupModuleAccessBulkUpdate: "group-module-access/update-access-bulk"
   });

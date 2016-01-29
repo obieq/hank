@@ -39,6 +39,21 @@ namespace Elephant.Hank.Resources.Enum
         /// <summary>
         /// For Test Scripts
         /// </summary>
-        TestScripts = 5
+        TestScripts = 5,
+
+        /// <summary>
+        /// For Data Base Categories
+        /// </summary>
+        DataBaseCategories=6,
+
+        /// <summary>
+        /// For DataBase Connection
+        /// </summary>
+        DataBaseConnection=7,
+
+        /// <summary>
+        /// for Locator Identifier
+        /// </summary>
+        LocatorIdentifier=8
     }
 }

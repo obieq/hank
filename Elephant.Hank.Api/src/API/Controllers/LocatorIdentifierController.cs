@@ -21,6 +21,9 @@ namespace Elephant.Hank.Api.Controllers
     using Elephant.Hank.Framework.Extensions;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Messages;
+    using Elephant.Hank.Api.Security;
+    using Elephant.Hank.Resources.Constants;
+    using Elephant.Hank.Resources.Enum;
 
     /// <summary>
     /// The LocatorIdentifierController class
@@ -50,6 +53,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="pageId">The page identoifier.</param>
         /// <returns>List of TblLocatorIdentifierDto objects</returns>
         [Route("")]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.LocatorIdentifier)]
         public IHttpActionResult GetAll(long pageId)
         {
             var result = new ResultMessage<IEnumerable<TblLocatorIdentifierDto>>();
@@ -72,6 +76,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="locatorIdentifierId">The identifier.</param>
         /// <returns>TblLocatorIdentifierDto objects</returns>
         [Route("{locatorIdentifierId}")]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.LocatorIdentifier)]
         public IHttpActionResult GetById(long locatorIdentifierId)
         {
             var result = new ResultMessage<TblLocatorIdentifierDto>();
@@ -95,6 +100,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>Deleted object</returns>
         [Route("{locatorIdentifierId}")]
         [HttpDelete]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.LocatorIdentifier)]
         public IHttpActionResult DeleteById(long locatorIdentifierId)
         {
             var result = new ResultMessage<TblLocatorIdentifierDto>();
@@ -120,6 +126,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route("")]
         [HttpPost]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.LocatorIdentifier)]
         public IHttpActionResult Add([FromBody]TblLocatorIdentifierDto locatorIdentifierDto)
         {
             var data = this.locatorIdentifierService.IsExisting(locatorIdentifierDto);
@@ -144,6 +151,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route("{locatorIdentifierId}")]
         [HttpPut]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.LocatorIdentifier)]
         public IHttpActionResult Update([FromBody]TblLocatorIdentifierDto locatorIdentifierDto, long locatorIdentifierId)
         {
             var data = this.locatorIdentifierService.IsExisting(locatorIdentifierDto);

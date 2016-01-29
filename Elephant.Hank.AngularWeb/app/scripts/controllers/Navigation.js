@@ -39,6 +39,10 @@ app.controller('NavCtrl', ['$scope', '$state', 'authService', '$stateParams', '$
       return state.indexOf(targetState[matchIndex]) == 0 ? "active" : "";
     };
 
+    $scope.IsAccessible= function () {
+
+    };
+
     $scope.$on('$stateChangeStart', function (ev, to, toParams, from, fromParams) {
       var permissionData = to.permissionData;
       var isNotAuth = false;

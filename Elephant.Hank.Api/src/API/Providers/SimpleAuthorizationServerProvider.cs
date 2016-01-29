@@ -149,12 +149,7 @@ namespace Elephant.Hank.Api.Providers
             identity.AddClaim(new Claim(ClaimTypes.Role, roleName));
             identity.AddClaim(new Claim("sub", user.UserName));
             identity.AddClaim(new Claim("role", roleName));
-
-            var moduleAccessService = StructuremapMvc.StructureMapDependencyScope.Container.GetInstance<IGroupModuleAccessService>();
-            ResultMessage<IEnumerable<ModuleAuthenticationModel>> moduleAuthenticated = moduleAccessService.GetModuleAuthenticatedToUser(user.Id);
-            string modules = JsonConvert.SerializeObject(moduleAuthenticated.Item);
-            identity.AddClaim(new Claim("ModuleAuthenticated", modules));
-
+         
             var props = new AuthenticationProperties(new Dictionary<string, string>
                 {
                     { 
