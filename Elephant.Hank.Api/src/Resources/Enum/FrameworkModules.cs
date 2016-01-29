@@ -44,16 +44,16 @@ namespace Elephant.Hank.Resources.Enum
         /// <summary>
         /// For Data Base Categories
         /// </summary>
-        DataBaseCategories=6,
+        DataBaseCategories = 6,
 
         /// <summary>
         /// For DataBase Connection
         /// </summary>
-        DataBaseConnection=7,
+        DataBaseConnection = 7,
 
         /// <summary>
         /// for Locator Identifier
         /// </summary>
-        LocatorIdentifier=8
+        LocatorIdentifier = 8
     }
 }
