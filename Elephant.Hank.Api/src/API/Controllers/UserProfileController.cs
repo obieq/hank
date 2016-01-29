@@ -16,10 +16,12 @@ namespace Elephant.Hank.Api.Controllers
     using System.Linq;
     using System.Web.Http;
 
+    using Elephant.Hank.Api.Security;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.DataService.DBSchema.CustomIdentity;
     using Elephant.Hank.Framework.Extensions;
+    using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Messages;
 
@@ -27,6 +29,7 @@ namespace Elephant.Hank.Api.Controllers
     /// The ProfileController class
     /// </summary>
     [RoutePrefix("api/profile")]
+    [CustomAuthorize(Roles = RoleName.TestAdminRole)]
     public class UserProfileController : BaseApiController
     {
         /// <summary>

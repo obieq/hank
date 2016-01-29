@@ -19,6 +19,7 @@ namespace Elephant.Hank.Api.Security
 
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Resources.Enum;
+    using Elephant.Hank.Resources.Extensions;
     using Elephant.Hank.Resources.Messages;
     using Elephant.Hank.Resources.Models;
 
@@ -74,8 +75,7 @@ namespace Elephant.Hank.Api.Security
                         filterContext.RequestContext.RouteData.Values.TryGetValue("websiteId", out website_Id);
                         if (website_Id != null)
                         {
-                            int websiteId;
-                            int.TryParse(website_Id.ToString(), out websiteId);
+                            int websiteId = website_Id.ToString().ToInt32();
 
                             if (websiteId > 0)
                             {

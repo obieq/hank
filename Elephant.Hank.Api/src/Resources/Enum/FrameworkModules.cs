@@ -19,6 +19,26 @@ namespace Elephant.Hank.Resources.Enum
         /// <summary>
         /// For the page module
         /// </summary>
-        Page = 1
+        Page = 1,
+
+        /// <summary>
+        /// For scheduler module
+        /// </summary>
+        Scheduler = 2,
+
+        /// <summary>
+        /// For Suites Module
+        /// </summary>
+        Suites = 3,
+
+        /// <summary>
+        /// For Shared Test Cases
+        /// </summary>
+        SharedTestCases = 4,
+
+        /// <summary>
+        /// For Test Scripts
+        /// </summary>
+        TestScripts = 5
     }
 }

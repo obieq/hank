@@ -115,8 +115,6 @@ namespace Elephant.Hank.Framework.TestDataServices
             this.table.Commit();
             var mapper = this.mapperFactory.GetMapper<TblGroupModuleAccess, TblGroupModuleAccessDto>();
             result.Item = groupModuleAccessList.Select(mapper.Map).ToList();
-
-
             return result;
         }
 

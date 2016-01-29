@@ -165,6 +165,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </summary>
         /// <returns>ActionConstants object</returns>
         [Route("action-constants")]
+        [AllowAnonymous]
         public IHttpActionResult GetActionConstants()
         {
             var result = new ResultMessage<ActionConstants>();

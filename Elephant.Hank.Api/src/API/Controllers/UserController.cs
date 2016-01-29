@@ -16,10 +16,12 @@ namespace Elephant.Hank.Api.Controllers
     using System.Linq;
     using System.Web.Http;
 
+    using Elephant.Hank.Api.Security;
     using Elephant.Hank.Common.DataService;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
+    using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Dto.CustomIdentity;
     using Elephant.Hank.Resources.Messages;
@@ -28,6 +30,7 @@ namespace Elephant.Hank.Api.Controllers
     /// The User controller class
     /// </summary>
     [RoutePrefix("api/user")]
+    [CustomAuthorize(Roles = RoleName.TestAdminRole)]
     public class UserController : BaseApiController
     {
         /// <summary>

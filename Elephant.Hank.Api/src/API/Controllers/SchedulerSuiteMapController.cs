@@ -15,11 +15,14 @@ namespace Elephant.Hank.Api.Controllers
     using System.Collections.Generic;
     using System.Web.Http;
 
+    using Elephant.Hank.Api.Security;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
+    using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto.Linking;
-    using Elephant.Hank.Resources.Messages;    
+    using Elephant.Hank.Resources.Enum;    
+    using Elephant.Hank.Resources.Messages;
 
     /// <summary>
     /// The SchedulerSuiteMapController class
@@ -48,6 +51,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </summary>
         /// <returns>List of TblSchedulerDto objects</returns>
         [Route("")]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Suites)]
         public IHttpActionResult GetAll()
         {
             var result = new ResultMessage<IEnumerable<TblLnkSchedulerSuiteDto>>();
@@ -70,6 +74,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="schedulerSuiteId">The identifier.</param>
         /// <returns>TblSchedulerDto objects</returns>
         [Route("{schedulerSuiteId}")]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Suites)]
         public IHttpActionResult GetById(long schedulerSuiteId)
         {
             var result = new ResultMessage<TblLnkSchedulerSuiteDto>();
@@ -93,6 +98,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>Deleted object</returns>
         [Route("{schedulerSuiteId}")]
         [HttpDelete]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.Suites)]
         public IHttpActionResult DeleteById(long schedulerSuiteId)
         {
             var result = new ResultMessage<TblLnkSchedulerSuiteDto>();
@@ -118,6 +124,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [HttpPost]
         [Route("")]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Suites)]
         public IHttpActionResult Add([FromBody]TblLnkSchedulerSuiteDto schedulerSuiteDto)
         {
             return this.AddUpdate(schedulerSuiteDto);
@@ -133,6 +140,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route("{schedulerSuiteId}")]
         [HttpPut]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.Scheduler)]
         public IHttpActionResult Update([FromBody]TblLnkSchedulerSuiteDto schedulerSuiteDto, long schedulerSuiteId)
         {
             schedulerSuiteDto.Id = schedulerSuiteId;

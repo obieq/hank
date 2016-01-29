@@ -16,10 +16,13 @@ namespace Elephant.Hank.Api.Controllers
     using System.Net;
     using System.Web.Http;
 
+    using Elephant.Hank.Api.Security;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
+    using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto;
+    using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Messages;
 
     /// <summary>
@@ -66,6 +69,7 @@ namespace Elephant.Hank.Api.Controllers
         /// List of TblTestDataDto objects
         /// </returns>
         [Route("")]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.SharedTestCases)]
         public IHttpActionResult GetAllTestData(long sharedTestId)
         {
             var result = new ResultMessage<IEnumerable<TblSharedTestDataDto>>();
@@ -88,6 +92,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="sharedTestDataId">The test data identifier.</param>
         /// <returns>TblTestDataDto object</returns>
         [Route("{sharedTestDataId}")]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.SharedTestCases)]
         public IHttpActionResult GetTestDataById(long sharedTestDataId)
         {
             var result = new ResultMessage<TblSharedTestDataDto>();
@@ -112,6 +117,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>Newly added object</returns>
         [HttpPost]
         [Route("")]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.SharedTestCases)]
         public IHttpActionResult AddTestData([FromBody]TblSharedTestDataDto sharedtestDataDto, long sharedTestId)
         {
             return this.AddUpdateSharedTestData(sharedtestDataDto);
@@ -128,6 +134,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [HttpPut]
         [Route("{sharedTestDataId}")]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.SharedTestCases)]
         public IHttpActionResult UpdateTestData([FromBody]TblSharedTestDataDto sharedtestDataDto, long sharedTestId, long sharedTestDataId)
         {
             sharedtestDataDto.Id = sharedTestDataId;
@@ -144,6 +151,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>Deleted TblTestDataDto object</returns>
         [HttpDelete]
         [Route("{sharedTestDataId}")]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.SharedTestCases)]
         public IHttpActionResult DeleteTestData(long sharedTestId, long sharedTestDataId)
         {
             var result = new ResultMessage<TblSharedTestDataDto>();

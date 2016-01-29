@@ -15,29 +15,24 @@
             </summary>
             <param name="bundles">The bundles.</param>
         </member>
-        <member name="T:Elephant.Hank.Api.App_Start.CustomAuthorizeAttribute">
+        <member name="T:Elephant.Hank.Api.Security.CustomAuthorizeAttribute">
             <summary>
             The CustomAuthorizeAttribute class
             </summary>
         </member>
-        <member name="M:Elephant.Hank.Api.App_Start.CustomAuthorizeAttribute.IsAuthorized(System.Web.Http.Controllers.HttpActionContext)">
+        <member name="M:Elephant.Hank.Api.Security.CustomAuthorizeAttribute.IsAuthorized(System.Web.Http.Controllers.HttpActionContext)">
             <summary>
-            calls while authorising the user
+            calls while authorizing the user
             </summary>
             <param name="filterContext">The filter context</param>
             <returns>returns the Authorization status</returns>
         </member>
-        <member name="P:Elephant.Hank.Api.App_Start.CustomAuthorizeAttribute.Role">
-            <summary>
-            Gets or sets the Roles
-            </summary>
-        </member>
-        <member name="P:Elephant.Hank.Api.App_Start.CustomAuthorizeAttribute.ModuleId">
+        <member name="P:Elephant.Hank.Api.Security.CustomAuthorizeAttribute.ModuleType">
             <summary>
             Gets or sets the module name
             </summary>
         </member>
-        <member name="P:Elephant.Hank.Api.App_Start.CustomAuthorizeAttribute.ActionType">
+        <member name="P:Elephant.Hank.Api.Security.CustomAuthorizeAttribute.ActionType">
             <summary>
             Gets or sets the module name
             </summary>
@@ -3530,25 +3525,6 @@
             <returns>
             Task promise
             </returns>
-        </member>
-        <member name="T:Elephant.Hank.Api.Security.AuthorizeUserAttribute">
-            <summary>
-            The AuthorizeUserAttribute class
-            </summary>
-        </member>
-        <member name="M:Elephant.Hank.Api.Security.AuthorizeUserAttribute.IsAuthorized(System.Web.Http.Controllers.HttpActionContext)">
-            <summary>
-            Indicates whether the specified control is authorized.
-            </summary>
-            <param name="actionContext">The context.</param>
-            <returns>
-            true if the control is authorized; otherwise, false.
-            </returns>
-        </member>
-        <member name="P:Elephant.Hank.Api.Security.AuthorizeUserAttribute.IsAdminRoleRequired">
-            <summary>
-            Gets or sets a value indicating whether this instance is admin role required.
-            </summary>
         </member>
         <member name="T:Elephant.Hank.Api.Startup">
             <summary>

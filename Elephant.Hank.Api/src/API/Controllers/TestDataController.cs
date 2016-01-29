@@ -16,9 +16,11 @@ namespace Elephant.Hank.Api.Controllers
     using System.Linq;
     using System.Web.Http;
 
+    using Elephant.Hank.Api.Security;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
+    using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Dto.Linking;
     using Elephant.Hank.Resources.Enum;
@@ -60,6 +62,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="testId">the test identifier</param>
         /// <returns>TblTestDataDto object</returns>
         [Route("")]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult GetAllTestData(long testId)
         {
             var result = new ResultMessage<IEnumerable<TblTestDataDto>>();
@@ -82,6 +85,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="testDataId">The identifier.</param>
         /// <returns>TblTestDataDto objects</returns>
         [Route("{testDataId}")]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult GetById(long testDataId)
         {
             var result = new ResultMessage<TblTestDataDto>();
@@ -114,6 +118,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>Deleted object</returns>
         [Route("{testDataId}")]
         [HttpDelete]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult DeleteById(long testId, long testDataId)
         {
             var result = new ResultMessage<TblTestDataDto>();
@@ -140,6 +145,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [HttpPost]
         [Route("")]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult Add([FromBody]TblTestDataDto testDataDto)
         {
             return this.AddUpdateTestData(testDataDto);
@@ -154,6 +160,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [HttpPost]
         [Route("add-in-bulk")]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult Add([FromBody]IEnumerable<TblTestDataDto> testDataDto)
         {
             var result = new ResultMessage<IEnumerable<TblTestDataDto>>();
@@ -179,6 +186,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [HttpPost]
         [Route("copy-test-data")]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult Add([FromBody]CopyTestDataModel copyTestDataModel)
         {
             var result = new ResultMessage<bool>();
@@ -210,6 +218,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route("{testDataId}")]
         [HttpPut]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult Update([FromBody]TblTestDataDto testDataDto, long testId, long testDataId)
         {
             testDataDto.Id = testDataId;

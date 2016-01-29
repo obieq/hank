@@ -15,10 +15,13 @@ namespace Elephant.Hank.Api.Controllers
     using System.Collections.Generic;
     using System.Web.Http;
 
+    using Elephant.Hank.Api.Security;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
+    using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto.Linking;
+    using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Messages;
 
     /// <summary>
@@ -48,6 +51,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </summary>
         /// <returns>List of TblLnkSuiteTestDto objects</returns>
         [Route("")]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Suites)]
         public IHttpActionResult GetAll()
         {
             var result = new ResultMessage<IEnumerable<TblLnkSuiteTestDto>>();
@@ -70,6 +74,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="id">The identifier.</param>
         /// <returns>TblLnkSuiteTestDto objects</returns>
         [Route("{id}")]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Suites)]
         public IHttpActionResult GetById(long id)
         {
             var result = new ResultMessage<TblLnkSuiteTestDto>();
@@ -93,6 +98,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>Deleted object</returns>
         [Route("{id}")]
         [HttpDelete]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.Suites)]
         public IHttpActionResult DeleteById(long id)
         {
             var result = new ResultMessage<TblLnkSuiteTestDto>();
@@ -118,6 +124,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [HttpPut]
         [Route("")]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.Suites)]
         public IHttpActionResult Add([FromBody]TblLnkSuiteTestDto suiteTestDto)
         {
             return this.AddUpdate(suiteTestDto);
@@ -133,6 +140,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route("{id}")]
         [HttpPut]
+        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.Suites)]
         public IHttpActionResult Update([FromBody]TblLnkSuiteTestDto suiteTestDto, long id)
         {
             suiteTestDto.Id = id;
