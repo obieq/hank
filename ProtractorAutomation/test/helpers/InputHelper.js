@@ -856,23 +856,25 @@ var InputHelper = function () {
   };
 
   this.anyTextToBePresentInElement = function(elementFinder, targetText, timeOut) {
-    if(browser.ignoreSynchronization) {
-      if (targetText) {
+    if(browser.ignoreSynchronization)
+    {
+      if(targetText) {
         targetText = targetText.replace('  ', ' ').toLowerCase().trim()
       }
-      else {
+      else{
         return;
       }
 
       var EC = protractor.ExpectedConditions;
       timeOut = timeOut ? timeOut : maxTimeOut;
 
-      var hasText = function () {
-        return elementFinder.getText().then(function (actualText) {
+      var hasText = function() {
+        return elementFinder.getText().then(function(actualText) {
           actualText = actualText.replace('  ', ' ').toLowerCase().trim();
           return actualText.indexOf(targetText) > -1;
         });
       };
+
       var expectedConditions = EC.and(EC.presenceOf(elementFinder), hasText);
 
       browser.wait(expectedConditions, timeOut, "Element not found");
@@ -883,46 +885,39 @@ var InputHelper = function () {
     timeOut = timeOut ? timeOut : maxTimeOut;
 
     var EC = protractor.ExpectedConditions;
-    var expectedConditions = undefined;
+    var elementObj = undefined;
 
     switch (testInstance.Locator) {
       case locatorTypeConstant.model:
-      {
-        expectedConditions = EC.presenceOf(element(by.model(testInstance.LocatorIdentifier)));
+        elementObj = element(by.model(testInstance.LocatorIdentifier));
         break;
-      }
       case locatorTypeConstant.class:
-      {
-        expectedConditions = EC.presenceOf(element(by.css(testInstance.LocatorIdentifier)));
+        elementObj = element(by.css(testInstance.LocatorIdentifier));
         break;
-      }
       case locatorTypeConstant.tagname:
-      {
-        expectedConditions = EC.presenceOf(element(by.tagName(testInstance.LocatorIdentifier)));
+        elementObj = element(by.tagName(testInstance.LocatorIdentifier));
         break;
-      }
       case locatorTypeConstant.id:
-      {
-        expectedConditions = EC.presenceOf(element(by.id(testInstance.LocatorIdentifier)));
+        elementObj = element(by.id(testInstance.LocatorIdentifier));
         break;
-      }
       case locatorTypeConstant.xpath:
-      {
-        expectedConditions = EC.presenceOf(element(by.xpath(testInstance.LocatorIdentifier)));
+        elementObj = element(by.xpath(testInstance.LocatorIdentifier));
         break;
-      }
       case locatorTypeConstant.css:
-      {
-        expectedConditions = EC.presenceOf(element(by.css(testInstance.LocatorIdentifier)));
+        // elementObj = element(by.css(testInstance.LocatorIdentifier));
         break;
-      }
     }
 
-    if(expectedConditions) {
+    if(elementObj) {
+      browser.sleep(2000);
       if(isNegate){
-        expectedConditions = EC.not(expectedConditions);
+        browser.wait(EC.not(EC.presenceOf(elementObj)), timeOut, "Attempt 1: " + testInstance.LocatorIdentifier + " not found by " + testInstance.Locator);
+        browser.sleep(2000);
+        browser.wait(EC.not(EC.presenceOf(elementObj)), timeOut/2, "Attempt 2: " + testInstance.LocatorIdentifier + " not found by " + testInstance.Locator);
       }
-      browser.wait(expectedConditions, timeOut);
+      else{
+        browser.wait(EC.presenceOf(elementObj), timeOut);
+      }
     }
     else{
       console.log("********** Support not been added for wait for locator '" + testInstance.Locator + "' **********");
