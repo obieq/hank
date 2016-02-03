@@ -7,7 +7,7 @@
                title="{{website.Name}}">
           <input type="checkbox" ng-model="website.Permission"/>
 
-          <a ng-if="website.PermissionLink" ui-sref="Group.Manage.Module({GroupId:stateparamsGroupId,WebsiteId:website.Id})"> {{website.Name}}</a>
+          <a ng-if="website.PermissionLink" ui-sref="Group.Manage.Module({GroupId:stateparamsGroupId,websiteId:website.Id})"> {{website.Name}}</a>
           <span ng-if="!website.PermissionLink">{{website.Name}}</span>
         </label>
       </div>

@@ -5,7 +5,7 @@
       <h1>
         Data Base Categories for - {{Website.Name}}
         <small></small>
-        <a ui-sref="Website.DataBaseCategoriesAdd({ WebsiteId: stateParamWebsiteId })" class=" btn btn-primary"
+        <a ng-if="Authentication.CanWrite" ui-sref="Website.DataBaseCategoriesAdd({ WebsiteId: stateParamWebsiteId })" class=" btn btn-primary"
            style="float:right;cursor: pointer">Add Data Base Category</a></h1>
     </div>
   </div>
@@ -28,7 +28,7 @@
               <th>Id</th>
               <th> Name</th>
               <th>Description</th>
-              <th> Action</th>
+              <th ng-if="Authentication.CanWrite"> Action</th>
             </tr>
             </thead>
             <tbody ng-init="onDataBaseCategoriesListPageLoad()">
@@ -36,7 +36,7 @@
               <td>{{dataBaseCategory.Id}}</td>
               <td> <a ui-sref="Website.DataBaseConnection({ WebsiteId: stateParamWebsiteId, DataBaseCategoryId: dataBaseCategory.Id })">{{dataBaseCategory.Name}}</a> </td>
               <td>{{dataBaseCategory.Description}}</td>
-              <td><a
+              <td ng-if="Authentication.CanWrite"><a
                 ui-sref="Website.DataBaseCategoriesUpdate({ WebsiteId: stateParamWebsiteId, DataBaseCategoryId: dataBaseCategory.Id })">Edit</a>
               </td>
             </tr>

@@ -8,7 +8,7 @@
 app.controller('GroupWebsiteModuleController', ['$scope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService',
   function ($scope, $stateParams, $state, crudService, ngAppSettings, commonUi) {
     $scope.GroupModuleAccessList = [];
-    crudService.getAll(ngAppSettings.GroupWebsiteModuleUrl.format($stateParams.GroupId, $stateParams.WebsiteId)).then(function (response) {
+    crudService.getAll(ngAppSettings.GroupWebsiteModuleUrl.format($stateParams.GroupId, $stateParams.websiteId)).then(function (response) {
       $scope.GroupModuleAccessList = response;
     }, function (response) {
       commonUi.showErrorPopup(response);

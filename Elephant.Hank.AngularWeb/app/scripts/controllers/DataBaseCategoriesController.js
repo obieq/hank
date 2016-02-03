@@ -6,11 +6,13 @@
 
 app.controller('DataBaseCategoriesController', ['$scope', '$rootScope', '$q', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider',
   function ($scope, $rootScope, $q, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider) {
-
+    $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
     dataProvider.currentWebSite($scope);
     $scope.DataBaseCategories = [];
     $scope.stateParamWebsiteId = $stateParams.WebsiteId;
     $scope.DataBaseCategory = {};
+
+    dataProvider.setAuthenticationParameters($scope,$stateParams.WebsiteId,ngAppSettings.ModuleType.DataBaseCategories);
 
     $scope.onDataBaseCategoriesListPageLoad = function () {
       crudService.getAll(ngAppSettings.WebsiteDataBaseCategoriesUrl.format($stateParams.WebsiteId)).then(function (response) {

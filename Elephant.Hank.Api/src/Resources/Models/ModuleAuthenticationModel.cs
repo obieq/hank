@@ -52,5 +52,10 @@ namespace Elephant.Hank.Resources.Models
         ///  Gets or sets the a value indicating whether user can delete or not
         /// </summary>
         public bool CanExecute { get; set; }
+
+        /// <summary>
+        ///  Get or sets the UserId
+        /// </summary>
+        public int OperationId { get; set; }
     }
 }

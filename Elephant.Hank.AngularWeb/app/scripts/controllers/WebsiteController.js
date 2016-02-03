@@ -14,7 +14,7 @@ app.controller('WebsiteController', ['$q', '$scope', 'CrudService', '$stateParam
     $scope.EnvironmentList = [];
 
     $scope.getAllWebSites = function () {
-      crudService.getAll(baseUrl).then(function (response) {
+      crudService.getAll(ngAppSettings.WebsiteUserAuthenticatedUrl).then(function (response) {
         $scope.WebsiteList = response;
       }, function (response) {
         commonUi.showErrorPopup(response);

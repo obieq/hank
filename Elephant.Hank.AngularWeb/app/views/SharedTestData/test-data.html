@@ -5,7 +5,7 @@
     <div class=" col-md-12 ">
       <h1>Shared Test Data for
         <small> {{SharedTest.WebsiteName}} - {{SharedTest.TestName}}</small>
-        <a
+        <a ng-if="Authentication.CanWrite"
           ui-sref="Website.SharedTestDataAdd({WebsiteId: stateParamWebsiteId, SharedTestId: SharedTest.Id, ExecutionSequence: LastSeqNumber })"
           class=" btn btn-primary" style="float:right;cursor: pointer">Add Shared Test Data</a></h1>
     </div>
@@ -33,7 +33,7 @@
               <th>Value</th>
               <th>Variable Name</th>
               <th class="col-md-4">Description</th>
-              <th class="col-md-2"></th>
+              <th class="col-md-2" ng-if="Authentication.CanWrite || Authentication.CanDelete"></th>
             </tr>
             </thead>
             <tbody ng-if="SharedTestDataList.length<=0">
@@ -51,19 +51,19 @@
               <td ng-class="sharedTestData.css">{{sharedTestData.Value}}</td>
               <td ng-class="sharedTestData.css">{{sharedTestData.VariableName}}</td>
               <td>{{sharedTestData.Description}}</td>
-              <td>
-                <a ng-show="$index == 0"
+              <td ng-if="Authentication.CanWrite || Authentication.CanDelete">
+                <a ng-show="$index == 0" ng-if="Authentication.CanWrite"
                    ui-sref="Website.SharedTestDataAdd({WebsiteId: stateParamWebsiteId, SharedTestId: SharedTest.Id, ExecutionSequence: sharedTestData.ExecutionSequence })">Add
                   Before</a>
                 <span ng-show="$index == 0">|</span>
-                <a
+                <a ng-if="Authentication.CanWrite"
                   ui-sref="Website.SharedTestDataAdd({WebsiteId: stateParamWebsiteId, SharedTestId: SharedTest.Id, ExecutionSequence: sharedTestData.ExecutionSequence + 1 })">Add
                   After</a>
                 <span>|</span>
-                <a
+                <a ng-if="Authentication.CanWrite"
                   ui-sref="Website.SharedTestDataUpdate({WebsiteId: stateParamWebsiteId, SharedTestId: SharedTest.Id, TestDataId: sharedTestData.Id })">Update</a>
                 <span>|</span>
-                <a ng-click="deleteSharedTestData('{{sharedTestData.Id}}')" href="#" onclick="return false;">Delete</a>
+                <a ng-if="Authentication.CanDelete" ng-click="deleteSharedTestData('{{sharedTestData.Id}}')" href="#" onclick="return false;">Delete</a>
               </td>
             </tr>
             </tbody>

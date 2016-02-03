@@ -8,7 +8,8 @@ app.controller('SharedTestController', ['$scope', '$stateParams', '$state', 'Cru
     $scope.SharedTest = {};
     $scope.Website = [];
     $scope.stateParamWebsiteId = $stateParams.WebsiteId;
-
+    $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
+    dataProvider.setAuthenticationParameters($scope,$stateParams.WebsiteId,ngAppSettings.ModuleType.SharedTestCases);
     dataProvider.currentWebSite($scope);
 
     $scope.getAllSharedTests = function () {

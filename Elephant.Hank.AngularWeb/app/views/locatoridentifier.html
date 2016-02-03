@@ -2,7 +2,7 @@
   <div class="row">
     <!-- left column -->
     <div class=" col-md-12 ">
-      <h1>Locator Identifier - {{Website.Name}} - {{Page.Value}}<small></small><a ui-sref="Website.PagesLocatorIdentifierAdd({ WebsiteId: stateParamWebsiteId, PageId: stateParamPageId })" class=" btn btn-primary" style="float:right;cursor: pointer">Add New Locator Identifier</a></h1>
+      <h1>Locator Identifier - {{Website.Name}} - {{Page.Value}}<small></small><a ng-if="Authentication.CanWrite" ui-sref="Website.PagesLocatorIdentifierAdd({ WebsiteId: stateParamWebsiteId, PageId: stateParamPageId })" class=" btn btn-primary" style="float:right;cursor: pointer">Add New Locator Identifier</a></h1>
 
     </div>
   </div>
@@ -27,7 +27,7 @@
               <th>Value</th>
               <th>Locator</th>
               <th>Website</th>
-              <th></th>
+              <th ng-if="Authentication.CanWrite"></th>
             </tr>
             </thead>
             <tbody ng-init="getAllLocatorIdentifiers()">
@@ -37,7 +37,7 @@
               <td style="word-break: break-all;">{{locatorIdentifier.Value}}</td>
               <td>{{locatorIdentifier.LocatorValue}}</td>
               <td>{{locatorIdentifier.WebsiteName}}</td>
-              <td><a ui-sref="Website.PagesLocatorIdentifierUpdate({ WebsiteId: stateParamWebsiteId, PageId: stateParamPageId, LocatorIdentifierId: locatorIdentifier.Id })">Edit</a></td>
+              <td><a ng-if="Authentication.CanWrite" ui-sref="Website.PagesLocatorIdentifierUpdate({ WebsiteId: stateParamWebsiteId, PageId: stateParamPageId, LocatorIdentifierId: locatorIdentifier.Id })">Edit</a></td>
             </tr>
             </tbody>
           </table>

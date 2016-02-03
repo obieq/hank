@@ -593,7 +593,7 @@ var app = angular
             controller: 'GroupController'
           }
         },
-        ncyBreadcrumb: {label: '{{Group.Value}}', parent: "Group.List"},
+        ncyBreadcrumb: {label: '{{Group.GroupName}}', parent: "Group.List"},
         permissionData: {Roles: ["TestAdmin"]}
       })
       .state('Group.Add', {
@@ -625,18 +625,18 @@ var app = angular
             controller: 'GroupWebsiteController'
           }
         },
-        ncyBreadcrumb: {label: 'New Group', parent: "Group.List"},
+        ncyBreadcrumb: {label: '{{HeadingText}}', parent: "Group.List"},
         permissionData: {Roles: ["TestAdmin"]}
       })
       .state('Group.Manage.Module', {
-        url: "/website/{WebsiteId}",
+        url: "/website/{websiteId}",
         views: {
           "TabContent": {
             templateUrl: 'views/GroupManager/GroupWebsiteModule.html',
             controller: 'GroupWebsiteModuleController'
           }
         },
-        ncyBreadcrumb: {label: 'New Group', parent: "Group.List"},
+        ncyBreadcrumb: {label: 'Assign Permission', parent: "Group.Manage.Website"},
         permissionData: {Roles: ["TestAdmin"]}
       })
       .state('Group.Manage.User', {
@@ -645,7 +645,7 @@ var app = angular
           "TabContent": {templateUrl: 'views/GroupManager/GroupUsers.html', controller: 'GroupUserController'}
 
         },
-        ncyBreadcrumb: {label: 'New Group', parent: "Group.List"},
+        ncyBreadcrumb: {label: '{{HeadingText}}', parent: "Group.List"},
         permissionData: {Roles: ["TestAdmin"]}
       })
 
@@ -671,7 +671,14 @@ var app = angular
       LocatorIdentifier: 8
     },
 
+    OperationType: {
+      CanRead: 1,
+      CanWrite: 2,
+      CanExecute: 3
+    },
+
     WebSiteUrl: "website",
+    WebsiteUserAuthenticatedUrl:"website/user-authenticated",
     WebSitePagesUrl: "website/{0}/pages",
     WebSiteTestCatUrl: "website/{0}/test-cat",
     WebSiteSuiteUrl: "website/{0}/suite",

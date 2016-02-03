@@ -762,7 +762,7 @@ var InputHelper = function () {
   };
 
   this.setDropDown = function selectOption(executionSequence, key, value, selectFirst, milliseconds) {
-    thisobj.anyTextToBePresentInElement(key, value);
+    this.anyTextToBePresentInElement(key, value);
 
     if (selectFirst || (value == undefined || value == '')) {
       value = "\uE015"; // DOWN arrow
@@ -772,7 +772,7 @@ var InputHelper = function () {
       });
     }
     else {
-      value = value.replace('  ', ' ').toLowerCase().trim()
+      value = value.replace('  ', ' ').toLowerCase().trim();
 
       var desiredOption;
       var hasMatchedValue = false;

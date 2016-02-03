@@ -16,7 +16,7 @@ namespace Elephant.Hank.Common.TestDataServices
     using Elephant.Hank.Common.DataService;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Messages;
-    
+
     /// <summary>
     /// The IWebsiteService interface
     /// </summary>
@@ -35,5 +35,12 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <param name="websiteId">the website identifier</param>
         /// <returns>list of variable name</returns>
         ResultMessage<IEnumerable<string>> GetAllVariableByWebsiteIdForAutoComplete(long websiteId);
+
+        /// <summary>
+        /// Get All website Authenticated to user
+        /// </summary>
+        /// <param name="userId">user identifier</param>
+        /// <returns>List of WebsiteDto</returns>
+        ResultMessage<IEnumerable<TblWebsiteDto>> GetAllUserAuthenticatedWebsites(long userId);
     }
 }

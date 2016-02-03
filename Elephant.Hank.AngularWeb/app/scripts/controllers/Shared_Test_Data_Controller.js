@@ -7,6 +7,8 @@
 app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider', '$route',
   function ($scope, $q, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider, $route) {
 
+    $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
+    dataProvider.setAuthenticationParameters($scope,$stateParams.WebsiteId,ngAppSettings.ModuleType.SharedTestCases);
     $scope.SharedTestData = {
       ExecutionSequence: parseInt($stateParams.ExecutionSequence),
       SharedTestId: $stateParams.SharedTestId

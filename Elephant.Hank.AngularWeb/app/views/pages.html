@@ -3,7 +3,7 @@
     <!-- left column -->
     <div class=" col-md-12 ">
       <h1>Pages - {{Website.Name}}<small></small>
-        <a ui-sref="Website.PagesAdd({ WebsiteId: stateParamWebsiteId })" class=" btn btn-primary" style="float:right;cursor: pointer">Add New Page for {{Website.Name}}</a>
+        <a ng-if="Authentication.CanWrite" ui-sref="Website.PagesAdd({ WebsiteId: stateParamWebsiteId })" class=" btn btn-primary" style="float:right;cursor: pointer">Add New Page for {{Website.Name}}</a>
       </h1>
     </div>
   </div>
@@ -26,7 +26,7 @@
               <th>Id</th>
               <th>Value</th>
               <th>Website</th>
-              <th></th>
+              <th ng-if="Authentication.CanWrite"></th>
             </tr>
             </thead>
             <tbody ng-init="getAllPages()">
@@ -36,8 +36,8 @@
                 <a ui-sref="Website.PagesLocatorIdentifier({ WebsiteId: stateParamWebsiteId, PageId: page.Id })">{{page.Value}}</a>
               </td>
               <td>{{page.WebsiteName}}</td>
-              <td>
-                <a ui-sref="Website.PagesUpdate({ WebsiteId: stateParamWebsiteId, PageId: page.Id })">Edit</a>
+              <td ng-if="Authentication.CanWrite">
+                <a  ui-sref="Website.PagesUpdate({ WebsiteId: stateParamWebsiteId, PageId: page.Id })">Edit</a>
               </td>
             </tr>
             </tbody>

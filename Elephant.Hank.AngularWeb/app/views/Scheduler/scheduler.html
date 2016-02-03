@@ -2,7 +2,7 @@
   <div class="row">
     <!-- left column -->
     <div class=" col-md-12 ">
-      <h1>Schedulers<small></small><a ui-sref="Website.SchedulerAdd({ WebsiteId: stateParamWebsiteId })"  class=" btn btn-primary" style="float:right;cursor: pointer">Add New Schedule</a></h1>
+      <h1>Schedulers<small></small><a ng-if="Authentication. CanWrite" ui-sref="Website.SchedulerAdd({ WebsiteId: stateParamWebsiteId })"  class=" btn btn-primary" style="float:right;cursor: pointer">Add New Schedule</a></h1>
     </div>
   </div>
 </section>
@@ -41,8 +41,8 @@
               <td>{{schedule.StartDateTime | date:'MM-dd-yyyy hh:mm a'}}</td>
               <td>{{schedule.LastExecuted | date:'MM-dd-yyyy hh:mm a'}}</td>
               <td>
-                <a ui-sref="Website.SchedulerUpdate({ WebsiteId: stateParamWebsiteId, Id: schedule.Id })">Edit</a> |
-                <a ng-click="forceExecute(schedule.Id)" style="cursor: pointer">Execute</a>
+                <a ng-if="Authentication.CanWrite" ui-sref="Website.SchedulerUpdate({ WebsiteId: stateParamWebsiteId, Id: schedule.Id })">Edit</a> |
+                <a ng-if="Authentication.CanExecute" ng-click="forceExecute(schedule.Id)" style="cursor: pointer">Execute</a>
               </td>
             </tr>
             </tbody>

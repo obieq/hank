@@ -11,6 +11,8 @@ app.controller('TestCatController',['$scope', '$stateParams', '$state', 'CrudSer
     $scope.Website = [ ];
     $scope.stateParamWebsiteId = $stateParams.WebsiteId;
 
+
+
     $scope.getAllTestCat = function(){
       $scope.loadData();
       crudService.getAll(ngAppSettings.WebSiteTestCatUrl.format($stateParams.WebsiteId)).then(function(response){

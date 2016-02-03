@@ -3,8 +3,8 @@
  */
 'use strict';
 
-app.controller('AccountController', ['$scope', '$state', '$stateParams', 'authService', 'CommonUiService', 'CrudService', 'ngAppSettings',
-  function ($scope, $state, $stateParams, authService, commonUi, crudService, ngAppSettings) {
+app.controller('AccountController', ['$scope', '$state', '$stateParams', 'authService', 'CommonUiService', 'CrudService', 'ngAppSettings', 'localStorageService',
+  function ($scope, $state, $stateParams, authService, commonUi, crudService, ngAppSettings, localStorageService) {
     $scope.UserProfile = {};
     $scope.BrowserList = [];
     $scope.User = {
@@ -24,6 +24,11 @@ app.controller('AccountController', ['$scope', '$state', '$stateParams', 'authSe
     $scope.loginUser = function () {
       authService.login($scope.User).then(
         function (response) {
+          crudService.getAll("Account/GetModuleAuthenticatedToUser").then(function (response) {
+            debugger;
+            localStorageService.remove('groupData');
+            localStorageService.set('groupData', response);
+          });
           loginRedirect();
         },
         function (err) {
@@ -65,7 +70,7 @@ app.controller('AccountController', ['$scope', '$state', '$stateParams', 'authSe
         }
       }
       crudService.update(ngAppSettings.UserProfileUrl, $scope.UserProfile).then(function (response) {
-        $scope.UserProfile.Settings.Browsers=browsers;
+        $scope.UserProfile.Settings.Browsers = browsers;
         $scope.UserProfile = response.Item;
       }, function (response) {
         commonUi.showErrorPopup(response);

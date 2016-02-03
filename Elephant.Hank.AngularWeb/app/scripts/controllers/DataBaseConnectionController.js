@@ -8,6 +8,8 @@
 app.controller('DataBaseConnectionController', ['$scope', '$rootScope', '$q', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider',
   function ($scope, $rootScope, $q, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider) {
 
+    $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
+    dataProvider.setAuthenticationParameters($scope,$stateParams.WebsiteId,ngAppSettings.ModuleType.DataBaseConnection);
     dataProvider.currentWebSite($scope);
     $scope.DataBaseConnections = [];
     $scope.stateParamWebsiteId = $stateParams.WebsiteId;

@@ -2,7 +2,7 @@
   <div class="row">
     <!-- left column -->
     <div class=" col-md-12 ">
-      <h1>Suites<small></small><a ui-sref="Website.SuiteAdd({ WebsiteId: stateParamWebsiteId })"  class=" btn btn-primary" style="float:right;cursor: pointer">Add New Suite</a></h1>
+      <h1>Suites<small></small><a ng-if="Authentication.CanWrite" ui-sref="Website.SuiteAdd({ WebsiteId: stateParamWebsiteId })"  class=" btn btn-primary" style="float:right;cursor: pointer">Add New Suite</a></h1>
     </div>
   </div>
 </section>
@@ -23,14 +23,14 @@
             <tr>
               <th>Id</th>
               <th>Name</th>
-              <th></th>
+              <th ng-if="Authentication.CanWrite"></th>
             </tr>
             </thead>
             <tbody ng-init="getAllSuites()">
             <tr ng-repeat="suite in SuiteList | orderBy:'Id'">
               <td>{{suite.Id}}</td>
               <td>{{suite.Name}}</td>
-              <td>
+              <td ng-if="Authentication.CanWrite">
                 <a ui-sref="Website.SuiteUpdate({ WebsiteId: stateParamWebsiteId, SuiteId: suite.Id })">Edit</a>
               </td>
             </tr>

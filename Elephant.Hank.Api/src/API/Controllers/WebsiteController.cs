@@ -97,13 +97,41 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets all.
         /// </summary>
-        /// <returns>List of TblActionDto objects</returns>
+        /// <returns>List of TblWebsiteDto objects</returns>
         public IHttpActionResult GetAll()
         {
             var result = new ResultMessage<IEnumerable<TblWebsiteDto>>();
             try
             {
                 result = this.websiteService.GetAll();
+            }
+            catch (Exception ex)
+            {
+                this.LoggerService.LogException(ex);
+                result.Messages.Add(new Message(null, ex.Message));
+            }
+
+            return this.CreateCustomResponse(result);
+        }
+
+        /// <summary>
+        /// Get user Authenticated website
+        /// </summary>
+        /// <returns>List of TblWebsiteDto objects</returns>
+        [Route("user-authenticated")]
+        public IHttpActionResult GetAllUserAuthenticatedWesite()
+        {
+            var result = new ResultMessage<IEnumerable<TblWebsiteDto>>();
+            try
+            {
+                if (this.User.IsInRole("TestAdmin"))
+                {
+                    result = this.websiteService.GetAll();
+                }
+                else
+                {
+                    result = this.websiteService.GetAllUserAuthenticatedWebsites(this.UserId);
+                }
             }
             catch (Exception ex)
             {

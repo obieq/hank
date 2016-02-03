@@ -6,6 +6,8 @@
 
 app.controller('SuiteController', ['$scope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider',
   function ($scope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider) {
+    $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
+    dataProvider.setAuthenticationParameters($scope,$stateParams.WebsiteId,ngAppSettings.ModuleType.Suites);
     $scope.Website = [];
     $scope.TestList = [];
     $scope.SelectAll = false;

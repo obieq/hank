@@ -2208,12 +2208,24 @@
             The authentication repository
             </summary>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.AccountController.#ctor(Elephant.Hank.Common.DataService.IAuthRepository,Elephant.Hank.Common.LogService.ILoggerService)">
+        <member name="F:Elephant.Hank.Api.Controllers.AccountController.groupModuleService">
+            <summary>
+            The group module service
+            </summary>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.AccountController.#ctor(Elephant.Hank.Common.DataService.IAuthRepository,Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.IGroupModuleAccessService)">
             <summary>
             Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.AccountController"/> class.
             </summary>
             <param name="authRepository">The authentication repository.</param>
             <param name="loggerService">The logger service.</param>
+            <param name="groupModuleService">The group Module service.</param>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.AccountController.IsModuleAuthenticated">
+            <summary>
+            Check User is Autheorised for module or not
+            </summary>
+            <returns>True if user is Authenticated</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.AccountController.Activate(System.String)">
             <summary>
@@ -3172,7 +3184,13 @@
             <summary>
             Gets all.
             </summary>
-            <returns>List of TblActionDto objects</returns>
+            <returns>List of TblWebsiteDto objects</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.WebsiteController.GetAllUserAuthenticatedWesite">
+            <summary>
+            Get user Authenticated website
+            </summary>
+            <returns>List of TblWebsiteDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.WebsiteController.GetById(System.Int64)">
             <summary>

@@ -6,6 +6,8 @@
 
 app.controller('LocatorIdentifierController', ['$scope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider',
   function ($scope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider) {
+    $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
+    dataProvider.setAuthenticationParameters($scope,$stateParams.WebsiteId,ngAppSettings.ModuleType.LocatorIdentifier);
     $scope.LocatorIdentifierList = [];
     $scope.LocatorIdentifier = {};
     $scope.LocatorList = [];

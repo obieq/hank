@@ -12,12 +12,16 @@
 namespace Elephant.Hank.Api.Controllers
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Http;
 
     using Common.DataService;
     using Common.LogService;
 
+    using Elephant.Hank.Api.Security;
+    using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
     using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Extensions;
@@ -39,14 +43,43 @@ namespace Elephant.Hank.Api.Controllers
         private readonly IAuthRepository authRepository;
 
         /// <summary>
+        /// The group module service
+        /// </summary>
+        private readonly IGroupModuleAccessService groupModuleService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AccountController" /> class.
         /// </summary>
         /// <param name="authRepository">The authentication repository.</param>
         /// <param name="loggerService">The logger service.</param>
-        public AccountController(IAuthRepository authRepository, ILoggerService loggerService)
+        /// <param name="groupModuleService">The group Module service.</param>
+        public AccountController(IAuthRepository authRepository, ILoggerService loggerService, IGroupModuleAccessService groupModuleService)
             : base(loggerService)
         {
             this.authRepository = authRepository;
+            this.groupModuleService = groupModuleService;
+        }
+
+        /// <summary>
+        /// Check User is Autheorised for module or not
+        /// </summary>
+        /// <returns>True if user is Authenticated</returns>
+        [Route("GetModuleAuthenticatedToUser")]
+        [HttpGet]
+        public IHttpActionResult IsModuleAuthenticated()
+        {
+            ResultMessage<IEnumerable<ModuleAuthenticationModel>> result = new ResultMessage<IEnumerable<ModuleAuthenticationModel>>();
+            try
+            {
+                result = this.groupModuleService.GetModuleAuthenticatedToUser(this.UserId);
+            }
+            catch (Exception ex)
+            {
+                this.LoggerService.LogException(ex);
+                result.Messages.Add(new Message(null, ex.Message));
+            }
+
+            return this.CreateCustomResponse(result);
         }
 
         /// <summary>

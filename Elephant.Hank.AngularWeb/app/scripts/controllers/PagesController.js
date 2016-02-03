@@ -4,40 +4,51 @@
 
 'use strict';
 
-app.controller('PagesController',['$scope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider',
-  function ($scope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider) {
-    $scope.PagesList = [ ];
-    $scope.Page = {} ;
-    $scope.Website = [ ];
+app.controller('PagesController', ['$scope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider', 'localStorageService',
+  function ($scope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider, localStorageService) {
+    $scope.PagesList = [];
+    $scope.Page = {};
+    $scope.Website = [];
     $scope.stateParamWebsiteId = $stateParams.WebsiteId;
 
-    $scope.getAllPages = function(){
+    $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
+    dataProvider.setAuthenticationParameters($scope, $stateParams.WebsiteId, ngAppSettings.ModuleType.Page);
+
+    $scope.getAllPages = function () {
       $scope.loadData();
-      crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function(response){
+      crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
         $scope.PagesList = response;
-      },function(response){ commonUi.showErrorPopup(response); });
+      }, function (response) {
+        commonUi.showErrorPopup(response);
+      });
     };
 
-    $scope.getPageById = function(){
-      crudService.getById(ngAppSettings.PagesUrl.format($stateParams.WebsiteId), $stateParams.PageId).then(function(response){
+    $scope.getPageById = function () {
+      crudService.getById(ngAppSettings.PagesUrl.format($stateParams.WebsiteId), $stateParams.PageId).then(function (response) {
         $scope.Page = response.Item;
-      },function(response){ commonUi.showErrorPopup(response); });
+      }, function (response) {
+        commonUi.showErrorPopup(response);
+      });
     };
 
-    $scope.updatePage = function(){
-      crudService.update(ngAppSettings.PagesUrl.format($stateParams.WebsiteId), $scope.Page).then(function(response){
-        $state.go("Website.Pages", { WebsiteId: $scope.stateParamWebsiteId });
-      },function(response){ commonUi.showErrorPopup(response); });
+    $scope.updatePage = function () {
+      crudService.update(ngAppSettings.PagesUrl.format($stateParams.WebsiteId), $scope.Page).then(function (response) {
+        $state.go("Website.Pages", {WebsiteId: $scope.stateParamWebsiteId});
+      }, function (response) {
+        commonUi.showErrorPopup(response);
+      });
     };
 
-    $scope.addPage = function(){
+    $scope.addPage = function () {
       $scope.Page.WebsiteId = $scope.Website.Id;
-      crudService.add(ngAppSettings.PagesUrl.format($stateParams.WebsiteId), $scope.Page).then(function(response){
-        $state.go("Website.Pages", { WebsiteId: $scope.stateParamWebsiteId });
-      },function(response){ commonUi.showErrorPopup(response); });
+      crudService.add(ngAppSettings.PagesUrl.format($stateParams.WebsiteId), $scope.Page).then(function (response) {
+        $state.go("Website.Pages", {WebsiteId: $scope.stateParamWebsiteId});
+      }, function (response) {
+        commonUi.showErrorPopup(response);
+      });
     };
 
-    $scope.loadData = function(){
+    $scope.loadData = function () {
       dataProvider.currentWebSite($scope);
     };
   }]);

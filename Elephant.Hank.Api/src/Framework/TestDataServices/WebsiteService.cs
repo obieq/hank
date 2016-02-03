@@ -20,7 +20,8 @@ namespace Elephant.Hank.Framework.TestDataServices
     using Elephant.Hank.DataService.DBSchema;
     using Elephant.Hank.Framework.Data;
     using Elephant.Hank.Resources.Dto;
-    using Elephant.Hank.Resources.Messages;    
+    using Elephant.Hank.Resources.Messages;
+    using Elephant.Hank.Resources.Models;
 
     /// <summary>
     /// The WebsiteService class
@@ -33,14 +34,36 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly IMapperFactory mapperFactory;
 
         /// <summary>
+        /// The group Module Access Service
+        /// </summary>
+        private readonly GroupModuleAccessService groupModuleAccessService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WebsiteService"/> class.
         /// </summary>
         /// <param name="mapperFactory">The mapper factory.</param>
         /// <param name="table">The table.</param>
-        public WebsiteService(IMapperFactory mapperFactory, IRepository<TblWebsite> table)
+        /// <param name="groupModuleAccessService">The groupModuleAccessService.</param>
+        public WebsiteService(IMapperFactory mapperFactory, IRepository<TblWebsite> table, GroupModuleAccessService groupModuleAccessService)
             : base(mapperFactory, table)
         {
             this.mapperFactory = mapperFactory;
+            this.groupModuleAccessService = groupModuleAccessService;
+        }
+
+        /// <summary>
+        /// Get All website Authenticated to user
+        /// </summary>
+        /// <param name="userId">user identifier</param>
+        /// <returns>List of WebsiteDto</returns>
+        public ResultMessage<IEnumerable<TblWebsiteDto>> GetAllUserAuthenticatedWebsites(long userId)
+        {
+            var result = new ResultMessage<IEnumerable<TblWebsiteDto>>();
+            var resultAuthenticatedModule = this.groupModuleAccessService.GetModuleAuthenticatedToUser(userId);
+            IEnumerable<ModuleAuthenticationModel> authenticatedWebsites = resultAuthenticatedModule.Item.GroupBy(x => x.WebsiteId).Select(g => g.First());
+            IEnumerable<TblWebsiteDto> websitesDto = this.GetAll().Item.Where(x => authenticatedWebsites.Any(y => y.WebsiteId == x.Id));
+            result.Item = websitesDto;
+            return result;
         }
 
         /// <summary>

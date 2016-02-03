@@ -3,8 +3,8 @@
  */
 
 'use strict';
-app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettings', 'CrudService',
-  function ($localStorage, $stateParams, ngAppSettings, crudService) {
+app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettings', 'CrudService', 'localStorageService',
+  function ($localStorage, $stateParams, ngAppSettings, crudService, localStorageService) {
     return {
       currentWebSite: function ($scope) {
         var storage = $localStorage.$default({CurrentWebSite: {Id: 0}});
@@ -105,6 +105,30 @@ app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettin
           , function (response) {
             commonUi.showErrorPopup(response);
           });
+      },
+
+      setAuthenticationParameters: function (scope, websiteId, moduleId, operation) {
+        var authData = localStorageService.get('authorizationData');
+        if (authData.type == "TestUser") {
+          var groupData = localStorageService.get("groupData");
+          var check = _.where(groupData, {WebsiteId: websiteId, ModuleId: moduleId});
+
+          if (check != null && check != undefined && check.length > 0) {
+            scope.Authentication.CanWrite = check[0].CanWrite;
+            scope.Authentication.CanDelete = check[0].CanDelete;
+            scope.Authentication.CanExecute = check[0].CanExecute;
+          }
+          else {
+            scope.Authentication.CanWrite = false;
+            scope.Authentication.CanDelete = false;
+            scope.Authentication.CanExecute = false;
+          }
+        }
+        else{
+          scope.Authentication.CanWrite = true;
+          scope.Authentication.CanDelete = true;
+          scope.Authentication.CanExecute = true;
+        }
       }
     };
   }]);

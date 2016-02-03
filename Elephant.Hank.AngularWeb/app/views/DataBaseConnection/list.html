@@ -5,7 +5,7 @@
       <h1>
         Data Base Connection for - {{DataBaseCategory.Name}}
         <small></small>
-        <a
+        <a ng-if="Authentication.CanWrite"
           ui-sref="Website.DataBaseConnectionAdd({ WebsiteId: stateParamWebsiteId, DataBaseCategoryId:DataBaseCategory.Id, })"
           class=" btn btn-primary"
           style="float:right;cursor: pointer">Add Data Base Connection</a></h1>
@@ -46,7 +46,7 @@
               <td>{{dataBaseConnection.WebsiteName}}</td>
               <td>{{dataBaseConnection.EnvironmentName}}</td>
               <td>{{dataBaseConnection.DataBaseName}}</td>
-              <td><a
+              <td ng-if="Authentication.CanWrite"><a
                 ui-sref="Website.DataBaseConnectionUpdate({ WebsiteId: stateParamWebsiteId, DataBaseCategoryId: dataBaseConnection.CategoryId, DataBaseConnectionId: dataBaseConnection.Id })">Edit</a>
               </td>
             </tr>
