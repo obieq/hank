@@ -6,6 +6,10 @@
 
 app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider',
   function ($scope, $rootScope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider) {
+
+    $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
+    dataProvider.setAuthenticationParameters($scope,$stateParams.WebsiteId,ngAppSettings.ModuleType.TestScripts);
+
     $scope.TestList = [];
     $scope.CopyTestData = {};
     $scope.CopyTestData.HasTestData = false;

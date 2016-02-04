@@ -106,6 +106,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </summary>
         /// <returns>TblUserProfileDto object </returns>
         [Route("user-profile")]
+        [AllowAnonymous]
         public IHttpActionResult GetByUserId()
         {
             var result = new ResultMessage<TblUserProfileDto>();

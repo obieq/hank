@@ -56,7 +56,6 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route("status/{groupName}/{status}")]
         [HttpPost]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.Scheduler)]
         public IHttpActionResult UpdateStatusByGroupName(string groupName, SchedulerExecutionStatus status)
         {
             var result = new ResultMessage<IEnumerable<TblSchedulerHistoryDto>>();

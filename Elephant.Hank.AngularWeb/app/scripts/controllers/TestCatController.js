@@ -10,7 +10,8 @@ app.controller('TestCatController',['$scope', '$stateParams', '$state', 'CrudSer
     $scope.TestCat = {} ;
     $scope.Website = [ ];
     $scope.stateParamWebsiteId = $stateParams.WebsiteId;
-
+    $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
+    dataProvider.setAuthenticationParameters($scope,$stateParams.WebsiteId,ngAppSettings.ModuleType.TestScripts);
 
 
     $scope.getAllTestCat = function(){

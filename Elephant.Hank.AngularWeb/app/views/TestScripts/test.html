@@ -5,7 +5,7 @@
       <h1>
       Test Script List
       <small></small>
-      <a ui-sref="Website.TestCatTestAdd({ WebsiteId: stateParamWebsiteId, TestCatId: TestCatId })" class=" btn btn-primary"
+      <a ng-if="Authentication.CanWrite" ui-sref="Website.TestCatTestAdd({ WebsiteId: stateParamWebsiteId, TestCatId: TestCatId })" class=" btn btn-primary"
          style="float:right;cursor: pointer">Add New Test Script</a></h1>
     </div>
   </div>
@@ -29,7 +29,7 @@
               <th class="col-md-4">Test Script Name</th>
               <th class="col-md-5">Description</th>
               <th class="col-md-2">Website</th>
-              <th class="col-md-1">Action</th>
+              <th class="col-md-1" ng-if="Authentication.CanWrite || Authentication.CanExecute">Action</th>
             </tr>
             </thead>
             <tbody ng-init="getAllTests();loadData(true)">
@@ -39,9 +39,9 @@
               </td>
               <td>{{test.Description}}</td>
               <td>{{test.WebsiteName}}</td>
-              <td>
-                <a ui-sref="Website.TestCatTestUpdate({ WebsiteId: stateParamWebsiteId, TestCatId: TestCatId, TestId: test.Id })">Edit</a> |
-                <a style="pointer:cursor" ng-click="onQueueClick(test.Id)">Queue</a>
+              <td  ng-if="Authentication.CanWrite || Authentication.CanExecute">
+                <a ng-if="Authentication.CanWrite" ui-sref="Website.TestCatTestUpdate({ WebsiteId: stateParamWebsiteId, TestCatId: TestCatId, TestId: test.Id })">Edit</a> |
+                <a style="pointer:cursor" ng-click="onQueueClick(test.Id)" ng-if="Authentication.CanExecute">Queue</a>
               </td>
             </tr>
             </tbody>

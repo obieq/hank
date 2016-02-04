@@ -26,7 +26,6 @@ namespace Elephant.Hank.Api.Controllers
     /// The ExecuteSqlController class.
     /// </summary>
     [RoutePrefix("api/execute-sql")]
-    [CustomAuthorize(Roles = RoleName.WindowServiceRole)]
     public class ExecuteSqlController : BaseApiController
     {
         /// <summary>

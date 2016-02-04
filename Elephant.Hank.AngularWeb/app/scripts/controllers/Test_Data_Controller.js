@@ -7,6 +7,10 @@
 app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider',
   function ($scope, $rootScope, $q, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider) {
 
+    $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
+    dataProvider.setAuthenticationParameters($scope,$stateParams.WebsiteId,ngAppSettings.ModuleType.TestScripts);
+
+
     $scope.TestData = {
       ExecutionSequence: parseInt($stateParams.ExecutionSequence),
       TestId: $stateParams.TestId,

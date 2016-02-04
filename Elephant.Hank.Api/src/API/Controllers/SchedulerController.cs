@@ -156,7 +156,6 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route("{schedulerId}")]
         [HttpPut]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.Scheduler)]
         public IHttpActionResult Update([FromBody]TblSchedulerDto schedulerDto, long schedulerId)
         {
             schedulerDto.Id = schedulerId;

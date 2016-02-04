@@ -50,6 +50,7 @@ namespace Elephant.Hank.Api.Controllers
         /// Gets all.
         /// </summary>
         /// <returns>List of TblBrowsersDto objects</returns>
+        [AllowAnonymous]
         public IHttpActionResult GetAll()
         {
             var result = new ResultMessage<IEnumerable<TblBrowsersDto>>();

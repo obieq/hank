@@ -3,7 +3,7 @@
     <!-- left column -->
     <div class=" col-md-12 ">
       <h1>
-        Test Category - {{Website.Name}}<small></small><a ui-sref="Website.TestCatAdd({ WebsiteId: stateParamWebsiteId })" class=" btn btn-primary" style="float:right;cursor: pointer">Add Test Category</a></h1>
+        Test Category - {{Website.Name}}<small></small><a ng-if="Authentication.CanWrite" ui-sref="Website.TestCatAdd({ WebsiteId: stateParamWebsiteId })" class=" btn btn-primary" style="float:right;cursor: pointer">Add Test Category</a></h1>
     </div>
   </div>
 </section>
@@ -43,7 +43,7 @@
                 <a ui-sref="Website.TestCatTest({ WebsiteId: stateParamWebsiteId, TestCatId: testCat.Id })">{{testCat.Name}}</a>
               </td>
               <td>{{testCat.Description}}</td>
-              <td>
+              <td ng-if="Authentication.CanWrite">
                 <a ui-sref="Website.TestCatUpdate({ WebsiteId: stateParamWebsiteId, TestCatId: testCat.Id })">Edit</a>
               </td>
             </tr>

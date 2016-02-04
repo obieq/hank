@@ -4,12 +4,12 @@
     <div class=" col-md-12 ">
       <h1>Test Data for
         <small> {{Test.WebsiteName}} - {{Test.TestName}}</small>
-        <a class=" btn btn-primary" style="float:right;cursor: pointer" ng-click="onQueueClick();" >Queue</a>
+        <a ng-if="Authentication.CanExecute" class=" btn btn-primary" style="float:right;cursor: pointer" ng-click="onQueueClick();" >Queue</a>
 
         <a type="button" class="btn btn-primary" style="float:right;cursor: pointer;margin-right: 5px;"
            ng-csv="getCsvData()" csv-header="getCsvHeaders()" lazy-load="true" filename="{{Test.WebsiteName}} - {{Test.TestName}}.csv">To Excel</a>
 
-        <a ui-sref="Website.TestDataAdd({WebsiteId: stateParamWebsiteId, TestCatId: TestCatId, TestId: Test.Id, ExecutionSequence: LastSeqNumber })"
+        <a ng-if="Authentication.CanWrite" ui-sref="Website.TestDataAdd({WebsiteId: stateParamWebsiteId, TestCatId: TestCatId, TestId: Test.Id, ExecutionSequence: LastSeqNumber })"
           class=" btn btn-primary" style="float:right;cursor: pointer;margin-right: 5px;">Add Test Data</a>   &nbsp;&nbsp;
       </h1>
     </div>
@@ -36,7 +36,7 @@
               <th>Value</th>
               <th>Variable Name</th>
               <th class="col-md-4">Description</th>
-              <th class="col-md-2"></th>
+              <th class="col-md-2" ng-if="Authentication.CanWrite || Authentication.CanDelete"></th>
             </tr>
             </thead>
             <tbody ng-if="TestDataList.length==0">
@@ -63,21 +63,21 @@
               <td  ng-if="testData.LinkTestType==StepTypes.TestStep || testData.LinkTestType==StepTypes.SqlTestStep">{{testData.Value }}</td>
               <td  ng-if="testData.LinkTestType==StepTypes.TestStep || testData.LinkTestType==StepTypes.SqlTestStep">{{testData.VariableName }}</td>
               <td ng-if="testData.LinkTestType==StepTypes.TestStep || testData.LinkTestType==StepTypes.SqlTestStep">{{testData.Description}}</td>
-              <td>
-                <a ng-show="$index == 0"
+              <td ng-if="Authentication.CanWrite || Authentication.CanDelete">
+                <a ng-if="Authentication.CanWrite" ng-show="$index == 0"
                    ui-sref="Website.TestDataAdd({WebsiteId: stateParamWebsiteId, TestCatId: TestCatId, TestId: Test.Id, ExecutionSequence: testData.ExecutionSequence })">
                   Add&nbsp;Before
                 </a>
                 <span ng-show="$index == 0">|</span>
-                <a
+                <a ng-if="Authentication.CanWrite"
                   ui-sref="Website.TestDataAdd({WebsiteId: stateParamWebsiteId, TestCatId: TestCatId, TestId: Test.Id, ExecutionSequence: testData.ExecutionSequence + 1 })">
                   Add&nbsp;After
                 </a>
                 <span>|</span>
-                <a
+                <a ng-if="Authentication.CanWrite"
                   ui-sref="Website.TestDataUpdate({WebsiteId: stateParamWebsiteId, TestCatId: TestCatId, TestId: Test.Id, TestDataId: testData.Id })">Update</a>
                 <span>|</span>
-                <a ng-click="deleteTestData('{{testData.Id}}')" href="#" onclick="return false;">Delete</a>
+                <a ng-if="Authentication.CanDelete" ng-click="deleteTestData('{{testData.Id}}')" href="#" onclick="return false;">Delete</a>
               </td>
 
             </tr>
