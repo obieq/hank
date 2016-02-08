@@ -42,8 +42,6 @@ var StandardTestCaseFlow =
             var testDataUrl = jsonHelper.format(params.config.baseApiUrl + params.config.baseTestDataUrl, params.config.TestQueueId);
 
             restApiHelper.doGet(testDataUrl, function (msg) {
-              console.log("console1");
-              console.log(msg);
               var resultMessage = JSON.parse(msg.body);
               expect(resultMessage.IsError).toEqual(false);
               params.config.urlToTest = resultMessage.Item.UrlToTest;

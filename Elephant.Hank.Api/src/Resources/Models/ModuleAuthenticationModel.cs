@@ -21,7 +21,7 @@ namespace Elephant.Hank.Resources.Models
         /// <summary>
         /// Gets or sets the WebsiteId
         /// </summary>
-        public int WebsiteId { get; set; }
+        public long WebsiteId { get; set; }
 
         /// <summary>
         /// Gets or sets the ModuleId.

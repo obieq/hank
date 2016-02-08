@@ -55,13 +55,23 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// Get All website Authenticated to user
         /// </summary>
         /// <param name="userId">user identifier</param>
-        /// <returns>List of WebsiteDto</returns>
-        public ResultMessage<IEnumerable<TblWebsiteDto>> GetAllUserAuthenticatedWebsites(long userId)
+        /// <param name="isAdminUser">if set to <c>true</c> [is admin user].</param>
+        /// <returns>
+        /// List of WebsiteDto
+        /// </returns>
+        public ResultMessage<IEnumerable<TblWebsiteDto>> GetAllUserAuthenticatedWebsites(long userId, bool isAdminUser)
         {
+            if (isAdminUser)
+            {
+                return this.GetAll();
+            }
+
             var result = new ResultMessage<IEnumerable<TblWebsiteDto>>();
             var resultAuthenticatedModule = this.groupModuleAccessService.GetModuleAuthenticatedToUser(userId);
-            IEnumerable<ModuleAuthenticationModel> authenticatedWebsites = resultAuthenticatedModule.Item.GroupBy(x => x.WebsiteId).Select(g => g.First());
-            IEnumerable<TblWebsiteDto> websitesDto = this.GetAll().Item.Where(x => authenticatedWebsites.Any(y => y.WebsiteId == x.Id));
+            var allowedWebSites = resultAuthenticatedModule.Item.GroupBy(x => x.WebsiteId).Select(g => g.Key).ToList();
+
+            IEnumerable<TblWebsiteDto> websitesDto = this.GetAll().Item.Where(x => allowedWebSites.Any(y => y == x.Id));
+
             result.Item = websitesDto;
             return result;
         }

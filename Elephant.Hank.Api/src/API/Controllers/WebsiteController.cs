@@ -34,64 +34,16 @@ namespace Elephant.Hank.Api.Controllers
         private readonly IWebsiteService websiteService;
 
         /// <summary>
-        /// The display name service
-        /// </summary>
-        private readonly IPagesService displayNameService;
-
-        /// <summary>
-        /// The test service
-        /// </summary>
-        private readonly ITestService testService;
-
-        /// <summary>
-        /// The suite service
-        /// </summary>
-        private readonly ISuiteService suiteService;
-
-        /// <summary>
-        /// The suite service
-        /// </summary>
-        private readonly ISharedTestService sharedTestService;
-
-        /// <summary>
-        /// The suite service
-        /// </summary>
-        private readonly ISchedulerService schedulerService;
-
-        /// <summary>
-        /// The dbCategory service
-        /// </summary>
-        private readonly IDataBaseCategoriesService dataBaseCategoriesService;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="WebsiteController" /> class.
         /// </summary>
         /// <param name="loggerService">The logger service.</param>
         /// <param name="websiteService">The website service.</param>
-        /// <param name="displayNameService">The display name service.</param>
-        /// <param name="testService">The test service.</param>
-        /// <param name="suiteService">The suite service.</param>
-        /// <param name="schedulerService">The Scheduler service.</param>
-        /// <param name="sharedTestService">The shared test service.</param>
-        /// <param name="dataBaseCategoriesService">The data base Categories service.</param>
         public WebsiteController(
             ILoggerService loggerService,
-            IWebsiteService websiteService,
-            IPagesService displayNameService,
-            ITestService testService,
-            ISuiteService suiteService,
-            ISchedulerService schedulerService,
-            ISharedTestService sharedTestService,
-            IDataBaseCategoriesService dataBaseCategoriesService)
+            IWebsiteService websiteService)
             : base(loggerService)
         {
             this.websiteService = websiteService;
-            this.displayNameService = displayNameService;
-            this.testService = testService;
-            this.suiteService = suiteService;
-            this.schedulerService = schedulerService;
-            this.sharedTestService = sharedTestService;
-            this.dataBaseCategoriesService = dataBaseCategoriesService;
         }
 
         /// <summary>
@@ -103,35 +55,7 @@ namespace Elephant.Hank.Api.Controllers
             var result = new ResultMessage<IEnumerable<TblWebsiteDto>>();
             try
             {
-                result = this.websiteService.GetAll();
-            }
-            catch (Exception ex)
-            {
-                this.LoggerService.LogException(ex);
-                result.Messages.Add(new Message(null, ex.Message));
-            }
-
-            return this.CreateCustomResponse(result);
-        }
-
-        /// <summary>
-        /// Get user Authenticated website
-        /// </summary>
-        /// <returns>List of TblWebsiteDto objects</returns>
-        [Route("user-authenticated")]
-        public IHttpActionResult GetAllUserAuthenticatedWesite()
-        {
-            var result = new ResultMessage<IEnumerable<TblWebsiteDto>>();
-            try
-            {
-                if (this.User.IsInRole("TestAdmin"))
-                {
-                    result = this.websiteService.GetAll();
-                }
-                else
-                {
-                    result = this.websiteService.GetAllUserAuthenticatedWebsites(this.UserId);
-                }
+                result = this.websiteService.GetAllUserAuthenticatedWebsites(this.UserId, this.IsAdminUser);
             }
             catch (Exception ex)
             {

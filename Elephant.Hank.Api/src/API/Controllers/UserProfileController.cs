@@ -12,14 +12,11 @@
 namespace Elephant.Hank.Api.Controllers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Web.Http;
 
     using Elephant.Hank.Api.Security;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
-    using Elephant.Hank.DataService.DBSchema.CustomIdentity;
     using Elephant.Hank.Framework.Extensions;
     using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto;
@@ -36,11 +33,6 @@ namespace Elephant.Hank.Api.Controllers
         /// The User profile service
         /// </summary>
         private readonly IUserProfileService userProfileService;
-
-        /// <summary>
-        /// The User profile service
-        /// </summary>
-        private readonly CustomUserManager userManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserProfileController"/> class.

@@ -40,7 +40,10 @@ namespace Elephant.Hank.Common.TestDataServices
         /// Get All website Authenticated to user
         /// </summary>
         /// <param name="userId">user identifier</param>
-        /// <returns>List of WebsiteDto</returns>
-        ResultMessage<IEnumerable<TblWebsiteDto>> GetAllUserAuthenticatedWebsites(long userId);
+        /// <param name="isAdminUser">if set to <c>true</c> [is admin user].</param>
+        /// <returns>
+        /// List of WebsiteDto
+        /// </returns>
+        ResultMessage<IEnumerable<TblWebsiteDto>> GetAllUserAuthenticatedWebsites(long userId, bool isAdminUser);
     }
 }

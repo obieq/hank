@@ -17,6 +17,7 @@ namespace Elephant.Hank.Api.Controllers
     using System.Web.Http.ModelBinding;
 
     using Elephant.Hank.Common.LogService;
+    using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Extensions;
     using Elephant.Hank.Resources.Messages;
 
@@ -31,6 +32,11 @@ namespace Elephant.Hank.Api.Controllers
         /// The user identifier
         /// </summary>
         private long userId;
+
+        /// <summary>
+        /// The is admin user
+        /// </summary>
+        private bool? isAdminUser;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseApiController" /> class.
@@ -54,6 +60,25 @@ namespace Elephant.Hank.Api.Controllers
                 }
 
                 return this.userId;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is admin user.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is admin user; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsAdminUser
+        {
+            get
+            {
+                if (!isAdminUser.HasValue)
+                {
+                    isAdminUser = this.User.IsInRole(RoleName.TestAdminRole);
+                }
+
+                return this.isAdminUser.Value;
             }
         }
 

@@ -33,9 +33,8 @@ var RestApiHelper = function()
       if (error || message.statusCode >= 400) {
         console.log("*****12345*****");
         console.log(reqOption);
-		console.log("**********");
         console.log(message.body);
-		console.log("*****1231112*****");
+		    console.log("*****1231112*****");
         defer.reject({ error: error, message: message });
       } else {
         defer.fulfill(message);
