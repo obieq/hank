@@ -12,11 +12,14 @@
 namespace Elephant.Hank.WindowsApplication.Framework.Emailer
 {
     using System;
+    using System.Configuration;
     using System.Linq;
 
+    using Elephant.Hank.WindowsApplication.Framework.Extensions;
     using Elephant.Hank.WindowsApplication.Framework.FileHelper;
     using Elephant.Hank.WindowsApplication.Framework.Helpers;
     using Elephant.Hank.WindowsApplication.Resources.ApiModels.Enum;
+    using Elephant.Hank.WindowsApplication.Resources.Constants;
     using Elephant.Hank.WindowsApplication.Resources.Models;
 
     /// <summary>
@@ -84,12 +87,14 @@ namespace Elephant.Hank.WindowsApplication.Framework.Emailer
                 result = SchedulerHistoryEmailStatus.SendException;
             }
 
-            var resultVal = this.emailSender.SendEmail((toEmailId + string.Empty).Replace(",", ";").Split(';'), subject, emailHtml);
+            var ccTo = ConfigurationManager.AppSettings[ConfigConstants.CcTo].ToEmailArray();
+
+            var resultVal = this.emailSender.SendEmail(toEmailId.ToEmailArray(), ccTo, subject, emailHtml);
 
             if (resultVal == SchedulerHistoryEmailStatus.NoValidRecipientFound
                 || resultVal == SchedulerHistoryEmailStatus.NoRecipientFound)
             {
-                this.emailSender.SendEmail((Properties.Settings.Default.FaultedEmailId + string.Empty).Replace(",", ";").Split(';'), subject, emailHtml);
+                this.emailSender.SendEmail(Properties.Settings.Default.FaultedEmailId.ToEmailArray(), ccTo, subject, emailHtml);
             }
 
             return result == SchedulerHistoryEmailStatus.SendException ? result : resultVal;

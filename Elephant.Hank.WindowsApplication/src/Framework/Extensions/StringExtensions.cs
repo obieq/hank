@@ -26,7 +26,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Extensions
         public static int ToInt(this string value)
         {
             int result;
-            Int32.TryParse(value, out result);
+            int.TryParse(value, out result);
             return result;
         }
 
@@ -40,12 +40,27 @@ namespace Elephant.Hank.WindowsApplication.Framework.Extensions
         {
             int result;
 
-            if (!Int32.TryParse(value, out result))
+            if (!int.TryParse(value, out result))
             {
                 result = defaultValue;
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// To the email array.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>Email array</returns>
+        public static string[] ToEmailArray(this string value)
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                return value.Replace(",", ";").Split(';');
+            }
+
+            return null;
         }
     }
 }

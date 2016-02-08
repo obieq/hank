@@ -4,9 +4,11 @@
 
 var RestApiHelper = function()
 {
+  var authHeader = 'd2luZG93LnNlcnZpY2VAaW5zcG9waW5kaWEuY29tOmVsZXBoYW50QDEyMw==';
+
   this.doGet = function(url, callBackFunction)
   {
-    var optionsGet =  { method: 'GET', url: '', headers: { 'content-type': 'application/json' } };
+    var optionsGet =  { method: 'GET', url: '', headers: { 'content-type': 'application/json','Authorization':authHeader } };
     optionsGet.url = url;
 
     var flow = protractor.promise.controlFlow();
@@ -15,7 +17,7 @@ var RestApiHelper = function()
 
   this.doPost = function(url, objectToPost, callBackFunction)
   {
-    var optionsPost =  { method: 'POST', url: '', headers: { 'content-type': 'application/json','Authorization':'d2luZG93LnNlcnZpY2VAaW5zcG9waW5kaWEuY29tOmVsZXBoYW50QDEyMw==' }, form: {} };
+    var optionsPost =  { method: 'POST', url: '', headers: { 'content-type': 'application/json','Authorization':authHeader }, form: {} };
     optionsPost.url = url;
     optionsPost.form = objectToPost;
     var flow = protractor.promise.controlFlow();

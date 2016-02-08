@@ -17,7 +17,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.ApiHelper
     using Elephant.Hank.WindowsApplication.Resources.ApiModels.Messages;
 
     using RestSharp;
-    using System.Net;
+
     using System.Text;
 
     /// <summary>
@@ -122,9 +122,9 @@ namespace Elephant.Hank.WindowsApplication.Framework.ApiHelper
         {
             var result = new RestRequest();
             result.AddHeader("content-type", "application/json");
-            var bytes = Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings["UserName"].ToString() + ":" + ConfigurationManager.AppSettings["Password"].ToString());
+            var bytes = Encoding.UTF8.GetBytes(ConfigurationManager.AppSettings["UserName"] + ":" + ConfigurationManager.AppSettings["Password"]);
             var base64 = Convert.ToBase64String(bytes);
-            //string authValue =Convert.ToBase64String() "d2luZG93LnNlcnZpY2VAaW5zcG9waW5kaWEuY29tOmVsZXBoYW50QDEyMw=="
+
             result.AddHeader("Authorization", base64);
             return result;
         }

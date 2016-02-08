@@ -1,1 +1,0 @@
-protractor spec/06-11-2015-15-30-34/protractor.conf.js  --params.config.curLocation="06-11-2015-15-30-34" --specs="spec/06-11-2015-15-30-34/*.js" > Log.txt

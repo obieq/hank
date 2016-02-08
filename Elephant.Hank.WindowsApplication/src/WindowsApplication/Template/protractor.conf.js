@@ -32,8 +32,8 @@ exports.config =
         {
             curLocation: '##CurLocation##',
             baseApiUrl: '##BaseApiUrl##',
-            baseTestDataUrl: 'api/website/0/testqueue/{0}/exe-test-data',
-            baseTestStateUrl: 'api/website/0/testqueue/{0}/test-state/{1}',
+            baseTestDataUrl: 'api/website/0/test-queue/{0}/exe-test-data',
+            baseTestStateUrl: 'api/website/0/test-queue/{0}/test-state/{1}',
             baseSchedulerHistoryStatusUrl: 'api/website/0/scheduler/0/scheduler-history/status/{0}/{1}',
             baseTestReportUrl: 'api/report',
             executeSqlUrl:'api/execute-sql/{0}',

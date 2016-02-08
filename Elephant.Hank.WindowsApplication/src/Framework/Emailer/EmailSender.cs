@@ -27,9 +27,11 @@ namespace Elephant.Hank.WindowsApplication.Framework.Emailer
         /// Sends the email.
         /// </summary>
         /// <param name="toAddresses">To addresses.</param>
+        /// <param name="ccTo">The cc to.</param>
         /// <param name="subject">The subject.</param>
         /// <param name="htmlBody">The HTML body.</param>
-        public SchedulerHistoryEmailStatus SendEmail(string[] toAddresses, string subject, string htmlBody)
+        /// <returns></returns>
+        public SchedulerHistoryEmailStatus SendEmail(string[] toAddresses, string[] ccTo, string subject, string htmlBody)
         {
             var result = SchedulerHistoryEmailStatus.NA;
 
@@ -53,6 +55,22 @@ namespace Elephant.Hank.WindowsApplication.Framework.Emailer
                     {
                         LoggerService.LogException(ex);
                         result = SchedulerHistoryEmailStatus.SentPartially;
+                    }
+                }
+
+                if (ccTo != null)
+                {
+                    foreach (var ccEmailId in ccTo)
+                    {
+                        try
+                        {
+                            mail.CC.Add(ccEmailId);
+                        }
+                        catch (Exception ex)
+                        {
+                            LoggerService.LogException(ex);
+                            result = SchedulerHistoryEmailStatus.SentPartially;
+                        }
                     }
                 }
 
