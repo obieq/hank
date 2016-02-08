@@ -120,7 +120,7 @@
               <td class="col-md-1" ng-if="report.Id > 0"><a href="/#/Website/{{StateParamsWebsiteId}}/Report-Detail/{{report.Id}}"
                                                             target="_blank">{{report.TestQueueId}}</a></td>
               <td class="col-md-1"><a
-                ui-sref="Website.SuiteUpdate({ WebsiteId: StateParamsWebsiteId, SuiteId: report.SuiteId })">{{report.SuiteName}}</a>
+                ui-sref="Website.SuiteUpdate({ WebsiteId: StateParamsWebsiteId, SuiteId: report.SuiteId || 0 })">{{report.SuiteName}}</a>
               </td>
               <td class="col-md-1"><a
                 ui-sref="Website.TestData({ WebsiteId: StateParamsWebsiteId, TestCatId: 0, TestId: report.TestId })">{{report.TestName}}</a>

@@ -19,7 +19,6 @@ namespace Elephant.Hank.Api.Controllers
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
-    using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Extensions;
@@ -59,7 +58,8 @@ namespace Elephant.Hank.Api.Controllers
         /// Gets all.
         /// </summary>
         /// <returns>List of TblTestQueueDto objects</returns>
-        [Route("")]
+        [Route]
+        [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult GetAll()
         {
             var result = new ResultMessage<IEnumerable<TblTestQueueDto>>();
@@ -82,7 +82,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="testQueueId">The identifier.</param>
         /// <returns>TblTestQueueDto objects</returns>
         [Route("{testQueueId}")]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.TestScripts)]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult GetById(long testQueueId)
         {
             var result = new ResultMessage<TblTestQueueDto>();
@@ -106,7 +106,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>Deleted object</returns>
         [Route("{testQueueId}")]
         [HttpDelete]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.TestScripts)]
+        [CustomAuthorize(ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult DeleteById(long testQueueId)
         {
             var result = new ResultMessage<TblTestQueueDto>();
@@ -131,7 +131,8 @@ namespace Elephant.Hank.Api.Controllers
         /// Newly added object
         /// </returns>
         [HttpPost]
-        [Route("")]
+        [Route]
+        [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult Add([FromBody] TblTestQueueDto testQueueDto)
         {
             var result = new ResultMessage<TblTestQueueDto>();
@@ -155,7 +156,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route("{testQueueId}")]
         [HttpPut]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
+        [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult Update([FromBody]TblTestQueueDto testQueueDto, long testQueueId)
         {
             testQueueDto.Id = testQueueId;
@@ -169,6 +170,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>Newly updated object</returns>
         [Route("bulk-update")]
         [HttpPost]
+        [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult UpdateBulk([FromBody]TblTestQueueDto[] testQueueDto)
         {
             var result = new ResultMessage<IEnumerable<TblTestQueueDto>>();
@@ -191,7 +193,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="testQueueId">the test identifier</param>
         /// <returns>GetTestQueueExecutableData object</returns>
         [Route("{testQueueId}/exe-test-data")]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole + "," + RoleName.WindowServiceRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.TestScripts)]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult GetExecutableTestData(long testQueueId)
         {
             var result = new ResultMessage<TestQueue_FullTestData>();
@@ -216,6 +218,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>TblTestQueueDto object</returns>
         [Route("{testQueueId}/test-state/{stateId}")]
         [HttpPost]
+        [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult ChangeTestQueueState(long testQueueId, int stateId)
         {
             var result = new ResultMessage<TblTestQueueDto>();

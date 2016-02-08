@@ -14,9 +14,7 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$locatio
     $scope.StateParamsWebsiteId = 0;
     $scope.CurrentDate = new Date().dateFormat($filter, true);
     $scope.DefaultOption = {Id: "0000", Value: "All"};
-    /* $scope.searchObject = $location.search();
-     var searchObjectLength = Object.keys($scope.searchObject).length;
-     */
+
     dataProvider.currentWebSite($scope);
 
     if ($stateParams.CreatedOn == '' || $stateParams.CreatedOn == undefined) {
@@ -27,7 +25,6 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$locatio
     }
 
     $scope.getReport = function () {
-      debugger;
       var x = $location.search();
       $scope.StateParamsWebsiteId = $scope.searchObject.WebsiteId = $stateParams.WebsiteId;
       crudService.search(ngAppSettings.SearchReportUrl, $scope.searchObject).then(function (response) {
