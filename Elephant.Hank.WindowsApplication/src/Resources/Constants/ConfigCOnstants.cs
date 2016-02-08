@@ -20,5 +20,10 @@ namespace Elephant.Hank.WindowsApplication.Resources.Constants
         /// The environment name
         /// </summary>
         public const string EnvironmentName = "EnvironmentName";
+
+        /// <summary>
+        /// The cc to
+        /// </summary>
+        public const string CcTo = "CcTo";
     }
 }
