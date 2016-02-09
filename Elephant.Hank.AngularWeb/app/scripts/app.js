@@ -678,7 +678,6 @@ var app = angular
     },
 
     WebSiteUrl: "website",
-    WebsiteUserAuthenticatedUrl:"website/user-authenticated",
     WebSitePagesUrl: "website/{0}/pages",
     WebSiteTestCatUrl: "website/{0}/test-cat",
     WebSiteSuiteUrl: "website/{0}/suite",

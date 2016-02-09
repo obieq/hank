@@ -15,10 +15,13 @@ namespace Elephant.Hank.Framework.TestDataServices
     using System.Linq;
 
     using Elephant.Hank.Common.DataService;
+    using Elephant.Hank.Common.Helper;
     using Elephant.Hank.Common.Mapper;
+    using Elephant.Hank.Common.Services;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.DataService.DBSchema;
     using Elephant.Hank.Framework.Data;
+    using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Messages;
     using Elephant.Hank.Resources.Models;
@@ -39,6 +42,11 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly IModuleService moduleService;
 
         /// <summary>
+        /// The cache provider
+        /// </summary>
+        private readonly ICacheProvider cacheProvider;
+
+        /// <summary>
         /// The table
         /// </summary>
         private readonly IRepository<TblGroupModuleAccess> table;
@@ -49,19 +57,21 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly IRepository<TblGroup> tableGroup;
 
         /// <summary>
-        ///  Initializes a new instance of the <see cref="GroupModuleAccessService"/> class.
+        /// Initializes a new instance of the <see cref="GroupModuleAccessService" /> class.
         /// </summary>
-        /// <param name="mapperFactory">the mapper factory </param>
+        /// <param name="mapperFactory">the mapper factory</param>
         /// <param name="table">the table</param>
         /// <param name="moduleService">the module service object</param>
         /// <param name="tableGroup">the table group</param>
-        public GroupModuleAccessService(IMapperFactory mapperFactory, IRepository<TblGroupModuleAccess> table, IModuleService moduleService, IRepository<TblGroup> tableGroup)
+        /// <param name="cacheProvider">The cache provider.</param>
+        public GroupModuleAccessService(IMapperFactory mapperFactory, IRepository<TblGroupModuleAccess> table, IModuleService moduleService, IRepository<TblGroup> tableGroup, ICacheProvider cacheProvider)
             : base(mapperFactory, table)
         {
             this.mapperFactory = mapperFactory;
             this.moduleService = moduleService;
             this.table = table;
             this.tableGroup = tableGroup;
+            this.cacheProvider = cacheProvider;
         }
 
         /// <summary>
@@ -200,17 +210,30 @@ namespace Elephant.Hank.Framework.TestDataServices
         public ResultMessage<IEnumerable<ModuleAuthenticationModel>> GetModuleAuthenticatedToUser(long userId)
         {
             var result = new ResultMessage<IEnumerable<ModuleAuthenticationModel>>();
-            Dictionary<string, object> dictionary = new Dictionary<string, object> { { "userid", userId } };
 
-            var entities = this.Table.SqlQuery<ModuleAuthenticationModel>("Select * from procgetmoduleauthenticatedtouser(@userid);", dictionary).ToList();
+            IEnumerable<ModuleAuthenticationModel> data;
 
-            if (!entities.Any())
+            if (this.cacheProvider.TryGet(userId.ToString(), out data))
             {
-                result.Messages.Add(new Message(null, "Record not found!"));
+                result.Item = data;
             }
             else
             {
-                result.Item = entities;
+                Dictionary<string, object> dictionary = new Dictionary<string, object> { { "userid", userId } };
+
+                var entities = this.Table.SqlQuery<ModuleAuthenticationModel>("Select * from procgetmoduleauthenticatedtouser(@userid);", dictionary).ToList();
+
+                if (!entities.Any())
+                {
+                    result.Messages.Add(new Message(null, "Record not found!"));
+                }
+                else
+                {
+                    result.Item = entities;
+
+                    this.cacheProvider.Set(userId.ToString(), entities, AppSettings.Get(ConfigConstants.PermissionCacheExpMnt, 30));
+                }
+
             }
 
             return result;

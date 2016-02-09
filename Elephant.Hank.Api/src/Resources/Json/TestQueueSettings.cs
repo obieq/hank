@@ -40,5 +40,10 @@ namespace Elephant.Hank.Resources.Json
         /// Gets or sets the TakeScreenShotOnUrlChanged
         /// </summary>
         public long? TakeScreenShotOnUrlChanged { get; set; }
+
+        /// <summary>
+        /// Gets or sets the repeat times.
+        /// </summary>
+        public int? RepeatTimes { get; set; }
     }
 }

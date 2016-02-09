@@ -55,5 +55,10 @@ namespace Elephant.Hank.Resources.Constants
         /// The cache exp minutes
         /// </summary>
         public const string CacheExpMinutes = "CacheExpMinutes";
+
+        /// <summary>
+        /// The permission cache exp minutes
+        /// </summary>
+        public const string PermissionCacheExpMnt = "PermissionCacheExpMnt";
     }
 }

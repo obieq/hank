@@ -16,17 +16,20 @@ namespace Elephant.Hank.Api.Controllers
     using System.Net;
     using System.Web.Http;
 
+    using Elephant.Hank.Api.Security;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
     using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto;
+    using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Messages;
 
     /// <summary>
     /// The TestCategoryController class
     /// </summary>
     [RoutePrefix(RouteConstants.TestCatRoot)]
+    [CustomAuthorize(ModuleType = FrameworkModules.TestScripts, ActionType = ActionTypes.Read)]
     public class TestCategoryController : BaseApiController
     {
         /// <summary>
@@ -59,7 +62,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>
         /// List of TblTestCategoriesDto objects
         /// </returns>
-        [Route("")]
+        [Route]
         public IHttpActionResult GetAll(long websiteId)
         {
             var result = new ResultMessage<IEnumerable<TblTestCategoriesDto>>();

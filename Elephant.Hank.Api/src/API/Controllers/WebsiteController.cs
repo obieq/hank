@@ -16,10 +16,13 @@ namespace Elephant.Hank.Api.Controllers
     using System.Net;
     using System.Web.Http;
 
+    using Elephant.Hank.Api.Security;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
+    using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto;
+    using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Messages;
 
     /// <summary>
@@ -50,6 +53,7 @@ namespace Elephant.Hank.Api.Controllers
         /// Gets all.
         /// </summary>
         /// <returns>List of TblWebsiteDto objects</returns>
+        [CustomAuthorize(ActionType = ActionTypes.Read)]
         public IHttpActionResult GetAll()
         {
             var result = new ResultMessage<IEnumerable<TblWebsiteDto>>();
@@ -72,6 +76,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="websiteId">The identifier.</param>
         /// <returns>TblActionDto objects</returns>
         [Route("{websiteId}")]
+        [CustomAuthorize(ActionType = ActionTypes.Read)]
         public IHttpActionResult GetById(long websiteId)
         {
             var result = new ResultMessage<TblWebsiteDto>();
@@ -95,6 +100,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>Deleted object</returns>
         [Route("{websiteId}")]
         [HttpDelete]
+        [CustomAuthorize(Roles = RoleName.TestAdminRole, ActionType = ActionTypes.Delete)]
         public IHttpActionResult DeleteById(long websiteId)
         {
             var result = new ResultMessage<TblWebsiteDto>();
@@ -119,6 +125,7 @@ namespace Elephant.Hank.Api.Controllers
         /// Newly added object
         /// </returns>
         [HttpPost]
+        [CustomAuthorize(Roles = RoleName.TestAdminRole, ActionType = ActionTypes.Write)]
         public IHttpActionResult Add([FromBody]TblWebsiteDto websiteDto)
         {
             var data = this.websiteService.GetByName(websiteDto.Name);
@@ -143,6 +150,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route("{websiteId}")]
         [HttpPut]
+        [CustomAuthorize(Roles = RoleName.TestAdminRole, ActionType = ActionTypes.Write)]
         public IHttpActionResult Update([FromBody]TblWebsiteDto websiteDto, long websiteId)
         {
             var data = this.websiteService.GetByName(websiteDto.Name);
@@ -165,6 +173,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="websiteId">the test case identifier</param>
         /// <returns>TblTestDataDto object list</returns>
         [Route("{websiteId}/variable-for-autocomplete")]
+        [CustomAuthorize]
         public IHttpActionResult GetAllVariableByTestIdForAutoComplete(long websiteId)
         {
             var result = new ResultMessage<IEnumerable<string>>();

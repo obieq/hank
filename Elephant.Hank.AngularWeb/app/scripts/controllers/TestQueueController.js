@@ -17,6 +17,7 @@ app.controller('TestQueueController', ['$scope', '$stateParams', '$state', 'Crud
           $scope.TestQueue.Settings.TakeScreenShotOnUrlChanged = $scope.Website.Settings.TakeScreenShotOnUrlChanged;
           $scope.TestQueue.TestId = args.TestId;
           $scope.TestQueue.Settings.UrlObj = $scope.Website.WebsiteUrlList[0];
+          $scope.TestQueue.Settings.RepeatTimes = 1;
           crudService.getAll(ngAppSettings.BrowserUrl).then(function (response) {
             crudService.getById(ngAppSettings.UserProfileUrl).then(function (profileResponse) {
               if(profileResponse.Item.Settings!=undefined ){

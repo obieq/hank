@@ -254,12 +254,27 @@ namespace Elephant.Hank.Api.Controllers
             var result = new ResultMessage<TblTestQueueDto>();
             try
             {
+                int repeatTimes = 1;
+
+                if (testQueueDto.Settings != null && testQueueDto.Settings.RepeatTimes.HasValue)
+                {
+                    repeatTimes = testQueueDto.Settings.RepeatTimes.Value;
+
+                    if (repeatTimes > 100)
+                    {
+                        repeatTimes = 100;
+                    }
+                }
+
                 if (testQueueDto.GroupName.IsBlank())
                 {
                     testQueueDto.GroupName = DateTime.Now.ToGroupName();
                 }
 
-                result = this.testQueueService.SaveOrUpdate(testQueueDto, this.UserId);
+                for (int i = 0; i < repeatTimes; i++)
+                {
+                    result = this.testQueueService.SaveOrUpdate(testQueueDto, this.UserId);
+                }
             }
             catch (Exception ex)
             {
