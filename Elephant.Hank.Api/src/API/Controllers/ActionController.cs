@@ -52,6 +52,7 @@ namespace Elephant.Hank.Api.Controllers
         /// Gets all.
         /// </summary>
         /// <returns>List of TblActionDto objects</returns>
+        [AllowAnonymous]
         public IHttpActionResult GetAll()
         {
             var result = new ResultMessage<IEnumerable<TblActionDto>>();
@@ -74,6 +75,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="actionId">The identifier.</param>
         /// <returns>TblActionDto objects</returns>
         [Route("{actionId}")]
+        [AllowAnonymous]
         public IHttpActionResult GetById(long actionId)
         {
             var result = new ResultMessage<TblActionDto>();
@@ -188,6 +190,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </summary>
         /// <returns>ActionConstants object</returns>
         [Route("action-for-sql-test-step")]
+        [AllowAnonymous]
         public IHttpActionResult GetActionForSqlTestStep()
         {
             var result = new ResultMessage<IEnumerable<TblActionDto>>();

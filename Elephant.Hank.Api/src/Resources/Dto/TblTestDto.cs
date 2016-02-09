@@ -49,5 +49,15 @@ namespace Elephant.Hank.Resources.Dto
         /// Gets or sets the name of the category.
         /// </summary>
         public string CategoryName { get; set; }
+
+        /// <summary>
+        /// Get or sets the TestCaseAccessStatus.
+        /// </summary>
+        public long TestCaseAccessStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets the CreatedByUserName.
+        /// </summary>
+        public string CreatedByUserName { get; set; }
     }
 }

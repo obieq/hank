@@ -66,32 +66,80 @@ namespace Elephant.Hank.Api.Security
 
                     long userId = long.Parse(principal.FindFirst(ClaimTypes.NameIdentifier).Value);
                     var moduleAccessService = StructuremapMvc.StructureMapDependencyScope.Container.GetInstance<IGroupModuleAccessService>();
+                    var testService = StructuremapMvc.StructureMapDependencyScope.Container.GetInstance<ITestService>();
                     ResultMessage<IEnumerable<ModuleAuthenticationModel>> authenticatedModules = moduleAccessService.GetModuleAuthenticatedToUser(userId);
                     List<ModuleAuthenticationModel> modules = authenticatedModules.Item.ToList();
 
                     if (modules.Any())
                     {
                         object website_Id;
+                        object test_Id;
                         filterContext.RequestContext.RouteData.Values.TryGetValue("websiteId", out website_Id);
+                        filterContext.RequestContext.RouteData.Values.TryGetValue("testId", out test_Id);
                         if (website_Id != null)
                         {
                             int websiteId = website_Id.ToString().ToInt32();
+                            int testId = 0;
+                            if (test_Id != null)
+                            {
+                                testId = test_Id.ToString().ToInt32();
+                            }
 
                             if (websiteId > 0)
                             {
                                 switch (this.ActionType)
                                 {
                                     case ActionTypes.Read:
-                                        return modules.Any(x => x.WebsiteId == websiteId);
+                                        {
+                                            if (testId > 0)
+                                            {
+                                                var test = testService.GetById(testId).Item;
+                                                return modules.Any(x => x.WebsiteId == websiteId) && (test.TestCaseAccessStatus != (int)TestCaseAccessStatus.Private || test.CreatedBy == userId);
+                                            }
+                                            else
+                                            {
+                                                return modules.Any(x => x.WebsiteId == websiteId);
+                                            }
+                                        }
 
                                     case ActionTypes.Write:
-                                        return modules.Any(x => x.ModuleId == this.ModuleType && x.WebsiteId == websiteId && x.CanWrite);
+                                        {
+                                            if (testId > 0)
+                                            {
+                                                var test = testService.GetById(testId).Item;
+                                                return modules.Any(x => x.ModuleId == this.ModuleType && x.WebsiteId == websiteId && x.CanWrite) && (test.TestCaseAccessStatus == (int)TestCaseAccessStatus.Public || test.CreatedBy == userId);
+                                            }
+                                            else
+                                            {
+                                                return modules.Any(x => x.ModuleId == this.ModuleType && x.WebsiteId == websiteId && x.CanWrite);
+                                            }
+                                        }
 
                                     case ActionTypes.Execute:
-                                        return modules.Any(x => x.ModuleId == this.ModuleType && x.WebsiteId == websiteId && x.CanExecute);
+                                        {
+                                            if (testId > 0)
+                                            {
+                                                var test = testService.GetById(testId, userId).Item;
+                                                return modules.Any(x => x.ModuleId == this.ModuleType && x.WebsiteId == websiteId && x.CanExecute) && (test.TestCaseAccessStatus == (int)TestCaseAccessStatus.Public || test.CreatedBy == userId);
+                                            }
+                                            else
+                                            {
+                                                return modules.Any(x => x.ModuleId == this.ModuleType && x.WebsiteId == websiteId && x.CanExecute);
+                                            }
+                                        }
 
                                     case ActionTypes.Delete:
-                                        return modules.Any(x => x.ModuleId == this.ModuleType && x.WebsiteId == websiteId && x.CanDelete);
+                                        {
+                                            if (testId > 0)
+                                            {
+                                                var test = testService.GetById(testId, userId).Item;
+                                                return modules.Any(x => x.ModuleId == this.ModuleType && x.WebsiteId == websiteId && x.CanDelete) && (test.TestCaseAccessStatus == (int)TestCaseAccessStatus.Public || test.CreatedBy == userId);
+                                            }
+                                            else
+                                            {
+                                                return modules.Any(x => x.ModuleId == this.ModuleType && x.WebsiteId == websiteId && x.CanDelete);
+                                            }
+                                        }
                                 }
                             }
                         }

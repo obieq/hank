@@ -3,10 +3,12 @@
     <!-- left column -->
     <div class=" col-md-12 ">
       <h1>
-      Test Script List
-      <small></small>
-      <a ng-if="Authentication.CanWrite" ui-sref="Website.TestCatTestAdd({ WebsiteId: stateParamWebsiteId, TestCatId: TestCatId })" class=" btn btn-primary"
-         style="float:right;cursor: pointer">Add New Test Script</a></h1>
+        Test Script List
+        <small></small>
+        <a ng-if="Authentication.CanWrite"
+           ui-sref="Website.TestCatTestAdd({ WebsiteId: stateParamWebsiteId, TestCatId: TestCatId })"
+           class=" btn btn-primary"
+           style="float:right;cursor: pointer">Add New Test Script</a></h1>
     </div>
   </div>
 </section>
@@ -26,21 +28,27 @@
             <thead>
             <tr>
               <th>Id</th>
-              <th class="col-md-4">Test Script Name</th>
-              <th class="col-md-5">Description</th>
+              <th class="col-md-3">Test Script Name</th>
+              <th class="col-md-4">Description</th>
               <th class="col-md-2">Website</th>
+              <th class="col-md-2"> Created By</th>
               <th class="col-md-1" ng-if="Authentication.CanWrite || Authentication.CanExecute">Action</th>
             </tr>
             </thead>
             <tbody ng-init="getAllTests();loadData(true)">
             <tr ng-repeat="test in TestList | orderBy:'Id'">
               <td>{{test.Id}}</td>
-              <td><a ui-sref="Website.TestData({ WebsiteId: stateParamWebsiteId, TestCatId: TestCatId, TestId: test.Id })">{{test.TestName}}</a>
+              <td><a
+                ui-sref="Website.TestData({ WebsiteId: stateParamWebsiteId, TestCatId: TestCatId, TestId: test.Id })">{{test.TestName}}</a>
               </td>
               <td>{{test.Description}}</td>
               <td>{{test.WebsiteName}}</td>
-              <td  ng-if="Authentication.CanWrite || Authentication.CanExecute">
-                <a ng-if="Authentication.CanWrite" ui-sref="Website.TestCatTestUpdate({ WebsiteId: stateParamWebsiteId, TestCatId: TestCatId, TestId: test.Id })">Edit</a> |
+              <td>{{ test.CreatedByUserName }}</td>
+              <td ng-if="Authentication.CanWrite || Authentication.CanExecute">
+                <a
+                  ng-if="Authentication.CanWrite && (test.TestCaseAccessStatus==1 || test.CreatedByUserName==LoggeddInUserName )"
+                  ui-sref="Website.TestCatTestUpdate({ WebsiteId: stateParamWebsiteId, TestCatId: TestCatId, TestId: test.Id })">Edit</a>
+                |
                 <a style="pointer:cursor" ng-click="onQueueClick(test.Id)" ng-if="Authentication.CanExecute">Queue</a>
               </td>
             </tr>

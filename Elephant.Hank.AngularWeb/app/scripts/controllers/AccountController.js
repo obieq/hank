@@ -24,11 +24,6 @@ app.controller('AccountController', ['$scope', '$state', '$stateParams', 'authSe
     $scope.loginUser = function () {
       authService.login($scope.User).then(
         function (response) {
-          crudService.getAll("Account/GetModuleAuthenticatedToUser").then(function (response) {
-            debugger;
-            localStorageService.remove('groupData');
-            localStorageService.set('groupData', response);
-          });
           loginRedirect();
         },
         function (err) {

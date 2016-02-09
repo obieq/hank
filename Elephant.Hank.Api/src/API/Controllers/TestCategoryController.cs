@@ -200,9 +200,9 @@ namespace Elephant.Hank.Api.Controllers
             var result = new ResultMessage<IEnumerable<TblTestDto>>();
             try
             {
-                result = testCategoryId == 0 
-                    ? this.testService.GetByWebSiteId(websiteId)
-                    : this.testService.GetByCategory(testCategoryId);
+                result = testCategoryId == 0
+                    ? this.testService.GetByWebSiteId(websiteId, this.UserId)
+                    : this.testService.GetByCategory(testCategoryId, this.UserId);
             }
             catch (Exception ex)
             {

@@ -51,6 +51,7 @@ namespace Elephant.Hank.Api.Controllers
         /// Gets all.
         /// </summary>
         /// <returns>List of TblEnvironmentDto objects</returns>
+        [AllowAnonymous]
         public IHttpActionResult GetAll()
         {
             var result = new ResultMessage<IEnumerable<TblEnvironmentDto>>();
@@ -73,6 +74,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="environmentId">The identifier.</param>
         /// <returns>TblEnvironmentDto objects</returns>
         [Route("{environmentId}")]
+        [AllowAnonymous]
         public IHttpActionResult GetById(long environmentId)
         {
             var result = new ResultMessage<TblEnvironmentDto>();

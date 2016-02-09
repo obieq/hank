@@ -20,6 +20,8 @@ namespace Elephant.Hank.Framework.TestDataServices
     using Elephant.Hank.DataService.DBSchema;
     using Elephant.Hank.Framework.Data;
     using Elephant.Hank.Resources.Dto;
+    using Elephant.Hank.Resources.Enum;
+    using Elephant.Hank.Resources.Extensions;
     using Elephant.Hank.Resources.Messages;
 
     /// <summary>
@@ -76,11 +78,11 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <returns>
         /// TblTestDto objects
         /// </returns>
-        public ResultMessage<IEnumerable<TblTestDto>> GetByWebSiteId(long webSiteId)
+        public ResultMessage<IEnumerable<TblTestDto>> GetByWebSiteId(long webSiteId, long userId)
         {
             var result = new ResultMessage<IEnumerable<TblTestDto>>();
 
-            var entity = this.Table.Find(x => x.WebsiteId == webSiteId && x.IsDeleted != true).ToList();
+            var entity = this.Table.Find(x => x.WebsiteId == webSiteId && x.IsDeleted != true && (x.TestCaseAccessStatus != (int)TestCaseAccessStatus.Private || x.CreatedBy == userId)).ToList();
 
             var mapper = this.mapperFactory.GetMapper<TblTest, TblTestDto>();
             result.Item = entity.Select(mapper.Map);
@@ -93,14 +95,30 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// </summary>
         /// <param name="testCatId">The test cat identifier.</param>
         /// <returns>TblTestDto objects</returns>
-        public ResultMessage<IEnumerable<TblTestDto>> GetByCategory(long testCatId)
+        public ResultMessage<IEnumerable<TblTestDto>> GetByCategory(long testCatId, long userId)
         {
             var result = new ResultMessage<IEnumerable<TblTestDto>>();
 
-            var entity = this.Table.Find(x => x.CategoryId == testCatId && x.IsDeleted != true).ToList();
+            var entity = this.Table.Find(x => x.CategoryId == testCatId && x.IsDeleted != true && (x.TestCaseAccessStatus != (int)TestCaseAccessStatus.Private || x.CreatedBy == userId)).ToList();
 
             var mapper = this.mapperFactory.GetMapper<TblTest, TblTestDto>();
             result.Item = entity.Select(mapper.Map);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets by id.
+        /// </summary>
+        /// <param name="testCatId">The test cat identifier.</param>
+        /// <returns>TblTestDto objects</returns>
+        public ResultMessage<TblTestDto> GetById(long id, long userId)
+        {
+            var result = new ResultMessage<TblTestDto>();
+
+            var entity = this.Table.Find(x => x.Id == id && x.IsDeleted != true && (x.TestCaseAccessStatus != (int)TestCaseAccessStatus.Private || x.CreatedBy == userId)).FirstOrDefault();
+
+            result.Item = this.mapperFactory.GetMapper<TblTest, TblTestDto>().Map(entity);
 
             return result;
         }

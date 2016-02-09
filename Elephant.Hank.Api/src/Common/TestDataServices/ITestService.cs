@@ -37,13 +37,20 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <returns>
         /// TblTestDto objects
         /// </returns>
-        ResultMessage<IEnumerable<TblTestDto>> GetByWebSiteId(long webSiteId);
+        ResultMessage<IEnumerable<TblTestDto>> GetByWebSiteId(long webSiteId, long userId);
 
         /// <summary>
         /// Gets the by category.
         /// </summary>
         /// <param name="testCatId">The test cat identifier.</param>
         /// <returns>TblTestDto objects</returns>
-        ResultMessage<IEnumerable<TblTestDto>> GetByCategory(long testCatId);
+        ResultMessage<IEnumerable<TblTestDto>> GetByCategory(long testCatId, long userId);
+
+        /// <summary>
+        /// Gets by id.
+        /// </summary>
+        /// <param name="testCatId">The test cat identifier.</param>
+        /// <returns>TblTestDto objects</returns>
+        ResultMessage<TblTestDto> GetById(long id, long userId);
     }
 }

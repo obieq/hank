@@ -103,6 +103,7 @@ namespace Elephant.Hank.Framework.Mapper
             AutoMapper.Mapper.CreateMap<TblTest, TblTestDto>()
                 .ForMember(x => x.WebsiteName, opt => opt.MapFrom(src => src.Website != null ? src.Website.Name : null))
                 .ForMember(x => x.CategoryName, opt => opt.MapFrom(src => src.Category != null ? src.Category.Name : null))
+                .ForMember(x => x.CreatedByUserName, opt => opt.MapFrom(src => src.CreatedByUser != null ? src.CreatedByUser.UserName : null))
                 .ReverseMap();
 
             AutoMapper.Mapper.CreateMap<TblPages, TblPagesDto>()
