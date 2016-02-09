@@ -49,7 +49,7 @@ namespace Elephant.Hank.DataService.DBSchema
         public long? CategoryId { get; set; }
 
         /// <summary>
-        /// Get or sets the TestCaseAccessStatus.
+        /// Gets or sets the test case access status.
         /// </summary>
         public long TestCaseAccessStatus { get; set; }
 

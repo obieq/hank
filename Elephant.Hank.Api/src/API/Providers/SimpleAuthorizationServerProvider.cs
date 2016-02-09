@@ -19,16 +19,12 @@ namespace Elephant.Hank.Api.Providers
     using System.Threading.Tasks;
 
     using Elephant.Hank.Common.DataService;
-    using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.DataService;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Enum;
-      
-    using Elephant.Hank.Resources.Messages;
-    using Elephant.Hank.Resources.Models;
+
     using Microsoft.Owin.Security;
     using Microsoft.Owin.Security.OAuth;
-    using Newtonsoft.Json;
 
     /// <summary>
     /// The SimpleAuthorizationServerProvider class

@@ -21,7 +21,6 @@ namespace Elephant.Hank.Framework.TestDataServices
     using Elephant.Hank.Framework.Data;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Enum;
-    using Elephant.Hank.Resources.Extensions;
     using Elephant.Hank.Resources.Messages;
 
     /// <summary>
@@ -75,6 +74,7 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// Gets the by web site identifier.
         /// </summary>
         /// <param name="webSiteId">The web site identifier.</param>
+        /// <param name="userId">The user identifier.</param>
         /// <returns>
         /// TblTestDto objects
         /// </returns>
@@ -94,7 +94,10 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// Gets the by category.
         /// </summary>
         /// <param name="testCatId">The test cat identifier.</param>
-        /// <returns>TblTestDto objects</returns>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>
+        /// TblTestDto objects
+        /// </returns>
         public ResultMessage<IEnumerable<TblTestDto>> GetByCategory(long testCatId, long userId)
         {
             var result = new ResultMessage<IEnumerable<TblTestDto>>();
@@ -110,8 +113,11 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <summary>
         /// Gets by id.
         /// </summary>
-        /// <param name="testCatId">The test cat identifier.</param>
-        /// <returns>TblTestDto objects</returns>
+        /// <param name="id">The identifier.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>
+        /// TblTestDto objects
+        /// </returns>
         public ResultMessage<TblTestDto> GetById(long id, long userId)
         {
             var result = new ResultMessage<TblTestDto>();

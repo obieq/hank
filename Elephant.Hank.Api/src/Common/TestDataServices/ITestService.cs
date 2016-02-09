@@ -34,6 +34,7 @@ namespace Elephant.Hank.Common.TestDataServices
         /// Gets the by web site identifier.
         /// </summary>
         /// <param name="webSiteId">The web site identifier.</param>
+        /// <param name="userId">The user identifier.</param>
         /// <returns>
         /// TblTestDto objects
         /// </returns>
@@ -43,14 +44,20 @@ namespace Elephant.Hank.Common.TestDataServices
         /// Gets the by category.
         /// </summary>
         /// <param name="testCatId">The test cat identifier.</param>
-        /// <returns>TblTestDto objects</returns>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>
+        /// TblTestDto objects
+        /// </returns>
         ResultMessage<IEnumerable<TblTestDto>> GetByCategory(long testCatId, long userId);
 
         /// <summary>
         /// Gets by id.
         /// </summary>
-        /// <param name="testCatId">The test cat identifier.</param>
-        /// <returns>TblTestDto objects</returns>
+        /// <param name="id">The identifier.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>
+        /// TblTestDto objects
+        /// </returns>
         ResultMessage<TblTestDto> GetById(long id, long userId);
     }
 }
