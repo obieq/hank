@@ -18,6 +18,7 @@ namespace Elephant.Hank.Framework.Data
 
     using Elephant.Hank.Common.DataService;
     using Elephant.Hank.Common.Mapper;
+    using Elephant.Hank.Common.Services;
     using Elephant.Hank.DataService.DBSchema;
     using Elephant.Hank.DataService.DBSchema.CustomIdentity;
     using Elephant.Hank.Framework.Extensions;
@@ -56,6 +57,11 @@ namespace Elephant.Hank.Framework.Data
         private readonly IMapperFactory mapperFactory;
 
         /// <summary>
+        /// The cache provider
+        /// </summary>
+        private readonly ICacheProvider cacheProvider;
+
+        /// <summary>
         /// The roles
         /// </summary>
         private readonly IRepository<CustomRole> roles;
@@ -74,13 +80,15 @@ namespace Elephant.Hank.Framework.Data
         /// <param name="roles">The roles.</param>
         /// <param name="userProfileService">The user profile service.</param>
         /// <param name="mapperFactory">The mapper factory.</param>
+        /// <param name="cacheProvider">The cache provider.</param>
         public AuthRepository(
             IRepository<TblAuthClients> client,
             IRepository<TblRefreshAuthTokens> refreshToken,
             CustomUserManager userManager,
             IRepository<CustomRole> roles,
             UserProfileService userProfileService,
-            IMapperFactory mapperFactory)
+            IMapperFactory mapperFactory, 
+            ICacheProvider cacheProvider)
         {
             this.client = client;
             this.refreshToken = refreshToken;
@@ -88,6 +96,7 @@ namespace Elephant.Hank.Framework.Data
             this.roles = roles;
             this.userProfileService = userProfileService;
             this.mapperFactory = mapperFactory;
+            this.cacheProvider = cacheProvider;
         }
 
         /// <summary>
@@ -184,6 +193,8 @@ namespace Elephant.Hank.Framework.Data
                 {
                     return null;
                 }
+
+                this.cacheProvider.Remove(user.Id.ToString());
 
                 return this.mapperFactory.GetMapper<CustomUser, CustomUserDto>().Map(user);
             }

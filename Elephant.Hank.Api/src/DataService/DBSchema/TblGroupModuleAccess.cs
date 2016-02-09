@@ -34,22 +34,22 @@ namespace Elephant.Hank.DataService.DBSchema
         public long WebsiteId { get; set; }
 
         /// <summary>
-        /// Gets or sets the a value indicating whether user can read or not
+        /// Gets or sets a value indicating whether this instance can read.
         /// </summary>
         public bool CanRead { get; set; }
 
         /// <summary>
-        /// Gets or sets the a value indicating whether user can write or not
+        /// Gets or sets a value indicating whether this instance can write.
         /// </summary>
         public bool CanWrite { get; set; }
 
         /// <summary>
-        /// Gets or sets the a value indicating whether user can delete or not
+        /// Gets or sets a value indicating whether this instance can delete.
         /// </summary>
         public bool CanDelete { get; set; }
 
         /// <summary>
-        /// Gets or sets the a value indicating whether user can execute or not
+        /// Gets or sets a value indicating whether this instance can execute.
         /// </summary>
         public bool CanExecute { get; set; }
 

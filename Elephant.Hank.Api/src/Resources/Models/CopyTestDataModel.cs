@@ -34,7 +34,7 @@ namespace Elephant.Hank.Resources.Models
         public List<long> TestDataIdList { get; set; }
 
         /// <summary>
-        /// Gets or sets the a value indicating whether to copy all data of selected steps.
+        /// Gets or sets a value indicating whether [copy all].
         /// </summary>
         public bool CopyAll { get; set; }
     }

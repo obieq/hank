@@ -73,9 +73,9 @@ namespace Elephant.Hank.Api.Controllers
         {
             get
             {
-                if (!isAdminUser.HasValue)
+                if (!this.isAdminUser.HasValue)
                 {
-                    isAdminUser = this.User.IsInRole(RoleName.TestAdminRole);
+                    this.isAdminUser = this.User.IsInRole(RoleName.TestAdminRole);
                 }
 
                 return this.isAdminUser.Value;

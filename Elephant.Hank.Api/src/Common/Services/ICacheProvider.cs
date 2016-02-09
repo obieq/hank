@@ -19,6 +19,12 @@ namespace Elephant.Hank.Common.Services
     public interface ICacheProvider
     {
         /// <summary>
+        /// Removes the specified cache key.
+        /// </summary>
+        /// <param name="cacheKey">The cache key.</param>
+        void Remove(string cacheKey);
+
+        /// <summary>
         /// Sets the specified cache key.
         /// </summary>
         /// <typeparam name="T">Type of object</typeparam>

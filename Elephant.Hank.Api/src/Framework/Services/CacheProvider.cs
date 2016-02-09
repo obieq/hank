@@ -40,6 +40,15 @@ namespace Elephant.Hank.Framework.Services
         }
 
         /// <summary>
+        /// Removes the specified cache key.
+        /// </summary>
+        /// <param name="cacheKey">The cache key.</param>
+        public void Remove(string cacheKey)
+        {
+            HttpContext.Current.Cache.Remove(cacheKey);
+        }
+
+        /// <summary>
         /// Sets the specified cache key.
         /// </summary>
         /// <typeparam name="T">Type of object</typeparam>

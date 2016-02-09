@@ -233,7 +233,6 @@ namespace Elephant.Hank.Framework.TestDataServices
 
                     this.cacheProvider.Set(userId.ToString(), entities, AppSettings.Get(ConfigConstants.PermissionCacheExpMnt, 30));
                 }
-
             }
 
             return result;

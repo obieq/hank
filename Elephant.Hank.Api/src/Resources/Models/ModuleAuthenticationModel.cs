@@ -39,22 +39,22 @@ namespace Elephant.Hank.Resources.Models
         public string WebsiteName { get; set; }
 
         /// <summary>
-        ///  Gets or sets the a value indicating whether user can write or not
+        /// Gets or sets a value indicating whether this instance can delete.
         /// </summary>
         public bool CanDelete { get; set; }
 
         /// <summary>
-        ///  Gets or sets the a value indicating whether user can write or not
+        /// Gets or sets a value indicating whether this instance can write.
         /// </summary>
         public bool CanWrite { get; set; }
 
         /// <summary>
-        ///  Gets or sets the a value indicating whether user can delete or not
+        /// Gets or sets a value indicating whether this instance can execute.
         /// </summary>
         public bool CanExecute { get; set; }
 
         /// <summary>
-        ///  Get or sets the UserId
+        /// Gets or sets the operation identifier.
         /// </summary>
         public int OperationId { get; set; }
     }
