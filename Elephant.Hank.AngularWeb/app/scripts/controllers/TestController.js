@@ -4,12 +4,26 @@
 
 'use strict';
 
-app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider',
-  function ($scope, $rootScope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider) {
+app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider','authService',
+  function ($scope, $rootScope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider,authService) {
 
     $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
-    dataProvider.setAuthenticationParameters($scope,$stateParams.WebsiteId,ngAppSettings.ModuleType.TestScripts);
+    dataProvider.setAuthenticationParameters($scope, $stateParams.WebsiteId, ngAppSettings.ModuleType.TestScripts);
+    var authData = authService.getAuthData();
 
+    $scope.LoggeddInUserName=authData.userName;
+
+    $scope.testAccessStatusList = [{
+      Id: 1,
+      Name: 'Public'
+    },{
+        Id: 2,
+        Name: 'Read Only'
+      }, {
+        Id: 3,
+        Name: 'Private'
+      }
+    ];
     $scope.TestList = [];
     $scope.CopyTestData = {};
     $scope.CopyTestData.HasTestData = false;

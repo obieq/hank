@@ -116,6 +116,7 @@
     <Compile Include="Enum\SchedulerExecutionStatus.cs" />
     <Compile Include="Enum\SchedulerHistoryEmailStatus.cs" />
     <Compile Include="Enum\SqlAuthenticationType.cs" />
+    <Compile Include="Enum\TestCaseAccessStatus.cs" />
     <Compile Include="Extensions\DateExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

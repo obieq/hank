@@ -69,8 +69,8 @@ namespace Elephant.Hank.Api.Controllers
             try
             {
                 result = testCategoryId == 0
-                     ? this.testService.GetByWebSiteId(websiteId)
-                     : this.testService.GetByCategory(testCategoryId);
+                     ? this.testService.GetByWebSiteId(websiteId, this.UserId)
+                     : this.testService.GetByCategory(testCategoryId, this.UserId);
             }
             catch (Exception ex)
             {
@@ -92,7 +92,7 @@ namespace Elephant.Hank.Api.Controllers
             var result = new ResultMessage<TblTestDto>();
             try
             {
-                result = this.testService.GetById(testId);
+                result = this.testService.GetById(testId, this.UserId);
             }
             catch (Exception ex)
             {

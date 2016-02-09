@@ -51,6 +51,7 @@ namespace Elephant.Hank.Api.Controllers
         /// Gets all.
         /// </summary>
         /// <returns>List of TblLocatorDto objects</returns>
+        [AllowAnonymous]
         public IHttpActionResult GetAll()
         {
             var result = new ResultMessage<IEnumerable<TblLocatorDto>>();
@@ -73,6 +74,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="locatorId">The identifier.</param>
         /// <returns>TblLocatorDto objects</returns>
         [Route("{locatorId}")]
+        [AllowAnonymous]
         public IHttpActionResult GetById(long locatorId)
         {
             var result = new ResultMessage<TblLocatorDto>();

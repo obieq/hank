@@ -1138,6 +1138,11 @@
             The user identifier
             </summary>
         </member>
+        <member name="F:Elephant.Hank.Api.Controllers.BaseApiController.isAdminUser">
+            <summary>
+            The is admin user
+            </summary>
+        </member>
         <member name="M:Elephant.Hank.Api.Controllers.BaseApiController.#ctor(Elephant.Hank.Common.LogService.ILoggerService)">
             <summary>
             Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.BaseApiController"/> class.
@@ -1154,6 +1159,14 @@
             <summary>
             Gets the user identifier.
             </summary>
+        </member>
+        <member name="P:Elephant.Hank.Api.Controllers.BaseApiController.IsAdminUser">
+            <summary>
+            Gets a value indicating whether this instance is admin user.
+            </summary>
+            <value>
+            <c>true</c> if this instance is admin user; otherwise, <c>false</c>.
+            </value>
         </member>
         <member name="P:Elephant.Hank.Api.Controllers.BaseApiController.LoggerService">
             <summary>
@@ -2086,11 +2099,6 @@
             </summary>
         </member>
         <member name="F:Elephant.Hank.Api.Controllers.UserProfileController.userProfileService">
-            <summary>
-            The User profile service
-            </summary>
-        </member>
-        <member name="F:Elephant.Hank.Api.Controllers.UserProfileController.userManager">
             <summary>
             The User profile service
             </summary>
@@ -3137,58 +3145,16 @@
             The website service
             </summary>
         </member>
-        <member name="F:Elephant.Hank.Api.Controllers.WebsiteController.displayNameService">
-            <summary>
-            The display name service
-            </summary>
-        </member>
-        <member name="F:Elephant.Hank.Api.Controllers.WebsiteController.testService">
-            <summary>
-            The test service
-            </summary>
-        </member>
-        <member name="F:Elephant.Hank.Api.Controllers.WebsiteController.suiteService">
-            <summary>
-            The suite service
-            </summary>
-        </member>
-        <member name="F:Elephant.Hank.Api.Controllers.WebsiteController.sharedTestService">
-            <summary>
-            The suite service
-            </summary>
-        </member>
-        <member name="F:Elephant.Hank.Api.Controllers.WebsiteController.schedulerService">
-            <summary>
-            The suite service
-            </summary>
-        </member>
-        <member name="F:Elephant.Hank.Api.Controllers.WebsiteController.dataBaseCategoriesService">
-            <summary>
-            The dbCategory service
-            </summary>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.WebsiteController.#ctor(Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.IWebsiteService,Elephant.Hank.Common.TestDataServices.IPagesService,Elephant.Hank.Common.TestDataServices.ITestService,Elephant.Hank.Common.TestDataServices.ISuiteService,Elephant.Hank.Common.TestDataServices.ISchedulerService,Elephant.Hank.Common.TestDataServices.ISharedTestService,Elephant.Hank.Common.TestDataServices.IDataBaseCategoriesService)">
+        <member name="M:Elephant.Hank.Api.Controllers.WebsiteController.#ctor(Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.IWebsiteService)">
             <summary>
             Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.WebsiteController"/> class.
             </summary>
             <param name="loggerService">The logger service.</param>
             <param name="websiteService">The website service.</param>
-            <param name="displayNameService">The display name service.</param>
-            <param name="testService">The test service.</param>
-            <param name="suiteService">The suite service.</param>
-            <param name="schedulerService">The Scheduler service.</param>
-            <param name="sharedTestService">The shared test service.</param>
-            <param name="dataBaseCategoriesService">The data base Categories service.</param>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.WebsiteController.GetAll">
             <summary>
             Gets all.
-            </summary>
-            <returns>List of TblWebsiteDto objects</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.WebsiteController.GetAllUserAuthenticatedWesite">
-            <summary>
-            Get user Authenticated website
             </summary>
             <returns>List of TblWebsiteDto objects</returns>
         </member>

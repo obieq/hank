@@ -3,8 +3,8 @@
  */
 
 'use strict';
-app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettings', 'CrudService', 'localStorageService',
-  function ($localStorage, $stateParams, ngAppSettings, crudService, localStorageService) {
+app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettings', 'CrudService', 'localStorageService', 'authService',
+  function ($localStorage, $stateParams, ngAppSettings, crudService, localStorageService, authService) {
     return {
       currentWebSite: function ($scope) {
         var storage = $localStorage.$default({CurrentWebSite: {Id: 0}});
@@ -108,10 +108,11 @@ app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettin
       },
 
       setAuthenticationParameters: function (scope, websiteId, moduleId, operation) {
-        var authData = localStorageService.get('authorizationData');
+        debugger;
+        var authData = authService.getAuthData();
         if (authData.type == "TestUser") {
-          var groupData = localStorageService.get("groupData");
-          var check = _.where(groupData, {WebsiteId: websiteId, ModuleId: moduleId});
+          var groupData = authService.getGroupAuthData();
+          var check = _.where(groupData.Item, {WebsiteId: websiteId, ModuleId: moduleId});
 
           if (check != null && check != undefined && check.length > 0) {
             scope.Authentication.CanWrite = check[0].CanWrite;
@@ -124,7 +125,7 @@ app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettin
             scope.Authentication.CanExecute = false;
           }
         }
-        else{
+        else {
           scope.Authentication.CanWrite = true;
           scope.Authentication.CanDelete = true;
           scope.Authentication.CanExecute = true;

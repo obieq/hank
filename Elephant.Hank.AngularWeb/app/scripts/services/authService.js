@@ -13,6 +13,8 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'AppSettings',
     userName: ""
   };
 
+  var groupData = {};
+
   var _saveRegistration = function (registration) {
     return $http.post(serviceBase + '/account/register', registration);
   };
@@ -23,10 +25,19 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'AppSettings',
 
     var deferred = $q.defer();
 
-    $http.post(serviceBase + '/token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+    $http.post(serviceBase + '/token', data, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).success(function (response) {
       localStorageService.set('authorizationData', response);
       _authentication = response;
       _authentication.isAuth = true;
+      $http.get(serviceBase + "/Account/GetModuleAuthenticatedToUser", {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer " + _authentication.access_token
+        }
+      }).success(function (response) {
+        localStorageService.remove('groupData');
+        localStorageService.set('groupData', response);
+      });
       deferred.resolve(response);
     }).error(function (err, status) {
       _logOut();
@@ -38,6 +49,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'AppSettings',
 
   var _logOut = function () {
     localStorageService.remove('authorizationData');
+    localStorageService.remove('groupData');
     _authentication = {};
     _authentication.isAuth = false;
   };
@@ -45,6 +57,11 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'AppSettings',
   var _getAuthData = function () {
     _fillAuthData();
     return _authentication;
+  };
+
+  var _getGroupAuthData = function () {
+    _fillGroupAuthData();
+    return groupData;
   };
 
   var _fillAuthData = function () {
@@ -56,6 +73,10 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'AppSettings',
     }
   };
 
+  var _fillGroupAuthData = function () {
+    groupData = localStorageService.get("groupData");
+  };
+
   var _refreshToken = function () {
     var deferred = $q.defer();
     var authData = _getAuthData();
@@ -64,9 +85,18 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'AppSettings',
       var data = "grant_type=refresh_token&refresh_token=" + authData.refresh_token + "&client_id=" + appSettings.ClientId;
 
       localStorageService.remove('authorizationData');
+      localStorageService.remove('groupData');
 
       $http.post(serviceBase + '/token', data, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).success(function (response) {
         localStorageService.set('authorizationData', response);
+        $http.get(serviceBase + "/Account/GetModuleAuthenticatedToUser", {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer " + response.access_token
+          }
+        }).success(function (response) {
+          localStorageService.set('groupData', response);
+        });
         deferred.resolve(response);
       }).error(function (err, status) {
         _logOut();
@@ -77,11 +107,11 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'AppSettings',
     return deferred.promise;
   };
 
-  var _setLastState = function(stateName){
+  var _setLastState = function (stateName) {
     localStorageService.set('lastStateName', stateName)
   };
 
-  var _getLastState = function(){
+  var _getLastState = function () {
     return localStorageService.get('lastStateName')
   };
 
@@ -95,6 +125,8 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'AppSettings',
   authServiceFactory.fillAuthData = _fillAuthData;
   authServiceFactory.getAuthData = _getAuthData;
   authServiceFactory.refreshToken = _refreshToken;
+  authServiceFactory.getGroupAuthData = _getGroupAuthData;
+  authServiceFactory.fillGroupAuthData = _fillGroupAuthData;
 
   return authServiceFactory;
 }]);

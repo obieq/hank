@@ -13,6 +13,7 @@ namespace Elephant.Hank.DataService.DBSchema
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using Elephant.Hank.DataService.DBSchema.CustomIdentity;
 
     /// <summary>
     /// The TblTest class
@@ -48,9 +49,20 @@ namespace Elephant.Hank.DataService.DBSchema
         public long? CategoryId { get; set; }
 
         /// <summary>
+        /// Get or sets the TestCaseAccessStatus.
+        /// </summary>
+        public long TestCaseAccessStatus { get; set; }
+
+        /// <summary>
         /// Gets or sets the category.
         /// </summary>
         [ForeignKey("CategoryId")]
         public TblTestCategories Category { get; set; }
+
+        /// <summary>
+        /// Gets or sets the User.
+        /// </summary>
+        [ForeignKey("CreatedBy")]
+        public virtual CustomUser CreatedByUser { get; set; }
     }
 }
