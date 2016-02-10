@@ -129,7 +129,10 @@ var JsonHelper = function () {
     }
     var browserDetails = capabilities.caps_.platform + " " + capabilities.caps_.browserName + " " + capabilities.caps_.version;
     var timeCode = date.getHours() + " " + date.getMinutes() + " " + date.getSeconds();
-    curTestReportPath = path.join(reportPath, browserDetails, descriptions.join('-') + timeCode);
+
+    var lastPart = (descriptions.join('-') + timeCode).replace(/[^a-z\d\s-]+/gi, "");
+
+    curTestReportPath = path.join(reportPath, browserDetails, lastPart);
     return curTestReportPath;
   }
 
