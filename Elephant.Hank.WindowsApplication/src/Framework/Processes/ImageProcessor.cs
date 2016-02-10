@@ -38,21 +38,24 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
 
                 string fileFolder = settings.BaseReportPath + "\\" + groupName;
 
-                var imgLocations = Directory.GetFiles(fileFolder, "*.png", SearchOption.AllDirectories);
-
-                foreach (var imgLoc in imgLocations)
+                if (Directory.Exists(fileFolder))
                 {
-                    using (KalikoImage image = new KalikoImage(imgLoc))
+                    var imgLocations = Directory.GetFiles(fileFolder, "*.png", SearchOption.AllDirectories);
+
+                    foreach (var imgLoc in imgLocations)
                     {
-                        using (KalikoImage thumb = image.Scale(new FitScaling(200, 200)))
+                        using (KalikoImage image = new KalikoImage(imgLoc))
                         {
-                            thumb.SaveJpg(imgLoc.ToJpgThumbFileName(), 90);
+                            using (KalikoImage thumb = image.Scale(new FitScaling(200, 200)))
+                            {
+                                thumb.SaveJpg(imgLoc.ToJpgThumbFileName(), 90);
+                            }
+
+                            image.SaveJpg(imgLoc.ToJpgImageFileName(), 90);
                         }
 
-                        image.SaveJpg(imgLoc.ToJpgImageFileName(), 90);
+                        FileFolderRemover.DeleteFile(imgLoc);
                     }
-
-                    FileFolderRemover.DeleteFile(imgLoc);
                 }
             }
             catch (Exception ex)

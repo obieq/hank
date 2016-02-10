@@ -87,14 +87,14 @@ namespace Elephant.Hank.WindowsApplication.Framework.Emailer
                 result = SchedulerHistoryEmailStatus.SendException;
             }
 
-            var ccTo = ConfigurationManager.AppSettings[ConfigConstants.CcTo].ToEmailArray();
+            var bccTo = ConfigurationManager.AppSettings[ConfigConstants.BccTo].ToEmailArray();
 
-            var resultVal = this.emailSender.SendEmail(toEmailId.ToEmailArray(), ccTo, subject, emailHtml);
+            var resultVal = this.emailSender.SendEmail(toEmailId.ToEmailArray(), bccTo, subject, emailHtml);
 
             if (resultVal == SchedulerHistoryEmailStatus.NoValidRecipientFound
                 || resultVal == SchedulerHistoryEmailStatus.NoRecipientFound)
             {
-                this.emailSender.SendEmail(Properties.Settings.Default.FaultedEmailId.ToEmailArray(), ccTo, subject, emailHtml);
+                this.emailSender.SendEmail(Properties.Settings.Default.FaultedEmailId.ToEmailArray(), bccTo, subject, emailHtml);
             }
 
             return result == SchedulerHistoryEmailStatus.SendException ? result : resultVal;
