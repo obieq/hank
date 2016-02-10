@@ -59,7 +59,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </summary>
         /// <returns>List of TblTestQueueDto objects</returns>
         [Route]
-        [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult GetAll()
         {
             var result = new ResultMessage<IEnumerable<TblTestQueueDto>>();

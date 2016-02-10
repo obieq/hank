@@ -28,7 +28,6 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
     using Elephant.Hank.WindowsApplication.Resources.Models;
     using System.Threading;
     using System.Collections.Concurrent;
-    using RestSharp;
     using System.Web.Script.Serialization;
 
     /// <summary>
@@ -99,7 +98,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
 
                     string groupName = testQueue.Item[0].GroupName;
 
-                    TestDataApi.Post(string.Format(EndPoints.SchedulerHistoryStatus, groupName, (int)SchedulerExecutionStatus.InProgress), new SchedulerHistory());
+                    TestDataApi.Post(string.Format(EndPoints.SchedulerHistoryStatus, groupName, (int)SchedulerExecutionStatus.InProgress), new List<SchedulerHistory>());
 
                     ProtractorCommandRunner protractorCommandRunner = new ProtractorCommandRunner();
 
@@ -107,7 +106,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
 
                     protractorCommandRunner.ExecuteCommand(groupName, maxExecutionTime);
 
-                    TestDataApi.Post(string.Format(EndPoints.SchedulerHistoryStatus, groupName, (int)SchedulerExecutionStatus.Completed), new SchedulerHistory());
+                    TestDataApi.Post(string.Format(EndPoints.SchedulerHistoryStatus, groupName, (int)SchedulerExecutionStatus.Completed), new List<SchedulerHistory>());
 
                     ProcessUnprocessedResultWithJson(groupName);
 
@@ -169,7 +168,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
                 }
             }
 
-            TestDataApi.Post(string.Format(EndPoints.SchedulerHistoryEmailStatus, groupName, (int)emailStatus), new SchedulerHistory());
+            TestDataApi.Post(string.Format(EndPoints.SchedulerHistoryEmailStatus, groupName, (int)emailStatus), new List<SchedulerHistory>());
         }
 
         /// <summary>
@@ -188,9 +187,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
 
         private static Hub AddHub(Guid processId, string seleniumAddress)
         {
-            var hub = new Hub();
-            hub.ProcessId = processId;
-            hub.SeleniumAddress = seleniumAddress;
+            var hub = new Hub { ProcessId = processId, SeleniumAddress = seleniumAddress };
             _HubInfo[processId] = hub;
             return hub;
         }
@@ -200,7 +197,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
             return _HubInfo.Values.FirstOrDefault(u => u.SeleniumAddress == seleniumAddress);
         }
 
-        private static Boolean DeleteHub(Guid processId, string seleniumAddress)
+        private static bool DeleteHub(Guid processId, string seleniumAddress)
         {
             var hub = GetHubBySeleniumAddress(seleniumAddress);
             if (hub != null && _HubInfo.ContainsKey(hub.ProcessId))
@@ -217,17 +214,20 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
             {
                 var settings = SettingsHelper.Get();
                 var resultData = TestDataApi.Get<List<ReportData>>(string.Format(EndPoints.GetAllUnprocessedReports, groupName));
-                foreach (var item in resultData.Item)
+                if (!resultData.IsError)
                 {
-                    string path = settings.BaseReportPath + "\\" + groupName + "\\JSON\\" + item.TestQueueId + "-" + item.Os.ToLower() + "-" + item.BrowserName.ToLower() + ".json";
-                    if (File.Exists(path))
+                    foreach (var item in resultData.Item)
                     {
-                        string jsonString = File.ReadAllText(path);
-                        JavaScriptSerializer serializer = new JavaScriptSerializer();
-                        object output = serializer.Deserialize<object>(jsonString);
-                        TestDataApi.Post<object>("api/report", output);
-                    }
+                        string path = settings.BaseReportPath + "\\" + groupName + "\\JSON\\" + item.TestQueueId + "-" + item.Os.ToLower() + "-" + item.BrowserName.ToLower() + ".json";
+                        if (File.Exists(path))
+                        {
+                            string jsonString = File.ReadAllText(path);
+                            JavaScriptSerializer serializer = new JavaScriptSerializer();
+                            object output = serializer.Deserialize<object>(jsonString);
+                            TestDataApi.Post<object>("api/report", output);
+                        }
 
+                    }
                 }
             }
             catch (Exception ex)

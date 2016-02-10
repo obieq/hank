@@ -14,6 +14,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.ApiHelper
     using System;
     using System.Configuration;
 
+    using Elephant.Hank.WindowsApplication.Framework.Helpers;
     using Elephant.Hank.WindowsApplication.Resources.ApiModels.Messages;
 
     using RestSharp;
@@ -104,6 +105,9 @@ namespace Elephant.Hank.WindowsApplication.Framework.ApiHelper
 
             if (response.ErrorException != null)
             {
+                LoggerService.LogException("Error log: " + baseUrl);
+                LoggerService.LogException(response.ErrorException); 
+                
                 result.Messages.Add(new Message("Error", response.ErrorException.Message));
             }
             else
