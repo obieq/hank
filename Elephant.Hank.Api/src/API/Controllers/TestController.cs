@@ -62,7 +62,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="testCategoryId">The test categorytestCategoryId identifier.</param>
         /// <returns>List of TblTestDto objects</returns>
         [Route("")]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.TestScripts)]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult GetAll(long websiteId, long testCategoryId)
         {
             var result = new ResultMessage<IEnumerable<TblTestDto>>();
@@ -110,7 +110,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>Deleted object</returns>
         [Route("{testId}")]
         [HttpDelete]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.TestScripts)]
+        [CustomAuthorize(ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult DeleteById(long testId)
         {
             var result = new ResultMessage<TblTestDto>();
@@ -136,7 +136,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [HttpPost]
         [Route("")]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
+        [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult Add([FromBody]TblTestDto testDto)
         {
             var data = this.testService.GetByName(testDto.TestName, testDto.WebsiteId);
@@ -161,7 +161,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route("{testId}")]
         [HttpPut]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
+        [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult Update([FromBody]TblTestDto testDto, long testId)
         {
             var data = this.testService.GetByName(testDto.TestName, testDto.WebsiteId);
@@ -183,7 +183,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="testId">the test case identifier</param>
         /// <returns>TblTestDataDto object list</returns>
         [Route("{testId}/variable-test-steps")]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.TestScripts)]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult GetVariableTypeTestDataByTestCase(long testId)
         {
             var result = new ResultMessage<IEnumerable<ProtractorVariableModel>>();
@@ -206,7 +206,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="testId">the test case identifier</param>
         /// <returns>TblTestDataDto object list</returns>
         [Route("{testId}/variable-for-autocomplete")]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.TestScripts)]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult GetAllVariableByTestIdForAutoComplete(long testId)
         {
             var result = new ResultMessage<IEnumerable<string>>();

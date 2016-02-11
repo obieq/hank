@@ -63,7 +63,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="websiteId">The website identifier.</param>
         /// <returns>List of TblSuiteDto objects</returns>
         [Route("")]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Suites)]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Suites)]
         public IHttpActionResult GetAll(long websiteId)
         {
             var result = new ResultMessage<IEnumerable<TblSuiteDto>>();
@@ -86,7 +86,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="suiteId">The identifier.</param>
         /// <returns>TblSuiteDto objects</returns>
         [Route("{suiteId}")]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Suites)]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Suites)]
         public IHttpActionResult GetById(long suiteId)
         {
             var result = new ResultMessage<TblSuiteDto>();
@@ -110,7 +110,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>Deleted object</returns>
         [Route("{suiteId}")]
         [HttpDelete]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.Suites)]
+        [CustomAuthorize(ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.Suites)]
         public IHttpActionResult DeleteById(long suiteId)
         {
             var result = new ResultMessage<TblSuiteDto>();
@@ -136,7 +136,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [HttpPost]
         [Route("")]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.Suites)]
+        [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.Suites)]
         public IHttpActionResult Add([FromBody]TblSuiteDto suiteDto)
         {
             suiteDto.SuiteTestMapList = null;
@@ -153,7 +153,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route("{suiteId}")]
         [HttpPut]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.Suites)]
+        [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.Suites)]
         public IHttpActionResult Update([FromBody]TblSuiteDto suiteDto, long suiteId)
         {
             suiteDto.SuiteTestMapList = null;
@@ -172,7 +172,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>TblLnkSuiteTestDto objects</returns>
         [Route("{suiteId}/suite-test-map")]
         [HttpGet]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Suites)]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Suites)]
         public IHttpActionResult GetMultipleTestLinks(long suiteId)
         {
             var result = new ResultMessage<IEnumerable<TblLnkSuiteTestDto>>();
@@ -196,7 +196,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>TblLnkSuiteTestDto objects</returns>
         [Route("suite-test-map/{suiteIdList}")]
         [HttpGet]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Suites)]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Suites)]
         public IHttpActionResult GetMultipleTestLinks(string suiteIdList)
         {
             var result = new ResultMessage<IEnumerable<TblLnkSuiteTestDto>>();
@@ -223,7 +223,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route("{suiteId}/suite-test-map")]
         [HttpPost]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.Suites)]
+        [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.Suites)]
         public IHttpActionResult AddMultipleTestLinks([FromBody]List<TblLnkSuiteTestDto> suiteTestDto, long suiteId)
         {
             var result = new ResultMessage<IEnumerable<TblLnkSuiteTestDto>>();
@@ -253,7 +253,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>TblLnkSuiteTestDto object</returns>
         [Route("{suiteId}/test-case/{testId}/test-state/{stateId}")]
         [HttpPost]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.Suites)]
+        [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.Suites)]
         public IHttpActionResult ChangeTestSuiteCaseState(long suiteId, long testId, long stateId)
         {
             var result = new ResultMessage<TblLnkSuiteTestDto>();

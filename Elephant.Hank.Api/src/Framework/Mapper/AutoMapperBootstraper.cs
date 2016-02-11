@@ -189,6 +189,7 @@ namespace Elephant.Hank.Framework.Mapper
 
             AutoMapper.Mapper.CreateMap<TblGroupModuleAccess, TblGroupModuleAccessDto>()
                  .ForMember(x => x.ModuleName, opt => opt.MapFrom(x => x.Module != null ? x.Module.ModuleName : string.Empty))
+                  .ForMember(x => x.IsModuleExecutable, opt => opt.MapFrom(x => x.Module != null ? x.Module.IsExecutable : false))
                 .ReverseMap();
         }
     }

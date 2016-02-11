@@ -15,10 +15,12 @@ namespace Elephant.Hank.Api.Controllers
     using System.Collections.Generic;
     using System.Web.Http;
 
+    using Elephant.Hank.Api.Security;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
     using Elephant.Hank.Resources.Dto;
+    using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Json;
     using Elephant.Hank.Resources.Messages;
     using Elephant.Hank.Resources.Models;
@@ -53,6 +55,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>ReportData object</returns>
         [Route("SearchReport")]
         [HttpPost]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Reports)]
         public IHttpActionResult SearchReport(SearchReportObject searchReportObject)
         {
             var result = new ResultMessage<IEnumerable<TblReportDataDto>>();
@@ -75,6 +78,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="reportId">The identifier.</param>
         /// <returns>TblReportDataDto objects</returns>
         [Route("{reportId}")]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Reports)]
         public IHttpActionResult GetById(long reportId)
         {
             var result = new ResultMessage<TblReportDataDto>();
@@ -99,6 +103,7 @@ namespace Elephant.Hank.Api.Controllers
         /// TblReportDataDto objects
         /// </returns>
         [Route("execution-group/{groupName}")]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Reports)]
         public IHttpActionResult GetByGroupName(string groupName)
         {
             var result = new ResultMessage<IEnumerable<TblReportDataDto>>();
@@ -123,6 +128,7 @@ namespace Elephant.Hank.Api.Controllers
         /// TblReportDataDto objects
         /// </returns>
         [Route("execution-group/{groupName}/screen-shot-array")]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Reports)]
         public IHttpActionResult GetByGroupNameWhereScreenShotArrayExist(string groupName)
         {
             var result = new ResultMessage<TblReportDataDto>();
@@ -148,6 +154,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route]
         [HttpPost]
+        [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.Reports)]
         public IHttpActionResult Add([FromBody] ReportJson reportJson)
         {
             var result = new ResultMessage<TblReportDataDto>();
@@ -177,6 +184,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="groupName">group identifier</param>
         /// <returns>list of report data</returns>
         [Route("get-all-unprocessed-for-group/{groupName}")]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Reports)]
         public IHttpActionResult GetAllUnprocessedForGroup(string groupName)
         {
             var result = new ResultMessage<IEnumerable<TblReportDataDto>>();

@@ -62,7 +62,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>List of TblDataBaseCategoriesDto objects</returns>
         [HttpGet]
         [Route("")]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.DataBaseCategories)]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.DataBaseCategories)]
         public IHttpActionResult GetAll(long websiteId)
         {
             var result = new ResultMessage<IEnumerable<TblDataBaseCategoriesDto>>();
@@ -86,7 +86,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>TblDataBaseCategoriesDto objects</returns>
         [Route("{databaseCategoryId}")]
         [HttpGet]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.DataBaseCategories)]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.DataBaseCategories)]
         public IHttpActionResult GetById(long databaseCategoryId)
         {
             var result = new ResultMessage<TblDataBaseCategoriesDto>();
@@ -110,7 +110,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>Deleted object</returns>
         [Route("{databaseCategoryId}")]
         [HttpDelete]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.DataBaseCategories)]
+        [CustomAuthorize(ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.DataBaseCategories)]
         public IHttpActionResult DeleteById(long databaseCategoryId)
         {
             var result = new ResultMessage<TblDataBaseCategoriesDto>();
@@ -136,7 +136,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [HttpPost]
         [Route("")]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.DataBaseCategories)]
+        [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.DataBaseCategories)]
         public IHttpActionResult Add([FromBody]TblDataBaseCategoriesDto dataBaseCategoriesDto)
         {
             var data = this.databaseCategoriesService.GetByName(dataBaseCategoriesDto.Name);
@@ -161,7 +161,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route("{databaseCategoryId}")]
         [HttpPut]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.DataBaseCategories)]
+        [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.DataBaseCategories)]
         public IHttpActionResult Update([FromBody]TblDataBaseCategoriesDto dataBaseCategoriesDto, long databaseCategoryId)
         {
             var data = this.databaseCategoriesService.GetByName(dataBaseCategoriesDto.Name);

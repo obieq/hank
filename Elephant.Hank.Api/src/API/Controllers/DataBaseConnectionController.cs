@@ -24,7 +24,7 @@ namespace Elephant.Hank.Api.Controllers
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Messages;
-    
+
     /// <summary>
     /// The DataBaseConnectionController class
     /// </summary>
@@ -54,7 +54,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>TblDataBaseConnectionDto list object</returns>
         [Route("")]
         [HttpGet]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.DataBaseConnection)]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.DataBaseConnection)]
         public IHttpActionResult GetAll(long databaseCategoryId)
         {
             var result = new ResultMessage<IEnumerable<TblDataBaseConnectionDto>>();
@@ -78,7 +78,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>TblDataBaseConnectionDto objects</returns>
         [HttpGet]
         [Route("{databaseConnectionId}")]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.DataBaseConnection)]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.DataBaseConnection)]
         public IHttpActionResult GetById(long databaseConnectionId)
         {
             var result = new ResultMessage<TblDataBaseConnectionDto>();
@@ -102,7 +102,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>Deleted object</returns>
         [Route("{databaseConnectionId}")]
         [HttpDelete]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.DataBaseConnection)]
+        [CustomAuthorize(ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.DataBaseConnection)]
         public IHttpActionResult DeleteById(long databaseConnectionId)
         {
             var result = new ResultMessage<TblDataBaseConnectionDto>();
@@ -128,7 +128,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [HttpPost]
         [Route("")]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.DataBaseConnection)]
+        [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.DataBaseConnection)]
         public IHttpActionResult Add([FromBody]TblDataBaseConnectionDto dataBaseConnectionDto)
         {
             var data = this.databaseConnectionService.GetSensitiveDataByEnvironmentAndCategoryId(dataBaseConnectionDto.EnvironmentId, dataBaseConnectionDto.CategoryId);
@@ -153,7 +153,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route("{databaseConnectionId}")]
         [HttpPut]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Write, ModuleType = FrameworkModules.DataBaseConnection)]
+        [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.DataBaseConnection)]
         public IHttpActionResult Update([FromBody]TblDataBaseConnectionDto dataBaseConnectionDto, long databaseConnectionId)
         {
             var data = this.databaseConnectionService.GetSensitiveDataByEnvironmentAndCategoryId(dataBaseConnectionDto.EnvironmentId, dataBaseConnectionDto.CategoryId);
@@ -176,7 +176,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>string list with all database name</returns>
         [HttpPost]
         [Route("get-database-list")]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.DataBaseConnection)]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.DataBaseConnection)]
         public IHttpActionResult GetAllDataBaseList(TblDataBaseConnectionDto dataBaseConnectionDto)
         {
             var result = new ResultMessage<List<string>>();
