@@ -851,37 +851,42 @@ var InputHelper = function () {
   };
 
   this.anyTextToBePresentInElement = function(elementFinder, targetText, timeOut) {
-    browser.getCurrentUrl().then(function(){
-      if(browser.ignoreSynchronization)
-      {
-        if(targetText) {
-          targetText = targetText.replace('  ', ' ').toLowerCase().trim()
-        }
-        else{
-          return;
-        }
+    if(targetText) {
+      targetText = targetText.replace('  ', ' ').toLowerCase().trim()
+    }
+    else{
+      return;
+    }
 
-        var EC = protractor.ExpectedConditions;
-        timeOut = timeOut ? timeOut : maxTimeOut;
+    if(elementFinder.locator_ && elementFinder.locator_.using == 'xpath') { // Causing isPresent undefined
+      return;
+    }
 
-        var hasText = function() {
-          return elementFinder.getText().then(function(actualText) {
-            actualText = actualText.replace('  ', ' ').toLowerCase().trim();
-            return actualText.indexOf(targetText) > -1;
-          });
-        };
+    var EC = protractor.ExpectedConditions;
+    timeOut = timeOut ? timeOut : maxTimeOut;
 
-        var isPresentOnUi = function() {
-          return elementFinder.isPresent().then(function(status) {
-            return status;
-          });
-        };
+    var hasText = function() {
+      return elementFinder.getText().then(function(actualText) {
+        actualText = actualText.replace('  ', ' ').toLowerCase().trim();
+        return actualText.indexOf(targetText) > -1;
+      });
+    };
 
-        var expectedConditions = EC.and(isPresentOnUi, hasText);
-
-        browser.wait(expectedConditions, timeOut);
+    var isElePresentOnUi = function() {
+      if(elementFinder.isPresent == undefined) {
+        console.log("*************elementFinder.isPresent is undefined");
+        console.log(elementFinder.locator_);
+        return false;
       }
-    });
+
+      return elementFinder.isPresent().then(function(status) {
+        return status;
+      });
+    };
+
+    var expectedConditions = EC.and(isElePresentOnUi, hasText);
+
+    browser.wait(expectedConditions, timeOut);
   };
 
   this.CheckExpectedCondition = function (testInstance, isNegate, timeOut) {
@@ -918,8 +923,10 @@ var InputHelper = function () {
         });
       };
 
-      browser.sleep(2000); // Because of POST back sites, can be higher if site is too slow with post backs
+      browser.sleep(4000); // Because of POST back sites, can be higher if site is too slow with post backs
       if(isNegate){
+        browser.wait(EC.not(isPresentOnUi), timeOut);
+        browser.sleep(2000);
         browser.wait(EC.not(isPresentOnUi), timeOut);
       }
       else{

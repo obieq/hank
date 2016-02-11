@@ -62,12 +62,9 @@ var StandardTestCaseFlow =
               params.config.descriptionArray.push('Elephant.com');
               params.config.descriptionArray.push(testCase.TestName);
               try {
-                if (website.IsAngular == false) {
-                  browser.ignoreSynchronization = true;
-                }
+                browser.ignoreSynchronization = website.IsAngular == false;
 
-                restApiHelper.doPost(jsonHelper.format(params.config.baseApiUrl + params.config.baseTestStateUrl, params.config.TestQueueId, 3), {}, function () {
-                });
+                restApiHelper.doPost(jsonHelper.format(params.config.baseApiUrl + params.config.baseTestStateUrl, params.config.TestQueueId, 3), {}, function () {});
 
                 browser.get(params.config.urlToTest);
 
