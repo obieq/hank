@@ -53,7 +53,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="pageId">The page identoifier.</param>
         /// <returns>List of TblLocatorIdentifierDto objects</returns>
         [Route("")]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.LocatorIdentifier)]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.LocatorIdentifier)]
         public IHttpActionResult GetAll(long pageId)
         {
             var result = new ResultMessage<IEnumerable<TblLocatorIdentifierDto>>();
@@ -76,7 +76,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="locatorIdentifierId">The identifier.</param>
         /// <returns>TblLocatorIdentifierDto objects</returns>
         [Route("{locatorIdentifierId}")]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Read, ModuleType = FrameworkModules.LocatorIdentifier)]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.LocatorIdentifier)]
         public IHttpActionResult GetById(long locatorIdentifierId)
         {
             var result = new ResultMessage<TblLocatorIdentifierDto>();

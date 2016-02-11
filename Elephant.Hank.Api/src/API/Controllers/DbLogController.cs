@@ -15,9 +15,11 @@ namespace Elephant.Hank.Api.Controllers
     using System.Collections.Generic;
     using System.Web.Http;
 
+    using Elephant.Hank.Api.Security;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
+    using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Messages;
     using Elephant.Hank.Resources.Models;
@@ -26,6 +28,7 @@ namespace Elephant.Hank.Api.Controllers
     /// The DbLogController class
     /// </summary>
     [RoutePrefix("api/dblog")]
+    [CustomAuthorize(Roles = RoleName.TestAdminRole)]
     public class DbLogController : BaseApiController
     {
         /// <summary>

@@ -65,5 +65,10 @@ namespace Elephant.Hank.Resources.Dto
         /// Gets or sets the Website
         /// </summary>
         public string WebsiteName { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is module executable.
+        /// </summary>
+        public bool IsModuleExecutable { get; set; }    
     }
 }

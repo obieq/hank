@@ -20,5 +20,10 @@ namespace Elephant.Hank.DataService.DBSchema
         /// Gets or sets the ModuleName
         /// </summary>
         public string ModuleName { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is executable.
+        /// </summary>
+        public bool IsExecutable { get; set; }
     }
 }

@@ -108,7 +108,6 @@ app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettin
       },
 
       setAuthenticationParameters: function (scope, websiteId, moduleId, operation) {
-        debugger;
         var authData = authService.getAuthData();
         if (authData.type == "TestUser") {
           var groupData = authService.getGroupAuthData();

@@ -54,6 +54,11 @@ namespace Elephant.Hank.Resources.Enum
         /// <summary>
         /// for Locator Identifier
         /// </summary>
-        LocatorIdentifier = 8
+        LocatorIdentifier = 8,
+
+        /// <summary>
+        /// The reports
+        /// </summary>
+        Reports = 9,
     }
 }

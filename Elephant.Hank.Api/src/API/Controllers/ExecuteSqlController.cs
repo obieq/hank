@@ -20,12 +20,13 @@ namespace Elephant.Hank.Api.Controllers
     using Elephant.Hank.Framework.Extensions;
     using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Messages;
-    using Elephant.Hank.Resources.Models;   
+    using Elephant.Hank.Resources.Models;
 
     /// <summary>
     /// The ExecuteSqlController class.
     /// </summary>
     [RoutePrefix("api/execute-sql")]
+    [CustomAuthorize(Roles = RoleName.WindowServiceRole)]
     public class ExecuteSqlController : BaseApiController
     {
         /// <summary>
