@@ -22,7 +22,7 @@ namespace Elephant.Hank.Resources.Dto
         public string ModuleName { get; set; }
 
         /// <summary>
-        /// Gets or sets the a value indicating whether module is executable or not
+        /// Gets or sets a value indicating whether this instance is executable.
         /// </summary>
         public bool IsExecutable { get; set; }
     }

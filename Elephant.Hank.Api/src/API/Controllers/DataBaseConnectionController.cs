@@ -20,7 +20,6 @@ namespace Elephant.Hank.Api.Controllers
     using Elephant.Hank.Api.Security;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
-    using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Messages;

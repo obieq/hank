@@ -13,13 +13,14 @@ namespace Elephant.Hank.Framework.TestDataServices
 {
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
     using System.Linq;
 
     using Elephant.Hank.Common.DataService;
+    using Elephant.Hank.Common.Helper;
     using Elephant.Hank.Common.Mapper;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.DataService.DBSchema;
+    using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Extensions;
@@ -169,20 +170,27 @@ namespace Elephant.Hank.Framework.TestDataServices
                                 var mapper = this.mapperFactory.GetMapper<TblTestData, TblTestDataDto>();
                                 var testDataDtoForSharedWebsiteTest = testData.Select(mapper.Map).OrderBy(x => x.ExecutionSequence).ToList();
                                 var website = this.mapperFactory.GetMapper<TblWebsite, TblWebsiteDto>().Map(testData[0].Test.Website);
-                                WebsiteUrl urlData = new WebsiteUrl();
+
+                                WebsiteUrl urlData;
                                 if (testQueue.SuiteId.HasValue)
                                 {
                                     var schedular = this.schedulerService.GetById(testQueue.SchedulerId.Value);
-                                    urlData = website.WebsiteUrlList.FirstOrDefault(m => m.Id == schedular.Item.UrlId);
+                                    urlData = website.WebsiteUrlList.FirstOrDefault(m => m.Id == schedular.Item.UrlId) ?? new WebsiteUrl();
                                 }
                                 else
                                 {
-                                    urlData = website.WebsiteUrlList.FirstOrDefault(m => m.Id == testQueue.Settings.UrlId);
+                                    urlData = website.WebsiteUrlList.FirstOrDefault(m => m.Id == testQueue.Settings.UrlId) ?? new WebsiteUrl();
                                 }
 
-                                if (this.testPlan.Last().ActionId.Value != long.Parse(ConfigurationManager.AppSettings["IgnoreLoadNeUrlActionId"].ToString()))
+                                if (!this.testPlan.Any() || (this.testPlan.Last().ActionId.Value != ActionConstants.Instance.IgnoreLoadNeUrlActionId))
                                 {
-                                    TblTestDataDto dummyStep = new TblTestDataDto { ActionValue = this.actionService.GetById(long.Parse(ConfigurationManager.AppSettings["LoadNewUrlActionId"].ToString())).Item.Value, ActionId = long.Parse(ConfigurationManager.AppSettings["LoadNewUrlActionId"].ToString()), Value = urlData.Url, LinkTestType = (int)LinkTestType.TestStep };
+                                    TblTestDataDto dummyStep = new TblTestDataDto
+                                                               {
+                                                                   ActionValue = this.actionService.GetById(ActionConstants.Instance.LoadNewUrlActionId).Item.Value,
+                                                                   ActionId = ActionConstants.Instance.LoadNewUrlActionId,
+                                                                   Value = urlData.Url,
+                                                                   LinkTestType = (int)LinkTestType.TestStep
+                                                               };
                                     testDataDtoForSharedWebsiteTest.Insert(0, dummyStep);
                                 }
 

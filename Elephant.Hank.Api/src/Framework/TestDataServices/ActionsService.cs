@@ -76,8 +76,7 @@ namespace Elephant.Hank.Framework.TestDataServices
         public ResultMessage<IEnumerable<TblActionDto>> GetActionForSqlTestStep()
         {
             var result = new ResultMessage<IEnumerable<TblActionDto>>();
-            ActionConstants actionConstants = new ActionConstants();
-            var entity = this.Table.Find(x => (x.Id == actionConstants.LogTextActionId || x.Id == actionConstants.SetVariableActionId) && x.IsDeleted != true).ToList();
+            var entity = this.Table.Find(x => (x.Id == ActionConstants.Instance.LogTextActionId || x.Id == ActionConstants.Instance.SetVariableActionId) && x.IsDeleted != true).ToList();
             var mapper = this.mapperFactory.GetMapper<TblAction, TblActionDto>();
             result.Item = entity.Select(mapper.Map).ToList();
             return result;

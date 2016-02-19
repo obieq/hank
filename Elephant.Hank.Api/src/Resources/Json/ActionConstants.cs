@@ -13,162 +13,187 @@ namespace Elephant.Hank.Resources.Json
 {
     using System.Configuration;
 
+    using Elephant.Hank.Resources.Extensions;
+
     /// <summary>
     /// The ActionConstants class
     /// </summary>
     public class ActionConstants
     {
         /// <summary>
-        /// Gets the SetVariable Action's Identifier
+        /// The instance
         /// </summary>
-        public int SetVariableActionId
+        private static ActionConstants instance;
+
+        /// <summary>
+        /// Prevents a default instance of the <see cref="ActionConstants"/> class from being created.
+        /// </summary>
+        private ActionConstants()
+        {
+        }
+
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
+        public static ActionConstants Instance
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings["SetVariableActionId"].ToString());
+                return instance ?? (instance = new ActionConstants());
             }
         }
 
         /// <summary>
         /// Gets the SetVariable Action's Identifier
         /// </summary>
-        public int SetVariableManuallyActionId
+        public long SetVariableActionId
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings["SetVariableManuallyActionId"].ToString());
+                return ConfigurationManager.AppSettings["SetVariableActionId"].ToInt64();
+            }
+        }
+
+        /// <summary>
+        /// Gets the SetVariable Action's Identifier
+        /// </summary>
+        public long SetVariableManuallyActionId
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SetVariableManuallyActionId"].ToInt64();
             }
         }
 
         /// <summary>
         /// Gets the DeclareVariable Action's Identifier
         /// </summary>
-        public int DeclareVariableActionId
+        public long DeclareVariableActionId
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings["DeclareVariableActionId"].ToString());
+                return ConfigurationManager.AppSettings["DeclareVariableActionId"].ToInt64();
             }
         }
 
         /// <summary>
         /// Gets the TakeScreenShot Action's Identifier
         /// </summary>
-        public int TakeScreenShotActionId
+        public long TakeScreenShotActionId
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings["TakeScreenShotActionId"].ToString());
+                return ConfigurationManager.AppSettings["TakeScreenShotActionId"].ToInt64();
             }
         }
 
         /// <summary>
         /// Gets the LoadNewUr Action's Identifier
         /// </summary>
-        public int LoadNewUrlActionId
+        public long LoadNewUrlActionId
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings["LoadNewUrlActionId"].ToString());
+                return ConfigurationManager.AppSettings["LoadNewUrlActionId"].ToInt64();
             }
         }
 
         /// <summary>
         /// Gets the SwitchWebsiteType Action's Identifier
         /// </summary>
-        public int SwitchWebsiteTypeActionId
+        public long SwitchWebsiteTypeActionId
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings["SwitchWebsiteTypeActionId"].ToString());
+                return ConfigurationManager.AppSettings["SwitchWebsiteTypeActionId"].ToInt64();
             }
         }
 
         /// <summary>
         /// Gets the AssertUrlToContain Action's Identifier
         /// </summary>
-        public int AssertUrlToContainActionId
+        public long AssertUrlToContainActionId
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings["AssertUrlToContainActionId"].ToString());
+                return ConfigurationManager.AppSettings["AssertUrlToContainActionId"].ToInt64();
             }
         }
 
         /// <summary>
         /// Gets the HandleBrowserAlertPopup Action's Identifier
         /// </summary>
-        public int HandleBrowserAlertPopupActionId
+        public long HandleBrowserAlertPopupActionId
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings["HandleBrowserAlertPopupActionId"].ToString());
+                return ConfigurationManager.AppSettings["HandleBrowserAlertPopupActionId"].ToInt64();
             }
         }
 
         /// <summary>
         /// Gets the Wait Action's Identifier
         /// </summary>
-        public int WaitActionId
+        public long WaitActionId
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings["WaitActionId"].ToString());
+                return ConfigurationManager.AppSettings["WaitActionId"].ToInt64();
             }
         }
 
         /// <summary>
         /// Gets the Load Partial Url Action's Identifier
         /// </summary>
-        public int LoadPartialUrlActionId
+        public long LoadPartialUrlActionId
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings["LoadPartialUrlActionId"].ToString());
+                return ConfigurationManager.AppSettings["LoadPartialUrlActionId"].ToInt64();
             }
         }
 
         /// <summary>
         /// Gets the Log Text Action's Identifier
         /// </summary>
-        public int LogTextActionId
+        public long LogTextActionId
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings["LogTextActionId"].ToString());
+                return ConfigurationManager.AppSettings["LogTextActionId"].ToInt64();
             }
         }
 
         /// <summary>
         /// Gets the Log Text Action's Identifier
         /// </summary>
-        public int AssertToEqualActionId
+        public long AssertToEqualActionId
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings["AssertToEqualActionId"].ToString());
+                return ConfigurationManager.AppSettings["AssertToEqualActionId"].ToInt64();
             }
         }
 
         /// <summary>
         /// Gets the Switch window Action's Identifier
         /// </summary>
-        public int SwitchWindowActionId
+        public long SwitchWindowActionId
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings["SwitchWindowActionId"].ToString());
+                return ConfigurationManager.AppSettings["SwitchWindowActionId"].ToInt64();
             }
         }
 
         /// <summary>
         /// Gets the Switch window Action's Identifier
         /// </summary>
-        public int IgnoreLoadNeUrlActionId
+        public long IgnoreLoadNeUrlActionId
         {
             get
             {
-                return int.Parse(ConfigurationManager.AppSettings["IgnoreLoadNeUrlActionId"].ToString());
+                return ConfigurationManager.AppSettings["IgnoreLoadNeUrlActionId"].ToInt64();
             }
         }
     }

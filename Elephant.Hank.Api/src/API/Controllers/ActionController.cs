@@ -173,8 +173,7 @@ namespace Elephant.Hank.Api.Controllers
             var result = new ResultMessage<ActionConstants>();
             try
             {
-                ActionConstants actionConstants = new ActionConstants();
-                result.Item = actionConstants;
+                result.Item = ActionConstants.Instance;
             }
             catch (Exception ex)
             {
