@@ -226,7 +226,25 @@ var InputHelper = function () {
           case actionConstant.SetText:
           {
             if (testInstance.VariableName.trim() == '') {
-              this.setText(testInstance.ExecutionSequence, key, testInstance.Value, undefined, undefined, testInstance);
+              //this.setText(testInstance.ExecutionSequence, key, testInstance.Value, undefined, undefined, testInstance);
+              console.log("outside starts with");
+              var splitedvalue = testInstance.Value.split("#");
+              console.log("outside starts with 1 length=" + splitedvalue.length);
+              if (splitedvalue.length > 1) {
+                console.log("outside starts with 1 splitedvalue[1]=" + splitedvalue[1]);
+                if (splitedvalue[1] == "autoincrement") {
+                  console.log("inside starts with");
+                  browser.getCurrentUrl().then(function (Url) {
+                    jsonHelper.executeAutoIncrement(testInstance).then(function (response) {
+                      testInstance.Value = response;
+                      thisobj.setText(testInstance.ExecutionSequence, key, testInstance.Value, undefined, undefined, testInstance);
+                    });
+                  });
+                }
+              }
+              else {
+                this.setText(testInstance.ExecutionSequence, key, testInstance.Value, undefined, undefined, testInstance);
+              }
             }
             break;
           }
@@ -309,7 +327,12 @@ var InputHelper = function () {
           }
           case actionConstant.SetCJCustomAutoCompleteText:
           {
-            this.setText(testInstance.ExecutionSequence, key, testInstance.Value, true, true);
+            this.setText(testInstance.ExecutionSequence, key, testInstance.Value, true, true, 1);
+            break;
+          }
+          case actionConstant.SetMCJCustomAutoCompleteText:
+          {
+            this.setText(testInstance.ExecutionSequence, key, testInstance.Value, true, true, 2);
             break;
           }
           case actionConstant.AssertCountToEqual:
@@ -689,7 +712,7 @@ var InputHelper = function () {
     }
   };
 
-  this.setText = function (executionSequence, key, value, clearText, isAutoFIll, testInstance) {
+  this.setText = function (executionSequence, key, value, clearText, isAutoFIll, cjIdentifier) {
     if (value != undefined && value != "") {
       if (clearText) {
         key.clear().then(function () {
@@ -697,16 +720,23 @@ var InputHelper = function () {
         });
       }
       if (isAutoFIll) {
-        var ele = key;
-        var scriptToSet = 'var value = "' + value + '";';
-        scriptToSet += 'var selectedDueDateField = document.getElementById("typeAhead");  var element = angular.element(selectedDueDateField); var property = selectedDueDateField.getAttribute("ng-options");';
-        scriptToSet += 'property = property.substring(property.indexOf("in ") + 3); var scope = element.scope(); var repeater = eval("scope." + property);';
-        scriptToSet += 'for(var i = 0 ; i < repeater.length; i++) { if(repeater[i].Description.toLowerCase() == value.toLowerCase()) { value = repeater[i].Value; } }  ';
-        scriptToSet += 'element.val(value); element.triggerHandler("input");';
-        scriptToSet += 'if(selectedDueDateField && selectedDueDateField.nextSibling && selectedDueDateField.nextSibling.style){selectedDueDateField.nextSibling.style.visibility = "hidden";}';
-        browser.executeScript(scriptToSet).then(function () {
-          browser.params.config.LastStepExecuted = executionSequence;
-        });
+        if (cjIdentifier == 2) {
+          key.sendKeys(value + " ", protractor.Key.ENTER).then(function () {
+            browser.params.config.LastStepExecuted = executionSequence;
+          });
+        }
+        else if (cjIdentifier == 1) {
+          var ele = key;
+          var scriptToSet = 'var value = "' + value + '";';
+          scriptToSet += 'var selectedDueDateField = document.getElementById("typeAhead");  var element = angular.element(selectedDueDateField); var property = selectedDueDateField.getAttribute("ng-options");';
+          scriptToSet += 'property = property.substring(property.indexOf("in ") + 3); var scope = element.scope(); var repeater = eval("scope." + property);';
+          scriptToSet += 'for(var i = 0 ; i < repeater.length; i++) { if(repeater[i].Description.toLowerCase() == value.toLowerCase()) { value = repeater[i].Value; } }  ';
+          scriptToSet += 'element.val(value); element.triggerHandler("input");';
+          scriptToSet += 'if(selectedDueDateField && selectedDueDateField.nextSibling && selectedDueDateField.nextSibling.style){selectedDueDateField.nextSibling.style.visibility = "hidden";}';
+          browser.executeScript(scriptToSet).then(function () {
+            browser.params.config.LastStepExecuted = executionSequence;
+          });
+        }
       }
       else {
         key.sendKeys(value).then(function () {
@@ -715,6 +745,7 @@ var InputHelper = function () {
       }
     }
   };
+
 
 
   this.setTextByClick = function (executionSequence, key, value) {

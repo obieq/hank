@@ -47,7 +47,8 @@ namespace Elephant.Hank.Framework.Mapper.TypeConverters
                                  VariableName = src.VariableName != null ? src.VariableName : string.Empty,
                                  IsOptional = src.IsOptional,
                                  StepType = src.LinkTestType,
-                                 CategoryId = src.DataBaseCategoryId
+                                 CategoryId = src.DataBaseCategoryId,
+                                 SharedTestDataId = src.SharedTestDataId
                              };
                 result.DisplayName = src.DisplayNameValue;
                 result.Locator = src.LocatorValue + string.Empty;

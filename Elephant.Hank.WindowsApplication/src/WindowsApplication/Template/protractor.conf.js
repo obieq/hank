@@ -37,6 +37,7 @@ exports.config =
             baseSchedulerHistoryStatusUrl: 'api/website/0/scheduler/0/scheduler-history/status/{0}/{1}',
             baseTestReportUrl: 'api/report',
             executeSqlUrl:'api/execute-sql/{0}',
+            autoincrementUrl: "api/website/0/test-queue/auto-increment",
             logContainer: [],
             variableContainer:[],
             variableStateContainer: [],

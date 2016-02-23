@@ -49,5 +49,13 @@ namespace Elephant.Hank.Common.TestDataServices
         /// List of all deleted TblLnkTestDataSharedTestDataDto
         /// </returns>
         ResultMessage<IEnumerable<TblLnkTestDataSharedTestDataDto>> DeleteBySharedTestDataId(long userId, long sharedTestDataId);
+
+        /// <summary>
+        /// Gets the by test data identifier and shared test data identifier.
+        /// </summary>
+        /// <param name="testDataId">The test data identifier.</param>
+        /// <param name="sharedTestDataId">The shared test data identifier.</param>
+        /// <returns>Linked data</returns>
+        ResultMessage<TblLnkTestDataSharedTestDataDto> GetByTestDataIdAndSharedTestDataId(long testDataId, long sharedTestDataId);
     }
 }

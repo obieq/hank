@@ -77,5 +77,13 @@ namespace Elephant.Hank.Resources.Models
         /// Gets or sets the 
         /// </summary>
         public IEnumerable<NameValuePair> VariablesUsedInQuery { get; set; }
+
+        /// <summary>
+        /// Gets or sets the shared test data identifier.
+        /// </summary>
+        /// <value>
+        /// The shared test data identifier.
+        /// </value>
+        public long SharedTestDataId { get; set; }
     }
 }

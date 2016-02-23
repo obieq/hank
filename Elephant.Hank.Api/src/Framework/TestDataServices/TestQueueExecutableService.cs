@@ -13,15 +13,15 @@ namespace Elephant.Hank.Framework.TestDataServices
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Linq;
 
     using Elephant.Hank.Common.DataService;
-    using Elephant.Hank.Common.Helper;
     using Elephant.Hank.Common.Mapper;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.DataService.DBSchema;
-    using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto;
+    using Elephant.Hank.Resources.Dto.Linking;
     using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Extensions;
     using Elephant.Hank.Resources.Json;
@@ -65,6 +65,16 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly IMapperFactory mapperFactory;
 
         /// <summary>
+        /// The test data shared test data map service
+        /// </summary>
+        private readonly ITestDataSharedTestDataMapService testDataSharedTestDataMapService;
+
+        /// <summary>
+        /// The shared test data service
+        /// </summary>
+        private readonly ISharedTestDataService sharedTestDataService;
+
+        /// <summary>
         /// The table test data
         /// </summary>
         private readonly IRepository<TblTestData> table;
@@ -89,7 +99,9 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <param name="schedulerService">The scheduler service.</param>
         /// <param name="browserService">The browser service.</param>
         /// <param name="actionService">The action service.</param>
-        public TestQueueExecutableService(IRepository<TblTestData> table, ISuiteService suiteService, ITestQueueService testQueueService, IMapperFactory mapperFactory, ISchedulerService schedulerService, IBrowserService browserService, IActionsService actionService)
+        /// <param name="testDataSharedTestDataMapService">The test data shared test data map service.</param>
+        /// <param name="sharedTestDataService">The shared test data service.</param>
+        public TestQueueExecutableService(IRepository<TblTestData> table, ISuiteService suiteService, ITestQueueService testQueueService, IMapperFactory mapperFactory, ISchedulerService schedulerService, IBrowserService browserService, IActionsService actionService, ITestDataSharedTestDataMapService testDataSharedTestDataMapService, ISharedTestDataService sharedTestDataService)
         {
             this.table = table;
             this.suiteService = suiteService;
@@ -98,6 +110,8 @@ namespace Elephant.Hank.Framework.TestDataServices
             this.testQueueService = testQueueService;
             this.browserService = browserService;
             this.actionService = actionService;
+            this.testDataSharedTestDataMapService = testDataSharedTestDataMapService;
+            this.sharedTestDataService = sharedTestDataService;
         }
 
         /// <summary>
@@ -158,7 +172,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                                 var mapper = this.mapperFactory.GetMapper<TblSharedTestDataDto, TblTestDataDto>();
                                 var sharedStepMappedWithTestData = sharedSteps.Select(mapper.Map).OrderBy(x => x.ExecutionSequence).ToList();
                                 long es = this.ExecutionSequence;
-                                sharedStepMappedWithTestData.ForEach(x => { x.ExecutionSequence = es++; x.IsStepBelongsToSharedComponent = true; });
+                                sharedStepMappedWithTestData.ForEach(x => { x.ExecutionSequence = es++; x.IsStepBelongsToSharedComponent = true; x.Id = item.Id; });
                                 this.ExecutionSequence = es;
                                 this.testPlan.AddRange(sharedStepMappedWithTestData);
                                 break;
@@ -308,6 +322,87 @@ namespace Elephant.Hank.Framework.TestDataServices
             }
 
             return resultMessage;
+        }
+
+        /// <summary>
+        /// Updates the automatic increment.
+        /// </summary>
+        /// <param name="executableTestData">The executable test data.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>incremented value</returns>
+        public ResultMessage<string> UpdateAutoIncrement(ExecutableTestData executableTestData, long userId)
+        {
+            var result = new ResultMessage<string>();
+
+            if (executableTestData.SharedTestDataId > 0)
+            {
+                ResultMessage<TblLnkTestDataSharedTestDataDto> lnkTestDataSharedTestdata = this.testDataSharedTestDataMapService.GetByTestDataIdAndSharedTestDataId(executableTestData.Id, executableTestData.SharedTestDataId);
+
+                if (!lnkTestDataSharedTestdata.IsError)
+                {
+                    if (lnkTestDataSharedTestdata.Item.NewValue != string.Empty)
+                    {
+                        result.Item = this.GetAutoIncrementValue(lnkTestDataSharedTestdata.Item.NewValue);
+                        lnkTestDataSharedTestdata.Item.NewValue = "#autoincrement#" + result.Item;
+                        this.testDataSharedTestDataMapService.SaveOrUpdate(lnkTestDataSharedTestdata.Item, userId);
+                    }
+                    else
+                    {
+                        ResultMessage<TblSharedTestDataDto> sharedTestData = this.sharedTestDataService.GetById(executableTestData.SharedTestDataId);
+                        if (!sharedTestData.IsError)
+                        {
+                            result.Item = this.GetAutoIncrementValue(sharedTestData.Item.Value);
+                            sharedTestData.Item.Value = "#autoincrement#" + result.Item;
+                            this.sharedTestDataService.SaveOrUpdate(sharedTestData.Item, userId);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                TblTestData testData = this.table.Find(x => x.Id == executableTestData.Id).FirstOrDefault();
+                result.Item = this.GetAutoIncrementValue(testData.Value);
+                testData.Value = "#autoincrement#" + result.Item;
+                this.table.Update(testData);
+                this.table.Commit();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the automatic incremented value.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>auto incremented value</returns>
+        private string GetAutoIncrementValue(string value)
+        {
+            int incrementedValue;
+            string[] splittedValue = value.Split('#');
+            if (splittedValue[1] == "autoincrement")
+            {
+                string strValueToIncrement = string.Empty;
+                string valueToPrepend = string.Empty;
+                char[] splittedString = splittedValue[2].ToCharArray().Reverse().ToArray();
+                bool checkForDigit = true;
+                foreach (char item in splittedString)
+                {
+                    if (char.IsDigit(item) && checkForDigit)
+                    {
+                        strValueToIncrement = item + strValueToIncrement;
+                    }
+                    else
+                    {
+                        checkForDigit = false;
+                        valueToPrepend = item + valueToPrepend;
+                    }
+                }
+
+                incrementedValue = int.Parse(strValueToIncrement) + 1;
+                return valueToPrepend + incrementedValue;
+            }
+
+            return value;
         }
 
         /// <summary>

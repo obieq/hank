@@ -92,6 +92,15 @@ var JsonHelper = function () {
     return defer.promise;
   };
 
+  this.executeAutoIncrement=function(testInstance){
+    var defer = protractor.promise.defer();
+    restApiHelper.doPost(browser.params.config.baseApiUrl + browser.params.config.autoincrementUrl , testInstance, function (msg) {
+      var resultMessage = JSON.parse(msg.body);
+      defer.fulfill(resultMessage.Item);
+    });
+    return defer.promise;
+  };
+
   this.parseJsonArrays = function (stringToParse) {
     var retArray = [];
     try {

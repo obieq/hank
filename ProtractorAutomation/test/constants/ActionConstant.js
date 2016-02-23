@@ -10,6 +10,7 @@ var ActionConstant = function () {
   this.CJCustomRadioButton = 'CJ Custom Radio Button';
   this.Click = 'Click';
   this.SetCJCustomAutoCompleteText = 'Set CJ Custom Auto Complete Text';
+  this.SetMCJCustomAutoCompleteText = 'Set MCJ Custom Auto Complete Text';
   this.WaitForTheElement = 'Wait For The Element';
   this.GetRepeaterCount = 'Get Repeater Count';
   this.LogText = 'Log Text';

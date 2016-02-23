@@ -158,5 +158,29 @@ namespace Elephant.Hank.Framework.TestDataServices
 
             return result;
         }
+
+        /// <summary>
+        /// Gets the by test data identifier and shared test data identifier.
+        /// </summary>
+        /// <param name="testDataId">The test data identifier.</param>
+        /// <param name="sharedTestDataId">The shared test data identifier.</param>
+        /// <returns>link data</returns>
+        public ResultMessage<TblLnkTestDataSharedTestDataDto> GetByTestDataIdAndSharedTestDataId(long testDataId, long sharedTestDataId)
+        {
+            var result = new ResultMessage<TblLnkTestDataSharedTestDataDto>();
+
+            var entity = this.table.Find(x => x.TestDataId == testDataId && x.SharedTestDataId == sharedTestDataId && x.IsDeleted != true).FirstOrDefault();
+
+            if (entity == null)
+            {
+                result.Messages.Add(new Message(null, "Record not found!"));
+            }
+            else
+            {
+                result.Item = this.mapperFactory.GetMapper<TblLnkTestDataSharedTestData, TblLnkTestDataSharedTestDataDto>().Map(entity);
+            }
+
+            return result;
+        }
     }
 }

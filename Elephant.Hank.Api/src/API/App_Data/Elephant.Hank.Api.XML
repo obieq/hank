@@ -3047,6 +3047,11 @@
             The TestQueueController class
             </summary>
         </member>
+        <member name="F:Elephant.Hank.Api.Controllers.TestQueueController.locke">
+            <summary>
+            The lock
+            </summary>
+        </member>
         <member name="F:Elephant.Hank.Api.Controllers.TestQueueController.testQueueService">
             <summary>
             The testQueueService service
@@ -3117,6 +3122,13 @@
             </summary>
             <param name="testQueueId">the test identifier</param>
             <returns>GetTestQueueExecutableData object</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.TestQueueController.UpdateAutoIncrement(Elephant.Hank.Resources.Models.ExecutableTestData)">
+            <summary>
+            Updates the automatic increment.
+            </summary>
+            <param name="executableTestData">The executable test data.</param>
+            <returns>auto incremented value</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.TestQueueController.ChangeTestQueueState(System.Int64,System.Int32)">
             <summary>

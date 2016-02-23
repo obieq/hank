@@ -23,6 +23,7 @@ namespace Elephant.Hank.Api.Controllers
     using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Extensions;
     using Elephant.Hank.Resources.Messages;
+    using Elephant.Hank.Resources.Models;
     using Elephant.Hank.Resources.ViewModal;
 
     /// <summary>
@@ -31,6 +32,11 @@ namespace Elephant.Hank.Api.Controllers
     [RoutePrefix("api/website/{websiteId}/test-queue")]
     public class TestQueueController : BaseApiController
     {
+        /// <summary>
+        /// The lock
+        /// </summary>
+        private static object locke = new object();
+
         /// <summary>
         /// The testQueueService service
         /// </summary>
@@ -208,6 +214,33 @@ namespace Elephant.Hank.Api.Controllers
             }
 
             return this.CreateCustomResponse(result);
+        }
+
+        /// <summary>
+        /// Updates the automatic increment.
+        /// </summary>
+        /// <param name="executableTestData">The executable test data.</param>
+        /// <returns>auto incremented value</returns>
+        [Route("auto-increment")]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.TestScripts)]
+        [HttpPost]
+        public IHttpActionResult UpdateAutoIncrement(ExecutableTestData executableTestData)
+        {
+            lock (locke)
+            {
+                var result = new ResultMessage<string>();
+                try
+                {
+                    result = this.testQueueExecutableService.UpdateAutoIncrement(executableTestData, this.UserId);
+                }
+                catch (Exception ex)
+                {
+                    this.LoggerService.LogException(ex);
+                    result.Messages.Add(new Message(null, ex.Message));
+                }
+
+                return this.CreateCustomResponse(result);
+            }
         }
 
         /// <summary>

@@ -97,7 +97,10 @@ namespace Elephant.Hank.Api.Controllers
                     if (result.Item.LinkTestType == (int)LinkTestType.SharedTest)
                     {
                         ResultMessage<IEnumerable<TblLnkTestDataSharedTestDataDto>> sharedTestData = this.testDataSharedTestDataMapService.GetByTestDataId(result.Item.Id);
-                        result.Item.SharedTestSteps = sharedTestData.Item.ToList();
+                        if (!sharedTestData.IsError)
+                        {
+                            result.Item.SharedTestSteps = sharedTestData.Item.ToList();
+                        }
                     }
                 }
             }

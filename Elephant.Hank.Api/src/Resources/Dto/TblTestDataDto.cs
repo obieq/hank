@@ -144,5 +144,14 @@ namespace Elephant.Hank.Resources.Dto
         /// Gets or sets the CategoryId
         /// </summary>
         public long? DataBaseCategoryId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the shared test data identifier.
+        /// can only be set and used by testqueue executable service while mapping sharedtestdata in to testdata 
+        /// </summary>
+        /// <value>
+        /// The shared test data identifier.
+        /// </value>
+        public long SharedTestDataId { get; set; }
     }
 }
