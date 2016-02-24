@@ -48,21 +48,21 @@
             <tr style="{{testData.rowStyle}}">
 
               <td>{{testData.ExecutionSequence}}</td>
-              <td ng-if="testData.LinkTestType==StepTypes.TestStep || testData.LinkTestType==StepTypes.SqlTestStep">{{testData.DisplayNameValue}}</td>
-              <td ng-if="testData.LinkTestType==StepTypes.SharedTestStep" colspan="5" style="font-weight: bold;">
+              <td ng-if="testData.LinkTestType==StepTypeCodes.TestStep || testData.LinkTestType==StepTypeCodes.SqlTestStep">{{testData.DisplayNameValue}}</td>
+              <td ng-if="testData.LinkTestType==StepTypeCodes.SharedTestStep" colspan="5" style="font-weight: bold;">
                 <a href="javascript:void(0);" ng-click="onSharedTestLinkClick(testData.Id)">{{testData.SharedTest.TestName}}</a>
                 <span ng-if="testData.Description.length>0">({{testData.Description}})</span>
               </td>
 
-              <td ng-if="testData.LinkTestType==StepTypes.WebsiteTestStep" colspan="5" style="font-weight: bold;">
+              <td ng-if="testData.LinkTestType==StepTypeCodes.WebsiteTestStep" colspan="5" style="font-weight: bold;">
                 <a target="_blank" ui-sref="Website.TestData({ WebsiteId: testData.SharedStepWebsiteId, TestCatId: 0, TestId: testData.SharedStepWebsiteTestId })"  >{{testData.SharedStepWebsiteName}} - ({{testData.SharedStepWebsiteTestName}})</a>
 
               </td>
 
-              <td ng-if="testData.LinkTestType==StepTypes.TestStep || testData.LinkTestType==StepTypes.SqlTestStep">{{testData.ActionValue}}</td>
-              <td  ng-if="testData.LinkTestType==StepTypes.TestStep || testData.LinkTestType==StepTypes.SqlTestStep">{{testData.Value }}</td>
-              <td  ng-if="testData.LinkTestType==StepTypes.TestStep || testData.LinkTestType==StepTypes.SqlTestStep">{{testData.VariableName }}</td>
-              <td ng-if="testData.LinkTestType==StepTypes.TestStep || testData.LinkTestType==StepTypes.SqlTestStep">{{testData.Description}}</td>
+              <td ng-if="testData.LinkTestType==StepTypeCodes.TestStep || testData.LinkTestType==StepTypeCodes.SqlTestStep">{{testData.ActionValue}}</td>
+              <td  ng-if="testData.LinkTestType==StepTypeCodes.TestStep || testData.LinkTestType==StepTypeCodes.SqlTestStep">{{testData.Value }}</td>
+              <td  ng-if="testData.LinkTestType==StepTypeCodes.TestStep || testData.LinkTestType==StepTypeCodes.SqlTestStep">{{testData.VariableName }}</td>
+              <td ng-if="testData.LinkTestType==StepTypeCodes.TestStep || testData.LinkTestType==StepTypeCodes.SqlTestStep">{{testData.Description}}</td>
               <td ng-if="Authentication.CanWrite || Authentication.CanDelete">
                 <a ng-if="Authentication.CanWrite" ng-show="$index == 0"
                    ui-sref="Website.TestDataAdd({WebsiteId: stateParamWebsiteId, TestCatId: TestCatId, TestId: Test.Id, ExecutionSequence: testData.ExecutionSequence })">
@@ -77,12 +77,12 @@
                 <a ng-if="Authentication.CanWrite"
                   ui-sref="Website.TestDataUpdate({WebsiteId: stateParamWebsiteId, TestCatId: TestCatId, TestId: Test.Id, TestDataId: testData.Id })">Update</a>
                 <span>|</span>
-                <a ng-if="Authentication.CanDelete" ng-click="deleteTestData('{{testData.Id}}')" href="#" onclick="return false;">Delete</a>
+                <a ng-if="Authentication.CanDelete" ng-click="deleteTestData(testData.Id)" href="#" onclick="return false;">Delete</a>
               </td>
 
             </tr>
 
-            <tr ng-if="testData.LinkTestType==StepTypes.SharedTestStep && testData.ShowSharedTest">
+            <tr ng-if="testData.LinkTestType==StepTypeCodes.SharedTestStep && testData.ShowSharedTest">
               <td colspan="7">
                 <table class="table table-bordered table-striped">
                   <thead>

@@ -13,8 +13,8 @@ namespace Elephant.Hank.Framework.TestDataServices
 {
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using Elephant.Hank.Common.DataService;
     using Elephant.Hank.Common.Mapper;
@@ -90,6 +90,11 @@ namespace Elephant.Hank.Framework.TestDataServices
         private List<TblTestDataDto> testPlan = new List<TblTestDataDto>();
 
         /// <summary>
+        /// The this lock
+        /// </summary>
+        private object thisLock = new object();
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TestQueueExecutableService" /> class.
         /// </summary>
         /// <param name="table">The table test data.</param>
@@ -122,14 +127,22 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <summary>
         /// process test data to generate testplan
         /// </summary>
-        /// <param name="testDataDto"> the test data object</param>
-        /// <param name="testQueue"> the test queue object</param>
-        public void ProcessTestQueueExecutableData(IEnumerable<TblTestDataDto> testDataDto, TblTestQueueDto testQueue)
+        /// <param name="testDataDto">the test data object</param>
+        /// <param name="testQueue">the test queue object</param>
+        /// <param name="deepIndex">Index of the deep.</param>
+        public void ProcessTestQueueExecutableData(IEnumerable<TblTestDataDto> testDataDto, TblTestQueueDto testQueue, int deepIndex = 0)
         {
             if (testDataDto != null && testDataDto.Any())
             {
                 foreach (var item in testDataDto)
                 {
+                    if (item.ActionId == ActionConstants.Instance.IgnoreLoadNeUrlActionId && this.testPlan.Any() && this.testPlan.Last().ActionId.Value == ActionConstants.Instance.LoadNewUrlActionId)
+                    {
+                        this.testPlan.Remove(this.testPlan.Last());
+                        this.ExecutionSequence--;
+                        continue;
+                    }
+
                     switch (item.LinkTestType)
                     {
                         case (int)LinkTestType.TestStep:
@@ -171,6 +184,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                                 sharedSteps.RemoveAll(m => m.IsIgnored);
                                 var mapper = this.mapperFactory.GetMapper<TblSharedTestDataDto, TblTestDataDto>();
                                 var sharedStepMappedWithTestData = sharedSteps.Select(mapper.Map).OrderBy(x => x.ExecutionSequence).ToList();
+
                                 long es = this.ExecutionSequence;
                                 sharedStepMappedWithTestData.ForEach(x => { x.ExecutionSequence = es++; x.IsStepBelongsToSharedComponent = true; x.Id = item.Id; });
                                 this.ExecutionSequence = es;
@@ -208,7 +222,17 @@ namespace Elephant.Hank.Framework.TestDataServices
                                     testDataDtoForSharedWebsiteTest.Insert(0, dummyStep);
                                 }
 
-                                this.ProcessTestQueueExecutableData(testDataDtoForSharedWebsiteTest, testQueue);
+                                if (testDataDtoForSharedWebsiteTest.Any())
+                                {
+                                    testDataDtoForSharedWebsiteTest.Add(new TblTestDataDto
+                                    {
+                                        ActionValue = this.actionService.GetById(ActionConstants.Instance.LoadNewUrlActionId).Item.Value,
+                                        ActionId = ActionConstants.Instance.LoadNewUrlActionId,
+                                        Value = "ind#" + deepIndex
+                                    });
+                                }
+
+                                this.ProcessTestQueueExecutableData(testDataDtoForSharedWebsiteTest, testQueue, deepIndex + 1);
                                 break;
                             }
                     }
@@ -330,41 +354,43 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <param name="executableTestData">The executable test data.</param>
         /// <param name="userId">The user identifier.</param>
         /// <returns>incremented value</returns>
-        public ResultMessage<string> UpdateAutoIncrement(ExecutableTestData executableTestData, long userId)
+        public async Task<ResultMessage<string>> UpdateAutoIncrement(ExecutableTestData executableTestData, long userId)
         {
             var result = new ResultMessage<string>();
-
-            if (executableTestData.SharedTestDataId > 0)
+            lock (this.thisLock)
             {
-                ResultMessage<TblLnkTestDataSharedTestDataDto> lnkTestDataSharedTestdata = this.testDataSharedTestDataMapService.GetByTestDataIdAndSharedTestDataId(executableTestData.Id, executableTestData.SharedTestDataId);
-
-                if (!lnkTestDataSharedTestdata.IsError)
+                if (executableTestData.SharedTestDataId > 0)
                 {
-                    if (lnkTestDataSharedTestdata.Item.NewValue != string.Empty)
+                    ResultMessage<TblLnkTestDataSharedTestDataDto> lnkTestDataSharedTestdata = this.testDataSharedTestDataMapService.GetByTestDataIdAndSharedTestDataId(executableTestData.Id, executableTestData.SharedTestDataId);
+
+                    if (!lnkTestDataSharedTestdata.IsError)
                     {
-                        result.Item = this.GetAutoIncrementValue(lnkTestDataSharedTestdata.Item.NewValue);
-                        lnkTestDataSharedTestdata.Item.NewValue = "#autoincrement#" + result.Item;
-                        this.testDataSharedTestDataMapService.SaveOrUpdate(lnkTestDataSharedTestdata.Item, userId);
-                    }
-                    else
-                    {
-                        ResultMessage<TblSharedTestDataDto> sharedTestData = this.sharedTestDataService.GetById(executableTestData.SharedTestDataId);
-                        if (!sharedTestData.IsError)
+                        if (lnkTestDataSharedTestdata.Item.NewValue != string.Empty)
                         {
-                            result.Item = this.GetAutoIncrementValue(sharedTestData.Item.Value);
-                            sharedTestData.Item.Value = "#autoincrement#" + result.Item;
-                            this.sharedTestDataService.SaveOrUpdate(sharedTestData.Item, userId);
+                            result.Item = this.GetAutoIncrementValue(lnkTestDataSharedTestdata.Item.NewValue);
+                            lnkTestDataSharedTestdata.Item.NewValue = "#autoincrement#" + result.Item;
+                            this.testDataSharedTestDataMapService.SaveOrUpdate(lnkTestDataSharedTestdata.Item, userId);
+                        }
+                        else
+                        {
+                            ResultMessage<TblSharedTestDataDto> sharedTestData = this.sharedTestDataService.GetById(executableTestData.SharedTestDataId);
+                            if (!sharedTestData.IsError)
+                            {
+                                result.Item = this.GetAutoIncrementValue(sharedTestData.Item.Value);
+                                sharedTestData.Item.Value = "#autoincrement#" + result.Item;
+                                this.sharedTestDataService.SaveOrUpdate(sharedTestData.Item, userId);
+                            }
                         }
                     }
                 }
-            }
-            else
-            {
-                TblTestData testData = this.table.Find(x => x.Id == executableTestData.Id).FirstOrDefault();
-                result.Item = this.GetAutoIncrementValue(testData.Value);
-                testData.Value = "#autoincrement#" + result.Item;
-                this.table.Update(testData);
-                this.table.Commit();
+                else
+                {
+                    TblTestData testData = this.table.Find(x => x.Id == executableTestData.Id).FirstOrDefault();
+                    result.Item = this.GetAutoIncrementValue(testData.Value);
+                    testData.Value = "#autoincrement#" + result.Item;
+                    this.table.Update(testData);
+                    this.table.Commit();
+                }
             }
 
             return result;
@@ -419,15 +445,7 @@ namespace Elephant.Hank.Framework.TestDataServices
 
             string[] splittedValue = val.Split('#');
 
-            int randomStringLength = 0;
-            try
-            {
-                randomStringLength = splittedValue[0].Trim() == string.Empty ? 10 : int.Parse(splittedValue[0]);
-            }
-            catch
-            {
-                randomStringLength = 10;
-            }
+            long randomStringLength = splittedValue[0].ToInt32(10);
 
             if (splittedValue.Length > 1)
             {
@@ -463,7 +481,7 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <param name="type">The autogen type.</param>
         /// <param name="length">The lenth of auto gen string generated.</param>
         /// <returns>string Random value</returns>
-        private string GenerateAutoString(string preFix, string type, int length)
+        private string GenerateAutoString(string preFix, string type, long length)
         {
             char[] charArr;
 

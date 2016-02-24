@@ -13,6 +13,7 @@ namespace Elephant.Hank.Api.Controllers
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using System.Web.Http;
 
     using Elephant.Hank.Api.Security;
@@ -32,11 +33,6 @@ namespace Elephant.Hank.Api.Controllers
     [RoutePrefix("api/website/{websiteId}/test-queue")]
     public class TestQueueController : BaseApiController
     {
-        /// <summary>
-        /// The lock
-        /// </summary>
-        private static object locke = new object();
-
         /// <summary>
         /// The testQueueService service
         /// </summary>
@@ -224,23 +220,20 @@ namespace Elephant.Hank.Api.Controllers
         [Route("auto-increment")]
         [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.TestScripts)]
         [HttpPost]
-        public IHttpActionResult UpdateAutoIncrement(ExecutableTestData executableTestData)
+        public async Task<IHttpActionResult> UpdateAutoIncrement(ExecutableTestData executableTestData)
         {
-            lock (locke)
+            var result = new ResultMessage<string>();
+            try
             {
-                var result = new ResultMessage<string>();
-                try
-                {
-                    result = this.testQueueExecutableService.UpdateAutoIncrement(executableTestData, this.UserId);
-                }
-                catch (Exception ex)
-                {
-                    this.LoggerService.LogException(ex);
-                    result.Messages.Add(new Message(null, ex.Message));
-                }
-
-                return this.CreateCustomResponse(result);
+                result = await this.testQueueExecutableService.UpdateAutoIncrement(executableTestData, this.UserId);
             }
+            catch (Exception ex)
+            {
+                this.LoggerService.LogException(ex);
+                result.Messages.Add(new Message(null, ex.Message));
+            }
+
+            return this.CreateCustomResponse(result);
         }
 
         /// <summary>

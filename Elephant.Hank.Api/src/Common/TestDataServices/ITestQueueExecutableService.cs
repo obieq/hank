@@ -11,6 +11,8 @@
 
 namespace Elephant.Hank.Common.TestDataServices
 {
+    using System.Threading.Tasks;
+
     using Elephant.Hank.Resources.Messages;
     using Elephant.Hank.Resources.Models;
     using Elephant.Hank.Resources.ViewModal;
@@ -33,6 +35,6 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <param name="executableTestData">The executable test data.</param>
         /// <param name="userId">The user identifier.</param>
         /// <returns>incremented value</returns>
-        ResultMessage<string> UpdateAutoIncrement(ExecutableTestData executableTestData, long userId);
+        Task<ResultMessage<string>> UpdateAutoIncrement(ExecutableTestData executableTestData, long userId);
     }
 }

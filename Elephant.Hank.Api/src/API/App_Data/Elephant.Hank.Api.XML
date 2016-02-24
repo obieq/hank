@@ -3047,11 +3047,6 @@
             The TestQueueController class
             </summary>
         </member>
-        <member name="F:Elephant.Hank.Api.Controllers.TestQueueController.locke">
-            <summary>
-            The lock
-            </summary>
-        </member>
         <member name="F:Elephant.Hank.Api.Controllers.TestQueueController.testQueueService">
             <summary>
             The testQueueService service

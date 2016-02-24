@@ -43,10 +43,25 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
     $scope.PagesList = [];
     $scope.DisplayNameList = [];
     $scope.ActionList = [];
-    $scope.StepTypes = null;
+
+    $scope.StepTypeCodes = ngAppSettings.StepTypes;
+
+    $scope.StepTypes = [{
+      'Id': 0,
+      'Type': 'Test Step'
+    }, {
+      'Id': 1,
+      'Type': 'Shared Test Step'
+    }, {
+      'Id': 2,
+      'Type': 'Website Test Step'
+    }, {
+      'Id': 3,
+      'Type': 'SQL Test Step'
+    }];
+
     $scope.WebsiteList = [];
     $scope.TestList = [];
-    $scope.StepTypes = ngAppSettings.StepTypes;
     $scope.VariableList = [];
     $scope.DataBaseCategories = [];
 
@@ -101,7 +116,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
     $scope.onLoadList = function () {
       $scope.loadDataForList().then(function () {
         for (var i = 0; i < $scope.TestDataList.length; i++) {
-          if ($scope.TestDataList[i].LinkTestType == $scope.StepTypes.SharedTestStep) {
+          if ($scope.TestDataList[i].LinkTestType == ngAppSettings.StepTypes.SharedTestStep) {
             $scope.TestDataList[i].rowStyle = 'background-color: #dcdcdc;';
             for (var j = 0; j < $scope.TestDataList[i].SharedTest.SharedTestDataList.length; j++) {
               var lnkSharedStep = _.where($scope.TestDataList[i].SharedTestSteps, {'SharedTestDataId': $scope.TestDataList[i].SharedTest.SharedTestDataList[j].Id})[0];
@@ -115,7 +130,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
               }
             }
           }
-          else if ($scope.TestDataList[i].LinkTestType == $scope.StepTypes.WebsiteTestStep) {
+          else if ($scope.TestDataList[i].LinkTestType == ngAppSettings.StepTypes.WebsiteTestStep) {
             $scope.TestDataList[i].rowStyle = 'background-color: #FFFFBA;';
           }
           $scope.TestDataList[i].ShowSharedTest = false;
@@ -125,40 +140,12 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
     };
 
     $scope.onLoadAdd = function () {
-      $scope.loadDataForAdd().then(function () {
-        $scope.StepTypes = [{
-          'Id': 0,
-          'Type': 'Test Step'
-        }, {
-          'Id': 1,
-          'Type': 'Shared Test Step'
-        }, {
-          'Id': 2,
-          'Type': 'Website Test Step'
-        }, {
-          'Id': 3,
-          'Type': 'SQL Test Step'
-        }
-        ];
-      });
+      $scope.loadDataForAdd();
     };
 
     $scope.onLoadEdit = function () {
       $scope.resetAllInputControlDisplayStatus();
       $scope.loadDataForEdit().then(function () {
-        $scope.StepTypes = [{
-          'Id': 0,
-          'Type': 'Test Step'
-        }, {
-          'Id': 1,
-          'Type': 'Shared Test Step'
-        }, {
-          'Id': 2,
-          'Type': 'Website Test Step'
-        }, {
-          'Id': 3,
-          'Type': 'SQL Test Step'
-        }];
         switch ($scope.TestData.LinkTestType) {
           case 0:
           {

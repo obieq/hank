@@ -226,21 +226,14 @@ var InputHelper = function () {
           case actionConstant.SetText:
           {
             if (testInstance.VariableName.trim() == '') {
-              //this.setText(testInstance.ExecutionSequence, key, testInstance.Value, undefined, undefined, testInstance);
-              console.log("outside starts with");
               var splitedvalue = testInstance.Value.split("#");
-              console.log("outside starts with 1 length=" + splitedvalue.length);
-              if (splitedvalue.length > 1) {
-                console.log("outside starts with 1 splitedvalue[1]=" + splitedvalue[1]);
-                if (splitedvalue[1] == "autoincrement") {
-                  console.log("inside starts with");
-                  browser.getCurrentUrl().then(function (Url) {
-                    jsonHelper.executeAutoIncrement(testInstance).then(function (response) {
-                      testInstance.Value = response;
-                      thisobj.setText(testInstance.ExecutionSequence, key, testInstance.Value, undefined, undefined, testInstance);
-                    });
+              if (splitedvalue.length > 1 && splitedvalue[1] == "autoincrement") {
+                browser.getCurrentUrl().then(function (Url) {
+                  jsonHelper.executeAutoIncrement(testInstance).then(function (response) {
+                    testInstance.Value = response;
+                    thisobj.setText(testInstance.ExecutionSequence, key, testInstance.Value, undefined, undefined, testInstance);
                   });
-                }
+                });
               }
               else {
                 this.setText(testInstance.ExecutionSequence, key, testInstance.Value, undefined, undefined, testInstance);
@@ -446,10 +439,22 @@ var InputHelper = function () {
 
           case actionConstant.LoadNewUrl:
           {
-            browser.executeScript('window.onbeforeunload = null');
-            browser.ignoreSynchronization = true;
-            browser.get(testInstance.Value).then(function () {
-              browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
+            browser.getCurrentUrl().then(function(curUrl){
+
+              if(testInstance.Value.indexOf("ind#") == 0){
+                var index = testInstance.Value.split('#')[1];
+                testInstance.Value = browser.params.config.urlStack[index];
+                browser.params.config.urlStack.splice(index, 1);
+              }
+              else{
+                browser.params.config.urlStack.push(curUrl);
+              }
+
+              browser.executeScript('window.onbeforeunload = null');
+              browser.ignoreSynchronization = true;
+              browser.get(testInstance.Value).then(function () {
+                browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
+              });
             });
             break;
           }

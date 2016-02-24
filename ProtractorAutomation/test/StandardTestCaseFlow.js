@@ -61,6 +61,9 @@ var StandardTestCaseFlow =
               params.config.descriptionArray.push("Start test " + params.config.TestQueueId);
               params.config.descriptionArray.push('Elephant.com');
               params.config.descriptionArray.push(testCase.TestName);
+
+              params.config.urlStack = [];
+
               try {
                 browser.ignoreSynchronization = website.IsAngular == false;
 

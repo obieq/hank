@@ -48,8 +48,23 @@ namespace Elephant.Hank.Resources.Extensions
         /// <returns>Int value</returns>
         public static int ToInt32(this string value)
         {
+            return value.ToInt32(0);
+        }
+
+        /// <summary>
+        /// To the int32.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>int value</returns>
+        public static int ToInt32(this string value, int defaultValue)
+        {
             int retValue;
-            int.TryParse(value, out retValue);
+
+            if (!int.TryParse(value, out retValue))
+            {
+                retValue = defaultValue;
+            }
 
             return retValue;
         }
