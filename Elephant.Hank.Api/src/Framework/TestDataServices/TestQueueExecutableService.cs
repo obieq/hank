@@ -382,6 +382,16 @@ namespace Elephant.Hank.Framework.TestDataServices
                             }
                         }
                     }
+                    else
+                    {
+                        ResultMessage<TblSharedTestDataDto> sharedTestData = this.sharedTestDataService.GetById(executableTestData.SharedTestDataId);
+                        if (!sharedTestData.IsError)
+                        {
+                            result.Item = this.GetAutoIncrementValue(sharedTestData.Item.Value);
+                            sharedTestData.Item.Value = "#autoincrement#" + result.Item;
+                            this.sharedTestDataService.SaveOrUpdate(sharedTestData.Item, userId);
+                        }
+                    }
                 }
                 else
                 {
