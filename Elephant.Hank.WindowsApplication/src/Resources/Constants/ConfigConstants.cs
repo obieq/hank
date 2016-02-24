@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------
 // <copyright file="ConfigConstants.cs" company="Elephant Insurance Services, LLC">
 //     Copyright (c) 2015 All Right Reserved
 // </copyright>
@@ -22,8 +22,8 @@ namespace Elephant.Hank.WindowsApplication.Resources.Constants
         public const string EnvironmentName = "EnvironmentName";
 
         /// <summary>
-        /// The cc to
+        /// The bcc to
         /// </summary>
-        public const string CcTo = "CcTo";
+        public const string BccTo = "BccTo";
     }
 }
