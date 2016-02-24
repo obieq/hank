@@ -39,7 +39,7 @@ app.controller('NavCtrl', ['$scope', '$state', 'authService', '$stateParams', '$
       return state.indexOf(targetState[matchIndex]) == 0 ? "active" : "";
     };
 
-    $scope.IsAccessible= function () {
+    $scope.IsAccessible = function () {
 
     };
 
@@ -69,7 +69,9 @@ app.controller('NavCtrl', ['$scope', '$state', 'authService', '$stateParams', '$
             redirectSate = $scope.RoleDefaultStateMapping[mappedObj].StateName;
           }
           if (redirectSate != to.name) {
-            setTimeout(function(){$state.go(redirectSate);}, 200);
+            setTimeout(function () {
+              $state.go(redirectSate);
+            }, 200);
           }
         }
       }

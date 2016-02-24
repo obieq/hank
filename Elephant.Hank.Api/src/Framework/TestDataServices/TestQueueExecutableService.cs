@@ -377,8 +377,8 @@ namespace Elephant.Hank.Framework.TestDataServices
                             if (!sharedTestData.IsError)
                             {
                                 result.Item = this.GetAutoIncrementValue(sharedTestData.Item.Value);
-                                sharedTestData.Item.Value = "#autoincrement#" + result.Item;
-                                this.sharedTestDataService.SaveOrUpdate(sharedTestData.Item, userId);
+                                lnkTestDataSharedTestdata.Item.NewValue = "#autoincrement#" + result.Item;
+                                this.testDataSharedTestDataMapService.SaveOrUpdate(lnkTestDataSharedTestdata.Item, userId);
                             }
                         }
                     }
@@ -388,8 +388,8 @@ namespace Elephant.Hank.Framework.TestDataServices
                         if (!sharedTestData.IsError)
                         {
                             result.Item = this.GetAutoIncrementValue(sharedTestData.Item.Value);
-                            sharedTestData.Item.Value = "#autoincrement#" + result.Item;
-                            this.sharedTestDataService.SaveOrUpdate(sharedTestData.Item, userId);
+                            TblLnkTestDataSharedTestDataDto testDataSharedTestData = new TblLnkTestDataSharedTestDataDto { NewValue = "#autoincrement#" + result.Item, SharedTestDataId = sharedTestData.Item.Id, TestDataId = executableTestData.Id, ModifiedBy = userId, CreatedBy = userId };
+                            this.testDataSharedTestDataMapService.SaveOrUpdate(testDataSharedTestData, userId);
                         }
                     }
                 }
