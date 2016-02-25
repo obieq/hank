@@ -58,22 +58,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/19/2016 19:48:02</publishTime>
     </File>
     <File Include="bin/Elephant.Hank.Api.dll">
-      <publishTime>02/24/2016 15:08:04</publishTime>
+      <publishTime>02/25/2016 13:59:06</publishTime>
     </File>
     <File Include="bin/Elephant.Hank.Api.XML">
-      <publishTime>02/24/2016 15:08:04</publishTime>
+      <publishTime>02/25/2016 13:59:06</publishTime>
     </File>
     <File Include="bin/Elephant.Hank.Common.dll">
-      <publishTime>02/24/2016 15:08:01</publishTime>
+      <publishTime>02/25/2016 13:59:04</publishTime>
     </File>
     <File Include="bin/Elephant.Hank.DataService.dll">
-      <publishTime>02/24/2016 15:08:01</publishTime>
+      <publishTime>02/25/2016 13:59:05</publishTime>
     </File>
     <File Include="bin/Elephant.Hank.Framework.dll">
-      <publishTime>02/24/2016 15:08:02</publishTime>
+      <publishTime>02/25/2016 13:59:05</publishTime>
     </File>
     <File Include="bin/Elephant.Hank.Resources.dll">
-      <publishTime>02/24/2016 15:07:59</publishTime>
+      <publishTime>02/25/2016 13:59:03</publishTime>
     </File>
     <File Include="bin/Elephant.Protractor.Testing.Api.dll">
       <publishTime>11/24/2015 12:35:11</publishTime>

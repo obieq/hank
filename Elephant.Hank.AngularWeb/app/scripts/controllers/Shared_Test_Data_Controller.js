@@ -219,6 +219,10 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
       if ($stateParams.ExecutionSequence < $scope.SharedTestData.ExecutionSequence) {
         $scope.SharedTestData.ExecutionSequence = $stateParams.ExecutionSequence;
       }
+
+      $scope.SharedTestData.PageId = $scope.InputControlDisplayStatus.ddlPage ? $scope.SharedTestData.PageId : 0;
+      $scope.SharedTestData.LocatorIdentifierId = $scope.InputControlDisplayStatus.ddlDisplayName ? $scope.SharedTestData.LocatorIdentifierId : null;
+
       crudService.update(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.WebsiteId,$stateParams.SharedTestId), $scope.SharedTestData).then(function (response) {
         $state.go("Website.SharedTestData", {
           WebsiteId: $scope.stateParamWebsiteId,
