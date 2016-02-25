@@ -26,6 +26,7 @@
               <th>Id</th>
               <th>Value</th>
               <th>Website</th>
+              <th class="col-md-6">Description</th>
               <th ng-if="Authentication.CanWrite"></th>
             </tr>
             </thead>
@@ -36,6 +37,7 @@
                 <a ui-sref="Website.PagesLocatorIdentifier({ WebsiteId: stateParamWebsiteId, PageId: page.Id })">{{page.Value}}</a>
               </td>
               <td>{{page.WebsiteName}}</td>
+              <td>{{page.Description}}</td>
               <td ng-if="Authentication.CanWrite">
                 <a  ui-sref="Website.PagesUpdate({ WebsiteId: stateParamWebsiteId, PageId: page.Id })">Edit</a>
               </td>

@@ -30,5 +30,10 @@ namespace Elephant.Hank.Resources.Dto
         /// Gets or sets the website.
         /// </summary>
         public string WebsiteName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        public string Description { get; set; }
     }
 }

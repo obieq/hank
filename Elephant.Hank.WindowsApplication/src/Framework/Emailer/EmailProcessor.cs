@@ -20,6 +20,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Emailer
     using Elephant.Hank.WindowsApplication.Framework.Helpers;
     using Elephant.Hank.WindowsApplication.Resources.ApiModels.Enum;
     using Elephant.Hank.WindowsApplication.Resources.Constants;
+    using Elephant.Hank.WindowsApplication.Resources.Extensions;
     using Elephant.Hank.WindowsApplication.Resources.Models;
 
     /// <summary>
@@ -85,6 +86,11 @@ namespace Elephant.Hank.WindowsApplication.Framework.Emailer
                 subject = "Not able to generate! ";
                 toEmailId = Properties.Settings.Default.FaultedEmailId;
                 result = SchedulerHistoryEmailStatus.SendException;
+            }
+
+            if (toEmailId.IsBlank())
+            {
+                toEmailId = Properties.Settings.Default.FaultedEmailId;
             }
 
             var bccTo = ConfigurationManager.AppSettings[ConfigConstants.BccTo].ToEmailArray();

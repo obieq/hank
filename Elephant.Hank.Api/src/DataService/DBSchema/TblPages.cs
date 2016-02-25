@@ -12,7 +12,6 @@
 namespace Elephant.Hank.DataService.DBSchema
 {
     using System.ComponentModel.DataAnnotations.Schema;
-    using Elephant.Hank.Resources.Attributes;
 
     /// <summary>
     /// The TblPages class
@@ -28,6 +27,11 @@ namespace Elephant.Hank.DataService.DBSchema
         /// Gets or sets the website identifier.
         /// </summary>
         public long WebsiteId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        public string Description { get; set; }
 
         /// <summary>
         /// Gets or sets the website.

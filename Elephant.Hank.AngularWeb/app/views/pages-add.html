@@ -35,10 +35,18 @@
 
               <div class="col-sm-4">
                 <input type="text" class="form-control" ng-model="Page.Value" name="Value" placeholder="Value" required>
-       <span ng-show="PagesForm.Value.$touched || PagesForm.$submitted">
-        <small class="help-block" ng-show="PagesForm.Value.$error.required" style="color:red">Please enter value.
-        </small>
-        </span>
+                <span ng-show="PagesForm.Value.$touched || PagesForm.$submitted">
+                  <small class="help-block" ng-show="PagesForm.Value.$error.required" style="color:red">Please enter value.</small>
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Description</label>
+
+              <div class="col-sm-4">
+                <textarea type="text" class="form-control ng-pristine ng-valid ng-touched" ng-model="Page.Description"
+                          name="Description" placeholder="Description"></textarea>
               </div>
             </div>
 

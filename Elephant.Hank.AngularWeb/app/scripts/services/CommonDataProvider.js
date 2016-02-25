@@ -3,8 +3,8 @@
  */
 
 'use strict';
-app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettings', 'CrudService', 'localStorageService', 'authService',
-  function ($localStorage, $stateParams, ngAppSettings, crudService, localStorageService, authService) {
+app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettings', 'CrudService', 'localStorageService', 'authService', 'CommonUiService',
+  function ($localStorage, $stateParams, ngAppSettings, crudService, localStorageService, authService, commonUi) {
     return {
       currentWebSite: function ($scope) {
         var storage = $localStorage.$default({CurrentWebSite: {Id: 0}});
@@ -36,7 +36,7 @@ app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettin
           storage.CurrentTestCat.Id = 0;
         }
 
-        if (storage.CurrentTestCat.Id == 0 || storage.CurrentTestCat.Id != $stateParams.TestCatId) {
+        if ((storage.CurrentTestCat.Id == 0 || storage.CurrentTestCat.Id != $stateParams.TestCatId)) {
           crudService.getById(ngAppSettings.TestCatUrl.format($stateParams.WebsiteId), $stateParams.TestCatId).then(function (response) {
               storage.CurrentTestCat = response.Item;
               storage.CurrentTestCat.timestamp = new Date().getTime();
@@ -46,6 +46,7 @@ app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettin
             }
             , function (response) {
               storage.CurrentTestCat.Id = 0;
+              $scope.TestCat.Name = "View All";
             });
         }
 
@@ -82,20 +83,20 @@ app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettin
         /*  if(storage.CurrentTest.timestamp && new Date().getTime() > (storage.CurrentTest.timestamp + storage.CurrentTest.expireTimeInMilliseconds))
          {
          storage.CurrentTest.Id = 0;
-         }
+         }*/
 
-         if(storage.CurrentTest.Id == 0 || storage.CurrentTest.Id != $stateParams.TestId )
-         {*/
-        crudService.getById(ngAppSettings.TestUrl.format($stateParams.WebsiteId, $stateParams.TestCatId), $stateParams.TestId).then(function (response) {
-            storage.CurrentTest = response.Item;
-            storage.CurrentTest.timestamp = new Date().getTime();
-            storage.CurrentTest.expireTimeInMilliseconds = ngAppSettings.StorageTimeOut;
-            $scope.Test = storage.CurrentTest;
-          }
-          , function (response) {
-            commonUi.showErrorPopup(response);
-          });
-        //}
+         if($stateParams.TestCatId && $stateParams.TestCatId != 0)
+         {
+            crudService.getById(ngAppSettings.TestUrl.format($stateParams.WebsiteId, $stateParams.TestCatId), $stateParams.TestId).then(function (response) {
+                storage.CurrentTest = response.Item;
+                storage.CurrentTest.timestamp = new Date().getTime();
+                storage.CurrentTest.expireTimeInMilliseconds = ngAppSettings.StorageTimeOut;
+                $scope.Test = storage.CurrentTest;
+              }
+              , function (response) {
+                commonUi.showErrorPopup(response);
+              });
+        }
       },
 
       currentSharedTest: function ($scope) {

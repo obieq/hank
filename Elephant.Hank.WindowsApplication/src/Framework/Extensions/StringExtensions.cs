@@ -11,7 +11,7 @@
 
 namespace Elephant.Hank.WindowsApplication.Framework.Extensions
 {
-    using System;
+    using Elephant.Hank.WindowsApplication.Resources.Extensions;
 
     /// <summary>
     /// The StringExtensions class
@@ -55,7 +55,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Extensions
         /// <returns>Email array</returns>
         public static string[] ToEmailArray(this string value)
         {
-            if (!string.IsNullOrWhiteSpace(value))
+            if (value.IsNotBlank())
             {
                 return value.Replace(",", ";").Split(';');
             }

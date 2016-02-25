@@ -63,7 +63,7 @@
                 <a ng-if="Authentication.CanWrite"
                   ui-sref="Website.SharedTestDataUpdate({WebsiteId: stateParamWebsiteId, SharedTestId: SharedTest.Id, TestDataId: sharedTestData.Id })">Update</a>
                 <span>|</span>
-                <a ng-if="Authentication.CanDelete" ng-click="deleteSharedTestData('{{sharedTestData.Id}}')" href="#" onclick="return false;">Delete</a>
+                <a ng-if="Authentication.CanDelete" ng-click="deleteSharedTestData(sharedTestData.Id)" href="#" onclick="return false;">Delete</a>
               </td>
             </tr>
             </tbody>

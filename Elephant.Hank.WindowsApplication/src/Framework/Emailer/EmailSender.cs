@@ -17,6 +17,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Emailer
 
     using Elephant.Hank.WindowsApplication.Framework.Helpers;
     using Elephant.Hank.WindowsApplication.Resources.ApiModels.Enum;
+    using Elephant.Hank.WindowsApplication.Resources.Extensions;
 
     /// <summary>
     /// The EmailSender class
@@ -49,7 +50,10 @@ namespace Elephant.Hank.WindowsApplication.Framework.Emailer
                 {
                     try
                     {
-                        mail.To.Add(toAddress);
+                        if (toAddress.IsNotBlank())
+                        {
+                            mail.To.Add(toAddress);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -64,7 +68,10 @@ namespace Elephant.Hank.WindowsApplication.Framework.Emailer
                     {
                         try
                         {
-                            mail.Bcc.Add(bccEmailId);
+                            if (bccEmailId.IsNotBlank())
+                            {
+                                mail.Bcc.Add(bccEmailId);
+                            }
                         }
                         catch (Exception ex)
                         {
