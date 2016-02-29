@@ -36,11 +36,75 @@ var JsonHelper = function () {
   };
 
   this.GetIndexedVariableValueFromVariableContainer = function (varName) {
-    var res = varName.substring(0, varName.indexOf('['));
-    for (var m = 0; m < browser.params.config.variableContainer.length; m++) {
-      if (browser.params.config.variableContainer[m].Name == res) {
-        browser.params.config.variableContainer[m].JsonValue = JSON.parse(browser.params.config.variableContainer[m].Value);
-        return eval("browser.params.config.variableContainer[m].JsonValue" + varName.substring(varName.indexOf('[')));
+    varName = varName || "";
+
+    var indexes = varName.match(/\[(.*?)\]/g) || [];
+
+    for(var i = 0; i < indexes.length; i++){
+      indexes[i] = indexes[i].replace("[", "").replace("]", "");
+    }
+
+    if(indexes.length > 0){
+      var res = varName.substring(0, varName.indexOf('['));
+      for (var m = 0; m < browser.params.config.variableContainer.length; m++) {
+        if (browser.params.config.variableContainer[m].Name == res) {
+          browser.params.config.variableContainer[m].JsonValue = JSON.parse(browser.params.config.variableContainer[m].Value);
+
+          var aryData = browser.params.config.variableContainer[m].JsonValue;
+
+          var idxRow = indexes[0] || "0";
+          var idxCol = indexes.length > 1 ? indexes[1] : undefined;
+
+          var idxRowVal = idxRow;
+          var idxColVal = idxCol;
+
+          if(isNaN(idxRow) && idxCol && isNaN(idxCol)) {
+            for (var i = 0; i < aryData.length; i++) {
+              if (aryData[0][i] == idxRow) {
+                idxColVal = i;
+                break;
+              }
+            }
+
+            idxColVal = isNaN(idxColVal) ? "-1" : idxColVal;
+
+            for (var i = 0; i < aryData.length; i++) {
+              if (aryData[i][idxColVal] == idxCol) {
+                idxRowVal = i;
+                break;
+              }
+            }
+
+            idxColVal = isNaN(idxRowVal) ? "-1" : idxColVal;
+            idxRowVal = isNaN(idxRowVal) ? "0" : idxRowVal;
+          }
+
+          if(isNaN(idxRow) && isNaN(idxRowVal)) {
+            for(var i = 0; i < aryData.length; i++) {
+              if(aryData[0][i] == idxRow){
+                idxRowVal = i;
+                break;
+              }
+            }
+          }
+
+          if(idxCol && isNaN(idxCol) && isNaN(idxColVal) && aryData[idxRowVal] != undefined) {
+            for(var i = 0; i < aryData[0].length; i++) {
+              if(aryData[0][i] == idxCol){
+                idxColVal = i;
+                break;
+              }
+            }
+          }
+
+          idxColVal = isNaN(idxColVal) ? "-1" : idxColVal;
+          idxRowVal = isNaN(idxRowVal) ? "0" : idxRowVal;
+
+          varName = varName.replace(idxCol, idxColVal);
+          varName = varName.replace(idxRow, idxRowVal);
+
+          return eval("browser.params.config.variableContainer[m].JsonValue" + varName.substring(varName.indexOf('[')));
+        }
       }
     }
   };

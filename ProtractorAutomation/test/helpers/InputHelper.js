@@ -608,11 +608,8 @@ var InputHelper = function () {
 
   this.SetSharedVariable = function (executionSequence, key, value, displayName) {
     thisobj.GetText(key, function (text) {
-      var variableContainer = browser.params.config.variableContainer;
-      for (var k = 0; k < variableContainer.length; k++) {
-      }
       thisobj.setVariable(executionSequence, value, text, displayName);
-    });
+    }, true);
   };
 
 
@@ -654,7 +651,7 @@ var InputHelper = function () {
     });
   };
 
-  this.GetText = function (key, onSuccess) {
+  this.GetText = function (key, onSuccess, isSetVar) {
     key.getTagName().then(function (tagName) {
       tagName = (tagName + "").toLowerCase();
       if (tagName == "input" || tagName == "textarea") {
@@ -665,6 +662,19 @@ var InputHelper = function () {
       else if (tagName == "select") {
         key.$('option:checked').getText().then(function (optionText) {
           onSuccess(optionText);
+        });
+      }
+      else if (tagName == "table" && isSetVar) {
+        var tblData = [];
+        key.all(by.tagName('tr')).each(function(trEle, trInd) {
+          tblData[trInd] = [];
+          trEle.all(by.tagName('td')).each(function(tdEle, tdInd) {
+            tdEle.getText().then(function (text) {
+              tblData[trInd][tdInd] = text;
+            });
+          });
+        }).then(function(){
+          onSuccess(JSON.stringify(tblData));
         });
       }
       else {
