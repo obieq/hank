@@ -52,24 +52,59 @@ var JsonHelper = function () {
 
           var aryData = browser.params.config.variableContainer[m].JsonValue;
 
+          if(aryData == undefined || aryData[0] == undefined){ return undefined; }
+
           var idxRow = indexes[0] || "0";
           var idxCol = indexes.length > 1 ? indexes[1] : undefined;
 
           var idxRowVal = idxRow;
           var idxColVal = idxCol;
 
-          if(isNaN(idxRow) && idxCol && isNaN(idxCol)) {
-            for (var i = 0; i < aryData.length; i++) {
-              if (aryData[0][i] == idxRow) {
-                idxColVal = i;
+          if(isNaN(idxRow) && indexes.length == 1){
+            var rowIndex = -1;
+            var tmpColIndex = -1;
+            var searchData = idxRow.split(";");
+            var colNameValuePair = [];
+
+            idxCol = "idxCol";
+            varName += "[idxCol]";
+
+            for(var i = 0; i < searchData.length; i++){
+              var tmpData = searchData[i].split('#');
+              colNameValuePair.push({ ColIndex: this.inArray(aryData[0], tmpData[0], true), Value: tmpData[1] });
+            }
+
+            var isMatchFound = false;
+            for(var i = 0; i < aryData.length; i++){
+              isMatchFound = true;
+              for(var j = 0; j < colNameValuePair.length; j++){
+                if(colNameValuePair[j].Value && colNameValuePair[j].Value.toLowerCase() != aryData[i][colNameValuePair[j].ColIndex].toLowerCase()){
+                  isMatchFound = false;
+                  break;
+                }
+              }
+
+              if(isMatchFound){
+                rowIndex = i;
+                tmpColIndex = colNameValuePair[colNameValuePair.length - 1].ColIndex;
                 break;
               }
             }
 
-            idxColVal = isNaN(idxColVal) ? "-1" : idxColVal;
+            idxRowVal = rowIndex;
+            idxColVal = tmpColIndex;
+
+            if(rowIndex == -1){
+              idxRowVal = 0;
+              idxColVal = -1;
+            }
+          }
+
+          if(isNaN(idxRow) && isNaN(idxRowVal) && idxCol && isNaN(idxCol)) {
+            idxColVal = this.inArray(aryData[0], idxRow, true);
 
             for (var i = 0; i < aryData.length; i++) {
-              if (aryData[i][idxColVal] == idxCol) {
+              if (aryData[i][idxColVal].toLowerCase() == idxCol.toLowerCase()) {
                 idxRowVal = i;
                 break;
               }
@@ -80,21 +115,11 @@ var JsonHelper = function () {
           }
 
           if(isNaN(idxRow) && isNaN(idxRowVal)) {
-            for(var i = 0; i < aryData.length; i++) {
-              if(aryData[0][i] == idxRow){
-                idxRowVal = i;
-                break;
-              }
-            }
+            idxRowVal = this.inArray(aryData[0], idxRow, true);
           }
 
           if(idxCol && isNaN(idxCol) && isNaN(idxColVal) && aryData[idxRowVal] != undefined) {
-            for(var i = 0; i < aryData[0].length; i++) {
-              if(aryData[0][i] == idxCol){
-                idxColVal = i;
-                break;
-              }
-            }
+            idxColVal = this.inArray(aryData[0], idxCol, true);
           }
 
           idxColVal = isNaN(idxColVal) ? "-1" : idxColVal;
@@ -103,7 +128,7 @@ var JsonHelper = function () {
           varName = varName.replace(idxCol, idxColVal);
           varName = varName.replace(idxRow, idxRowVal);
 
-          return eval("browser.params.config.variableContainer[m].JsonValue" + varName.substring(varName.indexOf('[')));
+          return eval("aryData" + varName.substring(varName.indexOf('[')));
         }
       }
     }
@@ -189,7 +214,6 @@ var JsonHelper = function () {
     }
     return retIndex;
   };
-
 
   this.buildPath = function (reportPath, descriptions, capabilities) {
     var date = new Date();
