@@ -128,6 +128,8 @@ var JsonHelper = function () {
           varName = varName.replace(idxCol, idxColVal);
           varName = varName.replace(idxRow, idxRowVal);
 
+          console.log("Final variable:", varName)
+
           return eval("aryData" + varName.substring(varName.indexOf('[')));
         }
       }
