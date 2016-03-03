@@ -107,6 +107,10 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
             $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
             $scope.InputControlDisplayStatus.ddlDisplayName = true;
           }
+          else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SendKeyActionId && $scope.SharedTestData.LocatorIdentifierId == undefined) {
+            $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
+            $scope.InputControlDisplayStatus.txtValue = true;
+          }
           else {
             $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
             $scope.InputControlDisplayStatus.txtValue = true;
@@ -157,6 +161,17 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
           $scope.PagesList = response;
           $scope.InputControlDisplayStatus.ddlPage = true;
           $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
+        }, function (response) {
+          commonUi.showErrorPopup(response);
+        });
+      }
+      else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SendKeyActionId) {
+
+        crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
+          $scope.PagesList = response;
+          $scope.InputControlDisplayStatus.txtValue = true;
+          $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
+
         }, function (response) {
           commonUi.showErrorPopup(response);
         });

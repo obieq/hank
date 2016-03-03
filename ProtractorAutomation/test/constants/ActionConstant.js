@@ -32,5 +32,9 @@ var ActionConstant = function () {
   this.SwitchToWindow = 'Switch To Window';
   this.ScrollToTop = "Scroll To Top";
   this.ScrollToBottom = "Scroll To Bottom";
+  this.SendKey = "Send Key";
+  this.MouseHover = "Mouse Hover";
+  this.GWMenuClick = "Guidewire Menu Click";
+  this.OpenNewWindow = "Open New Window";
 };
 module.exports = ActionConstant;

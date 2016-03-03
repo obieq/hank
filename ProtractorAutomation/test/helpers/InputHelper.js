@@ -22,7 +22,7 @@ var InputHelper = function () {
 
   var fs = require('fs');
   var FS = require("q-io/fs");
-
+  var hotkeys = require('protractor-hotkeys');
   var TakeScreenShot = false;
   var TakeScreenShotBrowser = null;
 
@@ -439,14 +439,14 @@ var InputHelper = function () {
 
           case actionConstant.LoadNewUrl:
           {
-            browser.getCurrentUrl().then(function(curUrl){
+            browser.getCurrentUrl().then(function (curUrl) {
 
-              if(testInstance.Value.indexOf("ind#") == 0){
+              if (testInstance.Value.indexOf("ind#") == 0) {
                 var index = testInstance.Value.split('#')[1];
                 testInstance.Value = browser.params.config.urlStack[index];
                 browser.params.config.urlStack.splice(index, 1);
               }
-              else{
+              else {
                 browser.params.config.urlStack.push(curUrl);
               }
 
@@ -578,10 +578,30 @@ var InputHelper = function () {
           case actionConstant.SwitchToWindow:
           {
             browser.getAllWindowHandles().then(function (handles) {
+              console.log("inside SwitchToWindow handles length= " + handles.length);
               newWindowHandle = handles[1];
               browser.switchTo().window(newWindowHandle).then(function () {
               });
             });
+            break;
+          }
+
+          case actionConstant.SendKey:
+          {
+           /* if (testInstance.Value == "ctrl+shift+n") {
+              browser.executeScript("window.open('https://sha99999@admiral.local:V3lv3ttil3@webmail.elephant.com/owa","Ratting","width=1024,height=980,left=150,top=200,toolbar=0,status=0');");
+            }*/
+            hotkeys.trigger(testInstance.Value);
+            break;
+          }
+          case actionConstant.MouseHover:
+          {
+            browser.actions().mouseMove(key).perform();
+            break;
+          }
+          case actionConstant.GWMenuClick:
+          {
+            browser.executeScript("arguments[0].click();", key.getWebElement());
             break;
           }
         }
@@ -666,14 +686,14 @@ var InputHelper = function () {
       }
       else if (tagName == "table" && isSetVar) {
         var tblData = [];
-        key.all(by.tagName('tr')).each(function(trEle, trInd) {
+        key.all(by.tagName('tr')).each(function (trEle, trInd) {
           tblData[trInd] = [];
-          trEle.all(by.tagName('td')).each(function(tdEle, tdInd) {
+          trEle.all(by.tagName('td')).each(function (tdEle, tdInd) {
             tdEle.getText().then(function (text) {
               tblData[trInd][tdInd] = text;
             });
           });
-        }).then(function(){
+        }).then(function () {
           onSuccess(JSON.stringify(tblData));
         });
       }
@@ -760,7 +780,6 @@ var InputHelper = function () {
       }
     }
   };
-
 
 
   this.setTextByClick = function (executionSequence, key, value) {
@@ -896,36 +915,36 @@ var InputHelper = function () {
     return promise;
   };
 
-  this.anyTextToBePresentInElement = function(elementFinder, targetText, timeOut) {
-    if(targetText) {
+  this.anyTextToBePresentInElement = function (elementFinder, targetText, timeOut) {
+    if (targetText) {
       targetText = targetText.replace('  ', ' ').toLowerCase().trim()
     }
-    else{
+    else {
       return;
     }
 
-    if(elementFinder.locator_ && elementFinder.locator_.using == 'xpath') { // Causing isPresent undefined
+    if (elementFinder.locator_ && elementFinder.locator_.using == 'xpath') { // Causing isPresent undefined
       return;
     }
 
     var EC = protractor.ExpectedConditions;
     timeOut = timeOut ? timeOut : maxTimeOut;
 
-    var hasText = function() {
-      return elementFinder.getText().then(function(actualText) {
+    var hasText = function () {
+      return elementFinder.getText().then(function (actualText) {
         actualText = actualText.replace('  ', ' ').toLowerCase().trim();
         return actualText.indexOf(targetText) > -1;
       });
     };
 
-    var isElePresentOnUi = function() {
-      if(elementFinder.isPresent == undefined) {
+    var isElePresentOnUi = function () {
+      if (elementFinder.isPresent == undefined) {
         console.log("*************elementFinder.isPresent is undefined");
         console.log(elementFinder.locator_);
         return false;
       }
 
-      return elementFinder.isPresent().then(function(status) {
+      return elementFinder.isPresent().then(function (status) {
         return status;
       });
     };
@@ -962,24 +981,24 @@ var InputHelper = function () {
         break;
     }
 
-    if(elementObj) {
-      var isPresentOnUi = function() {
-        return elementObj.isPresent().then(function(status) {
+    if (elementObj) {
+      var isPresentOnUi = function () {
+        return elementObj.isPresent().then(function (status) {
           return status;
         });
       };
 
       browser.sleep(4000); // Because of POST back sites, can be higher if site is too slow with post backs
-      if(isNegate){
+      if (isNegate) {
         browser.wait(EC.not(isPresentOnUi), timeOut);
         browser.sleep(2000);
         browser.wait(EC.not(isPresentOnUi), timeOut);
       }
-      else{
+      else {
         browser.wait(isPresentOnUi, timeOut);
       }
     }
-    else{
+    else {
       console.log("********** Support not been added for wait for locator '" + testInstance.Locator + "' **********");
       browser.sleep(timeOut);
     }

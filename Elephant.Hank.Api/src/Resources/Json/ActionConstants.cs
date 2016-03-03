@@ -196,5 +196,19 @@ namespace Elephant.Hank.Resources.Json
                 return ConfigurationManager.AppSettings["IgnoreLoadNeUrlActionId"].ToInt64();
             }
         }
+
+        /// <summary>
+        /// Gets the sen key action identifier.
+        /// </summary>
+        /// <value>
+        /// The sen key action identifier.
+        /// </value>
+        public long SendKeyActionId
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SendKeyActionId"].ToInt64();
+            }
+        }
     }
 }

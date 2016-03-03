@@ -201,6 +201,11 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
               $scope.InputControlDisplayStatus.txtValue = true;
             }
 
+            else if ($scope.TestData.ActionId == $scope.ActionConstants.SendKeyActionId && $scope.TestData.LocatorIdentifierId == undefined) {
+              $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
+              $scope.InputControlDisplayStatus.txtValue = true;
+            }
+
             else {
               $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
               $scope.InputControlDisplayStatus.txtValue = true;
@@ -358,6 +363,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
     };
 
     $scope.onActionChange = function () {
+
       $scope.resetActionDependentInputControlDisplayStatus();
       if ($scope.TestData.ActionId == $scope.ActionConstants.DeclareVariableActionId) {
         $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
@@ -407,6 +413,17 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
 
         crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
           $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
+          $scope.PagesList = response;
+          $scope.InputControlDisplayStatus.txtValue = true;
+          $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
+
+        }, function (response) {
+          commonUi.showErrorPopup(response);
+        });
+      }
+      else if ($scope.TestData.ActionId == $scope.ActionConstants.SendKeyActionId) {
+
+        crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
           $scope.PagesList = response;
           $scope.InputControlDisplayStatus.txtValue = true;
           $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
