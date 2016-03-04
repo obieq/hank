@@ -202,7 +202,7 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
     $scope.onAssignVariableClick = function () {
       if ($scope.SharedTestData.IsAssignVariableName) {
         $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
-        $scope.InputControlDisplayStatus.txtValue = false;
+        $scope.InputControlDisplayStatus.txtValue = $scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId && $scope.TestData.PageId == undefined ? true : false;;
       }
       else {
         $scope.InputControlDisplayStatus.txtAutoCompVariableName = false;
