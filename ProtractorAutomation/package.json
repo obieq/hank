@@ -1,7 +1,9 @@
 {
   "name": "webquoteang",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "protractor-hotkeys": "0.0.5"
+  },
   "devDependencies": {
     "excel-push-pull": "^0.1.3",
     "grunt": "^0.4.1",

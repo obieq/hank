@@ -56,7 +56,7 @@ namespace Elephant.Hank.Framework.TestDataServices
 
             name = (name + string.Empty).ToLower();
 
-            var entity = this.Table.Find(x => (x.TestName + string.Empty).ToLower() == name && x.IsDeleted != true).FirstOrDefault();
+            var entity = this.Table.Find(x => (x.TestName + string.Empty).ToLower() == name && x.IsDeleted != true && x.WebsiteId == webSiteId).FirstOrDefault();
 
             if (entity == null)
             {
