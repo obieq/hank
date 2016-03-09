@@ -704,10 +704,10 @@ var app = angular
     ActionUrl: "action",
     ActionForSqlTestStep: "action/action-for-sql-test-step",
 
-    ReportUrl: "Report",
-    SearchReportUrl: "Report/SearchReport",
-    ReportByExecutionGroupUrl: "report/execution-group/{0}",
-    ReportByExecutionGroupWhereScreenShotArrayExistUrl: "report/execution-group/{0}/screen-shot-array",
+    ReportUrl: "website/{0}/Report",
+    SearchReportUrl: "website/{0}/Report/SearchReport",
+    ReportByExecutionGroupUrl: "website/{0}/report/execution-group/{1}",
+    ReportByExecutionGroupWhereScreenShotArrayExistUrl: "website/{0}/report/execution-group/{1}/screen-shot-array",
     PagesUrl: "website/{0}/pages",
     LocatorIdentifierUrl: "website/{0}/pages/{1}/locator-identifier",
 

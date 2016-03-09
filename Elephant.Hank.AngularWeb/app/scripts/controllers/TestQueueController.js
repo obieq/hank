@@ -4,13 +4,14 @@
 
 app.controller('TestQueueController', ['$scope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider',
   function ($scope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider) {
-
+    $scope.WebsiteId=0;
     $scope.TestQueue = {};
     $scope.TestQueue.Settings = {};
     dataProvider.currentWebSite($scope);
 
 
     $scope.$on('openTestQueuePopup', function (event, args) {
+      $scope.WebsiteId=args.WebsiteId;
       crudService.getById(ngAppSettings.WebSiteUrl, args.WebsiteId).then(function (response) {
           $scope.Website = response.Item;
           $scope.TestQueue.Settings.SeleniumAddress = $scope.Website.Settings.SeleniumAddress;
@@ -75,7 +76,8 @@ app.controller('TestQueueController', ['$scope', '$stateParams', '$state', 'Crud
     });
 
 
-    $scope.addTestToTestQueue = function () {
+    $scope.addTestToTestQueue = function (websiteId) {
+      debugger;
       $scope.TestQueue.Settings.UrlId = $scope.TestQueue.Settings.UrlObj.Id;
       $scope.TestQueue.Settings.Browsers = [];
       for (var k = 0; k < $scope.BrowserList.length; k++) {
@@ -84,7 +86,7 @@ app.controller('TestQueueController', ['$scope', '$stateParams', '$state', 'Crud
         }
       }
       if ($scope.TestQueue.Settings.Browsers.length > 0) {
-        crudService.add(ngAppSettings.TestQueueUrl.format($stateParams.WebsiteId), $scope.TestQueue).then(function (response) {
+        crudService.add(ngAppSettings.TestQueueUrl.format(websiteId), $scope.TestQueue).then(function (response) {
           $("#testQueueModal").modal('hide');
           $("#testQueueModal").bind('hidden.bs.modal', function () {
             commonUi.showMessagePopup("Test has been queued successfully!");

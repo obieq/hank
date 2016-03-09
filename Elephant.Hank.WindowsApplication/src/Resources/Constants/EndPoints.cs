@@ -44,11 +44,11 @@ namespace Elephant.Hank.WindowsApplication.Resources.Constants
         /// <summary>
         /// The report search
         /// </summary>
-        public static string ReportSearch = "api/report/SearchReport";
+        public static string ReportSearch = "api/website/0/report/SearchReport";
        
         /// <summary>
         /// the unprocessed report search
         /// </summary>
-        public static string GetAllUnprocessedReports = "api/report/get-all-unprocessed-for-group/{0}";
+        public static string GetAllUnprocessedReports = "api/website/0/report/get-all-unprocessed-for-group/{0}";
     }
 }

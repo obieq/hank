@@ -29,7 +29,7 @@ namespace Elephant.Hank.Api.Controllers
     /// <summary>
     /// The ReportsController class
     /// </summary>
-    [RoutePrefix("api/report")]
+    [RoutePrefix("api/website/{websiteId}/report")]
     public class ReportsController : BaseApiController
     {
         /// <summary>

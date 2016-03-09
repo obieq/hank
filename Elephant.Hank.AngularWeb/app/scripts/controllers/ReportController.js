@@ -27,7 +27,7 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$locatio
     $scope.getReport = function () {
       var x = $location.search();
       $scope.StateParamsWebsiteId = $scope.searchObject.WebsiteId = $stateParams.WebsiteId;
-      crudService.search(ngAppSettings.SearchReportUrl, $scope.searchObject).then(function (response) {
+      crudService.search(ngAppSettings.SearchReportUrl.format($stateParams.WebsiteId), $scope.searchObject).then(function (response) {
         for (var i = 0; i < response.Item.length; i++) {
           response.Item[i].FinishTime = (response.Item[i].FinishTime + "").formatTime();
           if (response.Item[i].Passed == false) {
@@ -50,7 +50,7 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$locatio
     $scope.onDatePickerChange = function () {
       $scope.StateParamsWebsiteId = $scope.searchObject.WebsiteId = $stateParams.WebsiteId;
       $scope.searchObject.executiongroup = undefined;
-      crudService.search(ngAppSettings.SearchReportUrl, $scope.searchObject).then(function (response) {
+      crudService.search(ngAppSettings.SearchReportUrl.format($stateParams.WebsiteId), $scope.searchObject).then(function (response) {
         for (var i = 0; i < response.Item.length; i++) {
           response.Item[i].FinishTime = (response.Item[i].FinishTime + "").formatTime();
           if (response.Item[i].Passed == false) {
@@ -138,7 +138,7 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$locatio
 
     $scope.getReportDetails = function () {
       $scope.StateParamsWebsiteId = $stateParams.WebsiteId;
-      crudService.getById(ngAppSettings.ReportUrl, $stateParams.ReportId).then(function (response) {
+      crudService.getById(ngAppSettings.ReportUrl.format($stateParams.WebsiteId), $stateParams.ReportId).then(function (response) {
         $scope.ReportDetail = response.Item;
         $scope.ReportDetail.JsonValue = JSON.parse($scope.ReportDetail.Value);
         console.log($scope.ReportDetail.JsonValue);
