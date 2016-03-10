@@ -16,7 +16,6 @@ function CustomScreenShotReporter(options) {
 
 CustomScreenShotReporter.prototype.reportSpecResults =
   function reportSpecResults(spec, descriptions, results, capabilities) {
-
     browser.takeScreenshot().then(function (png) {
       browser.getCapabilities().then(function (capabilities) {
         var config = browser.params.config;
@@ -24,7 +23,6 @@ CustomScreenShotReporter.prototype.reportSpecResults =
         var curTestReportPath = jsonHelper.buildPath(config.curLocation, description, capabilities);
         var browserDetails = capabilities.caps_.platform + " " + capabilities.caps_.browserName + " " + capabilities.caps_.version;
         var pathtoCheck = path.join("reports", config.curLocation, browserDetails);
-        console.log("Inside CustomScreenShotReporter pathtoCheck="+pathtoCheck);
         FS.isDirectory(pathtoCheck).then(function (IsExist) {
           if (IsExist) {
             fs.writeFileSync('reports\\' + curTestReportPath + '.png', png, {encoding: 'base64'});
@@ -80,9 +78,6 @@ CustomScreenShotReporter.prototype.reportSpecResults =
           LastStepExecuted: config.LastStepExecuted
         };
 
-        console.log("Inside CustomScreenShotReporter report data");
-        console.log(reportData);
-
         var jsonPathtoCheck = path.join("reports", config.curLocation, 'JSON');
         FS.isDirectory(jsonPathtoCheck).then(function (IsExist) {
           var operatingSystem = reportDataJson.os.toLowerCase() == "xp" ? 'windows' : reportDataJson.os;
@@ -96,11 +91,11 @@ CustomScreenShotReporter.prototype.reportSpecResults =
           }
         });
 
-        console.log("Hitting Report Update Api:-"+ jsonHelper.format(config.baseApiUrl + config.baseTestReportUrl));
+        
         restApiHelper.doPost(jsonHelper.format(config.baseApiUrl + config.baseTestReportUrl), reportData, function () {
-
+		  
         });
-
+        
 
 
       });
