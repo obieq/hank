@@ -35,6 +35,98 @@ var JsonHelper = function () {
     );
   };
 
+  this.GetIndexesFromVariable = function (varName, aryData) {
+    varName = varName || "";
+
+    var indexes = varName.match(/\[(.*?)\]/g) || [];
+
+    for(var i = 0; i < indexes.length; i++){
+      indexes[i] = indexes[i].replace("[", "").replace("]", "");
+    }
+
+    if(aryData == undefined || aryData[0] == undefined){ return undefined; }
+
+    var idxRow = indexes[0] || "0";
+    var idxCol = indexes.length > 1 ? indexes[1] : undefined;
+
+    var idxRowVal = idxRow;
+    var idxColVal = idxCol;
+
+    if(isNaN(idxRow) && indexes.length == 1){
+      var rowIndex = -1;
+      var tmpColIndex = -1;
+      var searchData = idxRow.split(";");
+      var colNameValuePair = [];
+
+      idxCol = "idxCol";
+      varName += "[idxCol]";
+
+      for(var i = 0; i < searchData.length; i++){
+        var tmpData = searchData[i].split('~');
+        colNameValuePair.push({ ColIndex: this.inArray(aryData[0], tmpData[0], true), Value: tmpData[1] });
+      }
+
+      var isMatchFound = false;
+      for(var i = 0; i < aryData.length; i++){
+        isMatchFound = true;
+        for(var j = 0; j < colNameValuePair.length; j++){
+          if(colNameValuePair[j].Value && colNameValuePair[j].Value.toLowerCase() != aryData[i][colNameValuePair[j].ColIndex].toLowerCase()){
+            isMatchFound = false;
+            break;
+          }
+        }
+
+        if(isMatchFound){
+          rowIndex = i;
+          tmpColIndex = colNameValuePair[colNameValuePair.length - 1].ColIndex;
+          break;
+        }
+      }
+
+      idxRowVal = rowIndex;
+      idxColVal = tmpColIndex;
+
+      if(!isNaN(searchData[searchData.length-1])){
+        idxColVal = searchData[searchData.length-1];
+      }
+
+      if(rowIndex == -1){
+        idxRowVal = 0;
+        idxColVal = -1;
+      }
+    }
+
+    if(isNaN(idxRow) && isNaN(idxRowVal) && idxCol && isNaN(idxCol)) {
+      idxColVal = this.inArray(aryData[0], idxRow, true);
+
+      for (var i = 0; i < aryData.length; i++) {
+        if (aryData[i][idxColVal].toLowerCase() == idxCol.toLowerCase()) {
+          idxRowVal = i;
+          break;
+        }
+      }
+
+      idxColVal = isNaN(idxRowVal) ? "-1" : idxColVal;
+      idxRowVal = isNaN(idxRowVal) ? "0" : idxRowVal;
+    }
+
+    if(isNaN(idxRow) && isNaN(idxRowVal)) {
+      idxRowVal = this.inArray(aryData[0], idxRow, true);
+    }
+
+    if(idxCol && isNaN(idxCol) && isNaN(idxColVal) && aryData[idxRowVal] != undefined) {
+      idxColVal = this.inArray(aryData[0], idxCol, true);
+    }
+
+    idxColVal = isNaN(idxColVal) ? "-1" : idxColVal;
+    idxRowVal = isNaN(idxRowVal) ? "0" : idxRowVal;
+
+    varName = varName.replace(idxCol, idxColVal);
+    varName = varName.replace(idxRow, idxRowVal);
+
+    return {varName: varName, idxCol: idxCol, idxColVal: idxColVal, idxRow: idxRow, idxRowVal:idxRowVal};
+  };
+
   this.GetIndexedVariableValueFromVariableContainer = function (varName) {
     varName = varName || "";
 
@@ -51,86 +143,9 @@ var JsonHelper = function () {
           browser.params.config.variableContainer[m].JsonValue = JSON.parse(browser.params.config.variableContainer[m].Value);
 
           var aryData = browser.params.config.variableContainer[m].JsonValue;
-
-          if(aryData == undefined || aryData[0] == undefined){ return undefined; }
-
-          var idxRow = indexes[0] || "0";
-          var idxCol = indexes.length > 1 ? indexes[1] : undefined;
-
-          var idxRowVal = idxRow;
-          var idxColVal = idxCol;
-
-          if(isNaN(idxRow) && indexes.length == 1){
-            var rowIndex = -1;
-            var tmpColIndex = -1;
-            var searchData = idxRow.split(";");
-            var colNameValuePair = [];
-
-            idxCol = "idxCol";
-            varName += "[idxCol]";
-
-            for(var i = 0; i < searchData.length; i++){
-              var tmpData = searchData[i].split('#');
-              colNameValuePair.push({ ColIndex: this.inArray(aryData[0], tmpData[0], true), Value: tmpData[1] });
-            }
-
-            var isMatchFound = false;
-            for(var i = 0; i < aryData.length; i++){
-              isMatchFound = true;
-              for(var j = 0; j < colNameValuePair.length; j++){
-                if(colNameValuePair[j].Value && colNameValuePair[j].Value.toLowerCase() != aryData[i][colNameValuePair[j].ColIndex].toLowerCase()){
-                  isMatchFound = false;
-                  break;
-                }
-              }
-
-              if(isMatchFound){
-                rowIndex = i;
-                tmpColIndex = colNameValuePair[colNameValuePair.length - 1].ColIndex;
-                break;
-              }
-            }
-
-            idxRowVal = rowIndex;
-            idxColVal = tmpColIndex;
-
-            if(rowIndex == -1){
-              idxRowVal = 0;
-              idxColVal = -1;
-            }
-          }
-
-          if(isNaN(idxRow) && isNaN(idxRowVal) && idxCol && isNaN(idxCol)) {
-            idxColVal = this.inArray(aryData[0], idxRow, true);
-
-            for (var i = 0; i < aryData.length; i++) {
-              if (aryData[i][idxColVal].toLowerCase() == idxCol.toLowerCase()) {
-                idxRowVal = i;
-                break;
-              }
-            }
-
-            idxColVal = isNaN(idxRowVal) ? "-1" : idxColVal;
-            idxRowVal = isNaN(idxRowVal) ? "0" : idxRowVal;
-          }
-
-          if(isNaN(idxRow) && isNaN(idxRowVal)) {
-            idxRowVal = this.inArray(aryData[0], idxRow, true);
-          }
-
-          if(idxCol && isNaN(idxCol) && isNaN(idxColVal) && aryData[idxRowVal] != undefined) {
-            idxColVal = this.inArray(aryData[0], idxCol, true);
-          }
-
-          idxColVal = isNaN(idxColVal) ? "-1" : idxColVal;
-          idxRowVal = isNaN(idxRowVal) ? "0" : idxRowVal;
-
-          varName = varName.replace(idxCol, idxColVal);
-          varName = varName.replace(idxRow, idxRowVal);
-
-          console.log("Final variable:", varName)
-
-          return eval("aryData" + varName.substring(varName.indexOf('[')));
+          var indexs = this.GetIndexesFromVariable(varName, aryData);
+          console.log("Final variable", indexs.varName);
+          return eval("aryData" + indexs.varName.substring(indexs.varName.indexOf('[')));
         }
       }
     }

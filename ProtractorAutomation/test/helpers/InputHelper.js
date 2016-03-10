@@ -262,7 +262,7 @@ var InputHelper = function () {
             browser.getCurrentUrl().then(function (Url) {
               UrlBeforeClick = Url;
             });
-            this.click(testInstance.ExecutionSequence, key);
+            this.click(testInstance.ExecutionSequence, key, testInstance);
             if (TakeScreenShot) {
               if (TakeScreenShotBrowser != null && TakeScreenShotBrowser != undefined) {
                 //*special handling due to web driver bug*//*
@@ -694,7 +694,7 @@ var InputHelper = function () {
             });
           });
         }).then(function () {
-          onSuccess(JSON.stringify(tblData));
+          onSuccess(JSON.stringify(tblData), tblData);
         });
       }
       else {
@@ -759,8 +759,7 @@ var InputHelper = function () {
       });
     }
   };
-  
-  
+
   this.setText = function (executionSequence, key, value, clearText, isAutoFIll, cjIdentifier) {
     if (value != undefined && value != "") {
       if (clearText) {
@@ -794,7 +793,6 @@ var InputHelper = function () {
       }
     }
   };
-
 
   this.setTextByClick = function (executionSequence, key, value) {
     if (value != undefined && value != "") {
@@ -888,10 +886,38 @@ var InputHelper = function () {
     }
   };
 
-  this.click = function (executionSequence, key) {
-    key.click().then(function () {
-      browser.params.config.LastStepExecuted = executionSequence;
+  this.click = function (executionSequence, key, testInstance) {
+    key.getTagName().then(function (tagName) {
+
+      tagName = (tagName + "").toLowerCase();
+
+      if (tagName == "table" && testInstance.Value && testInstance.Value.indexOf("[") == 0){
+        var searchData = testInstance.Value.split("]~");
+        searchData[0] = searchData[0] + "]"; // closing the Arry index
+
+        thisobj.GetText(key, function(aryDataStr, aryData){
+          var indexes = jsonHelper.GetIndexesFromVariable("var" + searchData[0], aryData);
+          key.all(by.tagName('tr')).each(function (trEle, trInd) {
+            if(trInd == indexes.idxRowVal){
+              trEle.all(by.tagName('td')).each(function (tdEle, tdInd) {
+                if(tdInd == indexes.idxColVal){
+                  tdEle.all(by.tagName(searchData[1])).each(function (targetEle, targetIdx) {
+                    targetEle.click();
+                    return;
+                  });
+                }
+              });
+            }
+          });
+        }, true);
+      }
+      else{
+        key.click().then(function () {
+          browser.params.config.LastStepExecuted = executionSequence;
+        });
+      }
     });
+
   };
 
 

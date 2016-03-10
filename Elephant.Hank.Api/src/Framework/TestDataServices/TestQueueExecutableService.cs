@@ -548,7 +548,7 @@ namespace Elephant.Hank.Framework.TestDataServices
         {
             foreach (var item in modelList)
             {
-                if (item.Value.Split('~').Length > 1)
+                if (item.Value.IndexOf('~') >= 0 && item.LocatorIdentifier.IndexOf('{') >= 0)
                 {
                     var resolvedLocator = this.IsInAutoGenArray(item.Value).ToList();
                     resolvedLocator.RemoveAt(0);
@@ -557,7 +557,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                 }
                 else
                 {
-                    item.Value = this.IsInAutoGenArray(item.Value)[0].Trim();
+                    item.Value = item.Value.IndexOf('[') == 0 ? item.Value : this.IsInAutoGenArray(item.Value)[0].Trim();
                 }
             }
         }
