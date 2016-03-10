@@ -107,6 +107,17 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
             $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
             $scope.InputControlDisplayStatus.ddlDisplayName = true;
           }
+
+          else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.AssertToEqualActionId && $scope.SharedTestData.LocatorIdentifierId == undefined) {
+            $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
+            if ($scope.SharedTestData.VariableName != null && !!$scope.SharedTestData.VariableName.trim()) {
+              $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
+              $scope.SharedTestData.IsAssignVariableName = true;
+              $scope.InputControlDisplayStatus.txtValue = true;
+              $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
+            }
+          }
+
           else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SendKeyActionId && $scope.SharedTestData.LocatorIdentifierId == undefined) {
             $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
             $scope.InputControlDisplayStatus.txtValue = true;

@@ -33,7 +33,7 @@
             </tr>
             </thead>
             <tbody ng-init="getAllSharedTests()">
-            <tr ng-repeat="sharedTest in SharedTestList | orderBy:'Id'">
+            <tr ng-repeat="sharedTest in SharedTestList | orderBy:'TestName'">
               <td>{{sharedTest.Id}}</td>
               <td> <a ui-sref="Website.SharedTestData({ WebsiteId: stateParamWebsiteId, SharedTestId: sharedTest.Id })">{{sharedTest.TestName}}</a></td>
               <td>{{sharedTest.Description}}</td>

@@ -8,7 +8,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
   function ($scope, $rootScope, $q, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider) {
 
     $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
-    dataProvider.setAuthenticationParameters($scope,$stateParams.WebsiteId,ngAppSettings.ModuleType.TestScripts);
+    dataProvider.setAuthenticationParameters($scope, $stateParams.WebsiteId, ngAppSettings.ModuleType.TestScripts);
 
 
     $scope.TestData = {
@@ -68,22 +68,22 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
     dataProvider.currentWebSite($scope);
     dataProvider.currentTestCat($scope);
 
-    $scope.getCsvHeaders = function(){
+    $scope.getCsvHeaders = function () {
       return ['Sequence', 'Display Name', 'Action', 'Value', 'Variable Name', 'Description'];
     };
 
-    $scope.getCsvData = function(){
+    $scope.getCsvData = function () {
       var result = [];
       var count = 1;
       for (var i = 0; i < $scope.TestDataList.length; i++) {
-        if($scope.TestDataList[i].SharedTest && $scope.TestDataList[i].SharedTest.SharedTestDataList) {
-          for(var j = 0; j < $scope.TestDataList[i].SharedTest.SharedTestDataList.length; j++){
+        if ($scope.TestDataList[i].SharedTest && $scope.TestDataList[i].SharedTest.SharedTestDataList) {
+          for (var j = 0; j < $scope.TestDataList[i].SharedTest.SharedTestDataList.length; j++) {
             var testData = $scope.TestDataList[i].SharedTest.SharedTestDataList[j];
             result.push(testDataToUi(testData, count));
             count++;
           }
         }
-        else{
+        else {
           result.push(testDataToUi($scope.TestDataList[i], count));
           count++;
         }
@@ -92,15 +92,15 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
       return result;
     };
 
-    function testDataToUi(testData, sno){
+    function testDataToUi(testData, sno) {
       var obj = {};
       obj.Sequence = sno;
 
-      if(testData) {
-        if(testData.SharedStepWebsiteName) {
+      if (testData) {
+        if (testData.SharedStepWebsiteName) {
           obj.DisplayName = testData.SharedStepWebsiteName + " - (" + testData.SharedStepWebsiteTestName + ")";
         }
-        else{
+        else {
           obj.DisplayName = testData.DisplayNameValue;
         }
 
@@ -197,8 +197,12 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
 
             else if ($scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId && $scope.TestData.LocatorIdentifierId == undefined) {
               $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
-              $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
-              $scope.InputControlDisplayStatus.txtValue = true;
+              if ($scope.TestData.VariableName != null && !!$scope.TestData.VariableName.trim()) {
+                $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
+                $scope.TestData.IsAssignVariableName = true;
+                $scope.InputControlDisplayStatus.txtValue = true;
+                $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
+              }
             }
 
             else if ($scope.TestData.ActionId == $scope.ActionConstants.SendKeyActionId && $scope.TestData.LocatorIdentifierId == undefined) {
