@@ -705,17 +705,30 @@ var InputHelper = function () {
     });
   };
 
-  this.GetSharedVariable = function (testInstance) {
+ this.GetSharedVariable = function (testInstance) {
     if (testInstance.VariableName.trim() != '' && testInstance.Action != actionConstant.SetVariable && testInstance.Action != actionConstant.SetVariableManually) {
       browser.getCurrentUrl().then(function (actualUrl) {
         console.log("INSIDE GetSharedVariable indexed testInstance.VariableName:= " + testInstance.VariableName);
         var toCompareValue = testInstance.Value;
         if (testInstance.VariableName.indexOf('[') == -1) {
           if (testInstance.VariableName.indexOf('{') == -1) {
-            for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
-              if (testInstance.VariableName == browser.params.config.variableContainer[k].Name) {
-                testInstance.Value = browser.params.config.variableContainer[k].Value;
-                break;
+            if (testInstance.VariableName.indexOf('#') == -1) {
+              for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
+                if (testInstance.VariableName == browser.params.config.variableContainer[k].Name) {
+                  testInstance.Value = browser.params.config.variableContainer[k].Value;
+                  break;
+                }
+              }
+            }
+            else {
+              var variables = testInstance.VariableName.split('#');
+              for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
+                if (variables[0] == browser.params.config.variableContainer[k].Name) {
+                  testInstance.Value = browser.params.config.variableContainer[k].Value;
+                }
+                else  if (variables[1] == browser.params.config.variableContainer[k].Name) {
+                  toCompareValue = browser.params.config.variableContainer[k].Value;
+                }
               }
             }
           }
@@ -746,7 +759,8 @@ var InputHelper = function () {
       });
     }
   };
-
+  
+  
   this.setText = function (executionSequence, key, value, clearText, isAutoFIll, cjIdentifier) {
     if (value != undefined && value != "") {
       if (clearText) {
