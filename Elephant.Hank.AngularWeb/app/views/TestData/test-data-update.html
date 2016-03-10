@@ -91,13 +91,13 @@
               </div>
             </div>
 
-            <div class="form-group" ng-if="InputControlDisplayStatus.ddlPageNonValidation">
+            <div class="form-group" ng-if="InputControlDisplayStatus.ddlPage">
               <label class="col-sm-2 control-label">Page</label>
 
               <div class="col-sm-4">
                 <select class="form-control" ng-model="TestData.PageId"
                         ng-options="page.Id as page.Value for page in PagesList | orderBy:'Value'"
-                        name="PageId" ng-change="onPageChange()" >
+                        name="PageId" ng-change="onPageChange()" required="" >
                   <option style="display:none" value="">--Select--</option>
                 </select>
               </div>
@@ -108,7 +108,7 @@
               <label class="col-sm-2 control-label">Page</label>
 
               <div class="col-sm-4">
-                <select class="form-control" ng-model="SharedTestData.PageId"
+                <select class="form-control" ng-model="TestData.PageId"
                         ng-options="page.Id as page.Value for page in PagesList | orderBy:'Value'"
                         name="PageId" ng-change="onPageChange()">
                   <option style="display:none" value="">--Select--</option>
