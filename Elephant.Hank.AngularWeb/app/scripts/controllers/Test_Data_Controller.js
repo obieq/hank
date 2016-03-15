@@ -65,8 +65,15 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
     $scope.VariableList = [];
     $scope.DataBaseCategories = [];
 
-    dataProvider.currentWebSite($scope);
+    crudService.getById(ngAppSettings.TestUrl.format($stateParams.WebsiteId, $stateParams.TestCatId), $stateParams.TestId).then(function (response) {
+      $scope.Test = response.Item;
+    }, function (response) {
+      commonUi.showErrorPopup(response);
+    });
+
+    /*dataProvider.currentWebSite($scope);
     dataProvider.currentTestCat($scope);
+    dataProvider.currentTest($scope);*/
 
     $scope.getCsvHeaders = function () {
       return ['Sequence', 'Display Name', 'Action', 'Value', 'Variable Name', 'Description'];
@@ -146,6 +153,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
     $scope.onLoadEdit = function () {
       $scope.resetAllInputControlDisplayStatus();
       $scope.loadDataForEdit().then(function () {
+
         switch ($scope.TestData.LinkTestType) {
           case 0:
           {
@@ -211,9 +219,11 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
             }
 
             else {
+              debugger;
               $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
               $scope.InputControlDisplayStatus.txtValue = true;
               $scope.InputControlDisplayStatus.ddlPage = true;
+              $scope.InputControlDisplayStatus.ddlPageNonValidation = false;
               $scope.InputControlDisplayStatus.ddlDisplayName = true;
               if (!!$scope.TestData.VariableName.trim()) {
                 $scope.TestData.IsAssignVariableName = true;
@@ -401,6 +411,10 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
       }
       else if ($scope.TestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId) {
       }
+      else if ($scope.TestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId) {
+        $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
+        $scope.InputControlDisplayStatus.txtValue = true;
+      }
       else if ($scope.TestData.ActionId == $scope.ActionConstants.SetVariableActionId) {
 
         crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
@@ -462,7 +476,6 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
     $scope.onWebsiteChange = function () {
       if ($scope.TestData.SharedStepWebsiteId > 0) {
         crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($scope.TestData.SharedStepWebsiteId, 0)).then(function (response) {
-
           $scope.TestList = response;
           $scope.InputControlDisplayStatus.ddlTestList = true;
         }, function (response) {

@@ -14,6 +14,9 @@ var InputHelper = function () {
   var JsonHelper = require('./JsonHelper.js');
   var jsonHelper = new JsonHelper();
 
+  var HashTagHelper = require('./HashTagHelper.js');
+  var hashTagHelper = new HashTagHelper();
+
   var Constant = require('./../constants/constant.js');
   var constant = new Constant();
 
@@ -397,7 +400,14 @@ var InputHelper = function () {
           }
           case actionConstant.SetVariableManually:
           {
-            this.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, testInstance.Value, testInstance.DisplayName);
+            if (testInstance.Value.indexOf('#') == -1) {
+              this.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, testInstance.Value, testInstance.DisplayName);
+            }
+            else {
+              var response = hashTagHelper.computeHashTags(testInstance.Value);
+              console.log("Hash Tag Response=" + response);
+              this.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, response.toString(), testInstance.DisplayName);
+            }
             break;
           }
           case actionConstant.DeclareVariable:
@@ -588,9 +598,9 @@ var InputHelper = function () {
 
           case actionConstant.SendKey:
           {
-           /* if (testInstance.Value == "ctrl+shift+n") {
-              browser.executeScript("window.open('https://sha99999@admiral.local:V3lv3ttil3@webmail.elephant.com/owa","Ratting","width=1024,height=980,left=150,top=200,toolbar=0,status=0');");
-            }*/
+            /* if (testInstance.Value == "ctrl+shift+n") {
+             browser.executeScript("window.open('https://sha99999@admiral.local:V3lv3ttil3@webmail.elephant.com/owa","Ratting","width=1024,height=980,left=150,top=200,toolbar=0,status=0');");
+             }*/
             hotkeys.trigger(testInstance.Value);
             break;
           }
@@ -705,7 +715,7 @@ var InputHelper = function () {
     });
   };
 
- this.GetSharedVariable = function (testInstance) {
+  this.GetSharedVariable = function (testInstance) {
     if (testInstance.VariableName.trim() != '' && testInstance.Action != actionConstant.SetVariable && testInstance.Action != actionConstant.SetVariableManually) {
       browser.getCurrentUrl().then(function (actualUrl) {
         console.log("INSIDE GetSharedVariable indexed testInstance.VariableName:= " + testInstance.VariableName);
@@ -726,7 +736,7 @@ var InputHelper = function () {
                 if (variables[0] == browser.params.config.variableContainer[k].Name) {
                   testInstance.Value = browser.params.config.variableContainer[k].Value;
                 }
-                else  if (variables[1] == browser.params.config.variableContainer[k].Name) {
+                else if (variables[1] == browser.params.config.variableContainer[k].Name) {
                   toCompareValue = browser.params.config.variableContainer[k].Value;
                 }
               }
@@ -891,16 +901,16 @@ var InputHelper = function () {
 
       tagName = (tagName + "").toLowerCase();
 
-      if (tagName == "table" && testInstance.Value && testInstance.Value.indexOf("[") == 0){
+      if (tagName == "table" && testInstance.Value && testInstance.Value.indexOf("[") == 0) {
         var searchData = testInstance.Value.split("]~");
         searchData[0] = searchData[0] + "]"; // closing the Arry index
 
-        thisobj.GetText(key, function(aryDataStr, aryData){
+        thisobj.GetText(key, function (aryDataStr, aryData) {
           var indexes = jsonHelper.GetIndexesFromVariable("var" + searchData[0], aryData);
           key.all(by.tagName('tr')).each(function (trEle, trInd) {
-            if(trInd == indexes.idxRowVal){
+            if (trInd == indexes.idxRowVal) {
               trEle.all(by.tagName('td')).each(function (tdEle, tdInd) {
-                if(tdInd == indexes.idxColVal){
+                if (tdInd == indexes.idxColVal) {
                   tdEle.all(by.tagName(searchData[1])).each(function (targetEle, targetIdx) {
                     targetEle.click();
                     return;
@@ -911,7 +921,7 @@ var InputHelper = function () {
           });
         }, true);
       }
-      else{
+      else {
         key.click().then(function () {
           browser.params.config.LastStepExecuted = executionSequence;
         });
