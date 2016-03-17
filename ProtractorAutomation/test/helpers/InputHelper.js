@@ -404,9 +404,11 @@ var InputHelper = function () {
               this.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, testInstance.Value, testInstance.DisplayName);
             }
             else {
-              var response = hashTagHelper.computeHashTags(testInstance.Value);
-              console.log("Hash Tag Response=" + response);
-              this.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, response.toString(), testInstance.DisplayName);
+              var response = hashTagHelper.computeHashTags(testInstance.Value).then(function(response){
+                console.log("Hash Tag Response=" + response);
+                thisobj.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, response.toString(), testInstance.DisplayName);
+              });
+
             }
             break;
           }
@@ -754,7 +756,35 @@ var InputHelper = function () {
           }
         }
         else {
-          testInstance.Value = jsonHelper.GetIndexedVariableValueFromVariableContainer(testInstance.VariableName);
+          if (testInstance.VariableName.indexOf('#') == -1) {
+            testInstance.Value = jsonHelper.GetIndexedVariableValueFromVariableContainer(testInstance.VariableName);
+          }
+          else {
+            var variables = testInstance.VariableName.split('#');
+            if (variables[0].indexOf('[') == -1) {
+              for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
+                if (variables[0] == browser.params.config.variableContainer[k].Name) {
+                  testInstance.Value = browser.params.config.variableContainer[k].Value;
+                  break;
+                }
+              }
+            }
+            else{
+              testInstance.Value = jsonHelper.GetIndexedVariableValueFromVariableContainer(variables[0]);
+            }
+            if (variables[1].indexOf('[') == -1) {
+              for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
+                if (variables[1] == browser.params.config.variableContainer[k].Name) {
+                  toCompareValue = browser.params.config.variableContainer[k].Value;
+                  break;
+                }
+              }
+            }
+            else{
+              toCompareValue = jsonHelper.GetIndexedVariableValueFromVariableContainer(variables[1]);
+            }
+
+          }
         }
 
         if (testInstance.Action != actionConstant.LogText) {

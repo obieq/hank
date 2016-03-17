@@ -40,6 +40,9 @@ var JsonHelper = function () {
 
     var indexes = varName.match(/\[(.*?)\]/g) || [];
 
+    console.log("**********Inside GetIndexesFromVariable Indexes:-******************");
+    console.log(indexes);
+
     for(var i = 0; i < indexes.length; i++){
       indexes[i] = indexes[i].replace("[", "").replace("]", "");
     }

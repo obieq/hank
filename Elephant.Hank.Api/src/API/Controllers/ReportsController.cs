@@ -139,7 +139,7 @@ namespace Elephant.Hank.Api.Controllers
             catch (Exception ex)
             {
                 this.LoggerService.LogException(ex);
-                result.Messages.Add(new Message(null, ex.Message));
+                result.Messages.Add(new Message(null, ex.Message)); 
             }
 
             return this.CreateCustomResponse(result);
