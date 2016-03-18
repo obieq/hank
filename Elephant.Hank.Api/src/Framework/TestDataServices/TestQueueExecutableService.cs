@@ -548,16 +548,19 @@ namespace Elephant.Hank.Framework.TestDataServices
         {
             foreach (var item in modelList)
             {
-                if (item.Value.IndexOf('~') >= 0 && item.LocatorIdentifier.IndexOf('{') >= 0)
+                if (!item.Value.StartsWith("#"))
                 {
-                    var resolvedLocator = this.IsInAutoGenArray(item.Value).ToList();
-                    resolvedLocator.RemoveAt(0);
-                    item.LocatorIdentifier = string.Format(item.LocatorIdentifier, resolvedLocator.ToArray());
-                    item.Value = item.Value.Split('~')[0];
-                }
-                else
-                {
-                    item.Value = item.Value.IndexOf('[') == 0 ? item.Value : this.IsInAutoGenArray(item.Value)[0].Trim();
+                    if (item.Value.IndexOf('~') >= 0 && item.LocatorIdentifier.IndexOf('{') >= 0)
+                    {
+                        var resolvedLocator = this.IsInAutoGenArray(item.Value).ToList();
+                        resolvedLocator.RemoveAt(0);
+                        item.LocatorIdentifier = string.Format(item.LocatorIdentifier, resolvedLocator.ToArray());
+                        item.Value = item.Value.Split('~')[0];
+                    }
+                    else
+                    {
+                        item.Value = item.Value.IndexOf('[') == 0 ? item.Value : this.IsInAutoGenArray(item.Value)[0].Trim();
+                    }
                 }
             }
         }

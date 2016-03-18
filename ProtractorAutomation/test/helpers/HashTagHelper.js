@@ -12,9 +12,9 @@ var HashTagHelper = function () {
     console.log("**********Inside compute hash tags*********** splittedHashTagArray=");
     var splittedHashTagArray = hashTagText.split('#');
     console.log(splittedHashTagArray[1].toLowerCase());
-    if (splittedHashTagArray[1].split('`')[0].toLowerCase() == 'now') {
+    if (splittedHashTagArray[1].split('~')[0].toLowerCase() == 'now') {
       for (var i = 1; i < splittedHashTagArray.length; i++) {
-        var splitedTextValue = splittedHashTagArray[i].split('`');
+        var splitedTextValue = splittedHashTagArray[i].split('~');
         if (splitedTextValue.length > 1) {
           if (parseInt(splitedTextValue[1])) {
             this.computeDate(splitedTextValue[0].toLowerCase(), parseInt(splitedTextValue[1]));
@@ -29,12 +29,12 @@ var HashTagHelper = function () {
       }
       defer.fulfill(currentCycleDate);
     }
-    else if (splittedHashTagArray[1].split('`')[0].toLowerCase() == 'variable') {
+    else if (splittedHashTagArray[1].split('~')[0].toLowerCase() == 'variable') {
       console.log("*********Inside compute hash tags VARIABLE SECTION ***********");
       browser.getCurrentUrl().then(function (curUrl) {
         console.log("****************Getting current url******************");
         for (var i = 1; i < splittedHashTagArray.length; i++) {
-          var splitedTextValue = splittedHashTagArray[i].split('`');
+          var splitedTextValue = splittedHashTagArray[i].split('~');
           if (splitedTextValue.length > 1) {
             if (parseInt(splitedTextValue[1])) {
               thisobj.computeDate(splitedTextValue[0].toLowerCase(), parseInt(splitedTextValue[1]));
