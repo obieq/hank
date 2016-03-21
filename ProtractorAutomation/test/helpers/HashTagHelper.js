@@ -9,9 +9,9 @@ var HashTagHelper = function () {
 
   this.computeHashTags = function (hashTagText) {
     var defer = protractor.promise.defer();
-    console.log("**********Inside compute hash tags*********** splittedHashTagArray=");
+
     var splittedHashTagArray = hashTagText.split('#');
-    console.log(splittedHashTagArray[1].toLowerCase());
+
     if (splittedHashTagArray[1].split('~')[0].toLowerCase() == 'now') {
       for (var i = 1; i < splittedHashTagArray.length; i++) {
         var splitedTextValue = splittedHashTagArray[i].split('~');
@@ -30,9 +30,9 @@ var HashTagHelper = function () {
       defer.fulfill(currentCycleDate);
     }
     else if (splittedHashTagArray[1].split('~')[0].toLowerCase() == 'variable') {
-      console.log("*********Inside compute hash tags VARIABLE SECTION ***********");
+
       browser.getCurrentUrl().then(function (curUrl) {
-        console.log("****************Getting current url******************");
+
         for (var i = 1; i < splittedHashTagArray.length; i++) {
           var splitedTextValue = splittedHashTagArray[i].split('~');
           if (splitedTextValue.length > 1) {
@@ -54,7 +54,7 @@ var HashTagHelper = function () {
   };
 
   this.computeDate = function (hashTagText, correspondingValue) {
-    console.log("hash tag helper inside computedata hashTagText=" + hashTagText + " correspondingValue=" + correspondingValue);
+
     switch (hashTagText) {
       case 'now':
       {
@@ -64,12 +64,10 @@ var HashTagHelper = function () {
       case 'variable':
       {
         var variableContainer = browser.params.config.variableContainer;
-        console.log("********variableContainer************");
-        console.log(variableContainer);
+
         for (var k = 0; k < variableContainer.length; k++) {
           if (correspondingValue == variableContainer[k].Name.toLowerCase()) {
             currentCycleDate = new Date(variableContainer[k].Value);
-            console.log("Inside variable currentCycleDate=" + currentCycleDate);
             break;
           }
         }
@@ -77,11 +75,9 @@ var HashTagHelper = function () {
       }
       case 'addyears':
       {
-        console.log("Year*******");
-        console.log(currentCycleDate);
+
         currentCycleDate = new Date(currentCycleDate.setFullYear(currentCycleDate.getFullYear() + correspondingValue));
-        console.log("Year After*******");
-        console.log(currentCycleDate);
+
         break;
       }
       case 'addmonths':
@@ -124,7 +120,7 @@ var HashTagHelper = function () {
           }
           case 'mm/dd/yyyy':
           {
-            console.log("current month:- " + currentCycleDate.getMonth() + " currcycdate=" + currentCycleDate);
+
             currentCycleDate = currentCycleDate.getMonth() + 1 + '/' + currentCycleDate.getDate() + '/' + currentCycleDate.getFullYear();
             break;
           }

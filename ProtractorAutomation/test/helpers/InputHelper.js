@@ -112,7 +112,7 @@ var InputHelper = function () {
       }
       case locatorTypeConstant.Regex:
       {
-        console.log("Read Page Source");
+
         browser.driver.getPageSource().then(function (response) {
           thisobj.setInput(response, testInstance);
         });
@@ -353,7 +353,7 @@ var InputHelper = function () {
           {
             if (testInstance.StepType == 3) {
               browser.getCurrentUrl().then(function (urle) {
-                console.log("inside  actionConstant.LogText a=" + testInstance.VariableName);
+
                 jsonHelper.parseJsonToExecuteSql(testInstance).then(function (a) {
                   browser.params.config.logContainer.push({Name: testInstance.VariableName, Value: JSON.stringify(a)});
                 });
@@ -405,7 +405,7 @@ var InputHelper = function () {
             }
             else {
               var response = hashTagHelper.computeHashTags(testInstance.Value).then(function(response){
-                console.log("Hash Tag Response=" + response);
+
                 thisobj.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, response.toString(), testInstance.DisplayName);
               });
 
@@ -590,7 +590,7 @@ var InputHelper = function () {
           case actionConstant.SwitchToWindow:
           {
             browser.getAllWindowHandles().then(function (handles) {
-              console.log("inside SwitchToWindow handles length= " + handles.length);
+
               newWindowHandle = handles[1];
               browser.switchTo().window(newWindowHandle).then(function () {
               });
@@ -665,9 +665,9 @@ var InputHelper = function () {
           break;
         }
       }
-      console.log("Middle Not flag= " + flag);
+
       if (!flag) {
-        console.log("Inside Not flag variableName= " + variableName);
+
         browser.params.config.variableContainer.push({
           Name: variableName,
           Value: textVal,
@@ -720,7 +720,7 @@ var InputHelper = function () {
   this.GetSharedVariable = function (testInstance) {
     if (testInstance.VariableName.trim() != '' && testInstance.Action != actionConstant.SetVariable && testInstance.Action != actionConstant.SetVariableManually) {
       browser.getCurrentUrl().then(function (actualUrl) {
-        console.log("INSIDE GetSharedVariable indexed testInstance.VariableName:= " + testInstance.VariableName);
+
         var toCompareValue = testInstance.Value;
         if (testInstance.VariableName.indexOf('[') == -1) {
           if (testInstance.VariableName.indexOf('{') == -1) {
@@ -749,7 +749,7 @@ var InputHelper = function () {
               if (testInstance.VariableName.substring(0, testInstance.VariableName.indexOf('{')) == browser.params.config.variableContainer[k].Name) {
                 var subStrIndex = testInstance.VariableName.substring(testInstance.VariableName.indexOf('{') + 1, testInstance.VariableName.indexOf('}'));
                 testInstance.Value = eval("browser.params.config.variableContainer[k].Value.substring(" + subStrIndex + ")");
-                console.log("INSIDE GetSharedVariable indexed substr:= " + testInstance.Value);
+
                 break;
               }
             }
@@ -806,10 +806,15 @@ var InputHelper = function () {
         key.clear().then(function () {
           browser.params.config.LastStepExecuted = executionSequence;
         });
+        browser.sleep(3000).then(function () {
+
+        });
       }
       if (isAutoFIll) {
         if (cjIdentifier == 2) {
-          key.sendKeys(value + " ", protractor.Key.ENTER).then(function () {
+          key.sendKeys(value + " ").then(function () {
+            element(by.linkText(value)).click();
+
             browser.params.config.LastStepExecuted = executionSequence;
           });
         }
@@ -1019,8 +1024,6 @@ var InputHelper = function () {
 
     var isElePresentOnUi = function () {
       if (elementFinder.isPresent == undefined) {
-        console.log("*************elementFinder.isPresent is undefined");
-        console.log(elementFinder.locator_);
         return false;
       }
 
