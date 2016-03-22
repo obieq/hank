@@ -75,9 +75,7 @@ var HashTagHelper = function () {
       }
       case 'addyears':
       {
-
         currentCycleDate = new Date(currentCycleDate.setFullYear(currentCycleDate.getFullYear() + correspondingValue));
-
         break;
       }
       case 'addmonths':

@@ -340,11 +340,23 @@ var InputHelper = function () {
           case actionConstant.AssertToEqual:
           {
             if (key == "") {
-              expect(testInstance.Value + "").toEqual(jsonHelper.customTrim(testInstance.ToCompareWith + ""))
+              expect(testInstance.Value + "").toEqual(jsonHelper.customTrim(testInstance.ToCompareWith + ""));
               browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
             }
             else {
-              this.performAssertToEqual(testInstance.ExecutionSequence, key, testInstance.Value);
+              this.performAssertOperation(testInstance.ExecutionSequence, key, testInstance.Value, true);
+            }
+            break;
+          }
+
+          case actionConstant.AssertNotToEqual:
+          {
+            if (key == "") {
+              expect(testInstance.Value + "").not.toEqual(jsonHelper.customTrim(testInstance.ToCompareWith + ""));
+              browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
+            }
+            else {
+              this.performAssertOperation(testInstance.ExecutionSequence, key, testInstance.Value, false);
             }
             break;
           }
@@ -404,7 +416,7 @@ var InputHelper = function () {
               this.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, testInstance.Value, testInstance.DisplayName);
             }
             else {
-              var response = hashTagHelper.computeHashTags(testInstance.Value).then(function(response){
+              var response = hashTagHelper.computeHashTags(testInstance.Value).then(function (response) {
 
                 thisobj.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, response.toString(), testInstance.DisplayName);
               });
@@ -769,7 +781,7 @@ var InputHelper = function () {
                 }
               }
             }
-            else{
+            else {
               testInstance.Value = jsonHelper.GetIndexedVariableValueFromVariableContainer(variables[0]);
             }
             if (variables[1].indexOf('[') == -1) {
@@ -780,7 +792,7 @@ var InputHelper = function () {
                 }
               }
             }
-            else{
+            else {
               toCompareValue = jsonHelper.GetIndexedVariableValueFromVariableContainer(variables[1]);
             }
 
@@ -865,11 +877,16 @@ var InputHelper = function () {
     });
   };
 
-  this.performAssertToEqual = function (executionSequence, key, value) {
+  this.performAssertOperation = function (executionSequence, key, value, operationFlag) {
     thisobj.GetText(key, function (_value) {
       var typeofText = typeof(value) + "";
       var textVal = ((value == null || typeofText == 'string' ? value : value[0]) + "").replace(/\n/gi, "");
-      expect(jsonHelper.customTrim(textVal)).toEqual(jsonHelper.customTrim(_value));
+      if (operationFlag) {
+        expect(jsonHelper.customTrim(textVal)).toEqual(jsonHelper.customTrim(_value));
+      }
+      else {
+        expect(jsonHelper.customTrim(textVal)).not.toEqual(jsonHelper.customTrim(_value));
+      }
       browser.params.config.LastStepExecuted = executionSequence;
     });
   };

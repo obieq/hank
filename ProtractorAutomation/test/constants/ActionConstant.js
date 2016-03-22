@@ -36,5 +36,6 @@ var ActionConstant = function () {
   this.MouseHover = "Mouse Hover";
   this.GWMenuClick = "Guidewire Menu Click";
   this.OpenNewWindow = "Open New Window";
+  this.AssertNotToEqual = 'Assert Not To Equal';
 };
 module.exports = ActionConstant;
