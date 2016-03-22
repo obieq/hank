@@ -40,9 +40,6 @@ var JsonHelper = function () {
 
     var indexes = varName.match(/\[(.*?)\]/g) || [];
 
-    console.log("**********Inside GetIndexesFromVariable Indexes:-******************");
-    console.log(indexes);
-
     for(var i = 0; i < indexes.length; i++){
       indexes[i] = indexes[i].replace("[", "").replace("]", "");
     }
@@ -73,14 +70,14 @@ var JsonHelper = function () {
       for(var i = 0; i < aryData.length; i++){
         isMatchFound = true;
         for(var j = 0; j < colNameValuePair.length; j++){
-          if(colNameValuePair[j].Value && colNameValuePair[j].Value.toLowerCase() != aryData[i][colNameValuePair[j].ColIndex].toLowerCase()){
+          if(colNameValuePair[j].Value && colNameValuePair[j].Value.toLowerCase() != (aryData[i][colNameValuePair[j].ColIndex]).toLowerCase()){
             isMatchFound = false;
             break;
           }
         }
 
         if(isMatchFound){
-          rowIndex = i;
+          rowIndex = colNameValuePair.length == 1 ? 1 : i;
           tmpColIndex = colNameValuePair[colNameValuePair.length - 1].ColIndex;
           break;
         }
@@ -146,7 +143,9 @@ var JsonHelper = function () {
           browser.params.config.variableContainer[m].JsonValue = JSON.parse(browser.params.config.variableContainer[m].Value);
 
           var aryData = browser.params.config.variableContainer[m].JsonValue;
+
           var indexs = this.GetIndexesFromVariable(varName, aryData);
+
           console.log("Final variable", indexs.varName);
           return eval("aryData" + indexs.varName.substring(indexs.varName.indexOf('[')));
         }
