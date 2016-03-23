@@ -46,6 +46,11 @@ namespace Elephant.Hank.DataService.DBSchema.Linking
         public long NewOrder { get; set; }
 
         /// <summary>
+        /// Gets or sets the new variable.
+        /// </summary>
+        public string NewVariable { get; set; }
+
+        /// <summary>
         /// Gets or sets the TestData
         /// </summary>
         [ForeignKey("TestDataId")]

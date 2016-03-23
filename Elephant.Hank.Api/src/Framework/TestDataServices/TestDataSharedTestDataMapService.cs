@@ -109,6 +109,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                         item.NewOrder = updatedObject.NewOrder;
                         item.IsIgnored = updatedObject.IsIgnored;
                         item.NewValue = updatedObject.NewValue;
+                        item.NewVariable = updatedObject.NewVariable;
                         item.ModifiedBy = userId;
                         item.ModifiedOn = DateTime.Now;
                     }

@@ -38,13 +38,17 @@ var JsonHelper = function () {
   this.GetIndexesFromVariable = function (varName, aryData) {
     varName = varName || "";
 
+    varName = this.checkVariableInVariableAndGetValue(varName);
+
     var indexes = varName.match(/\[(.*?)\]/g) || [];
 
-    for(var i = 0; i < indexes.length; i++){
+    for (var i = 0; i < indexes.length; i++) {
       indexes[i] = indexes[i].replace("[", "").replace("]", "");
     }
 
-    if(aryData == undefined || aryData[0] == undefined){ return undefined; }
+    if (aryData == undefined || aryData[0] == undefined) {
+      return undefined;
+    }
 
     var idxRow = indexes[0] || "0";
     var idxCol = indexes.length > 1 ? indexes[1] : undefined;
@@ -52,7 +56,7 @@ var JsonHelper = function () {
     var idxRowVal = idxRow;
     var idxColVal = idxCol;
 
-    if(isNaN(idxRow) && indexes.length == 1){
+    if (isNaN(idxRow) && indexes.length == 1) {
       var rowIndex = -1;
       var tmpColIndex = -1;
       var searchData = idxRow.split(";");
@@ -61,22 +65,22 @@ var JsonHelper = function () {
       idxCol = "idxCol";
       varName += "[idxCol]";
 
-      for(var i = 0; i < searchData.length; i++){
+      for (var i = 0; i < searchData.length; i++) {
         var tmpData = searchData[i].split('~');
-        colNameValuePair.push({ ColIndex: this.inArray(aryData[0], tmpData[0], true), Value: tmpData[1] });
+        colNameValuePair.push({ColIndex: this.inArray(aryData[0], tmpData[0], true), Value: tmpData[1]});
       }
 
       var isMatchFound = false;
-      for(var i = 0; i < aryData.length; i++){
+      for (var i = 0; i < aryData.length; i++) {
         isMatchFound = true;
-        for(var j = 0; j < colNameValuePair.length; j++){
-          if(colNameValuePair[j].Value && colNameValuePair[j].Value.toLowerCase() != (aryData[i][colNameValuePair[j].ColIndex]).toLowerCase()){
+        for (var j = 0; j < colNameValuePair.length; j++) {
+          if (colNameValuePair[j].Value && colNameValuePair[j].Value.toLowerCase() != (aryData[i][colNameValuePair[j].ColIndex]).toLowerCase()) {
             isMatchFound = false;
             break;
           }
         }
 
-        if(isMatchFound){
+        if (isMatchFound) {
           rowIndex = colNameValuePair.length == 1 ? 1 : i;
           tmpColIndex = colNameValuePair[colNameValuePair.length - 1].ColIndex;
           break;
@@ -86,17 +90,17 @@ var JsonHelper = function () {
       idxRowVal = rowIndex;
       idxColVal = tmpColIndex;
 
-      if(!isNaN(searchData[searchData.length-1])){
-        idxColVal = searchData[searchData.length-1];
+      if (!isNaN(searchData[searchData.length - 1])) {
+        idxColVal = searchData[searchData.length - 1];
       }
 
-      if(rowIndex == -1){
+      if (rowIndex == -1) {
         idxRowVal = 0;
         idxColVal = -1;
       }
     }
 
-    if(isNaN(idxRow) && isNaN(idxRowVal) && idxCol && isNaN(idxCol)) {
+    if (isNaN(idxRow) && isNaN(idxRowVal) && idxCol && isNaN(idxCol)) {
       idxColVal = this.inArray(aryData[0], idxRow, true);
 
       for (var i = 0; i < aryData.length; i++) {
@@ -110,11 +114,11 @@ var JsonHelper = function () {
       idxRowVal = isNaN(idxRowVal) ? "0" : idxRowVal;
     }
 
-    if(isNaN(idxRow) && isNaN(idxRowVal)) {
+    if (isNaN(idxRow) && isNaN(idxRowVal)) {
       idxRowVal = this.inArray(aryData[0], idxRow, true);
     }
 
-    if(idxCol && isNaN(idxCol) && isNaN(idxColVal) && aryData[idxRowVal] != undefined) {
+    if (idxCol && isNaN(idxCol) && isNaN(idxColVal) && aryData[idxRowVal] != undefined) {
       idxColVal = this.inArray(aryData[0], idxCol, true);
     }
 
@@ -124,7 +128,7 @@ var JsonHelper = function () {
     varName = varName.replace(idxCol, idxColVal);
     varName = varName.replace(idxRow, idxRowVal);
 
-    return {varName: varName, idxCol: idxCol, idxColVal: idxColVal, idxRow: idxRow, idxRowVal:idxRowVal};
+    return {varName: varName, idxCol: idxCol, idxColVal: idxColVal, idxRow: idxRow, idxRowVal: idxRowVal};
   };
 
   this.GetIndexedVariableValueFromVariableContainer = function (varName) {
@@ -132,11 +136,11 @@ var JsonHelper = function () {
 
     var indexes = varName.match(/\[(.*?)\]/g) || [];
 
-    for(var i = 0; i < indexes.length; i++){
+    for (var i = 0; i < indexes.length; i++) {
       indexes[i] = indexes[i].replace("[", "").replace("]", "");
     }
 
-    if(indexes.length > 0){
+    if (indexes.length > 0) {
       var res = varName.substring(0, varName.indexOf('['));
       for (var m = 0; m < browser.params.config.variableContainer.length; m++) {
         if (browser.params.config.variableContainer[m].Name == res) {
@@ -148,6 +152,14 @@ var JsonHelper = function () {
 
           console.log("Final variable", indexs.varName);
           return eval("aryData" + indexs.varName.substring(indexs.varName.indexOf('[')));
+        }
+      }
+    }
+    else {
+      var res = varName;
+      for (var m = 0; m < browser.params.config.variableContainer.length; m++) {
+        if (browser.params.config.variableContainer[m].Name == res) {
+          return browser.params.config.variableContainer[m].Value;
         }
       }
     }
@@ -200,9 +212,9 @@ var JsonHelper = function () {
     return defer.promise;
   };
 
-  this.executeAutoIncrement=function(testInstance){
+  this.executeAutoIncrement = function (testInstance) {
     var defer = protractor.promise.defer();
-    restApiHelper.doPost(browser.params.config.baseApiUrl + browser.params.config.autoincrementUrl , testInstance, function (msg) {
+    restApiHelper.doPost(browser.params.config.baseApiUrl + browser.params.config.autoincrementUrl, testInstance, function (msg) {
       var resultMessage = JSON.parse(msg.body);
       defer.fulfill(resultMessage.Item);
     });
@@ -250,7 +262,7 @@ var JsonHelper = function () {
 
     curTestReportPath = path.join(reportPath, browserDetails, lastPart);
     return curTestReportPath;
-  }
+  };
 
   this.gatherDescriptions = function (suite, soFar) {
     soFar.push(suite.description);
@@ -259,6 +271,16 @@ var JsonHelper = function () {
     } else {
       return soFar;
     }
+  };
+
+  this.checkVariableInVariableAndGetValue = function (varName) {
+    var variables = varName.match(/\{(.*?)\}/g) || [];
+    for (var i = 0; i < variables.length; i++) {
+      var processedVariable = variables[i].replace("{", "").replace("}", "");
+      var variableValue = this.GetIndexedVariableValueFromVariableContainer(processedVariable);
+      varName = varName.replace(variables[i], variableValue);
+    }
+    return varName;
   }
 
 };

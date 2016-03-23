@@ -2,6 +2,8 @@
  * Created by vyom.sharma on 15-03-2016.
  */
 
+require('./DateHelper.js');
+
 var HashTagHelper = function () {
 
   var currentCycleDate;
@@ -100,50 +102,7 @@ var HashTagHelper = function () {
       }
       case 'format':
       {
-        switch (correspondingValue) {
-          case 'dd-mm-yyyy':
-          {
-            currentCycleDate = currentCycleDate.getDate() + '-' + currentCycleDate.getMonth() + 1 + '-' + currentCycleDate.getFullYear();
-            break;
-          }
-          case 'dd/mm/yyyy':
-          {
-            currentCycleDate = currentCycleDate.getDate() + 1 + '/' + currentCycleDate.getMonth() + 1 + '/' + currentCycleDate.getFullYear();
-            break;
-          }
-          case 'mm-dd-yyyy':
-          {
-            currentCycleDate = currentCycleDate.getMonth() + 1 + '-' + currentCycleDate.getDate() + '-' + currentCycleDate.getFullYear();
-            break;
-          }
-          case 'mm/dd/yyyy':
-          {
-
-            currentCycleDate = currentCycleDate.getMonth() + 1 + '/' + currentCycleDate.getDate() + '/' + currentCycleDate.getFullYear();
-            break;
-          }
-          case 'dd-mm-yyyy hh:mm:ss':
-          {
-            currentCycleDate = currentCycleDate.getDate() + '-' + currentCycleDate.getMonth() + 1 + '-' + currentCycleDate.getFullYear() + ' ' + currentCycleDate.getHours() + ':' + currentCycleDate.getMinutes() + ':' + currentCycleDate.getSeconds();
-            break;
-          }
-          case 'dd/mm/yyyy hh:mm:ss':
-          {
-            currentCycleDate = currentCycleDate.getDate() + '/' + currentCycleDate.getMonth() + 1 + '/' + currentCycleDate.getFullYear() + ' ' + currentCycleDate.getHours() + ':' + currentCycleDate.getMinutes() + ':' + currentCycleDate.getSeconds();
-            break;
-          }
-          case 'mm-dd-yyyy hh:mm:ss':
-          {
-            currentCycleDate = currentCycleDate.getMonth() + 1 + '-' + currentCycleDate.getDate() + '-' + currentCycleDate.getFullYear() + ' ' + currentCycleDate.getHours() + ':' + currentCycleDate.getMinutes() + ':' + currentCycleDate.getSeconds();
-            break;
-          }
-          case 'mm/dd/yyyy hh:mm:ss':
-          {
-            currentCycleDate = currentCycleDate.getMonth() + 1 + '/' + currentCycleDate.getDate() + '/' + currentCycleDate.getFullYear() + ' ' + currentCycleDate.getHours() + ':' + currentCycleDate.getMinutes() + ':' + currentCycleDate.getSeconds();
-
-            break;
-          }
-        }
+        currentCycleDate = currentCycleDate.format(correspondingValue);
         break;
       }
 

@@ -87,21 +87,24 @@
                 <table class="table table-bordered table-striped">
                   <thead>
                   <tr>
+                    <th>Default Sequence</th>
+                    <th class="col-md-1">Sequence</th>
                     <th class="col-md-2">Display Name</th>
                     <th class="col-md-2">Action</th>
                     <th class="col-md-1" style="text-align: center;">Default Skip</th>
                     <th class="col-md-1" style="text-align: center;">Skip</th>
                     <th class="col-md-1">Default Value</th>
                     <th class="col-md-1">Value</th>
+                    <th class="col-md-1">Default Variable</th>
                     <th class="col-md-1">Variable</th>
-                    <th>Default Sequence</th>
-                    <th class="col-md-1">Sequence</th>
-                    <th class="col-md-1"> Modified By </th>
+
                   </tr>
                   </thead>
                   <tbody>
                   <tr ng-repeat="stestData in testData.SharedTest.SharedTestDataList | orderBy:'ExecutionSequence'"
                       ng-class="stestData.Ignore ? 'alert-danger' : ''">
+                    <td>{{stestData.ExecutionSequence}}</td>
+                    <td>{{stestData.UIExecutionSequence}}</td>
                     <td>{{stestData.DisplayNameValue}}</td>
                     <td>{{stestData.ActionValue}}</td>
                     <td align="center"><input type="checkbox" disabled ng-model="stestData.IsIgnored"></td>
@@ -109,9 +112,7 @@
                     <td>{{stestData.Value}}</td>
                     <td>{{stestData.UIValue}}</td>
                     <td>{{stestData.VariableName}}</td>
-                    <td>{{stestData.ExecutionSequence}}</td>
-                    <td>{{stestData.UIExecutionSequence}}</td>
-                    <td>{{ stestData.ModifiedByUserName}}</td>
+                    <td>{{stestData.UIVariableName}}</td>
                   </tr>
                   </tbody>
                 </table>

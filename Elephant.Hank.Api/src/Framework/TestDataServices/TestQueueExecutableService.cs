@@ -177,6 +177,11 @@ namespace Elephant.Hank.Framework.TestDataServices
                                             sharedStep.Value = lnkSharedTestStep.NewValue;
                                         }
 
+                                        if (!string.IsNullOrEmpty(lnkSharedTestStep.NewVariable))
+                                        {
+                                            sharedStep.VariableName = lnkSharedTestStep.NewVariable;
+                                        }
+
                                         sharedStep.IsIgnored = lnkSharedTestStep.IsIgnored ?? false;
                                     }
                                 }

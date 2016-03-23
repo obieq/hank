@@ -42,5 +42,10 @@ namespace Elephant.Hank.Resources.Dto.Linking
         /// Gets or sets the NewOrder
         /// </summary>
         public long NewOrder { get; set; }
+
+        /// <summary>
+        /// Gets or sets the new variable.
+        /// </summary>
+        public string NewVariable { get; set; }
     }
 }

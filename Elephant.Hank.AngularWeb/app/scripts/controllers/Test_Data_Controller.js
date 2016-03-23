@@ -132,6 +132,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
               if (lnkSharedStep != undefined && lnkSharedStep != null) {
                 $scope.TestDataList[i].SharedTest.SharedTestDataList[j].Ignore = lnkSharedStep.IsIgnored;
                 $scope.TestDataList[i].SharedTest.SharedTestDataList[j].UIValue = lnkSharedStep.NewValue;
+                $scope.TestDataList[i].SharedTest.SharedTestDataList[j].UIVariableName = lnkSharedStep.NewVariable;
                 $scope.TestDataList[i].SharedTest.SharedTestDataList[j].UIExecutionSequence = lnkSharedStep.NewOrder;
                 $scope.TestDataList[i].SharedTest.SharedTestDataList[j].LnkId = lnkSharedStep.Id;
               }
@@ -244,6 +245,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
               if (lnkSharedStep != undefined && lnkSharedStep != null) {
                 $scope.TestData.SharedTestDataList[i].Ignore = lnkSharedStep.IsIgnored;
                 $scope.TestData.SharedTestDataList[i].UIValue = lnkSharedStep.NewValue;
+                $scope.TestData.SharedTestDataList[i].UIVariableName = lnkSharedStep.NewVariable;
                 $scope.TestData.SharedTestDataList[i].UIExecutionSequence = lnkSharedStep.NewOrder;
                 $scope.TestData.SharedTestDataList[i].LnkId = lnkSharedStep.Id;
               }
@@ -523,6 +525,7 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
           $scope.TestData.SharedTestSteps[i].SharedTestDataId = $scope.TestData.SharedTestDataList[i].Id;
           $scope.TestData.SharedTestSteps[i].IsIgnored = $scope.TestData.SharedTestDataList[i].Ignore;
           $scope.TestData.SharedTestSteps[i].NewValue = $scope.TestData.SharedTestDataList[i].UIValue;
+          $scope.TestData.SharedTestSteps[i].NewVariable = $scope.TestData.SharedTestDataList[i].UIVariableName;
           $scope.TestData.SharedTestSteps[i].NewOrder = $scope.TestData.SharedTestDataList[i].UIExecutionSequence;
         }
       }
@@ -550,6 +553,9 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
           $scope.TestData.SharedTestSteps[i].SharedTestDataId = $scope.TestData.SharedTestDataList[i].Id;
           $scope.TestData.SharedTestSteps[i].IsIgnored = $scope.TestData.SharedTestDataList[i].Ignore;
           $scope.TestData.SharedTestSteps[i].NewValue = $scope.TestData.SharedTestDataList[i].UIValue;
+          $scope.TestData.SharedTestSteps[i].NewVariable = $scope.TestData.SharedTestDataList[i].UIVariableName;
+          var check1=$scope.TestData.SharedTestDataList[i].UIVariableName;
+          var check2=$scope.TestData.SharedTestSteps[i].NewVariable;
           $scope.TestData.SharedTestSteps[i].NewOrder = $scope.TestData.SharedTestDataList[i].UIExecutionSequence;
         }
       }

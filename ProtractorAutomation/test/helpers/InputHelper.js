@@ -602,7 +602,6 @@ var InputHelper = function () {
           case actionConstant.SwitchToWindow:
           {
             browser.getAllWindowHandles().then(function (handles) {
-
               newWindowHandle = handles[1];
               browser.switchTo().window(newWindowHandle).then(function () {
               });
@@ -756,7 +755,7 @@ var InputHelper = function () {
               }
             }
           }
-          else {
+          else{
             for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
               if (testInstance.VariableName.substring(0, testInstance.VariableName.indexOf('{')) == browser.params.config.variableContainer[k].Name) {
                 var subStrIndex = testInstance.VariableName.substring(testInstance.VariableName.indexOf('{') + 1, testInstance.VariableName.indexOf('}'));

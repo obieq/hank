@@ -1,7 +1,7 @@
 <section class="content-header">
   <div class="row">
     <!-- left column -->
-    <div class=" col-md-8 col-md-offset-2">
+    <div class=" col-md-12">
       <h1> Add Test Data for
         <small> {{Website.Name}} - {{Test.TestName}}</small>
       </h1>
@@ -13,7 +13,7 @@
 <section class="content" ng-init="onLoadAdd()">
   <div class="row">
     <!-- left column -->
-    <div class=" col-md-8 col-md-offset-2">
+    <div class=" col-md-12">
       <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
@@ -250,28 +250,35 @@
             <table class="table table-bordered table-striped" ng-if="TestData.SharedTestDataList.length>0">
               <thead>
               <tr>
-
+                <th>Default Sequence</th>
+                <th>Sequence</th>
                 <th class="col-md-2">Display Name</th>
                 <th class="col-md-2">Action</th>
                 <th class="col-md-1" style="text-align: center;">Default Skip</th>
                 <th class="col-md-1" style="text-align: center;">Skip</th>
+                <th class="col-md-2">Default Variable</th>
+                <th class="col-md-2">Variable</th>
                 <th class="col-md-2">Default Value</th>
                 <th class="col-md-2">Value</th>
-                <th>Default Sequence</th>
-                <th class="col-md-1">Sequence</th>
+
+
               </tr>
               </thead>
               <tbody>
               <tr ng-repeat="testData in TestData.SharedTestDataList | orderBy:'ExecutionSequence'"
                   ng-init="testData.Ignore = testData.IsIgnored" ng-class="testData.Ignore ? 'alert-danger' : ''">
+                <td>{{testData.ExecutionSequence}}</td>
+                <td><input type="text" style="width: 100%" ng-model="testData.UIExecutionSequence"></td>
                 <td>{{testData.DisplayNameValue}}</td>
                 <td>{{testData.ActionValue}}</td>
                 <td align="center"><input type="checkbox" disabled ng-model="testData.IsIgnored"></td>
                 <td align="center"><input type="checkbox" ng-model="testData.Ignore"></td>
+                <td>{{testData.VariableName}}</td>
+                <td><input type="text" ng-model="testData.UIVariableName"></td>
                 <td>{{testData.Value}}</td>
                 <td><input type="text" ng-model="testData.UIValue"></td>
-                <td>{{testData.ExecutionSequence}}</td>
-                <td><input type="text" ng-model="testData.UIExecutionSequence"></td>
+
+
               </tr>
               </tbody>
             </table>
