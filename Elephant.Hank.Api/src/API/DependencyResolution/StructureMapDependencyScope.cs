@@ -96,6 +96,7 @@ namespace Elephant.Hank.Api.DependencyResolution
             get
             {
                 var ctx = this.Container.TryGetInstance<HttpContextBase>();
+                
                 return ctx ?? new HttpContextWrapper(System.Web.HttpContext.Current);
             }
         }

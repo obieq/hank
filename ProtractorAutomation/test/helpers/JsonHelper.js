@@ -9,6 +9,8 @@ var JsonHelper = function () {
   var RestApiHelper = require('./RestApiHelper.js');
   var restApiHelper = new RestApiHelper();
 
+  var thisObj = this;
+
   this.format = function () {
     var formatted = arguments[0];
     for (var i = 1; i < arguments.length; i++) {
@@ -74,7 +76,7 @@ var JsonHelper = function () {
       for (var i = 0; i < aryData.length; i++) {
         isMatchFound = true;
         for (var j = 0; j < colNameValuePair.length; j++) {
-          if (colNameValuePair[j].Value && colNameValuePair[j].Value.toLowerCase() != (aryData[i][colNameValuePair[j].ColIndex]).toLowerCase()) {
+          if (colNameValuePair[j].Value && colNameValuePair[j].Value.toLowerCase() != (aryData[i][colNameValuePair[j].ColIndex] + "").toLowerCase()) {
             isMatchFound = false;
             break;
           }
@@ -149,7 +151,6 @@ var JsonHelper = function () {
           var aryData = browser.params.config.variableContainer[m].JsonValue;
 
           var indexs = this.GetIndexesFromVariable(varName, aryData);
-
           console.log("Final variable", indexs.varName);
           return eval("aryData" + indexs.varName.substring(indexs.varName.indexOf('[')));
         }
@@ -197,13 +198,23 @@ var JsonHelper = function () {
     restApiHelper.doPost(urleTohit, testInstance, function (msg) {
       var resultMessage = JSON.parse(msg.body);
       console.log("Length= " + resultMessage.Item.length);
+
       if (resultMessage.Item != "null") {
+        var keyIndx = 0;
+        var mainIndx = 1;
+        a[0] = [];
         for (var i = 0; i < resultMessage.Item.length; i++) {
-          a[i] = [];
+          a[mainIndx] = [];
           var keys = Object.keys(resultMessage.Item[i]);
           for (var j = 0; j < keys.length; j++) {
-            a[i][j] = resultMessage.Item[i][keys[j]];
+            a[mainIndx][j] = resultMessage.Item[i][keys[j]];
+
+            if(thisObj.inArray(a[0], keys[j], true) == -1){
+              a[0][keyIndx] = keys[j];
+              keyIndx++;
+            }
           }
+          mainIndx++;
         }
       }
       defer.fulfill(a);
@@ -238,7 +249,7 @@ var JsonHelper = function () {
     ignoreCase = ignoreCase == undefined ? false : ignoreCase;
 
     for (var j = 0; j < jarry.length; j++) {
-      if ((jarry[j] == objectToFind) || (ignoreCase && jarry[j].toLowerCase() == objectToFind.toLowerCase())) {
+      if (jarry[j] && ((jarry[j] == objectToFind) || (ignoreCase && (jarry[j] + "").toLowerCase() == (objectToFind+ "").toLowerCase()))) {
         retIndex = j;
         break;
       }

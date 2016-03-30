@@ -146,7 +146,7 @@ namespace Elephant.Hank.Framework.TestDataServices
             }
             catch (Exception ex)
             {
-                string jsonString = "[{'ExceptionMessage':" + ex.Message + "}]";
+                string jsonString = "[{\"ExceptionMessage\": \"" + ex.Message + "\"}]";
                 object jobject = (object)JsonConvert.DeserializeObject(jsonString);
                 result.Item = jobject;
                 return result;

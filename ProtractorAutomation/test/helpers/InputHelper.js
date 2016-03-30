@@ -393,7 +393,7 @@ var InputHelper = function () {
             if (testInstance.StepType == 3) {
               browser.getCurrentUrl().then(function (urle) {
                 jsonHelper.parseJsonToExecuteSql(testInstance).then(function (a) {
-                  thisobj.setVariable(testInstance.VariableName, JSON.stringify(a), testInstance.DisplayName);
+                  thisobj.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, JSON.stringify(a), testInstance.DisplayName);
                   browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
                 });
 

@@ -31,7 +31,7 @@ var RestApiHelper = function()
 
     request(reqOption, function (error, message) {
       if (error || message.statusCode >= 400) {
-        console.log("*****12345*****");
+        console.log("*****12345*****", error);
         console.log(reqOption);
         console.log(message.body);
 		    console.log("*****1231112*****");
