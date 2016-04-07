@@ -134,6 +134,8 @@ namespace Elephant.Hank.Framework.TestDataServices
         {
             if (testDataDto != null && testDataDto.Any())
             {
+                bool breakParentLoop = false;
+
                 foreach (var item in testDataDto)
                 {
                     if (item.ActionId == ActionConstants.Instance.IgnoreLoadNeUrlActionId && this.testPlan.Any() && this.testPlan.Last().ActionId.Value == ActionConstants.Instance.LoadNewUrlActionId)
@@ -141,15 +143,23 @@ namespace Elephant.Hank.Framework.TestDataServices
                         this.testPlan.Remove(this.testPlan.Last());
                         this.ExecutionSequence--;
                         continue;
-                    }
+                    }                    
 
                     switch (item.LinkTestType)
                     {
                         case (int)LinkTestType.TestStep:
                             {
-                                item.ExecutionSequence = this.ExecutionSequence++;
-                                this.testPlan.Add(item);
-                                break;
+                                if (item.ActionId.Value != ActionConstants.Instance.TerminateTestActionId)
+                                {
+                                    item.ExecutionSequence = this.ExecutionSequence++;
+                                    this.testPlan.Add(item);                                    
+                                }
+                                else
+                                {
+                                    breakParentLoop = true;
+                                }
+
+                                break;                               
                             }
 
                         case (int)LinkTestType.SqlTestStep:
@@ -182,11 +192,24 @@ namespace Elephant.Hank.Framework.TestDataServices
                                             sharedStep.VariableName = lnkSharedTestStep.NewVariable;
                                         }
 
-                                        sharedStep.IsIgnored = lnkSharedTestStep.IsIgnored ?? false;
+                                        sharedStep.IsIgnored = lnkSharedTestStep.IsIgnored ?? false;                                       
+                                    }
+
+                                    if (sharedStep.ActionId == ActionConstants.Instance.TerminateTestActionId && !sharedStep.IsIgnored)
+                                    {
+                                        breakParentLoop = true;
+                                        break;
                                     }
                                 }
 
-                                sharedSteps.RemoveAll(m => m.IsIgnored);
+                                sharedSteps.RemoveAll(m => m.IsIgnored);    
+                                int indx = sharedSteps.IndexOf(sharedSteps.Where(m => m.ActionId == ActionConstants.Instance.TerminateTestActionId).FirstOrDefault());
+
+                                if (indx >= 0)
+                                {
+                                    sharedSteps.RemoveRange(indx, sharedSteps.Count - indx);
+                                }         
+                      
                                 var mapper = this.mapperFactory.GetMapper<TblSharedTestDataDto, TblTestDataDto>();
                                 var sharedStepMappedWithTestData = sharedSteps.Select(mapper.Map).OrderBy(x => x.ExecutionSequence).ToList();
 
@@ -239,7 +262,12 @@ namespace Elephant.Hank.Framework.TestDataServices
 
                                 this.ProcessTestQueueExecutableData(testDataDtoForSharedWebsiteTest, testQueue, deepIndex + 1);
                                 break;
-                            }
+                            }                          
+                    }
+
+                    if (breakParentLoop)
+                    {
+                        break;
                     }
                 }
             }

@@ -122,6 +122,9 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
             $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
             $scope.InputControlDisplayStatus.txtValue = true;
           }
+          else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.TerminateTestActionId ) {
+
+          }
           else {
             $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
             $scope.InputControlDisplayStatus.txtValue = true;
@@ -186,6 +189,9 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
         }, function (response) {
           commonUi.showErrorPopup(response);
         });
+      }
+      else if ($scope.TestData.ActionId == $scope.ActionConstants.TerminateTestActionId) {
+
       }
       else {
         crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {

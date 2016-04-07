@@ -218,7 +218,9 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
               $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
               $scope.InputControlDisplayStatus.txtValue = true;
             }
-
+            else if ($scope.TestData.ActionId == $scope.ActionConstants.TerminateTestActionId ) {
+             
+            }
             else {
               debugger;
               $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
@@ -451,6 +453,9 @@ app.controller('Test_Data_Controller', ['$scope', '$rootScope', '$q', '$statePar
         }, function (response) {
           commonUi.showErrorPopup(response);
         });
+      }
+      else if ($scope.TestData.ActionId == $scope.ActionConstants.TerminateTestActionId) {
+
       }
       else {
         crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {

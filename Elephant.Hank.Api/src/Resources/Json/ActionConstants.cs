@@ -210,5 +210,16 @@ namespace Elephant.Hank.Resources.Json
                 return ConfigurationManager.AppSettings["SendKeyActionId"].ToInt64();
             }
         }
+
+        /// <summary>
+        /// Gets the terminate test action id
+        /// </summary>
+        public long TerminateTestActionId
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["TerminateTestActionId"].ToInt64();
+            }
+        }
     }
 }
