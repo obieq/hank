@@ -190,8 +190,8 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
           commonUi.showErrorPopup(response);
         });
       }
-      else if ($scope.TestData.ActionId == $scope.ActionConstants.TerminateTestActionId) {
-
+      else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.TerminateTestActionId) {
+        $scope.InputControlDisplayStatus.chkOptional = false;
       }
       else {
         crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
