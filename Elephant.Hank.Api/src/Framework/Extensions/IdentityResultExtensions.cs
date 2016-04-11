@@ -39,7 +39,7 @@ namespace Elephant.Hank.Framework.Extensions
                 result = src.Errors.Select(error => new Message(error)).ToList();
             }
 
-            return result;
+            return result ?? new List<Message>();
         }
     }
 }

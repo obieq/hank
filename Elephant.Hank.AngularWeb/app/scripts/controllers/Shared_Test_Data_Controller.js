@@ -239,6 +239,7 @@ app.controller('Shared_Test_Data_Controller', ['$scope', '$q', '$stateParams', '
 
 
     $scope.addSharedTestData = function () {
+      $scope.SharedTestData.StepType = $scope.IsSqlTestStep ? 3 : 0;
       crudService.add(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.WebsiteId,$stateParams.SharedTestId), $scope.SharedTestData).then(function (response) {
         $state.go("Website.SharedTestData", {
           WebsiteId: $scope.stateParamWebsiteId,

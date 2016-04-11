@@ -68,9 +68,9 @@ namespace Elephant.Hank.Framework.TestDataServices
 
             var result = new ResultMessage<IEnumerable<TblWebsiteDto>>();
             var resultAuthenticatedModule = this.groupModuleAccessService.GetModuleAuthenticatedToUser(userId);
-            var allowedWebSites = resultAuthenticatedModule.Item.GroupBy(x => x.WebsiteId).Select(g => g.Key).ToList();
+            var allowedWebSites = resultAuthenticatedModule.Item == null ? new List<long>() : resultAuthenticatedModule.Item.GroupBy(x => x.WebsiteId).Select(g => g.Key).ToList();
 
-            IEnumerable<TblWebsiteDto> websitesDto = this.GetAll().Item.Where(x => allowedWebSites.Any(y => y == x.Id));
+            IEnumerable<TblWebsiteDto> websitesDto = allowedWebSites.Any() ? this.GetAll().Item.Where(x => allowedWebSites.Any(y => y == x.Id)) : new List<TblWebsiteDto>();
 
             result.Item = websitesDto;
             return result;

@@ -717,6 +717,7 @@ var InputHelper = function () {
             });
           });
         }).then(function () {
+          console.log(tblData);
           onSuccess(JSON.stringify(tblData), tblData);
         });
       }

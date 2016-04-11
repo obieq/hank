@@ -83,7 +83,7 @@ var JsonHelper = function () {
         }
 
         if (isMatchFound) {
-          rowIndex = colNameValuePair.length == 1 ? 1 : i;
+          rowIndex = colNameValuePair.length == 1 && colNameValuePair[0].Value == undefined ? 1 : i;
           tmpColIndex = colNameValuePair[colNameValuePair.length - 1].ColIndex;
           break;
         }
