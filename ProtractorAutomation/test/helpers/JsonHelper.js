@@ -21,7 +21,12 @@ var JsonHelper = function () {
   };
 
   this.customTrim = function (str) {
-    return str.trim().replace(/(\r\n|\n|\r)/gmi, " ").replace(/\s\s+/gi, " ")
+    if(typeof (str)=='object' ){
+      return str[0].trim().replace(/(\r\n|\n|\r)/gmi, " ").replace(/\s\s+/gi, " ")
+    }
+    else {
+      return str.trim().replace(/(\r\n|\n|\r)/gmi, " ").replace(/\s\s+/gi, " ")
+    }
   };
 
   this.log = function (txt) {
@@ -209,7 +214,7 @@ var JsonHelper = function () {
           for (var j = 0; j < keys.length; j++) {
             a[mainIndx][j] = resultMessage.Item[i][keys[j]];
 
-            if(thisObj.inArray(a[0], keys[j], true) == -1){
+            if (thisObj.inArray(a[0], keys[j], true) == -1) {
               a[0][keyIndx] = keys[j];
               keyIndx++;
             }
@@ -249,7 +254,7 @@ var JsonHelper = function () {
     ignoreCase = ignoreCase == undefined ? false : ignoreCase;
 
     for (var j = 0; j < jarry.length; j++) {
-      if (jarry[j] && ((jarry[j] == objectToFind) || (ignoreCase && (jarry[j] + "").toLowerCase() == (objectToFind+ "").toLowerCase()))) {
+      if (jarry[j] && ((jarry[j] == objectToFind) || (ignoreCase && (jarry[j] + "").toLowerCase() == (objectToFind + "").toLowerCase()))) {
         retIndex = j;
         break;
       }
