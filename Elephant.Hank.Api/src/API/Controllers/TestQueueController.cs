@@ -134,7 +134,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [HttpPost]
         [Route]
-        [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
+        [CustomAuthorize(ActionType = ActionTypes.Execute, ModuleType = FrameworkModules.TestScripts)]
         public IHttpActionResult Add([FromBody] TblTestQueueDto testQueueDto)
         {
             var result = new ResultMessage<TblTestQueueDto>();

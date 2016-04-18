@@ -26,7 +26,7 @@ namespace Elephant.Hank.Api.Controllers
     /// The ProfileController class
     /// </summary>
     [RoutePrefix("api/profile")]
-    [CustomAuthorize(Roles = RoleName.TestAdminRole)]
+    [CustomAuthorize(Roles = RoleName.TestAdminRole + "," + RoleName.TestUserRole)]
     public class UserProfileController : BaseApiController
     {
         /// <summary>

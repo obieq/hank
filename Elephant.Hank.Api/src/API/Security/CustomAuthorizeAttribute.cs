@@ -64,6 +64,11 @@ namespace Elephant.Hank.Api.Security
                         return true;
                     }
 
+                    if (controller.ToLower() == "userprofile")
+                    {
+                        return true;
+                    }
+
                     long userId = long.Parse(principal.FindFirst(ClaimTypes.NameIdentifier).Value);
                     var moduleAccessService = StructuremapMvc.StructureMapDependencyScope.Container.GetInstance<IGroupModuleAccessService>();
                     var testService = StructuremapMvc.StructureMapDependencyScope.Container.GetInstance<ITestService>();
