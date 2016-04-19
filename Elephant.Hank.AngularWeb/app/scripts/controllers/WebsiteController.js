@@ -4,14 +4,21 @@
 
 'use strict';
 
-app.controller('WebsiteController', ['$q', '$scope', 'CrudService', '$stateParams', '$state', 'CommonUiService', 'ngAppSettings',
-  function ($q, $scope, crudService, $stateParams, $state, commonUi, ngAppSettings) {
+app.controller('WebsiteController', ['$q', '$scope', 'CrudService', '$stateParams', '$state', 'CommonUiService', 'ngAppSettings', 'authService',
+  function ($q, $scope, crudService, $stateParams, $state, commonUi, ngAppSettings, authService) {
     var baseUrl = ngAppSettings.WebSiteUrl;
     $scope.WebsiteList = [];
     $scope.Website = {WebsiteUrlList: [], IsAngular: false, Settings: {Browsers: []}};
     $scope.CheckedUrl = {};
     $scope.BrowserList = [];
     $scope.EnvironmentList = [];
+    $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
+    var authData = authService.getAuthData();
+    if (authData.type == "TestAdmin") {
+      $scope.Authentication.CanWrite = true;
+      $scope.Authentication.CanDelete = true;
+      $scope.Authentication.CanExecute = true;
+    }
 
     $scope.getAllWebSites = function () {
       crudService.getAll(ngAppSettings.WebSiteUrl).then(function (response) {
@@ -30,7 +37,7 @@ app.controller('WebsiteController', ['$q', '$scope', 'CrudService', '$stateParam
     };
 
     $scope.onLoadUpdate = function () {
-      $scope.loadDataForUpdate().then(function(){
+      $scope.loadDataForUpdate().then(function () {
         for (var i = 0; i < $scope.Website.Settings.Browsers.length; i++) {
           for (var j = 0; j < $scope.BrowserList.length; j++) {
             if ($scope.Website.Settings.Browsers[i] == $scope.BrowserList[j].Id) {
@@ -53,7 +60,7 @@ app.controller('WebsiteController', ['$q', '$scope', 'CrudService', '$stateParam
 
     $scope.addWebsite = function () {
       $scope.Website.Settings.Browsers = $scope.getSelectedBrowsers();
-      $scope.Website.WebsiteUrlList= $scope.getEnteredEnvironmentDetails();
+      $scope.Website.WebsiteUrlList = $scope.getEnteredEnvironmentDetails();
       crudService.add(baseUrl, $scope.Website).then(function (response) {
         $state.go('Website.List');
       }, function (response) {
@@ -63,7 +70,7 @@ app.controller('WebsiteController', ['$q', '$scope', 'CrudService', '$stateParam
 
     $scope.updateWebsite = function () {
       $scope.Website.Settings.Browsers = $scope.getSelectedBrowsers();
-      $scope.Website.WebsiteUrlList= $scope.getEnteredEnvironmentDetails();
+      $scope.Website.WebsiteUrlList = $scope.getEnteredEnvironmentDetails();
       crudService.update(baseUrl, $scope.Website).then(function (response) {
         $state.go('Website.List');
       }, function (response) {
@@ -96,7 +103,7 @@ app.controller('WebsiteController', ['$q', '$scope', 'CrudService', '$stateParam
       return deferred.promise;
     };
 
-    $scope.loadDataForUpdate=function(){
+    $scope.loadDataForUpdate = function () {
       var deferred = $q.defer();
       var promises = [];
 
@@ -131,7 +138,7 @@ app.controller('WebsiteController', ['$q', '$scope', 'CrudService', '$stateParam
     $scope.getEnteredEnvironmentDetails = function () {
       var result = [];
       for (var i = 0; i < $scope.EnvironmentList.length; i++) {
-        result.push( {'Id': $scope.EnvironmentList[i].Id, 'Url': $scope.EnvironmentList[i].Url } );
+        result.push({'Id': $scope.EnvironmentList[i].Id, 'Url': $scope.EnvironmentList[i].Url});
       }
       return result;
     };

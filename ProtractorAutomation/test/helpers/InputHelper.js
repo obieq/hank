@@ -28,6 +28,7 @@ var InputHelper = function () {
   var hotkeys = require('protractor-hotkeys');
   var TakeScreenShot = false;
   var TakeScreenShotBrowser = null;
+  var GlobalAutoIncrementArray = [];
 
   this.setLocator = function (testInstance, testName, takeScreenShot, takeScreenShotBrowser) {
     TakeScreenShot = takeScreenShot != undefined ? takeScreenShot : TakeScreenShot;
@@ -236,6 +237,12 @@ var InputHelper = function () {
                     testInstance.Value = response;
                     thisobj.setText(testInstance.ExecutionSequence, key, testInstance.Value, undefined, undefined, testInstance);
                   });
+                });
+              }
+              else if (splitedvalue.length > 1 && splitedvalue[1].toLowerCase() == "autoincrementclient") {
+                browser.getCurrentUrl().then(function (Url) {
+                  var autoIncValue = thisobj.GetAutoIncrementValue(splitedvalue);
+                  thisobj.setText(testInstance.ExecutionSequence, key, autoIncValue, undefined, undefined, testInstance);
                 });
               }
               else {
@@ -756,7 +763,7 @@ var InputHelper = function () {
               }
             }
           }
-          else{
+          else {
             for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
               if (testInstance.VariableName.substring(0, testInstance.VariableName.indexOf('{')) == browser.params.config.variableContainer[k].Name) {
                 var subStrIndex = testInstance.VariableName.substring(testInstance.VariableName.indexOf('{') + 1, testInstance.VariableName.indexOf('}'));
@@ -935,15 +942,15 @@ var InputHelper = function () {
           );
         }
       ).then(function clickOption() {
-          if (hasMatchedValue) {
-            key.all(by.tagName('option')).get(count).click().then(function () {
-              browser.params.config.LastStepExecuted = executionSequence;
-            });
-          }
-          else {
+        if (hasMatchedValue) {
+          key.all(by.tagName('option')).get(count).click().then(function () {
+            browser.params.config.LastStepExecuted = executionSequence;
+          });
+        }
+        else {
 
-          }
-        });
+        }
+      });
 
     }
   };
@@ -1103,5 +1110,28 @@ var InputHelper = function () {
       browser.sleep(timeOut);
     }
   };
+
+  this.GetAutoIncrementValue = function (splittedValueArray) {
+    var valueExistInGlobalAutoIncrement = false;
+    var autoIncrementValue = '';
+    for (var i = 0; i < GlobalAutoIncrementArray.length; i++) {
+      if (GlobalAutoIncrementArray[i].DisplayName == splittedValueArray[2]) {
+        autoIncrementValue = jsonHelper.ProcessAutoIncrementValue(GlobalAutoIncrementArray[i].Value);
+        valueExistInGlobalAutoIncrement = true;
+        GlobalAutoIncrementArray[i].Value = autoIncrementValue;
+        console.log("Inside if GetAutoIncrementValue autoIncrementValue=" + autoIncrementValue);
+        break;
+      }
+    }
+    if (!valueExistInGlobalAutoIncrement) {
+      autoIncrementValue = jsonHelper.ProcessAutoIncrementValue(splittedValueArray[3]);
+      console.log("Inside else GetAutoIncrementValue autoIncrementValue=" + autoIncrementValue);
+      GlobalAutoIncrementArray.push({"DisplayName": splittedValueArray[2], "Value": autoIncrementValue});
+      console.log("Inside else GetAutoIncrementValue GlobalAutoIncrementArray=");
+      console.log(GlobalAutoIncrementArray);
+
+    }
+    return autoIncrementValue;
+  }
 };
 module.exports = InputHelper;

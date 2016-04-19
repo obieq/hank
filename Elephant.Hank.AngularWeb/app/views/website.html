@@ -5,7 +5,7 @@
       <h1>
         Websites
         <small></small>
-        <a ui-sref="Website.Add" class=" btn btn-primary" style="float:right;cursor: pointer">Add New Website</a></h1>
+        <a ng-if="Authentication.CanWrite" ui-sref="Website.Add" class=" btn btn-primary" style="float:right;cursor: pointer">Add New Website</a></h1>
       </h1>
     </div>
   </div>
@@ -41,7 +41,7 @@
               </td>
               <td>{{website.Description}}</td>
               <td>
-                <a ui-sref="Website.Update({ WebsiteId: website.Id})">Edit</a>
+                <a ng-if="Authentication.CanWrite" ui-sref="Website.Update({ WebsiteId: website.Id})">Edit</a>
               </td>
             </tr>
             </tbody>

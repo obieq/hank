@@ -21,7 +21,7 @@ var JsonHelper = function () {
   };
 
   this.customTrim = function (str) {
-    if(typeof (str)=='object' ){
+    if (typeof (str) == 'object') {
       return str[0].trim().replace(/(\r\n|\n|\r)/gmi, " ").replace(/\s\s+/gi, " ")
     }
     else {
@@ -297,7 +297,26 @@ var JsonHelper = function () {
       varName = varName.replace(variables[i], variableValue);
     }
     return varName;
-  }
+  };
+
+  this.ProcessAutoIncrementValue = function (value) {
+    var incrementedValue;
+    var checkForDigit=true;
+      var strValueToIncrement = '';
+      var valueToPrepend = '';
+      var splittedString = value.split('').reverse();
+      for (i = 0; i < splittedString.length; i++) {
+        if ( !isNaN(splittedString[i])  && checkForDigit) {
+          strValueToIncrement = splittedString[i] + strValueToIncrement;
+        }
+        else {
+          checkForDigit = false;
+          valueToPrepend = splittedString[i] + valueToPrepend;
+        }
+      }
+      incrementedValue = parseInt(strValueToIncrement) + 1;
+      return valueToPrepend + incrementedValue;
+  };
 
 };
 module.exports = JsonHelper;
