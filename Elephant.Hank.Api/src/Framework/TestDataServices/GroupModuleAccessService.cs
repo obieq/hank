@@ -84,44 +84,23 @@ namespace Elephant.Hank.Framework.TestDataServices
         public ResultMessage<IEnumerable<TblGroupModuleAccessDto>> AddUpdateWebsiteToGroup(long groupId, long[] websiteIdList, long userId)
         {
             var result = new ResultMessage<IEnumerable<TblGroupModuleAccessDto>>();
-
-            var groupModuleAccessList = this.table.Find(x => x.GroupId == groupId).ToList();
-
-            if (groupModuleAccessList.Count > 0)
+            var groupModuleAccessList = this.table.Find(x => x.GroupId == groupId && x.IsDeleted == false).ToList();
+            var moduleResult = this.moduleService.GetAll();
+            foreach (var website in websiteIdList)
             {
-                groupModuleAccessList.Where(x => websiteIdList.All(web => web != x.WebsiteId)).ToList().ForEach(x => { x.IsDeleted = true; x.CanRead = false; x.CanWrite = false; x.CanDelete = false; x.CanExecute = false; });
-                groupModuleAccessList.Where(x => websiteIdList.Any(web => web == x.WebsiteId)).ToList().ForEach(x => { x.IsDeleted = false; x.CanRead = true; x.CanWrite = false; x.CanDelete = false; x.CanExecute = false; });
-            }
-
-            long[] websiteRefNotExist = websiteIdList.Where(x => groupModuleAccessList.All(y => y.WebsiteId != x)).ToArray();
-            if (websiteRefNotExist.Count() > 0)
-            {
-                var groupList = this.tableGroup.GetAll();
-                var moduleResult = this.moduleService.GetAll();
-                foreach (var website in websiteRefNotExist)
+                foreach (var module in moduleResult.Item)
                 {
-                    foreach (var group in groupList)
+                    if (groupModuleAccessList.Where(x => x.ModuleId == module.Id && x.WebsiteId == website).Count() == 0)
                     {
-                        foreach (var module in moduleResult.Item)
-                        {
-                            TblGroupModuleAccess groupModuleAccess;
-                            if (groupId == group.Id)
-                            {
-                                TblGroupModuleAccessDto groupModuleAccessDto = new TblGroupModuleAccessDto { GroupId = group.Id, IsDeleted = false, ModifiedBy = userId, CreatedBy = userId, ModuleId = module.Id, WebsiteId = website, CanDelete = false, CanRead = true, CanWrite = false, CanExecute = false };
-                                groupModuleAccess = this.mapperFactory.GetMapper<TblGroupModuleAccessDto, TblGroupModuleAccess>().Map(groupModuleAccessDto);
-                            }
-                            else
-                            {
-                                TblGroupModuleAccessDto groupModuleAccessDto = new TblGroupModuleAccessDto { GroupId = group.Id, IsDeleted = true, ModifiedBy = userId, CreatedBy = userId, ModuleId = module.Id, WebsiteId = website, CanDelete = false, CanRead = false, CanWrite = false, CanExecute = false };
-                                groupModuleAccess = this.mapperFactory.GetMapper<TblGroupModuleAccessDto, TblGroupModuleAccess>().Map(groupModuleAccessDto);
-                            }
-
-                            this.table.Insert(groupModuleAccess);
-                        }
+                        this.table.Insert(this.mapperFactory.GetMapper<TblGroupModuleAccessDto, TblGroupModuleAccess>().Map(new TblGroupModuleAccessDto { GroupId = groupId, IsDeleted = false, ModifiedBy = userId, CreatedBy = userId, ModuleId = module.Id, WebsiteId = website, CanDelete = false, CanRead = false, CanWrite = false, CanExecute = false }));
                     }
                 }
             }
 
+            this.table.Commit();
+            groupModuleAccessList = this.table.Find(x => x.GroupId == groupId && x.IsDeleted == false).ToList();
+            groupModuleAccessList.Where(x => websiteIdList.All(web => web != x.WebsiteId)).ToList().ForEach(x => { x.IsDeleted = false; x.CanRead = false; x.CanWrite = false; x.CanDelete = false; x.CanExecute = false; });
+            groupModuleAccessList.Where(x => websiteIdList.Any(web => web == x.WebsiteId)).ToList().ForEach(x => { x.IsDeleted = false; x.CanRead = true; x.CanWrite = false; x.CanDelete = false; x.CanExecute = false; });
             this.table.Commit();
             var mapper = this.mapperFactory.GetMapper<TblGroupModuleAccess, TblGroupModuleAccessDto>();
             result.Item = groupModuleAccessList.Select(mapper.Map).ToList();

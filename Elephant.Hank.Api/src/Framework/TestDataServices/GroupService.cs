@@ -85,22 +85,6 @@ namespace Elephant.Hank.Framework.TestDataServices
             {
                 result = this.SaveOrUpdate(group, userId);
                 result = this.GetByGroupName(group.GroupName);
-                var moduleResult = this.moduleService.GetAll();
-                var websiteResult = this.websiteService.GetAll();
-                List<TblGroupModuleAccessDto> groupModuleAccessList = new List<TblGroupModuleAccessDto>();
-                if (moduleResult.Item != null && websiteResult.Item != null)
-                {
-                    foreach (var website in websiteResult.Item)
-                    {
-                        foreach (var module in moduleResult.Item)
-                        {
-                            TblGroupModuleAccessDto groupModuleAccess = new TblGroupModuleAccessDto { GroupId = result.Item.Id, IsDeleted = true, ModifiedBy = userId, CreatedBy = userId, ModuleId = module.Id, WebsiteId = website.Id, CanDelete = false, CanRead = false, CanWrite = false, CanExecute = false };
-                            groupModuleAccessList.Add(groupModuleAccess);
-                        }
-                    }
-
-                    this.groupModuleAccessService.AddInBulk(groupModuleAccessList, userId);
-                }
             }
             else
             {
