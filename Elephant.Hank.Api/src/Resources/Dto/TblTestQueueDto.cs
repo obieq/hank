@@ -53,6 +53,11 @@ namespace Elephant.Hank.Resources.Dto
         public string TestName { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this instance is processed.
+        /// </summary>
+        public bool IsProcessed { get; set; }
+
+        /// <summary>
         /// Gets or sets the browsers.
         /// </summary>
         public List<TblBrowsersDto> Browsers { get; set; }

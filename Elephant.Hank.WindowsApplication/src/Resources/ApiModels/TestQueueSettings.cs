@@ -24,6 +24,21 @@ namespace Elephant.Hank.WindowsApplication.Resources.ApiModels
         public int UrlId { get; set; }
 
         /// <summary>
+        /// Gets or sets the custom URL to test.
+        /// </summary>
+        public string CustomUrlToTest { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target.
+        /// </summary>
+        public string Target { get; set; }
+
+        /// <summary>
+        /// Gets or sets the port.
+        /// </summary>
+        public int? Port { get; set; }
+
+        /// <summary>
         /// Gets or sets the selenium address.
         /// </summary>
         public string SeleniumAddress { get; set; }

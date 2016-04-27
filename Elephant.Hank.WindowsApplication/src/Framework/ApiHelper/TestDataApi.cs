@@ -45,7 +45,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.ApiHelper
         /// <returns>
         /// ResultMessage object
         /// </returns>
-        public static ResultMessage<T> Get<T>(string endPoint) where T : class
+        public static ResultMessage<T> Get<T>(string endPoint)
         {
             var getRequest = GetRestRequest();
 
@@ -59,7 +59,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.ApiHelper
         /// <param name="endPoint">The end point.</param>
         /// <param name="objToPost">The object to post.</param>
         /// <returns>ResultMessage object</returns>
-        public static ResultMessage<T> Post<T>(string endPoint, T objToPost) where T : class
+        public static ResultMessage<T> Post<T>(string endPoint, T objToPost)
         {
             var getRequest = GetRestRequest();
             getRequest.Method = Method.POST;
@@ -92,7 +92,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.ApiHelper
         /// <param name="baseUrl">The base URL.</param>
         /// <param name="request">The request.</param>
         /// <returns>Object Type</returns>
-        public static ResultMessage<T> Execute<T>(string baseUrl, RestRequest request) where T : class
+        public static ResultMessage<T> Execute<T>(string baseUrl, RestRequest request)
         {
             var result = new ResultMessage<T>();
 

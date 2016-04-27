@@ -8,12 +8,13 @@ app.controller('WebsiteController', ['$q', '$scope', 'CrudService', '$stateParam
   function ($q, $scope, crudService, $stateParams, $state, commonUi, ngAppSettings, authService) {
     var baseUrl = ngAppSettings.WebSiteUrl;
     $scope.WebsiteList = [];
-    $scope.Website = {WebsiteUrlList: [], IsAngular: false, Settings: {Browsers: []}};
+    $scope.Website = {WebsiteUrlList: [], IsAngular: false, Settings: {Browsers: [], BuildUrlTemplate: "http://{target}:{port}"}};
     $scope.CheckedUrl = {};
     $scope.BrowserList = [];
     $scope.EnvironmentList = [];
     $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
     var authData = authService.getAuthData();
+
     if (authData.type == "TestAdmin") {
       $scope.Authentication.CanWrite = true;
       $scope.Authentication.CanDelete = true;
@@ -25,14 +26,6 @@ app.controller('WebsiteController', ['$q', '$scope', 'CrudService', '$stateParam
         $scope.WebsiteList = response;
       }, function (response) {
         commonUi.showErrorPopup(response);
-      });
-    };
-
-    $scope.onLoadAdd = function () {
-      $scope.loadDataForAdd().then(function () {
-        $scope.SelectAllBrowsers = $scope.Website.WebsiteId <= 0 ? true : $scope.SelectAllBrowsers;
-      }, function () {
-
       });
     };
 
@@ -58,27 +51,26 @@ app.controller('WebsiteController', ['$q', '$scope', 'CrudService', '$stateParam
       });
     };
 
-    $scope.addWebsite = function () {
+    $scope.saveWebsite = function () {
       $scope.Website.Settings.Browsers = $scope.getSelectedBrowsers();
       $scope.Website.WebsiteUrlList = $scope.getEnteredEnvironmentDetails();
-      crudService.add(baseUrl, $scope.Website).then(function (response) {
-        $state.go('Website.List');
-      }, function (response) {
-        commonUi.showErrorPopup(response);
-      });
+
+      if($stateParams.WebsiteId){
+        crudService.update(baseUrl, $scope.Website).then(function (response) {
+          $state.go('Website.List');
+        }, function (response) {
+          commonUi.showErrorPopup(response);
+        });
+      }else{
+        crudService.add(baseUrl, $scope.Website).then(function (response) {
+          $state.go('Website.List');
+        }, function (response) {
+          commonUi.showErrorPopup(response);
+        });
+      }
     };
 
-    $scope.updateWebsite = function () {
-      $scope.Website.Settings.Browsers = $scope.getSelectedBrowsers();
-      $scope.Website.WebsiteUrlList = $scope.getEnteredEnvironmentDetails();
-      crudService.update(baseUrl, $scope.Website).then(function (response) {
-        $state.go('Website.List');
-      }, function (response) {
-        commonUi.showErrorPopup(response);
-      });
-    };
-
-    $scope.loadDataForAdd = function () {
+    $scope.loadDataBaseData = function () {
       var deferred = $q.defer();
       var promises = [];
 
@@ -107,21 +99,10 @@ app.controller('WebsiteController', ['$q', '$scope', 'CrudService', '$stateParam
       var deferred = $q.defer();
       var promises = [];
 
-      promises.push(crudService.getAll(ngAppSettings.BrowserUrl).then(function (response) {
-        $scope.BrowserList = response;
-      }, function (response) {
-        commonUi.showErrorPopup(response);
-      }));
-
+      promises.push($scope.loadDataBaseData());
       promises.push(crudService.getById(baseUrl, $stateParams.WebsiteId).then(function (response) {
         response.Item.Settings = response.Item.Settings == null ? $scope.Website.Settings : response.Item.Settings;
         $scope.Website = response.Item;
-      }, function (response) {
-        commonUi.showErrorPopup(response);
-      }));
-
-      promises.push(crudService.getAll(ngAppSettings.EnvironmentUrl).then(function (response) {
-        $scope.EnvironmentList = response;
       }, function (response) {
         commonUi.showErrorPopup(response);
       }));
@@ -163,4 +144,9 @@ app.controller('WebsiteController', ['$q', '$scope', 'CrudService', '$stateParam
       }
     };
 
+    if($stateParams.WebsiteId){
+      $scope.onLoadUpdate();
+    }else{
+      $scope.loadDataBaseData();
+    }
   }]);

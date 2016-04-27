@@ -24,6 +24,8 @@ namespace Elephant.Hank.Api.Controllers
     using Elephant.Hank.Resources.Json;
     using Elephant.Hank.Resources.Messages;
     using Elephant.Hank.Resources.Models;
+    using Elephant.Hank.Resources.ViewModal;
+
     using Newtonsoft.Json;
 
     /// <summary>
@@ -140,6 +142,29 @@ namespace Elephant.Hank.Api.Controllers
             {
                 this.LoggerService.LogException(ex);
                 result.Messages.Add(new Message(null, ex.Message)); 
+            }
+
+            return this.CreateCustomResponse(result);
+        }
+
+        /// <summary>
+        /// Gets the group status data.
+        /// </summary>
+        /// <param name="groupName">Name of the group.</param>
+        /// <returns>GroupStatusReport object</returns>
+        [Route("execution-group/{groupName}/status")]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Reports)]
+        public IHttpActionResult GetExecutionGroupStatusData(string groupName)
+        {
+            var result = new ResultMessage<GroupStatusReport>();
+            try
+            {
+                result = this.reportDataService.GetExecutionGroupStatus(groupName);
+            }
+            catch (Exception ex)
+            {
+                this.LoggerService.LogException(ex);
+                result.Messages.Add(new Message(null, ex.Message));
             }
 
             return this.CreateCustomResponse(result);

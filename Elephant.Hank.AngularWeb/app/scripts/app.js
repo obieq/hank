@@ -273,14 +273,14 @@ var app = angular
       })
       .state('Website.Add', {
         url: "/Add",
-        templateUrl: 'views/website-add.html',
+        templateUrl: 'views/website-add-update.html',
         controller: 'WebsiteController',
         ncyBreadcrumb: {label: 'New Website', parent: "Website.List"},
         permissionData: {Roles: ["TestAdmin", "TestUser"]}
       })
       .state('Website.Update', {
         url: "/{WebsiteId:int}",
-        templateUrl: 'views/website-update.html',
+        templateUrl: 'views/website-add-update.html',
         controller: 'WebsiteController',
         ncyBreadcrumb: {label: '{{Website.Name}}', parent: "Website.List"},
         permissionData: {Roles: ["TestAdmin", "TestUser"]}

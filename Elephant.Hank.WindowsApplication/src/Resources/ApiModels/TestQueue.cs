@@ -58,6 +58,36 @@ namespace Elephant.Hank.WindowsApplication.Resources.ApiModels
         /// </summary>
         public TestQueueSettings Settings { get; set; }
 
-        public Hub hubInfo { get; set; }
+        /// <summary>
+        /// Gets or sets the hub information.
+        /// </summary>
+        public Hub HubInfo { get; set; }
+
+        /// <summary>
+        /// Copies the data.
+        /// </summary>
+        /// <param name="testQueue">The test queue.</param>
+        /// <returns>TestQueue object</returns>
+        public static TestQueue CopyData(TestQueue testQueue)
+        {
+            if (testQueue != null && testQueue.SchedulerId.HasValue)
+            {
+                return new TestQueue
+                           {
+                               Id = testQueue.Id,
+                               IsDeleted = testQueue.IsDeleted,
+                               CreatedBy = testQueue.CreatedBy,
+                               ModifiedBy = testQueue.ModifiedBy,
+                               TestId = testQueue.TestId,
+                               SuiteId = testQueue.SuiteId,
+                               SchedulerId = testQueue.SchedulerId,
+                               Status = testQueue.Status,
+                               GroupName = testQueue.GroupName,
+                               TestName = testQueue.TestName
+                           };
+            }
+
+            return testQueue;
+        }
     }
 }

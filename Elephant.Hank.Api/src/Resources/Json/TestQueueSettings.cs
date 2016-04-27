@@ -13,6 +13,8 @@ namespace Elephant.Hank.Resources.Json
 {
     using System.ComponentModel.DataAnnotations;
 
+    using Newtonsoft.Json;
+
     /// <summary>
     /// The TestQueueSettings class
     /// </summary>
@@ -24,10 +26,29 @@ namespace Elephant.Hank.Resources.Json
         public int UrlId { get; set; }
 
         /// <summary>
+        /// Gets or sets the custom URL to test.
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string CustomUrlToTest { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target.
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string Target { get; set; }
+
+        /// <summary>
+        /// Gets or sets the port.
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int? Port { get; set; }
+
+        /// <summary>
         /// Gets or sets the selenium address.
         /// </summary>
         [Required]
         [RegularExpression(@"^http(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?$")]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string SeleniumAddress { get; set; }
        
         /// <summary>
@@ -39,11 +60,13 @@ namespace Elephant.Hank.Resources.Json
         /// <summary>
         /// Gets or sets the TakeScreenShotOnUrlChanged
         /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public long? TakeScreenShotOnUrlChanged { get; set; }
 
         /// <summary>
         /// Gets or sets the repeat times.
         /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int? RepeatTimes { get; set; }
     }
 }

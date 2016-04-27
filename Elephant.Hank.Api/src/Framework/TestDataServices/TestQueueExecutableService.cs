@@ -311,6 +311,8 @@ namespace Elephant.Hank.Framework.TestDataServices
 
                         if (resultMessage.Item.TestData.Count > 0)
                         {
+                            var webSiteData = testData[0].Test.Website;
+
                             if (testQueue.Item.SchedulerId.HasValue)
                             {
                                 var schedular = this.schedulerService.GetById(testQueue.Item.SchedulerId.Value);
@@ -325,11 +327,28 @@ namespace Elephant.Hank.Framework.TestDataServices
                                     }
 
                                     resultMessage.Item.UrlToTest = schedular.Item.Url;
+                                    if (resultMessage.Item.UrlToTest.IsBlank())
+                                    {
+                                        resultMessage.Item.UrlToTest = (schedular.Item.Settings.CustomUrlToTest + string.Empty)
+                                                .Replace("{target}", schedular.Item.Settings.Target)
+                                                .Replace("{port}", schedular.Item.Settings.Port + string.Empty);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                resultMessage.Item.UrlToTest = testQueue.Item.Settings.CustomUrlToTest;
+
+                                if (resultMessage.Item.UrlToTest.IsBlank() && webSiteData.Settings.BuildUrlTemplate.IsNotBlank())
+                                {
+                                    resultMessage.Item.UrlToTest = webSiteData.Settings.BuildUrlTemplate
+                                            .Replace("{target}", testQueue.Item.Settings.Target)
+                                            .Replace("{port}", testQueue.Item.Settings.Port + string.Empty);
                                 }
                             }
 
                             resultMessage.Item.TestCase = this.mapperFactory.GetMapper<TblTest, TblTestDto>().Map(testData[0].Test);
-                            resultMessage.Item.Website = this.mapperFactory.GetMapper<TblWebsite, TblWebsiteDto>().Map(testData[0].Test.Website);
+                            resultMessage.Item.Website = this.mapperFactory.GetMapper<TblWebsite, TblWebsiteDto>().Map(webSiteData);
                         }
 
                         resultMessage.Item.TestData.ForEach(x => x.Value = this.IsAutoGenField(x.Value));
@@ -365,6 +384,9 @@ namespace Elephant.Hank.Framework.TestDataServices
                     }
 
                     resultMessage.Item.TestData.ForEach(x => x.Value = this.IsAutoGenField(x.Value));
+
+                    resultMessage.Item.UrlToTest = testQueue.Item.Settings.CustomUrlToTest;
+
                     this.ResolveLocatorText(resultMessage.Item.TestData);
                 }
 

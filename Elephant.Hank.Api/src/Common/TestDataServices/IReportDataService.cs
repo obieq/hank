@@ -11,13 +11,13 @@
 
 namespace Elephant.Hank.Common.TestDataServices
 {
-    using System;
     using System.Collections.Generic;
 
     using Elephant.Hank.Common.DataService;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Messages;
-    using Elephant.Hank.Resources.Models;   
+    using Elephant.Hank.Resources.Models;
+    using Elephant.Hank.Resources.ViewModal;
 
     /// <summary>
     /// The IReportDataService interface
@@ -44,6 +44,13 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <param name="groupName">Name of the group.</param>
         /// <returns>TblReportDataDto objects</returns>
         ResultMessage<IEnumerable<TblReportDataDto>> GetByGroupName(string groupName);
+
+        /// <summary>
+        /// Gets the group status.
+        /// </summary>
+        /// <param name="groupName">Name of the group.</param>
+        /// <returns>GroupStatusReport object</returns>
+        ResultMessage<GroupStatusReport> GetExecutionGroupStatus(string groupName);
 
         /// <summary>
         /// Get Report Data by Group Name where screen shot array exist

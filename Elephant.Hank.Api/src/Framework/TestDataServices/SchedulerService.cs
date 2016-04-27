@@ -21,7 +21,11 @@ namespace Elephant.Hank.Framework.TestDataServices
     using Elephant.Hank.DataService.DBSchema;
     using Elephant.Hank.Framework.Data;
     using Elephant.Hank.Resources.Dto;
+    using Elephant.Hank.Resources.Extensions;
+    using Elephant.Hank.Resources.Json;
     using Elephant.Hank.Resources.Messages;
+
+    using Npgsql;
 
     /// <summary>
     /// the SchedulerService class
@@ -87,6 +91,54 @@ namespace Elephant.Hank.Framework.TestDataServices
 
                 var mapper = this.mapperFactory.GetMapper<TblScheduler, TblSchedulerDto>();
                 result.Item = mapper.Map(entity);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Forces the execute.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="schedulerId">The scheduler identifier.</param>
+        /// <param name="target">The target.</param>
+        /// <param name="port">The port.</param>
+        /// <returns>
+        /// Group name
+        /// </returns>
+        public ResultMessage<string> ForceExecute(long userId, long schedulerId, string target, int? port)
+        {
+            var result = new ResultMessage<string>();
+
+            var entity = this.Table.Find(x => x.Id == schedulerId && x.IsDeleted != true).FirstOrDefault();
+
+            if (entity != null)
+            {
+                entity.ForceExecute = true;
+                entity.ModifiedBy = userId;
+                entity.ModifiedOn = DateTime.Now;
+
+                if (entity.Settings == null)
+                {
+                    entity.Settings = new SchedulerSettings();
+                }
+
+                entity.Settings.Target = target;
+                entity.Settings.Port = port;
+
+                this.Table.Update(entity);
+
+                this.Table.Commit();
+
+                var groupName = DateTime.Now.ToGroupName();
+
+                this.Table.ExecuteSqlCommand("select * from procprocessschedulerdata(@groupName)", new NpgsqlParameter("@groupName", groupName));
+
+                result.Item = groupName + "-" + schedulerId;
+            }
+            else
+            {
+                result.Messages.Add(new Message("Scheduler not found!"));
             }
 
             return result;

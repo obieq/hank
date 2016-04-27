@@ -13,6 +13,8 @@ namespace Elephant.Hank.Resources.Json
 {
     using Elephant.Hank.Resources.Attributes;
 
+    using Newtonsoft.Json;
+
     /// <summary>
     /// The SchedulerSettings class
     /// </summary>
@@ -52,5 +54,23 @@ namespace Elephant.Hank.Resources.Json
         /// Gets or sets the TakeScreenShotOnUrlChangedSuiteId
         /// </summary>
         public long TakeScreenShotOnUrlChangedSuiteId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the custom URL to test.
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string CustomUrlToTest { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target.
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string Target { get; set; }
+
+        /// <summary>
+        /// Gets or sets the port.
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int? Port { get; set; }
     }
 }

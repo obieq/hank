@@ -17,6 +17,11 @@ namespace Elephant.Hank.Resources.Json
     public class WebsiteSettings
     {
         /// <summary>
+        /// Gets or sets the build URL template.
+        /// </summary>
+        public string BuildUrlTemplate { get; set; }
+
+        /// <summary>
         /// Gets or sets the selenium address.
         /// </summary>
         public string SeleniumAddress { get; set; }

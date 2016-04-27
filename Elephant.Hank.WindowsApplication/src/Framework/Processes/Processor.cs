@@ -12,9 +12,12 @@
 namespace Elephant.Hank.WindowsApplication.Framework.Processes
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Threading;
+    using System.Web.Script.Serialization;
 
     using Elephant.Hank.WindowsApplication.Framework.ApiHelper;
     using Elephant.Hank.WindowsApplication.Framework.Emailer;
@@ -26,18 +29,21 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
     using Elephant.Hank.WindowsApplication.Resources.Constants;
     using Elephant.Hank.WindowsApplication.Resources.Extensions;
     using Elephant.Hank.WindowsApplication.Resources.Models;
-    using System.Threading;
-    using System.Collections.Concurrent;
-    using System.Web.Script.Serialization;
 
     /// <summary>
     /// The Processor class
     /// </summary>
     public static class Processor
     {
-        private static readonly ConcurrentDictionary<Guid, Hub> _HubInfo = new ConcurrentDictionary<Guid, Hub>();
+        /// <summary>
+        /// The hub information
+        /// </summary>
+        private static readonly ConcurrentDictionary<Guid, Hub> HubInfo = new ConcurrentDictionary<Guid, Hub>();
 
-        private static readonly ConcurrentDictionary<Guid, ResultMessage<List<TestQueue>>> _QueuedTest = new ConcurrentDictionary<Guid, ResultMessage<List<TestQueue>>>();
+        /// <summary>
+        /// The queued test
+        /// </summary>
+        private static readonly ConcurrentDictionary<Guid, ResultMessage<List<TestQueue>>> QueuedTest = new ConcurrentDictionary<Guid, ResultMessage<List<TestQueue>>>();
 
         /// <summary>
         /// Executes the service.
@@ -45,50 +51,53 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         public static void ExecuteService()
         {
             var testQueue = TestDataApi.Get<List<TestQueue>>(EndPoints.GetTestQueue);
-            if (!testQueue.IsError && testQueue.Item != null)
+            if (!testQueue.IsError && testQueue.Item != null && testQueue.Item.Any())
             {
-                testQueue.Item.ForEach(x => x.Status = 1);
-                var updateResult = TestDataApi.Post(EndPoints.BulkUpdateTestQueue, testQueue.Item);
+                var testQueueFirst = testQueue.Item.First();
+
+                var updateResult = TestDataApi.Get<bool>(string.Format(EndPoints.BulkUpdateTestQueue, testQueueFirst.GroupName, 1));
+
                 if (!updateResult.IsError)
                 {
                     Hub hub = GetHubBySeleniumAddress(testQueue.Item[0].Settings.SeleniumAddress);
                     if (hub == null)
                     {
                         Hub hubCreated = AddHub(Guid.NewGuid(), testQueue.Item[0].Settings.SeleniumAddress);
-                        testQueue.Item.ForEach(x => x.hubInfo = hubCreated);
-                        ThreadPool.QueueUserWorkItem(new WaitCallback(ExecuteServiceThread), testQueue);
+                        testQueue.Item.ForEach(x => x.HubInfo = hubCreated);
+                        ThreadPool.QueueUserWorkItem(ExecuteServiceThread, testQueue);
                     }
                     else
                     {
-                        _QueuedTest[Guid.NewGuid()] = testQueue;
+                        QueuedTest[Guid.NewGuid()] = testQueue;
                     }
                 }
-
             }
             else
             {
-                foreach (var item in _QueuedTest)
+                foreach (var item in QueuedTest)
                 {
                     Hub hubPast = GetHubBySeleniumAddress(item.Value.Item[0].Settings.SeleniumAddress);
                     if (hubPast == null)
                     {
                         Hub hubCreated = AddHub(Guid.NewGuid(), item.Value.Item[0].Settings.SeleniumAddress);
-                        item.Value.Item.ForEach(x => x.hubInfo = hubCreated);
-                        ThreadPool.QueueUserWorkItem(new WaitCallback(ExecuteServiceThread), item.Value);
+                        item.Value.Item.ForEach(x => x.HubInfo = hubCreated);
+                        ThreadPool.QueueUserWorkItem(ExecuteServiceThread, item.Value);
                         ResultMessage<List<TestQueue>> h;
-                        _QueuedTest.TryRemove(item.Key, out h);
+                        QueuedTest.TryRemove(item.Key, out h);
                     }
                 }
             }
-
         }
 
-
-        public static void ExecuteServiceThread(Object tQ)
+        /// <summary>
+        /// Executes the service thread.
+        /// </summary>
+        /// <param name="testQueueData">The test queue data.</param>
+        public static void ExecuteServiceThread(object testQueueData)
         {
             try
             {
-                ResultMessage<List<TestQueue>> testQueue = tQ as ResultMessage<List<TestQueue>>;
+                ResultMessage<List<TestQueue>> testQueue = testQueueData as ResultMessage<List<TestQueue>>;
                 FileGenerator fileGenerator = new FileGenerator(testQueue.Item);
                 string directoryName = fileGenerator.GenerateSpecFiles();
 
@@ -115,13 +124,14 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
                     ImageProcessor.ProcessImages(groupName);
                 }
 
-                Hub hubInfo = testQueue.Item.FirstOrDefault().hubInfo;
+                Hub hubInfo = testQueue.Item.First().HubInfo;
+
                 DeleteHub(hubInfo.ProcessId, hubInfo.SeleniumAddress);
             }
             catch (Exception ex)
             {
-                ResultMessage<List<TestQueue>> testQueue = tQ as ResultMessage<List<TestQueue>>;
-                Hub hubInfo = testQueue.Item.FirstOrDefault().hubInfo;
+                ResultMessage<List<TestQueue>> testQueue = testQueueData as ResultMessage<List<TestQueue>>;
+                Hub hubInfo = testQueue.Item.First().HubInfo;
                 DeleteHub(hubInfo.ProcessId, hubInfo.SeleniumAddress);
                 LoggerService.LogException(ex);
             }
@@ -188,22 +198,22 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         private static Hub AddHub(Guid processId, string seleniumAddress)
         {
             var hub = new Hub { ProcessId = processId, SeleniumAddress = seleniumAddress };
-            _HubInfo[processId] = hub;
+            HubInfo[processId] = hub;
             return hub;
         }
 
         private static Hub GetHubBySeleniumAddress(string seleniumAddress)
         {
-            return _HubInfo.Values.FirstOrDefault(u => u.SeleniumAddress == seleniumAddress);
+            return HubInfo.Values.FirstOrDefault(u => u.SeleniumAddress == seleniumAddress);
         }
 
         private static bool DeleteHub(Guid processId, string seleniumAddress)
         {
             var hub = GetHubBySeleniumAddress(seleniumAddress);
-            if (hub != null && _HubInfo.ContainsKey(hub.ProcessId))
+            if (hub != null && HubInfo.ContainsKey(hub.ProcessId))
             {
                 Hub h;
-                return _HubInfo.TryRemove(hub.ProcessId, out h);
+                return HubInfo.TryRemove(hub.ProcessId, out h);
             }
             return false;
         }

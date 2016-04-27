@@ -20,8 +20,10 @@ namespace Elephant.Hank.Framework.TestDataServices
     using Elephant.Hank.DataService.DBSchema;
     using Elephant.Hank.Framework.Data;
     using Elephant.Hank.Resources.Dto;
+    using Elephant.Hank.Resources.Extensions;
     using Elephant.Hank.Resources.Messages;
     using Elephant.Hank.Resources.Models;
+    using Elephant.Hank.Resources.ViewModal;
 
     /// <summary>
     /// The ReportDataService service
@@ -53,18 +55,22 @@ namespace Elephant.Hank.Framework.TestDataServices
         {
             var result = new ResultMessage<IEnumerable<TblReportDataDto>>();
 
-            Dictionary<string, object> dictionary = new Dictionary<string, object> { { "createdOn", searchReportObject.CreatedOn } };
+            Dictionary<string, object> dictionary = new Dictionary<string, object>
+                                                        {
+                                                            {
+                                                                "createdOn",
+                                                                searchReportObject.CreatedOn
+                                                            },
+                                                            {
+                                                                "executiongroup",
+                                                                searchReportObject.ExecutionGroup.IsNotBlank() ? searchReportObject.ExecutionGroup : null
+                                                            },
+                                                            {
+                                                                "websiteid",
+                                                                searchReportObject.WebsiteId
+                                                            }
+                                                        };
 
-            if (!string.IsNullOrEmpty(searchReportObject.ExecutionGroup))
-            {
-                dictionary.Add("executiongroup", searchReportObject.ExecutionGroup);
-            }
-            else
-            {
-                dictionary.Add("executiongroup", null);
-            }
-
-            dictionary.Add("websiteid", searchReportObject.WebsiteId);
             var entities = this.Table.SqlQuery<TblReportDataDto>("Select * from procsearchreport(@createdOn,@websiteid,@executiongroup);", dictionary).ToList();
 
             if (!entities.Any())
@@ -98,6 +104,41 @@ namespace Elephant.Hank.Framework.TestDataServices
             else
             {
                 result.Item = entities;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the group status.
+        /// </summary>
+        /// <param name="groupName">Name of the group.</param>
+        /// <returns>GroupStatusReport object</returns>
+        public ResultMessage<GroupStatusReport> GetExecutionGroupStatus(string groupName)
+        {
+            var result = new ResultMessage<GroupStatusReport>();
+            Dictionary<string, object> dictionary = new Dictionary<string, object> { { "groupName", groupName } };
+
+            var entities = this.Table.SqlQuery<GroupStatusReportData>("Select * from procGetGroupStatus(@groupName);", dictionary).ToList();
+
+            if (entities.Any())
+            {
+                var firstRec = entities.First();
+                result.Item = new GroupStatusReport
+                                  {
+                                      IsComplete = firstRec.IsComplete,
+                                      ProcessedCount = firstRec.ProcessedCount,
+                                      TestCount = firstRec.TestCount
+                                  };
+
+                foreach (var entity in entities)
+                {
+                    result.Item.CountByStatus.Add(new NameValuePair { Name = entity.ExecutionStatus.ToString(), Value = entity.StatusCount.ToString() });
+                }
+            }
+            else
+            {
+                result.Messages.Add(new Message(null, "Record not found!"));
             }
 
             return result;

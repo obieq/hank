@@ -35,14 +35,21 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly IMapperFactory mapperFactory;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SchedulerHistoryService"/> class.
+        /// The test queue service
+        /// </summary>
+        private readonly ITestQueueService testQueueService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SchedulerHistoryService" /> class.
         /// </summary>
         /// <param name="mapperFactory">The mapper factory.</param>
         /// <param name="table">The table.</param>
-        public SchedulerHistoryService(IMapperFactory mapperFactory, IRepository<TblSchedulerHistory> table)
+        /// <param name="testQueueService">The test queue service.</param>
+        public SchedulerHistoryService(IMapperFactory mapperFactory, IRepository<TblSchedulerHistory> table, ITestQueueService testQueueService)
             : base(mapperFactory, table)
         {
             this.mapperFactory = mapperFactory;
+            this.testQueueService = testQueueService;
         }
 
         /// <summary>
@@ -88,6 +95,12 @@ namespace Elephant.Hank.Framework.TestDataServices
                 });
 
             this.Table.Commit();
+
+            if (status.HasValue && status.Value == SchedulerExecutionStatus.Completed)
+            {
+                // Mark tests processed
+                this.testQueueService.UpdateTestQueueProcessingFlag(userId, groupName, true);
+            }
 
             var mapper = this.mapperFactory.GetMapper<TblSchedulerHistory, TblSchedulerHistoryDto>();
             result.Item = entity.Select(mapper.Map);

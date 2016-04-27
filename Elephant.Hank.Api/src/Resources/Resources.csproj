@@ -159,6 +159,8 @@
     <Compile Include="Dto\TblTestDto.cs" />
     <Compile Include="Dto\TblWebsiteDto.cs" />
     <Compile Include="Models\ExecutableTestData.cs" />
+    <Compile Include="ViewModal\GroupStatusReport.cs" />
+    <Compile Include="ViewModal\GroupStatusReportData.cs" />
     <Compile Include="ViewModal\TestQueue_FullTestData.cs" />
   </ItemGroup>
   <ItemGroup>

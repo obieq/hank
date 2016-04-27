@@ -23,6 +23,8 @@ namespace Elephant.Hank.Framework.TestDataServices
     using Elephant.Hank.Resources.Json;
     using Elephant.Hank.Resources.Messages;
 
+    using Npgsql;
+
     /// <summary>
     /// The TestQueueService class
     /// </summary>
@@ -42,7 +44,7 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// The scheduler service
         /// </summary>
         private readonly ISchedulerService schedulerService;
-    
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TestQueueService" /> class.
         /// </summary>
@@ -60,6 +62,54 @@ namespace Elephant.Hank.Framework.TestDataServices
             this.mapperFactory = mapperFactory;
             this.browserService = browserService;
             this.schedulerService = schedulerService;
+        }
+
+        /// <summary>
+        /// Updates the name of the test queue status by group.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="groupName">Name of the group.</param>
+        /// <param name="status">The status.</param>
+        /// <returns>
+        /// Status update
+        /// </returns>
+        public ResultMessage<bool> UpdateTestQueueStatusByGroupName(long userId, string groupName, int status)
+        {
+            var result = new ResultMessage<bool>
+                             {
+                                 Item =
+                                     this.Table.ExecuteSqlCommand(
+                                         "update \"TblTestQueue\" set \"Status\" = @Status, \"ModifiedOn\" = current_timestamp, \"ModifiedBy\" = @UserId where \"GroupName\" = @groupName",
+                                         new NpgsqlParameter("@groupName", groupName),
+                                         new NpgsqlParameter("@UserId", userId),
+                                         new NpgsqlParameter("@Status", status)) > 0
+                             };
+
+            return result;
+        }
+
+        /// <summary>
+        /// Updates the test queue processing flag.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="groupName">Name of the group.</param>
+        /// <param name="isProcessed">if set to <c>true</c> [is processed].</param>
+        /// <returns>
+        /// Update status
+        /// </returns>
+        public ResultMessage<bool> UpdateTestQueueProcessingFlag(long userId, string groupName, bool isProcessed)
+        {
+            var result = new ResultMessage<bool>
+            {
+                Item =
+                    this.Table.ExecuteSqlCommand(
+                        "update \"TblTestQueue\" set \"IsProcessed\" = @IsProcessed, \"ModifiedOn\" = current_timestamp, \"ModifiedBy\" = @UserId where \"GroupName\" = @groupName",
+                        new NpgsqlParameter("@groupName", groupName),
+                        new NpgsqlParameter("@UserId", userId),
+                        new NpgsqlParameter("@IsProcessed", isProcessed)) > 0
+            };
+
+            return result;
         }
 
         /// <summary>
@@ -94,6 +144,8 @@ namespace Elephant.Hank.Framework.TestDataServices
 
                         this.ProcessForScheduler(testQueue, item, browsers.Item);
                         this.ProcessForTestQueue(testQueue, item, browsers.Item);
+
+                        this.ProcessForOtherWise(testQueue, item, browsers.Item);
                     }
 
                     result.Item = items;
@@ -118,9 +170,11 @@ namespace Elephant.Hank.Framework.TestDataServices
             if (browsers != null && testQueueSrc.SchedulerId.HasValue && (testQueueDest.Browsers == null || !testQueueDest.Browsers.Any()))
             {
                 ResultMessage<TblSchedulerDto> schedulerDto = this.schedulerService.GetById(testQueueSrc.SchedulerId.Value);
-                testQueueDest.Settings = new TestQueueSettings();
-                testQueueDest.Settings.SeleniumAddress = schedulerDto.Item.Settings.SeleniumAddress;
-                testQueueDest.Settings.Browsers = schedulerDto.Item.Settings.Browsers;
+                testQueueDest.Settings = new TestQueueSettings
+                                             {
+                                                 SeleniumAddress = schedulerDto.Item.Settings.SeleniumAddress,
+                                                 Browsers = schedulerDto.Item.Settings.Browsers
+                                             };
                 if (schedulerDto.Item.Settings.Browsers != null)
                 {
                     testQueueDest.Browsers = browsers.Where(x => schedulerDto.Item.Settings.Browsers.Contains(x.Id)).ToList();
@@ -145,6 +199,28 @@ namespace Elephant.Hank.Framework.TestDataServices
                     if (testQueueSrc.Settings.Browsers != null)
                     {
                         testQueueDest.Browsers = browsers.Where(x => testQueueSrc.Settings.Browsers.Contains(x.Id)).ToList();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Processes for other wise.
+        /// </summary>
+        /// <param name="testQueueSrc">The test queue source.</param>
+        /// <param name="testQueueDest">The test queue dest.</param>
+        /// <param name="browsers">The browsers.</param>
+        private void ProcessForOtherWise(TblTestQueue testQueueSrc, TblTestQueueDto testQueueDest, IEnumerable<TblBrowsersDto> browsers)
+        {
+            if (browsers != null && (testQueueDest.Browsers == null || !testQueueDest.Browsers.Any()))
+            {
+                if (testQueueSrc.Settings != null)
+                {
+                    testQueueDest.Settings.SeleniumAddress = testQueueSrc.TestCase.Website.Settings.SeleniumAddress;
+                    testQueueDest.Settings.Browsers = testQueueSrc.TestCase.Website.Settings.Browsers;
+                    if (testQueueDest.Settings.Browsers != null)
+                    {
+                        testQueueDest.Browsers = browsers.Where(x => testQueueSrc.TestCase.Website.Settings.Browsers.Contains(x.Id)).ToList();
                     }
                 }
             }

@@ -34,6 +34,11 @@ namespace Elephant.Hank.Resources.Enum
         /// <summary>
         /// The Monthly
         /// </summary>
-        Monthly
+        Monthly,
+
+        /// <summary>
+        /// The on demand
+        /// </summary>
+        OnDemand
     }
 }

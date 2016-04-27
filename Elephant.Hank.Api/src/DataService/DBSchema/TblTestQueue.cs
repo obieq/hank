@@ -51,6 +51,11 @@ namespace Elephant.Hank.DataService.DBSchema
         public string GroupName { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this instance is processed.
+        /// </summary>
+        public bool IsProcessed { get; set; }
+
+        /// <summary>
         /// Gets or sets the SettingsJson
         /// </summary>
         public string SettingsJson 

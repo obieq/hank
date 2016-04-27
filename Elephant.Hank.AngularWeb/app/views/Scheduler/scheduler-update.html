@@ -57,7 +57,18 @@
             </div>
           </div>
 
-          <div class="form-group">
+  <div class="form-group" ng-if="Scheduler.UrlId == 0">
+    <label class="col-sm-2 control-label">Url to test</label>
+
+    <div class="col-sm-6">
+      <input type="text" class="form-control" ng-model="Scheduler.Settings.CustomUrlToTest" name="CustomUrlToTest" placeholder="Selenium url address" required>
+                <span ng-show="SchedulerForm.CustomUrlToTest.$touched || SchedulerForm.$submitted">
+                <small class="help-block" ng-show="SchedulerForm.CustomUrlToTest.$error.required" style="color:red">Please enter URL to test.</small>
+              </span>
+    </div>
+  </div>
+
+  <div class="form-group">
             <label class="col-sm-2 control-label">Frequency</label>
 
             <div class="col-sm-6">
@@ -212,22 +223,22 @@
             <label class="col-sm-2 control-label">comma(,) separated</label>
           </div>
 
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Suites</label>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Suites</label>
 
-            <div class="col-md-8">
-              <label class="col-md-12 paddingLeftZero">
-                <input ng-click="markUnMarkAll(this)" type="checkbox" ng-model="SelectAll"/>
-                All
-              </label>
+    <div class="col-md-8">
+      <label class="col-md-12 paddingLeftZero">
+        <input ng-click="markUnMarkAll(this)" type="checkbox" ng-model="SelectAll"/>
+        All
+      </label>
 
-              <label ng-repeat="suite in SuiteList | orderBy:'Id'" class="col-md-4 ellipsis paddingLeftZero"
-                     title="{{suite.Name}}">
-                <input type="checkbox" ng-model="suite.Checked" ng-change="textChecked(suite)"/>
-                {{suite.Name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </label>
-            </div>
-          </div>
+      <label ng-repeat="suite in SuiteList | orderBy:'Id'" class="col-md-4 ellipsis paddingLeftZero"
+             title="{{suite.Name}}">
+        <input type="checkbox" ng-model="suite.Checked" ng-change="textChecked(suite)"/>
+        {{suite.Name}}
+      </label>
+    </div>
+  </div>
 
           <div class="form-group">
             <label class="col-sm-2 control-label">Browsers</label>

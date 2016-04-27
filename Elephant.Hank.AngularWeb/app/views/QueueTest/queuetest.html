@@ -27,6 +27,17 @@
             </div>
           </div>
 
+          <div class="form-group" ng-if="TestQueue.Settings.UrlObj.Id == 0">
+            <label >Url to test</label>
+
+            <div >
+              <input type="url" class="form-control" ng-model="TestQueue.Settings.CustomUrlToTest" name="CustomUrlToTest" placeholder="Selenium url address" required>
+                <span ng-show="TestQueueForm.CustomUrlToTest.$touched || TestQueueForm.$submitted">
+                <small class="help-block" ng-show="TestQueueForm.CustomUrlToTest.$error.required" style="color:red">Please enter URL to test.</small>
+              </span>
+            </div>
+          </div>
+
           <div class="form-group">
             <label >Selenium address</label>
 

@@ -168,17 +168,20 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Updates the bulk.
         /// </summary>
-        /// <param name="testQueueDto">The test queue dto.</param>
-        /// <returns>Newly updated object</returns>
-        [Route("bulk-update")]
-        [HttpPost]
+        /// <param name="groupName">Name of the group.</param>
+        /// <param name="status">The status.</param>
+        /// <returns>
+        /// Newly updated status
+        /// </returns>
+        [Route("{groupName}/update-state/{status}")]
+        [HttpGet]
         [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
-        public IHttpActionResult UpdateBulk([FromBody]TblTestQueueDto[] testQueueDto)
+        public IHttpActionResult UpdateBulk(string groupName, int status)
         {
-            var result = new ResultMessage<IEnumerable<TblTestQueueDto>>();
+            var result = new ResultMessage<bool>();
             try
             {
-                result = this.testQueueService.SaveOrUpdate(testQueueDto, this.UserId);
+                result = this.testQueueService.UpdateTestQueueStatusByGroupName(this.UserId, groupName, status);
             }
             catch (Exception ex)
             {

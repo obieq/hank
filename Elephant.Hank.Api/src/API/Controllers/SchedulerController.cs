@@ -211,6 +211,32 @@ namespace Elephant.Hank.Api.Controllers
             return this.CreateCustomResponse(result);
         }
 
+        /// <summary>
+        /// Forces the execute now.
+        /// </summary>
+        /// <param name="schedulerId">The scheduler identifier.</param>
+        /// <param name="target">The target.</param>
+        /// <param name="port">The port.</param>
+        /// <returns>Group name of batch</returns>
+        [HttpGet]
+        [Route("{schedulerId}/force-execute/{target}/{port?}")]
+        [CustomAuthorize(ActionType = ActionTypes.Execute, ModuleType = FrameworkModules.Scheduler)]
+        public IHttpActionResult ForceExecuteNow(long schedulerId, string target, int? port = null)
+        {
+            var result = new ResultMessage<string>();
+            try
+            {
+                result = this.schedulerService.ForceExecute(this.UserId, schedulerId, target, port);
+            }
+            catch (Exception ex)
+            {
+                this.LoggerService.LogException(ex);
+                result.Messages.Add(new Message(null, ex.Message));
+            }
+
+            return this.CreateCustomResponse(result);
+        }
+
         #endregion
 
         #region Scheduler - Mapping

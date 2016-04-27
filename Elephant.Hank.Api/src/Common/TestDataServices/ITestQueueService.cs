@@ -27,5 +27,27 @@ namespace Elephant.Hank.Common.TestDataServices
         /// </summary>
         /// <returns>List TblTestQueueDto</returns>
         ResultMessage<IEnumerable<TblTestQueueDto>> GetAllUnProcessed();
+
+        /// <summary>
+        /// Updates the name of the test queue status by group.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="groupName">Name of the group.</param>
+        /// <param name="status">The status.</param>
+        /// <returns>
+        /// Status update
+        /// </returns>
+        ResultMessage<bool> UpdateTestQueueStatusByGroupName(long userId, string groupName, int status);
+
+        /// <summary>
+        /// Updates the test queue processing flag.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="groupName">Name of the group.</param>
+        /// <param name="isProcessed">if set to <c>true</c> [is processed].</param>
+        /// <returns>
+        /// Update status
+        /// </returns>
+        ResultMessage<bool> UpdateTestQueueProcessingFlag(long userId, string groupName, bool isProcessed);
     }
 }

@@ -14,11 +14,16 @@ app.controller('TestQueueController', ['$scope', '$stateParams', '$state', 'Crud
       $scope.WebsiteId=args.WebsiteId;
       crudService.getById(ngAppSettings.WebSiteUrl, args.WebsiteId).then(function (response) {
           $scope.Website = response.Item;
+
+          $scope.Website.WebsiteUrlList.push({ Id: 0, Url: "Other" });
+
           $scope.TestQueue.Settings.SeleniumAddress = $scope.Website.Settings.SeleniumAddress;
           $scope.TestQueue.Settings.TakeScreenShotOnUrlChanged = $scope.Website.Settings.TakeScreenShotOnUrlChanged;
           $scope.TestQueue.TestId = args.TestId;
           $scope.TestQueue.Settings.UrlObj = $scope.Website.WebsiteUrlList[0];
           $scope.TestQueue.Settings.RepeatTimes = 1;
+          $scope.TestQueue.Settings.CustomUrlToTest = null;
+
           crudService.getAll(ngAppSettings.BrowserUrl).then(function (response) {
             crudService.getById(ngAppSettings.UserProfileUrl).then(function (profileResponse) {
               if(profileResponse.Item.Settings!=undefined ){
@@ -74,7 +79,6 @@ app.controller('TestQueueController', ['$scope', '$stateParams', '$state', 'Crud
         });
 
     });
-
 
     $scope.addTestToTestQueue = function (websiteId) {
       debugger;

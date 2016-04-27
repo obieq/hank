@@ -139,7 +139,7 @@ namespace Elephant.Hank.Resources.Dto
 
             set
             {
-                FrequencyEnum en = (FrequencyEnum)Enum.Parse(typeof(FrequencyEnum), value);
+                FrequencyEnum en = (FrequencyEnum)Enum.Parse(typeof(FrequencyEnum), (value + string.Empty).Replace(" ", string.Empty));
                 this.FrequencyType = (long)en;
             }
         }

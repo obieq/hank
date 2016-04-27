@@ -18,7 +18,7 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
       Settings: {Browsers: []}
     };
     $scope.stateParamWebsiteId = $stateParams.WebsiteId;
-    $scope.FrequencyList = ['Onetime', 'Daily', 'Weekly', 'Monthly'];
+    $scope.FrequencyList = ['Onetime', 'Daily', 'Weekly', 'Monthly', 'OnDemand'];
     $scope.SelectAll = false;
     $scope.SuiteList = [];
     $scope.LinkScheduleSuiteList = [];
@@ -108,12 +108,22 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
 
     $scope.loadData = function () {
       dataProvider.currentWebSite($scope);
+
+      if($scope.Website && $scope.Website.WebsiteUrlList){
+        $scope.Website.WebsiteUrlList.push({ Id: 0, Url: "Other" });;
+      }
+
       $scope.getWebsiteAllSuites();
     };
 
     $scope.onLoadAdd = function () {
       crudService.getById(ngAppSettings.WebSiteUrl, $scope.stateParamWebsiteId).then(function (response) {
         $scope.Website = response.Item;
+
+        if($scope.Website && $scope.Website.WebsiteUrlList){
+          $scope.Website.WebsiteUrlList.push({ Id: 0, Url: "Other" });;
+        }
+
         $scope.Scheduler.Settings.SeleniumAddress = $scope.Website.Settings.SeleniumAddress;
         crudService.getAll(ngAppSettings.BrowserUrl).then(function (response) {
           $scope.BrowserList = response;

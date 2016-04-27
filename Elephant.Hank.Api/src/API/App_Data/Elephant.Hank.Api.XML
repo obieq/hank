@@ -2190,6 +2190,13 @@
             TblReportDataDto objects
             </returns>
         </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ReportsController.GetExecutionGroupStatusData(System.String)">
+            <summary>
+            Gets the group status data.
+            </summary>
+            <param name="groupName">Name of the group.</param>
+            <returns>GroupStatusReport object</returns>
+        </member>
         <member name="M:Elephant.Hank.Api.Controllers.ReportsController.Add(Elephant.Hank.Resources.Json.ReportJson)">
             <summary>
             Gets the by identifier.
@@ -2380,6 +2387,15 @@
             </summary>
             <param name="schedulerId">the scheduler identifier</param>
             <returns>TblSchedulerSuiteDto objects</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.SchedulerController.ForceExecuteNow(System.Int64,System.String,System.Nullable{System.Int32})">
+            <summary>
+            Forces the execute now.
+            </summary>
+            <param name="schedulerId">The scheduler identifier.</param>
+            <param name="target">The target.</param>
+            <param name="port">The port.</param>
+            <returns>Group name of batch</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.SchedulerController.AddMultipleSuiteLinks(System.Collections.Generic.List{Elephant.Hank.Resources.Dto.Linking.TblLnkSchedulerSuiteDto},System.Int64)">
             <summary>
@@ -3104,12 +3120,15 @@
             Newly updated object
             </returns>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TestQueueController.UpdateBulk(Elephant.Hank.Resources.Dto.TblTestQueueDto[])">
+        <member name="M:Elephant.Hank.Api.Controllers.TestQueueController.UpdateBulk(System.String,System.Int32)">
             <summary>
             Updates the bulk.
             </summary>
-            <param name="testQueueDto">The test queue dto.</param>
-            <returns>Newly updated object</returns>
+            <param name="groupName">Name of the group.</param>
+            <param name="status">The status.</param>
+            <returns>
+            Newly updated status
+            </returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.TestQueueController.GetExecutableTestData(System.Int64)">
             <summary>

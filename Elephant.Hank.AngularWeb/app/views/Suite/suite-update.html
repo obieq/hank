@@ -24,18 +24,20 @@
       <form class="form-horizontal" name="SuiteForm" ng-submit="SuiteForm.$valid && updateSuite()">
         <div class="box-body">
           <div class="form-group">
+            <label class="col-sm-2 control-label">Suite Id</label>
+            <div class="col-sm-4" style="padding-top: 7px;">{{::Suite.Id}}</div>
+          </div>
+          <div class="form-group">
             <label class="col-sm-2 control-label">Website</label>
-
-            <div class="col-sm-4">{{Suite.Website.Name}}</div>
+            <div class="col-sm-4" style="padding-top: 7px;">{{::Suite.Website.Name}}</div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label">Suite Name</label>
-
             <div class="col-sm-4">
               <input type="text" class="form-control" ng-model="Suite.Name" name="Value" placeholder="Name" required>
-       <span ng-show="SuiteForm.Name.$touched || SuiteForm.$submitted">
-        <small class="help-block" ng-show="SuiteForm.Name.$error.required" style="color:red">Please enter value.</small>
-        </span>
+              <span ng-show="SuiteForm.Name.$touched || SuiteForm.$submitted">
+                <small class="help-block" ng-show="SuiteForm.Name.$error.required" style="color:red">Please enter value.</small>
+              </span>
             </div>
           </div>
           <div class="form-group">
@@ -62,8 +64,8 @@
                 <tbody>
                 <tr ng-repeat="test in TestList | orderBy:'Id' | filter: { Checked: 'false' }">
                   <td><input type="checkbox" ng-model="test.Checked" />  </td>
-                  <td>{{test.Id}} </td>
-                  <td>{{test.TestName}}</td>
+                  <td>{{::test.Id}}</td>
+                  <td><a ui-sref="Website.TestData({WebsiteId: Website.Id, TestCatId: test.CategoryId + 0, TestId: test.Id })" target="_blank">{{::test.TestName}}</a></td>
                 </tr>
                 </tbody>
               </table>
@@ -82,8 +84,8 @@
                 <tbody>
                 <tr ng-repeat="test in TestList | orderBy:'Id' | filter: { Checked: 'true' }">
                   <td><input type="checkbox" ng-model="test.Checked" />  </td>
-                  <td>{{test.Id}} </td>
-                  <td>{{test.TestName}}</td>
+                  <td>{{::test.Id}} </td>
+                  <td><a ui-sref="Website.TestData({WebsiteId: Website.Id, TestCatId: test.CategoryId + 0, TestId: test.Id })" target="_blank">{{::test.TestName}}</a></td>
                 </tr>
                 </tbody>
               </table>
