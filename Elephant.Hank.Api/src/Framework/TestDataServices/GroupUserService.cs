@@ -119,7 +119,6 @@ namespace Elephant.Hank.Framework.TestDataServices
             else
             {
                 this.DeleteById(entity.Id, modifiedByUserId);
-                entity = this.Table.Find(x => x.GroupId == groupId && x.UserId == userId && x.IsDeleted != true).FirstOrDefault();
                 result.Item = this.mapperFactory.GetMapper<TblGroupUser, TblGroupUserDto>().Map(entity);
             }
 

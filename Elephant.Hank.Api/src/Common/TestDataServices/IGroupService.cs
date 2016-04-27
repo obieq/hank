@@ -21,15 +21,7 @@ namespace Elephant.Hank.Common.TestDataServices
     /// The IGroupService interface
     /// </summary>
     public interface IGroupService : IBaseService<TblGroupDto>
-    {
-        /// <summary>
-        /// Add new Group
-        /// </summary>
-        /// <param name="group">group object</param>
-        /// <param name="userId">the user identifier</param>
-        /// <returns>Added Group object</returns>
-        ResultMessage<TblGroupDto> AddNewGroup(TblGroupDto group, long userId);
-        
+    {      
         /// <summary>
         /// Get the group by name 
         /// </summary>
