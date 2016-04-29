@@ -474,14 +474,14 @@ var app = angular
       })
       .state('Website.SchedulerAdd', {
         url: "/{WebsiteId:int}/Scheduler/Add",
-        templateUrl: "views/Scheduler/scheduler-add.html",
+        templateUrl: "views/Scheduler/scheduler-add-update.html",
         controller: 'SchedulerController',
         ncyBreadcrumb: {label: 'New Scheduler', parent: "Website.Scheduler"},
         permissionData: {Roles: ["TestAdmin", "TestUser"]}
       })
       .state('Website.SchedulerUpdate', {
         url: "/{WebsiteId:int}/Scheduler/{Id:int}",
-        templateUrl: 'views/Scheduler/scheduler-update.html',
+        templateUrl: 'views/Scheduler/scheduler-add-update.html',
         controller: 'SchedulerController',
         ncyBreadcrumb: {label: '{{Scheduler.Name}}', parent: "Website.Scheduler"},
         permissionData: {Roles: ["TestAdmin", "TestUser"]}

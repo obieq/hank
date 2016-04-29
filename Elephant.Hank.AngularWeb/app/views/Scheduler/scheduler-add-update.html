@@ -10,7 +10,7 @@
 </section>
 
 
-<section class="content" ng-init="onLoadAdd()">
+<section class="content">
   <div class="row">
     <!-- left column -->
     <div class=" col-md-8 col-md-offset-2">
@@ -21,7 +21,7 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form class="form-horizontal" name="SchedulerForm" ng-submit="SchedulerForm.$valid && addScheduler()">
+        <form class="form-horizontal" name="SchedulerForm" ng-submit="SchedulerForm.$valid && addUpdateScheduler()">
           <div class="box-body">
             <div class="form-group">
               <label class="col-sm-2 control-label">Name</label>
@@ -64,7 +64,7 @@
               <label class="col-sm-2 control-label">Url to test</label>
 
               <div class="col-sm-6">
-                <input type="text" class="form-control" ng-model="Scheduler.Settings.CustomUrlToTest" name="CustomUrlToTest" placeholder="Selenium url address" required>
+                <input type="text" class="form-control" ng-model="Scheduler.Settings.CustomUrlToTest" name="CustomUrlToTest" placeholder="Url to test" required>
                 <span ng-show="SchedulerForm.CustomUrlToTest.$touched || SchedulerForm.$submitted">
                 <small class="help-block" ng-show="SchedulerForm.CustomUrlToTest.$error.required" style="color:red">Please enter URL to test.</small>
               </span>

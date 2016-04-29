@@ -108,21 +108,21 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
 
     $scope.loadData = function () {
       dataProvider.currentWebSite($scope);
-
-      if($scope.Website && $scope.Website.WebsiteUrlList){
-        $scope.Website.WebsiteUrlList.push({ Id: 0, Url: "Other" });;
-      }
-
+      addOtherOptionInEnvList();
       $scope.getWebsiteAllSuites();
     };
+
+    function addOtherOptionInEnvList(){
+      if($scope.Website && $scope.Website.WebsiteUrlList && $scope.Website.WebsiteUrlList.length > 0 && $scope.Website.WebsiteUrlList[$scope.Website.WebsiteUrlList.length - 1].Id != 0){
+        $scope.Website.WebsiteUrlList.push({ Id: 0, Url: "Other" });;
+      }
+    }
 
     $scope.onLoadAdd = function () {
       crudService.getById(ngAppSettings.WebSiteUrl, $scope.stateParamWebsiteId).then(function (response) {
         $scope.Website = response.Item;
 
-        if($scope.Website && $scope.Website.WebsiteUrlList){
-          $scope.Website.WebsiteUrlList.push({ Id: 0, Url: "Other" });;
-        }
+        addOtherOptionInEnvList();
 
         $scope.Scheduler.Settings.SeleniumAddress = $scope.Website.Settings.SeleniumAddress;
         crudService.getAll(ngAppSettings.BrowserUrl).then(function (response) {
@@ -151,7 +151,6 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
         commonUi.showErrorPopup(response);
       });
     };
-
 
     $scope.addSchedulerSuiteLinks = function (schedulerId, doRedirect) {
       var mapData = $scope.getSelectedSuite(schedulerId);
@@ -318,7 +317,6 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
       return deferred.promise;
     };
 
-
     $scope.getAll = function () {
       var deferred = $q.defer();
       for (var l = 0; l < $scope.SuiteList.length; l++) {
@@ -339,6 +337,14 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
       }
 
       return deferred.promise;
+    };
+
+    $scope.addUpdateScheduler = function(){
+      if($stateParams.Id && $stateParams.Id > 0){
+        $scope.updateScheduler();
+      }else{
+        $scope.addScheduler ();
+      }
     };
 
     $scope.bindScreenShotForTestDDL = function () {
@@ -380,6 +386,11 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
       return deferred.promise;
     };
 
+    if($stateParams.Id && $stateParams.Id > 0){
+      $scope.getSchedulerById();
+    }else{
+      $scope.onLoadAdd();
+    }
   }
 ])
 ;
