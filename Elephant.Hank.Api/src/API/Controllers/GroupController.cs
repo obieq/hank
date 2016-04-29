@@ -15,7 +15,7 @@ namespace Elephant.Hank.Api.Controllers
     using System.Collections.Generic;
     using System.Net;
     using System.Web.Http;
-    
+
     using Elephant.Hank.Api.Security;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
@@ -136,6 +136,14 @@ namespace Elephant.Hank.Api.Controllers
         [HttpPost]
         public IHttpActionResult Add([FromBody]TblGroupDto groupDto)
         {
+            var data = this.groupService.GetByGroupName(groupDto.GroupName);
+
+            if (!data.IsError)
+            {
+                data.Messages.Add(new Message(null, "Group already exists with '" + groupDto.GroupName + "' name!"));
+                return this.CreateCustomResponse(data, HttpStatusCode.BadRequest);
+            }
+
             return this.AddUpdate(groupDto);
         }
 
@@ -151,7 +159,17 @@ namespace Elephant.Hank.Api.Controllers
         [HttpPut]
         public IHttpActionResult Update([FromBody]TblGroupDto groupDto, long groupId)
         {
+            var data = this.groupService.GetByGroupName(groupDto.GroupName);
+
+            if (!data.IsError && data.Item != null && groupId != data.Item.Id)
+            {
+                data.Messages.Add(new Message(null, "Group already exists with '" + groupDto.GroupName + "' name!"));
+
+                return this.CreateCustomResponse(data, HttpStatusCode.BadRequest);
+            }
+
             groupDto.Id = groupId;
+
             return this.AddUpdate(groupDto);
         }
 
@@ -285,14 +303,7 @@ namespace Elephant.Hank.Api.Controllers
             var result = new ResultMessage<TblGroupDto>();
             try
             {
-                if (groupDto.Id == 0)
-                {
-                    this.groupService.AddNewGroup(groupDto, this.UserId);
-                }
-                else
-                {
-                    result = this.groupService.SaveOrUpdate(groupDto, this.UserId);
-                }
+                result = this.groupService.SaveOrUpdate(groupDto, this.UserId);
             }
             catch (Exception ex)
             {

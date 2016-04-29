@@ -30,21 +30,6 @@ namespace Elephant.Hank.Framework.TestDataServices
     public class GroupService : GlobalService<TblGroupDto, TblGroup>, IGroupService
     {
         /// <summary>
-        /// The module service
-        /// </summary>
-        private readonly IModuleService moduleService;
-
-        /// <summary>
-        /// The website service
-        /// </summary>
-        private readonly IWebsiteService websiteService;
-
-        /// <summary>
-        /// The group module access service
-        /// </summary>
-        private readonly IGroupModuleAccessService groupModuleAccessService;
-
-        /// <summary>
         /// The mapper factory
         /// </summary>
         private readonly IMapperFactory mapperFactory;
@@ -62,36 +47,10 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <param name="groupModuleAccessService">the group module access service</param>
         /// <param name="moduleService">the module service</param>
         /// <param name="websiteService">the website service</param>
-        public GroupService(IMapperFactory mapperFactory, IRepository<TblGroup> table, IGroupModuleAccessService groupModuleAccessService, IModuleService moduleService, IWebsiteService websiteService)
+        public GroupService(IMapperFactory mapperFactory, IRepository<TblGroup> table)
             : base(mapperFactory, table)
         {
-            this.mapperFactory = mapperFactory;
-            this.groupModuleAccessService = groupModuleAccessService;
-            this.moduleService = moduleService;
-            this.websiteService = websiteService;
             this.table = table;
-        }
-
-        /// <summary>
-        /// Add new Group
-        /// </summary>
-        /// <param name="group">group object</param>
-        /// <returns>Added Group object</returns>
-        public ResultMessage<TblGroupDto> AddNewGroup(TblGroupDto group, long userId)
-        {
-            var result = new ResultMessage<TblGroupDto>();
-            var checkGroupExist = this.GetByGroupName(group.GroupName);
-            if (checkGroupExist.IsError)
-            {
-                result = this.SaveOrUpdate(group, userId);
-                result = this.GetByGroupName(group.GroupName);
-            }
-            else
-            {
-                return checkGroupExist;
-            }
-
-            return result;
         }
 
         /// <summary>

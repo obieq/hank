@@ -31,15 +31,7 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <param name="userId">the user identifier</param>
         /// <returns>Added entries in table TblGroupModuleAccessDto</returns>
         ResultMessage<IEnumerable<TblGroupModuleAccessDto>> AddUpdateWebsiteToGroup(long groupId, long[] websiteIdList, long userId);
-
-        /// <summary>
-        /// Add the GroupModuleAccess entries in bulk
-        /// </summary>
-        /// <param name="groupModuleAccessList">Group module access list to be entered in table</param>
-        /// <param name="userId">id of user who perform this action</param>
-        /// <returns>List of added entries</returns>
-        ResultMessage<IEnumerable<TblGroupModuleAccessDto>> AddInBulk(IEnumerable<TblGroupModuleAccessDto> groupModuleAccessList, long userId);
-
+       
         /// <summary>
         /// Get the TblGroupModuleAccessDto list by group id
         /// </summary>

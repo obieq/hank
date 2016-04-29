@@ -62,15 +62,13 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <param name="mapperFactory">the mapper factory</param>
         /// <param name="table">the table</param>
         /// <param name="moduleService">the module service object</param>
-        /// <param name="tableGroup">the table group</param>
         /// <param name="cacheProvider">The cache provider.</param>
-        public GroupModuleAccessService(IMapperFactory mapperFactory, IRepository<TblGroupModuleAccess> table, IModuleService moduleService, IRepository<TblGroup> tableGroup, ICacheProvider cacheProvider)
+        public GroupModuleAccessService(IMapperFactory mapperFactory, IRepository<TblGroupModuleAccess> table, IModuleService moduleService, ICacheProvider cacheProvider)
             : base(mapperFactory, table)
         {
             this.mapperFactory = mapperFactory;
             this.moduleService = moduleService;
             this.table = table;
-            this.tableGroup = tableGroup;
             this.cacheProvider = cacheProvider;
         }
 
@@ -105,21 +103,6 @@ namespace Elephant.Hank.Framework.TestDataServices
             var mapper = this.mapperFactory.GetMapper<TblGroupModuleAccess, TblGroupModuleAccessDto>();
             result.Item = groupModuleAccessList.Select(mapper.Map).ToList();
             return result;
-        }
-
-        /// <summary>
-        /// Add the GroupModuleAccess entries in bulk
-        /// </summary>
-        /// <param name="groupModuleAccessList">Group module access list to be entered in table</param>
-        /// <param name="userId">id of user who perform this action</param>
-        /// <returns>List of added entries</returns>
-        public ResultMessage<IEnumerable<TblGroupModuleAccessDto>> AddInBulk(IEnumerable<TblGroupModuleAccessDto> groupModuleAccessList, long userId)
-        {
-            var mapper = this.mapperFactory.GetMapper<TblGroupModuleAccessDto, TblGroupModuleAccess>();
-            var groupModuleAccessListForDB = groupModuleAccessList.Select(mapper.Map).ToList();
-            groupModuleAccessListForDB.ForEach(x => this.table.Insert(x));
-            this.table.Commit();
-            return this.GetByGroupId(groupModuleAccessList.FirstOrDefault().GroupId);
         }
 
         /// <summary>
