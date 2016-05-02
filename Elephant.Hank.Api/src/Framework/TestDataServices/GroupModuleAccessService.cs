@@ -52,11 +52,6 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly IRepository<TblGroupModuleAccess> table;
 
         /// <summary>
-        /// The tableGroup
-        /// </summary>
-        private readonly IRepository<TblGroup> tableGroup;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="GroupModuleAccessService" /> class.
         /// </summary>
         /// <param name="mapperFactory">the mapper factory</param>
@@ -129,8 +124,19 @@ namespace Elephant.Hank.Framework.TestDataServices
         {
             var result = new ResultMessage<IEnumerable<TblGroupModuleAccessDto>>();
             var mapper = this.mapperFactory.GetMapper<TblGroupModuleAccess, TblGroupModuleAccessDto>();
-            IEnumerable<TblGroupModuleAccess> groupModuleAccess = this.table.Find(x => x.GroupId == groupId && x.WebsiteId == websiteId && x.IsDeleted != true).ToList();
-            result.Item = groupModuleAccess.Select(mapper.Map).ToList();
+            List<TblGroupModuleAccess> groupModuleAccessList = this.table.Find(x => x.GroupId == groupId && x.WebsiteId == websiteId && x.IsDeleted != true).ToList();
+            IEnumerable<TblModuleDto> modules = this.moduleService.GetAll().Item;
+            if (groupModuleAccessList.Count() < modules.Count())
+            {
+                IEnumerable<TblModuleDto> moduleNotAddedList = modules.Where(x => groupModuleAccessList.All(y => y.ModuleId != x.Id)).ToList();
+                foreach (var item in moduleNotAddedList)
+                {
+                    TblGroupModuleAccess groupModuleAccess = new TblGroupModuleAccess { GroupId = groupId, WebsiteId = websiteId, ModuleId = item.Id, Module = this.mapperFactory.GetMapper<TblModuleDto, TblModule>().Map(item) };
+                    groupModuleAccessList.Add(groupModuleAccess);
+                }
+            }
+
+            result.Item = groupModuleAccessList.Select(mapper.Map).ToList();
             return result;
         }
 
@@ -149,6 +155,10 @@ namespace Elephant.Hank.Framework.TestDataServices
                 var moduleAccessList = this.table.Find(x => x.GroupId == defaultGroupModule.GroupId && x.WebsiteId == defaultGroupModule.WebsiteId).ToList();
                 foreach (var item in moduleAccessDtoList)
                 {
+                    if (item.Id == 0)
+                    {
+                        this.table.Insert(new TblGroupModuleAccess { ModifiedBy = userId, CreatedBy = userId, CanRead =true, CanWrite = item.CanWrite, CanDelete = item.CanDelete, CanExecute = item.CanExecute, GroupId = item.GroupId, ModuleId = item.ModuleId, WebsiteId = item.WebsiteId });
+                    }
                     moduleAccessList.Where(x => x.Id == item.Id).ToList().ForEach(y => { y.ModifiedBy = userId; y.CreatedBy = userId; y.CanRead = item.CanRead; y.CanWrite = item.CanWrite; y.CanDelete = item.CanDelete; y.CanExecute = item.CanExecute; });
                 }
 

@@ -60,17 +60,9 @@ namespace Elephant.Hank.Framework.TestDataServices
         {
             var result = new ResultMessage<IEnumerable<TblGroupUserDto>>();
 
-            var entity = this.table.Find(x => x.GroupId == groupId && x.IsDeleted != true).ToList();
-
-            if (entity == null)
-            {
-                result.Messages.Add(new Message(null, "Record not found!"));
-            }
-            else
-            {
-                var mapper = this.mapperFactory.GetMapper<TblGroupUser, TblGroupUserDto>();
-                result.Item = entity.Select(mapper.Map);
-            }
+            var entities = this.table.Find(x => x.GroupId == groupId && x.IsDeleted != true).ToList();
+            var mapper = this.mapperFactory.GetMapper<TblGroupUser, TblGroupUserDto>();
+            result.Item = entities.Select(mapper.Map);
 
             return result;
         }
