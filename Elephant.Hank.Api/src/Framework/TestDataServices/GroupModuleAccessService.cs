@@ -50,7 +50,7 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// The table
         /// </summary>
         private readonly IRepository<TblGroupModuleAccess> table;
-
+       
         /// <summary>
         /// Initializes a new instance of the <see cref="GroupModuleAccessService" /> class.
         /// </summary>
@@ -77,7 +77,8 @@ namespace Elephant.Hank.Framework.TestDataServices
         public ResultMessage<IEnumerable<TblGroupModuleAccessDto>> AddUpdateWebsiteToGroup(long groupId, long[] websiteIdList, long userId)
         {
             var result = new ResultMessage<IEnumerable<TblGroupModuleAccessDto>>();
-            var groupModuleAccessList = this.table.Find(x => x.GroupId == groupId && x.IsDeleted == false).ToList();
+            List<TblGroupModuleAccessDto> groupModuleAccessEntriesToAdd = new List<TblGroupModuleAccessDto>();
+            var groupModuleAccessList = this.GetByGroupId(groupId).Item.ToList();
             var moduleResult = this.moduleService.GetAll();
             foreach (var website in websiteIdList)
             {
@@ -85,18 +86,14 @@ namespace Elephant.Hank.Framework.TestDataServices
                 {
                     if (groupModuleAccessList.Where(x => x.ModuleId == module.Id && x.WebsiteId == website).Count() == 0)
                     {
-                        this.table.Insert(this.mapperFactory.GetMapper<TblGroupModuleAccessDto, TblGroupModuleAccess>().Map(new TblGroupModuleAccessDto { GroupId = groupId, IsDeleted = false, ModifiedBy = userId, CreatedBy = userId, ModuleId = module.Id, WebsiteId = website, CanDelete = false, CanRead = false, CanWrite = false, CanExecute = false }));
+                        groupModuleAccessList.Add(new TblGroupModuleAccessDto { GroupId = groupId, IsDeleted = false, ModifiedBy = userId, CreatedBy = userId, ModuleId = module.Id, WebsiteId = website, CanDelete = false, CanRead = false, CanWrite = false, CanExecute = false });
                     }
                 }
             }
 
-            this.table.Commit();
-            groupModuleAccessList = this.table.Find(x => x.GroupId == groupId && x.IsDeleted == false).ToList();
             groupModuleAccessList.Where(x => websiteIdList.All(web => web != x.WebsiteId)).ToList().ForEach(x => { x.IsDeleted = false; x.CanRead = false; x.CanWrite = false; x.CanDelete = false; x.CanExecute = false; });
             groupModuleAccessList.Where(x => websiteIdList.Any(web => web == x.WebsiteId)).ToList().ForEach(x => { x.IsDeleted = false; x.CanRead = true; x.CanWrite = false; x.CanDelete = false; x.CanExecute = false; });
-            this.table.Commit();
-            var mapper = this.mapperFactory.GetMapper<TblGroupModuleAccess, TblGroupModuleAccessDto>();
-            result.Item = groupModuleAccessList.Select(mapper.Map).ToList();
+            result = this.SaveOrUpdate(groupModuleAccessList, userId);
             return result;
         }
 
@@ -157,7 +154,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                 {
                     if (item.Id == 0)
                     {
-                        this.table.Insert(new TblGroupModuleAccess { ModifiedBy = userId, CreatedBy = userId, CanRead =true, CanWrite = item.CanWrite, CanDelete = item.CanDelete, CanExecute = item.CanExecute, GroupId = item.GroupId, ModuleId = item.ModuleId, WebsiteId = item.WebsiteId });
+                        this.table.Insert(new TblGroupModuleAccess { ModifiedBy = userId, CreatedBy = userId, CanRead = true, CanWrite = item.CanWrite, CanDelete = item.CanDelete, CanExecute = item.CanExecute, GroupId = item.GroupId, ModuleId = item.ModuleId, WebsiteId = item.WebsiteId });
                     }
                     moduleAccessList.Where(x => x.Id == item.Id).ToList().ForEach(y => { y.ModifiedBy = userId; y.CreatedBy = userId; y.CanRead = item.CanRead; y.CanWrite = item.CanWrite; y.CanDelete = item.CanDelete; y.CanExecute = item.CanExecute; });
                 }
