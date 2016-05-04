@@ -299,23 +299,16 @@ var JsonHelper = function () {
     return varName;
   };
 
-  this.ProcessAutoIncrementValue = function (value) {
-    var incrementedValue;
-    var checkForDigit=true;
-      var strValueToIncrement = '';
-      var valueToPrepend = '';
-      var splittedString = value.split('').reverse();
-      for (i = 0; i < splittedString.length; i++) {
-        if ( !isNaN(splittedString[i])  && checkForDigit) {
-          strValueToIncrement = splittedString[i] + strValueToIncrement;
-        }
-        else {
-          checkForDigit = false;
-          valueToPrepend = splittedString[i] + valueToPrepend;
-        }
+  this.ExtractVariableValue = function (variableName) {
+    var result = undefined;
+    var variableContainer = browser.params.config.variableContainer;
+    for (var k = 0; k < variableContainer.length; k++) {
+      if (variableName.toLowerCase() == variableContainer[k].Name.toLowerCase()) {
+        result = variableContainer[k].Value;
+        break;
       }
-      incrementedValue = parseInt(strValueToIncrement) + 1;
-      return valueToPrepend + incrementedValue;
+    }
+    return result;
   };
 
 };

@@ -239,12 +239,6 @@ var InputHelper = function () {
                   });
                 });
               }
-              else if (splitedvalue.length > 1 && splitedvalue[1].toLowerCase() == "autoincrementclient") {
-                browser.getCurrentUrl().then(function (Url) {
-                  var autoIncValue = thisobj.GetAutoIncrementValue(splitedvalue);
-                  thisobj.setText(testInstance.ExecutionSequence, key, autoIncValue, undefined, undefined, testInstance);
-                });
-              }
               else {
                 this.setText(testInstance.ExecutionSequence, key, testInstance.Value, undefined, undefined, testInstance);
               }
@@ -424,7 +418,6 @@ var InputHelper = function () {
             }
             else {
               var response = hashTagHelper.computeHashTags(testInstance.Value).then(function (response) {
-
                 thisobj.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, response.toString(), testInstance.DisplayName);
               });
 
@@ -942,15 +935,15 @@ var InputHelper = function () {
           );
         }
       ).then(function clickOption() {
-        if (hasMatchedValue) {
-          key.all(by.tagName('option')).get(count).click().then(function () {
-            browser.params.config.LastStepExecuted = executionSequence;
-          });
-        }
-        else {
+          if (hasMatchedValue) {
+            key.all(by.tagName('option')).get(count).click().then(function () {
+              browser.params.config.LastStepExecuted = executionSequence;
+            });
+          }
+          else {
 
-        }
-      });
+          }
+        });
 
     }
   };
@@ -1110,28 +1103,5 @@ var InputHelper = function () {
       browser.sleep(timeOut);
     }
   };
-
-  this.GetAutoIncrementValue = function (splittedValueArray) {
-    var valueExistInGlobalAutoIncrement = false;
-    var autoIncrementValue = '';
-    for (var i = 0; i < GlobalAutoIncrementArray.length; i++) {
-      if (GlobalAutoIncrementArray[i].DisplayName == splittedValueArray[2]) {
-        autoIncrementValue = jsonHelper.ProcessAutoIncrementValue(GlobalAutoIncrementArray[i].Value);
-        valueExistInGlobalAutoIncrement = true;
-        GlobalAutoIncrementArray[i].Value = autoIncrementValue;
-        console.log("Inside if GetAutoIncrementValue autoIncrementValue=" + autoIncrementValue);
-        break;
-      }
-    }
-    if (!valueExistInGlobalAutoIncrement) {
-      autoIncrementValue = jsonHelper.ProcessAutoIncrementValue(splittedValueArray[3]);
-      console.log("Inside else GetAutoIncrementValue autoIncrementValue=" + autoIncrementValue);
-      GlobalAutoIncrementArray.push({"DisplayName": splittedValueArray[2], "Value": autoIncrementValue});
-      console.log("Inside else GetAutoIncrementValue GlobalAutoIncrementArray=");
-      console.log(GlobalAutoIncrementArray);
-
-    }
-    return autoIncrementValue;
-  }
 };
 module.exports = InputHelper;
