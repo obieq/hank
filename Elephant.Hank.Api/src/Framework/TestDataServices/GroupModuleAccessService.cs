@@ -156,6 +156,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                     {
                         this.table.Insert(new TblGroupModuleAccess { ModifiedBy = userId, CreatedBy = userId, CanRead = true, CanWrite = item.CanWrite, CanDelete = item.CanDelete, CanExecute = item.CanExecute, GroupId = item.GroupId, ModuleId = item.ModuleId, WebsiteId = item.WebsiteId });
                     }
+
                     moduleAccessList.Where(x => x.Id == item.Id).ToList().ForEach(y => { y.ModifiedBy = userId; y.CreatedBy = userId; y.CanRead = item.CanRead; y.CanWrite = item.CanWrite; y.CanDelete = item.CanDelete; y.CanExecute = item.CanExecute; });
                 }
 
