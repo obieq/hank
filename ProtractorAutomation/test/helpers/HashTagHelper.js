@@ -57,6 +57,18 @@ var HashTagHelper = function () {
         defer.fulfill(result);
       });
     }
+    else if (splittedHashTagArray[1].split('~')[0].toLowerCase() == 'assign') {
+      browser.getCurrentUrl().then(function (curUrl) {
+        var variables = hashTagText.match(/\{(.*?)\}/g) || [];
+        if (variables.length > 0) {
+          result = jsonHelper.GetIndexedVariableValueFromVariableContainer(splittedHashTagArray[1].substring(splittedHashTagArray[1].indexOf('{') + 1, splittedHashTagArray[1].lastIndexOf('}')));
+        }
+        else{
+          result=splittedHashTagArray[1].split('~')[1];
+        }
+        defer.fulfill(result);
+      });
+    }
     return defer.promise;
   };
 
@@ -79,7 +91,7 @@ var HashTagHelper = function () {
       }
     }
     valueAfterOperaton = valueToPrepend;
-    valueAfterOperaton +=  hashTagAction == 'subtract' ? parseInt(operationValueArray[0]) - parseInt(operationValueArray[1]) : parseInt(operationValueArray[0]) + parseInt(operationValueArray[1]);
+    valueAfterOperaton += hashTagAction == 'subtract' ? parseInt(operationValueArray[0]) - parseInt(operationValueArray[1]) : parseInt(operationValueArray[0]) + parseInt(operationValueArray[1]);
     return valueAfterOperaton;
   };
 
