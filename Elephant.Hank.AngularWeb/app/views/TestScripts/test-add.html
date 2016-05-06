@@ -88,7 +88,7 @@
 
               <div class="col-sm-4">
                 <select class="form-control" ng-model="CopyTestData.Test"
-                        ng-options="test.TestName for test in TestList track by test.Id" name="TestCopyId"
+                ng-options="test.TestName for test in TestList | orderBy :'TestName' track by test.Id" name="TestCopyId"
                         ng-change="loadTestData()" required>
                   <option style="display:none" value="">--Select--</option>
                 </select>
