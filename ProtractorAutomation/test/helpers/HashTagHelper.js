@@ -53,72 +53,34 @@ var HashTagHelper = function () {
     else if (splittedHashTagArray[1].split('~')[0].toLowerCase() == 'add' || splittedHashTagArray[1].split('~')[0].toLowerCase() == 'subtract') {
       browser.getCurrentUrl().then(function (curUrl) {
         var hashTagAction = splittedHashTagArray[1].split('~')[0].toLowerCase();
-        var firstValue = '';
-        var secondValue = '';
-        var variablesNameList = hashTagText.match(/\{(.*?)\}/g) || [];
-        if (variablesNameList.length == 1) {
-          firstValue = jsonHelper.ExtractVariableValue(variablesNameList[0].replace('{', '').replace('}', ''));
-          result = thisobj.ProcessAdd(firstValue, undefined, splittedHashTagArray[1].split('~')[2], hashTagAction);
-        }
-        if (variablesNameList.length == 2) {
-          firstValue = jsonHelper.ExtractVariableValue(variablesNameList[0].replace('{', '').replace('}', ''));
-          secondValue = jsonHelper.ExtractVariableValue(variablesNameList[1].replace('{', '').replace('}', ''));
-          result = thisobj.ProcessAdd(firstValue, secondValue, undefined, hashTagAction);
-        }
+        result = thisobj.ProcessMathematicOperation([jsonHelper.ExtractVariableValue(splittedHashTagArray[1].split('~')[1].replace('{', '').replace('}', '')), jsonHelper.ExtractVariableValue(splittedHashTagArray[1].split('~')[2].replace('{', '').replace('}', ''))], hashTagAction);
         defer.fulfill(result);
       });
     }
     return defer.promise;
   };
 
-  this.ProcessAdd = function (firstValue, secondValue, value, hashTagAction) {
-    var incrementedValue;
-    var checkForDigit = true;
-    var strValueToIncrementFirst = '';
-    var valueToPrependFirst = '';
-    var splittedStringFirst = firstValue.split('').reverse();
-    for (var i = 0; i < splittedStringFirst.length; i++) {
-      if (!isNaN(splittedStringFirst[i]) && checkForDigit) {
-        strValueToIncrementFirst = splittedStringFirst[i] + strValueToIncrementFirst;
-      }
-      else {
-        checkForDigit = false;
-        valueToPrependFirst = splittedStringFirst[i] + valueToPrependFirst;
-      }
-    }
-    checkForDigit = true;
-    if (secondValue != undefined) {
-      var strValueToIncrementSecond = '';
-      var valueToPrependSecond = '';
-      var splittedStringSecond = secondValue.split('').reverse();
-      for (var i = 0; i < splittedStringSecond.length; i++) {
-        if (!isNaN(splittedStringSecond[i]) && checkForDigit) {
-          strValueToIncrementSecond = splittedStringSecond[i] + strValueToIncrementSecond;
+  this.ProcessMathematicOperation = function (valueArray, hashTagAction) {
+    var valueAfterOperaton;
+    var valueToPrepend;
+    var operationValueArray = [];
+    for (var k = valueArray.length - 1; k > -1; k--) {
+      valueToPrepend = '';
+      var checkForDigit = true;
+      var strReverseArray = valueArray[k].split('').reverse();
+      for (var i = 0; i < strReverseArray.length; i++) {
+        if (!isNaN(strReverseArray[i]) && checkForDigit) {
+          operationValueArray[k] = strReverseArray[i] + operationValueArray[k];
         }
         else {
           checkForDigit = false;
-          valueToPrependSecond = splittedStringSecond[i] + valueToPrependSecond;
+          valueToPrepend = strReverseArray[i] + valueToPrepend;
         }
       }
     }
-    if (value == undefined) {
-      if (hashTagAction.toLowerCase() == 'subtract') {
-        incrementedValue = parseInt(strValueToIncrementFirst) - parseInt(strValueToIncrementSecond);
-      }
-      else if (hashTagAction.toLowerCase() == 'add') {
-        incrementedValue = parseInt(strValueToIncrementFirst) + parseInt(strValueToIncrementSecond);
-      }
-    }
-    else {
-      if (hashTagAction.toLowerCase() == 'subtract') {
-        incrementedValue = parseInt(strValueToIncrementFirst) - parseInt(value);
-      }
-      else if (hashTagAction.toLowerCase() == 'add') {
-        incrementedValue = parseInt(strValueToIncrementFirst) + parseInt(value);
-      }
-    }
-    console.log("Inside ProcessAdd result= " + valueToPrependFirst + incrementedValue);
-    return valueToPrependFirst + incrementedValue;
+    valueAfterOperaton = valueToPrepend;
+    valueAfterOperaton +=  hashTagAction == 'subtract' ? parseInt(operationValueArray[0]) - parseInt(operationValueArray[1]) : parseInt(operationValueArray[0]) + parseInt(operationValueArray[1]);
+    return valueAfterOperaton;
   };
 
   this.computeDate = function (hashTagText, correspondingValue) {
@@ -129,6 +91,7 @@ var HashTagHelper = function () {
         currentCycleDate = new Date();
         break;
       }
+
       case 'variable':
       {
         var variableContainer = browser.params.config.variableContainer;

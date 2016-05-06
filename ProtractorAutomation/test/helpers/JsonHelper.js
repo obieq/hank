@@ -308,7 +308,7 @@ var JsonHelper = function () {
         break;
       }
     }
-    return result;
+    return result == undefined ? variableName : result;
   };
 
 };
