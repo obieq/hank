@@ -80,6 +80,7 @@
     <Compile Include="TestDataServices\IGroupModuleAccessService.cs" />
     <Compile Include="TestDataServices\IGroupService.cs" />
     <Compile Include="TestDataServices\IGroupUserService.cs" />
+    <Compile Include="TestDataServices\IHashTagDescriptionService.cs" />
     <Compile Include="TestDataServices\IModuleService.cs" />
     <Compile Include="TestDataServices\IUserProfileService.cs" />
     <Compile Include="TestDataServices\IReportDataService.cs" />

@@ -197,6 +197,14 @@ namespace Elephant.Hank.DataService
         public DbSet<TblModule> TblModule { get; set; }
 
         /// <summary>
+        /// Gets or sets the table hash tag description.
+        /// </summary>
+        /// <value>
+        /// The table hash tag description.
+        /// </value>
+        public DbSet<TblHashTagDescription> TblHashTagDescription { get; set; }
+
+        /// <summary>
         /// override save changes
         /// </summary>
         /// <returns>Save status</returns>
@@ -352,6 +360,7 @@ namespace Elephant.Hank.DataService
 
             modelBuilder.Entity<TblApiCategories>().ToTable("TblApiCategories", DefaultSchema);
             modelBuilder.Entity<TblApiConnection>().ToTable("TblApiConnection", DefaultSchema);
+            modelBuilder.Entity<TblHashTagDescription>().ToTable("TblHashTagDescription", DefaultSchema);
         }
 
         /// <summary>

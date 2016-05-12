@@ -204,6 +204,8 @@ namespace Elephant.Hank.Framework.Mapper
                  .ForMember(x => x.ModuleName, opt => opt.MapFrom(x => x.Module != null ? x.Module.ModuleName : string.Empty))
                   .ForMember(x => x.IsModuleExecutable, opt => opt.MapFrom(x => x.Module != null ? x.Module.IsExecutable : false))
                 .ReverseMap();
+
+            AutoMapper.Mapper.CreateMap<TblHashTagDescriptionDto, TblHashTagDescription>().ReverseMap();
         }
     }
 }

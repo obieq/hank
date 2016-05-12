@@ -37,6 +37,29 @@ var app = angular
     $urlRouterProvider.otherwise("Login");
 
     $stateProvider
+      .state('HashTagDescription', {
+        abstract: true,
+        url: "/hash-tag-description",
+        views: {
+          "NavView": {templateUrl: "views/navigation.html", controller: 'NavCtrl'},
+          "MainView": {template: '<ui-view />'}
+        }
+      })
+      .state('HashTagDescription.Description', {
+        url: "",
+        templateUrl: 'views/HashTagDescription/description.html',
+        controller: 'HashTagController',
+        ncyBreadcrumb: {label: 'Hash Tag Description', parent: "Website.List"},
+        permissionData: {Roles: ["TestAdmin", "TestUser"]}
+      })
+
+      .state('HashTagDescription.AddUpdate', {
+        url: "/{Id:int}",
+        templateUrl: 'views/HashTagDescription/add-update.html',
+        controller: 'HashTagController',
+        ncyBreadcrumb: {label: 'Hash Tag Add-Update', parent: "HashTagDescription.Description"},
+        permissionData: {Roles: ["TestAdmin", "TestUser"]}
+      })
       .state('Environment', {
         abstract: true,
         url: "/Environment",
@@ -797,5 +820,6 @@ var app = angular
     GroupWebsiteUrl: "group/{0}/add-website-to-group",
     GroupModuleUrl: "group/{0}/group-module-access",
     GroupWebsiteModuleUrl: "group/{0}/website/{1}",
-    GroupModuleAccessBulkUpdate: "group-module-access/update-access-bulk"
+    GroupModuleAccessBulkUpdate: "group-module-access/update-access-bulk",
+    HashTagDescriptionUrl:"hash-tag-description"
   });

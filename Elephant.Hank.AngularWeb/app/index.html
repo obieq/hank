@@ -21,6 +21,7 @@
 
   <!-- endbuild -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <link rel="stylesheet" href="styles/css/red.css">
   <link rel="stylesheet" href="styles/css/style.css">
   <style type="text/css">
@@ -243,6 +244,12 @@
             </a>
           </li>
 
+          <li ng-class="isActive(1, 'HashTagDescription.Description')" ng-show="IsLoggedIn &&  IsAdmin &&  !isWebsiteSelected">
+            <a ui-sref="HashTagDescription.Description">
+              <i class="fa fa-book"></i> <span>Hash Tag Description</span>
+            </a>
+          </li>
+
         </ul>
       </section>
       <!-- /.sidebar -->
@@ -288,6 +295,8 @@
   ga('create', 'UA-XXXXX-X');
   ga('send', 'pageview');
 </script>
+
+<script src="https://cdn.ckeditor.com/4.4.3/standard/ckeditor.js"></script>
 
 <!-- build:js(.) scripts/vendor.js -->
 <!-- bower:js -->
@@ -365,9 +374,11 @@
 <script src="scripts/controllers/GroupWebsiteController.js"></script>
 <script src="scripts/controllers/GroupWebsiteModuleController.js"></script>
 <script src="scripts/controllers/GroupTabController.js"></script>
+<script src="scripts/controllers/HashTagController.js"></script>
 <script src="scripts/controllers/GroupUserController.js"></script>
 <script src="scripts/services/StringComparisionService.js"></script>
 <script src="scripts/directives/whenScrollEnds.js"></script>
+<script src="scripts/directives/CkEditor.js"></script>
 <script src="styles/js/resemble.js"></script>
 <!-- endbuild -->
 <!-- build:js({.tmp,app}) scripts/scripts-custom.js -->

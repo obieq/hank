@@ -211,6 +211,7 @@
     <Folder Include="Views\ExecuteSql\" />
     <Folder Include="Views\GroupModuleAccess\" />
     <Folder Include="Views\GroupUser\" />
+    <Folder Include="Views\HashTagDescription\" />
     <Folder Include="Views\Profile\" />
     <Folder Include="Views\SchedulerSuite\" />
     <Folder Include="Views\Scheduler\" />
@@ -221,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="Controllers\HashTagDescriptionController.cs" />
     <Compile Include="Controllers\ApiTestModule\ApiCategoriesController.cs" />
     <Compile Include="Controllers\ApiTestModule\ApiConnectionController.cs" />
     <Compile Include="Security\CustomAuthorizeAttribute.cs" />
