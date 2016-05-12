@@ -1,0 +1,95 @@
+<section class="content-header" ng-init="loadEnvironments()">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <h2 ng-if="!IsEditMode">Create Api Connection for  Category - {{ApiCategory.Name}}</h2>
+      <h2 ng-if="IsEditMode">Update Api Connection for  Category - {{ApiCategory.Name}}</h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="content">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-8 col-md-offset-2">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title"></h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" name="ApiConnectionForm" ng-submit="ApiConnectionForm.$valid && addUpdateConnection()">
+          <div class="box-body">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Website</label>
+              <div class="col-sm-6">
+                <label class="control-label"> {{Website.Name}}</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Category</label>
+              <div class="col-sm-6">
+                <label class="control-label"> {{ApiCategory.Name}}</label>
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Environment Name</label>
+
+              <div class="col-sm-6">
+                <select class="form-control" ng-model="ApiConnection.EnvironmentId"
+                        ng-options="environment.Id as environment.Name for environment in EnvironmentList"
+                        name="EnvironmentName" required>
+                  <option style="display:none" value="">--Select--</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Base Url</label>
+
+              <div class="col-sm-6">
+                <input type="text" class="form-control" placeholder="Base Api Url" name="BaseUrl" ng-model="ApiConnection.BaseUrl" required="">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Header(s)</label>
+              <div class="col-sm-8" style="padding-left: 0px;">
+                <div class="col-sm-12" style="padding-left: 0px;margin-bottom: 10px" ng-repeat="header in ApiConnection.Headers">
+                  <div class="col-sm-3">
+                    <input type="text" class="form-control" placeholder="Name" name="HeaderName" ng-model="header.Name" required="">
+                  </div>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" placeholder="Value" name="HeaderValue" ng-model="header.Value">
+                  </div>
+                  <div class="col-sm-1 text-right" style="margin-top: 2px">
+                    <button type="button" class="btn btn-danger fa fa-minus" title="Remove" ng-click="removeHeader($index)"></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label"></label>
+              <div class="col-sm-10 text-left">
+                <button type="button" class="btn btn-success fa fa-plus" title="Add header" ng-click="addBlankHeader()"></button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-2">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+

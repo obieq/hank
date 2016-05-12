@@ -89,6 +89,8 @@
     <Compile Include="DBSchema\CustomIdentity\CustomUserStore.cs" />
     <Compile Include="DBSchema\Linking\TblLnkSchedulerSuite.cs" />
     <Compile Include="DBSchema\Linking\TblLnkTestDataSharedTestData.cs" />
+    <Compile Include="DBSchema\TblApiCategories.cs" />
+    <Compile Include="DBSchema\TblApiConnection.cs" />
     <Compile Include="DBSchema\TblBrowsers.cs" />
     <Compile Include="DBSchema\TblDataBaseCategories.cs" />
     <Compile Include="DBSchema\TblDataBaseConnection.cs" />

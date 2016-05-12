@@ -87,6 +87,8 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Dto\RollDataDto.cs" />
+    <Compile Include="Dto\TblApiCategoriesDto.cs" />
+    <Compile Include="Dto\TblApiConnectionDto.cs" />
     <Compile Include="Dto\TblBrowsersDto.cs" />
     <Compile Include="Dto\TblDataBaseCategoriesDto.cs" />
     <Compile Include="Dto\TblDataBaseConnectionDto.cs" />

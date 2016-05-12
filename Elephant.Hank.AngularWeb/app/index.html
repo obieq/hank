@@ -188,6 +188,12 @@
             </a>
           </li>
 
+          <li ng-class="isActive(2, 'Website.ApiCategories')" ng-show="IsLoggedIn && WebsiteId &&  isWebsiteSelected">
+            <a ui-sref="Website.ApiCategories({WebsiteId: WebsiteId})">
+              <i class="fa fa-database"></i> <span>Api Categories</span>
+            </a>
+          </li>
+
           <li ng-class="isActive(2, 'Website.SharedTest')" ng-show="IsLoggedIn  && WebsiteId &&  isWebsiteSelected">
             <a ui-sref="Website.SharedTest({WebsiteId: WebsiteId})">
               <i class="fa fa-share-square-o"></i> <span>Shared Test</span>
@@ -230,8 +236,6 @@
               <i class="fa fa-rotate-right"></i> <span>Change Password</span>
             </a>
           </li>
-
-
 
           <li ng-class="isActive(1, 'Group.List')" ng-show="IsLoggedIn &&  IsAdmin &&  !isWebsiteSelected">
             <a ui-sref="Group.List">
@@ -353,6 +357,10 @@
 <script src="scripts/controllers/UserController.js"></script>
 <script src="scripts/controllers/DataBaseCategoriesController.js"></script>
 <script src="scripts/controllers/DataBaseConnectionController.js"></script>
+
+<script src="scripts/controllers/ApiTestModule/ApiCategoriesController.js"></script>
+<script src="scripts/controllers/ApiTestModule/ApiConnectionController.js"></script>
+
 <script src="scripts/controllers/GroupController.js"></script>
 <script src="scripts/controllers/GroupWebsiteController.js"></script>
 <script src="scripts/controllers/GroupWebsiteModuleController.js"></script>

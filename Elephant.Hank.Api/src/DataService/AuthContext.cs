@@ -349,6 +349,9 @@ namespace Elephant.Hank.DataService
             modelBuilder.Entity<TblGroupUser>().ToTable("TblGroupUser", DefaultSchema);
             modelBuilder.Entity<TblGroupModuleAccess>().ToTable("TblGroupModuleAccess", DefaultSchema);
             modelBuilder.Entity<TblModule>().ToTable("TblModule", DefaultSchema);
+
+            modelBuilder.Entity<TblApiCategories>().ToTable("TblApiCategories", DefaultSchema);
+            modelBuilder.Entity<TblApiConnection>().ToTable("TblApiConnection", DefaultSchema);
         }
 
         /// <summary>

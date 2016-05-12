@@ -60,5 +60,15 @@ namespace Elephant.Hank.Resources.Enum
         /// The reports
         /// </summary>
         Reports = 9,
+
+        /// <summary>
+        /// For Data Base Categories
+        /// </summary>
+        ApiCategories = 10,
+
+        /// <summary>
+        /// For DataBase Connection
+        /// </summary>
+        ApiConnection = 11,
     }
 }

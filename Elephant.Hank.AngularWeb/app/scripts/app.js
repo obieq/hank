@@ -334,6 +334,54 @@ var app = angular
         permissionData: {Roles: ["TestAdmin", "TestUser"]}
       })
 
+      .state('Website.ApiCategories', {
+        url: "/{WebsiteId:int}/api-categories",
+        templateUrl: 'views/ApiTestModule/cat-list.html',
+        controller: 'ApiCategoriesController',
+        ncyBreadcrumb: {label: 'Api Categories', parent: "Website.Update"},
+        permissionData: {Roles: ["TestAdmin", "TestUser"]}
+      })
+
+      .state('Website.ApiCategoriesAdd', {
+        url: "/{WebsiteId:int}/api-categories/add",
+        templateUrl: 'views/ApiTestModule/cat-add-update.html',
+        controller: 'ApiCategoriesController',
+        ncyBreadcrumb: {label: 'New Api Category', parent: "Website.ApiCategories"},
+        permissionData: {Roles: ["TestAdmin", "TestUser"]}
+      })
+
+      .state('Website.ApiCategoriesUpdate', {
+        url: "/{WebsiteId:int}/api-categories/{ApiCategoryId:int}",
+        templateUrl: 'views/ApiTestModule/cat-add-update.html',
+        controller: 'ApiCategoriesController',
+        ncyBreadcrumb: {label: '{{ ApiCategory.Name }}', parent: "Website.ApiCategories"},
+        permissionData: {Roles: ["TestAdmin", "TestUser"]}
+      })
+
+      .state('Website.ApiConnection', {
+        url: "/{WebsiteId:int}/api-categories/{ApiCategoryId:int}/api-connection",
+        templateUrl: 'views/ApiTestModule/con-list.html',
+        controller: 'ApiConnectionController',
+        ncyBreadcrumb: {label: 'Api Connections', parent: "Website.ApiCategoriesUpdate"},
+        permissionData: {Roles: ["TestAdmin", "TestUser"]}
+      })
+
+      .state('Website.ApiConnectionAdd', {
+        url: "/{WebsiteId:int}/api-categories/{ApiCategoryId:int}/api-connection/add",
+        templateUrl: 'views/ApiTestModule/con-add-update.html',
+        controller: 'ApiConnectionController',
+        ncyBreadcrumb: {label: 'New Api Connection', parent: "Website.ApiCategoriesUpdate"},
+        permissionData: {Roles: ["TestAdmin", "TestUser"]}
+      })
+
+      .state('Website.ApiConnectionUpdate', {
+        url: "/{WebsiteId:int}/api-categories/{ApiCategoryId:int}/api-connection/{ApiConnectionId:int}",
+        templateUrl: 'views/ApiTestModule/con-add-update.html',
+        controller: 'ApiConnectionController',
+        ncyBreadcrumb: {label: 'New Api Connection', parent: "Website.ApiCategoriesUpdate"},
+        permissionData: {Roles: ["TestAdmin", "TestUser"]}
+      })
+
       .state('Website.TestCat', {
         url: "/{WebsiteId:int}/test-category",
         templateUrl: 'views/TestCategory/list.html',
@@ -668,7 +716,10 @@ var app = angular
       TestScripts: 5,
       DataBaseCategories: 6,
       DataBaseConnection: 7,
-      LocatorIdentifier: 8
+      LocatorIdentifier: 8,
+      Reports: 9,
+      ApiCategories: 10,
+      ApiConnection: 11
     },
 
     OperationType: {
@@ -735,6 +786,10 @@ var app = angular
     DataBaseCategoriesConnectionUrl: "website/{0}/data-base-categories/{1}/data-base-connection",
     DataBaseConnectionUrl: "website/{0}/data-base-categories/{1}/data-base-connection",
     DataBaseConnectionGetDataBaseListUrl: "website/{0}/data-base-categories/{1}/data-base-connection/get-database-list",
+
+    ApiCategoriesUrl: "website/{0}/api-categories",
+    ApiConnectionUrl: "website/{0}/api-categories/{1}/api-connection",
+
     GroupUrl: "group",
     GroupUserAddUrl: 'group-user',
     GroupUserUrl: "group/{0}/user",

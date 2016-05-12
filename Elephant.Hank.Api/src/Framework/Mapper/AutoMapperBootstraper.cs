@@ -54,19 +54,31 @@ namespace Elephant.Hank.Framework.Mapper
         private static void MappingLookupDbToDto()
         {
             AutoMapper.Mapper.CreateMap<TblDataBaseCategories, TblDataBaseCategoriesDto>()
-           .ForMember(x => x.WebsiteName, opt => opt.MapFrom(src => src.Website != null ? src.Website.Name : null))
-            .ReverseMap();
+                .ForMember(x => x.WebsiteName, opt => opt.MapFrom(src => src.Website != null ? src.Website.Name : null))
+                .ReverseMap();
 
             AutoMapper.Mapper.CreateMap<TblDataBaseConnection, TblDataBaseConnectionDto>()
-          .ForMember(x => x.WebsiteName, opt => opt.MapFrom(src => src.Website != null ? src.Website.Name : null))
-          .ForMember(x => x.CategoryName, opt => opt.MapFrom(src => src.DataBaseCategories != null ? src.DataBaseCategories.Name : null))
-           .ForMember(x => x.Password, opt => opt.Ignore())
-           .ReverseMap();
+                .ForMember(x => x.WebsiteName, opt => opt.MapFrom(src => src.Website != null ? src.Website.Name : null))
+                .ForMember(x => x.CategoryName, opt => opt.MapFrom(src => src.DataBaseCategories != null ? src.DataBaseCategories.Name : null))
+                .ForMember(x => x.Password, opt => opt.Ignore())
+                .ReverseMap();
 
             AutoMapper.Mapper.CreateMap<TblDataBaseConnection, InternalTblDataBaseConnectionDto>()
-        .ForMember(x => x.WebsiteName, opt => opt.MapFrom(src => src.Website != null ? src.Website.Name : null))
-        .ForMember(x => x.CategoryName, opt => opt.MapFrom(src => src.DataBaseCategories != null ? src.DataBaseCategories.Name : null))
-         .ReverseMap();
+                .ForMember(x => x.WebsiteName, opt => opt.MapFrom(src => src.Website != null ? src.Website.Name : null))
+                .ForMember(
+                    x => x.CategoryName,
+                    opt => opt.MapFrom(src => src.DataBaseCategories != null ? src.DataBaseCategories.Name : null))
+                .ReverseMap();
+
+            AutoMapper.Mapper.CreateMap<TblApiCategories, TblApiCategoriesDto>()
+                .ForMember(x => x.WebsiteName, opt => opt.MapFrom(src => src.Website != null ? src.Website.Name : null))
+                .ReverseMap();
+
+            AutoMapper.Mapper.CreateMap<TblApiConnection, TblApiConnectionDto>()
+                .ForMember(x => x.WebsiteName, opt => opt.MapFrom(src => src.Website != null ? src.Website.Name : null))
+                .ForMember(x => x.CategoryName, opt => opt.MapFrom(src => src.ApiCategories != null ? src.ApiCategories.Name : null))
+                .ForMember(x => x.EnvironmentName, opt => opt.MapFrom(src => src.Environment != null ? src.Environment.Name : null))
+                .ReverseMap();
 
             AutoMapper.Mapper.CreateMap<CustomUser, CustomUserDto>().ReverseMap();
             AutoMapper.Mapper.CreateMap<CustomUserLogin, CustomUserLoginDto>().ReverseMap();

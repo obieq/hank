@@ -68,6 +68,8 @@
   <ItemGroup>
     <Compile Include="Services\IApiClient.cs" />
     <Compile Include="Services\ICacheProvider.cs" />
+    <Compile Include="TestDataServices\IApiCategoriesService.cs" />
+    <Compile Include="TestDataServices\IApiConnectionService.cs" />
     <Compile Include="TestDataServices\IBrowserService.cs" />
     <Compile Include="TestDataServices\IDataBaseCategoriesService.cs" />
     <Compile Include="TestDataServices\IDataBaseConnectionService.cs" />

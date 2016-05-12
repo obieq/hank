@@ -1,0 +1,163 @@
+[launcher] Running 3 instances of WebDriver
+F
+------------------------------------
+[internet explorer 9 WINDOWS #1-1] PID: 28264
+[internet explorer 9 WINDOWS #1-1] Specs: D:\GitHub\Hank\ProtractorAutomation\test\spec\27-04-2016-16-01-25-27\TestQueue_42793.js
+[internet explorer 9 WINDOWS #1-1] 
+[internet explorer 9 WINDOWS #1-1] Using the selenium server at http://10.140.2.163:4444/wd/hub
+[internet explorer 9 WINDOWS #1-1] Inside CustomScreenShotReporter base
+[internet explorer 9 WINDOWS #1-1] Test 1
+[internet explorer 9 WINDOWS #1-1]   Elephant.com
+[internet explorer 9 WINDOWS #1-1] [31m    Start test 42793 - fail[0m
+[internet explorer 9 WINDOWS #1-1] 
+[internet explorer 9 WINDOWS #1-1] 
+[internet explorer 9 WINDOWS #1-1] Failures:
+[internet explorer 9 WINDOWS #1-1] 
+[internet explorer 9 WINDOWS #1-1]   1) Test 1 Elephant.com Start test 42793
+[internet explorer 9 WINDOWS #1-1]    Message:
+[internet explorer 9 WINDOWS #1-1]      [31mError: Expected 'By.id("Login:LoginScreen:LoginDV:username")' to be present and visible. After 108 driverWaitIterations. Last webdriver error: Error: Wait timed out after 10079ms[0m
+[internet explorer 9 WINDOWS #1-1]    Stacktrace:
+[internet explorer 9 WINDOWS #1-1]      Error: Expected 'By.id("Login:LoginScreen:LoginDV:username")' to be present and visible. After 108 driverWaitIterations. Last webdriver error: Error: Wait timed out after 10079ms
+[internet explorer 9 WINDOWS #1-1]     at _throwError (D:\GitHub\Hank\ProtractorAutomation\test\helpers\WaitReady.js:30:11)
+[internet explorer 9 WINDOWS #1-1]     at D:\GitHub\Hank\ProtractorAutomation\test\helpers\WaitReady.js:65:5
+[internet explorer 9 WINDOWS #1-1]     at Array.forEach (native)
+[internet explorer 9 WINDOWS #1-1]     at goog.async.run.processWorkQueue (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\goog\async\run.js:130:15)
+[internet explorer 9 WINDOWS #1-1]     at process._tickCallback (node.js:364:9)
+[internet explorer 9 WINDOWS #1-1] From: Task: Asynchronous test function: it()
+[internet explorer 9 WINDOWS #1-1]     at [object Object].<anonymous> (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd\index.js:93:33)
+[internet explorer 9 WINDOWS #1-1]     at [object Object].<anonymous> (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\async-callback.js:45:37)
+[internet explorer 9 WINDOWS #1-1]     at [object Object].jasmine.Block.execute (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:1174:17)
+[internet explorer 9 WINDOWS #1-1]     at [object Object].jasmine.Queue.next_ (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:2209:31)
+[internet explorer 9 WINDOWS #1-1]     at onComplete (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:2205:18)
+[internet explorer 9 WINDOWS #1-1]     at [object Object].jasmine.WaitsForBlock.execute (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:2704:5)
+[internet explorer 9 WINDOWS #1-1]     at [object Object]._onTimeout (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:2718:12)
+[internet explorer 9 WINDOWS #1-1] Error
+[internet explorer 9 WINDOWS #1-1]     at [object Object].<anonymous> (D:\GitHub\Hank\ProtractorAutomation\test\StandardTestCaseFlow.js:59:11)
+[internet explorer 9 WINDOWS #1-1]     at [object Object].jasmine.Env.describe_ (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:913:21)
+[internet explorer 9 WINDOWS #1-1]     at [object Object].jasmine.Env.describe (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:898:15)
+[internet explorer 9 WINDOWS #1-1]     at describe (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:658:27)
+[internet explorer 9 WINDOWS #1-1]     at [object Object].ExecuteTest (D:\GitHub\Hank\ProtractorAutomation\test\StandardTestCaseFlow.js:36:7)
+[internet explorer 9 WINDOWS #1-1]     at [object Object].<anonymous> (D:\GitHub\Hank\ProtractorAutomation\test\spec\27-04-2016-16-01-25-27\TestQueue_42793.js:4:24)
+[internet explorer 9 WINDOWS #1-1]     at [object Object].jasmine.Env.describe_ (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:913:21)
+[internet explorer 9 WINDOWS #1-1]     at [object Object].jasmine.Env.describe (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:898:15)
+[internet explorer 9 WINDOWS #1-1]     at describe (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:658:27)
+[internet explorer 9 WINDOWS #1-1] 
+[internet explorer 9 WINDOWS #1-1] Finished in 12.222 seconds
+[internet explorer 9 WINDOWS #1-1] [31m1 test, 2 assertions, 1 failure
+[0m[internet explorer 9 WINDOWS #1-1] 
+
+[launcher] 3 instance(s) of WebDriver still running
+FF
+------------------------------------
+[internet explorer 9 WINDOWS #1-0] PID: 19592
+[internet explorer 9 WINDOWS #1-0] Specs: D:\GitHub\Hank\ProtractorAutomation\test\spec\27-04-2016-16-01-25-27\TestQueue_42792.js
+[internet explorer 9 WINDOWS #1-0] 
+[internet explorer 9 WINDOWS #1-0] Using the selenium server at http://10.140.2.163:4444/wd/hub
+[internet explorer 9 WINDOWS #1-0] Inside CustomScreenShotReporter base
+[internet explorer 9 WINDOWS #1-0] Test 2 - Bad
+[internet explorer 9 WINDOWS #1-0]   Elephant.com
+[internet explorer 9 WINDOWS #1-0] [31m    Start test 42792 - fail[0m
+[internet explorer 9 WINDOWS #1-0] 
+[internet explorer 9 WINDOWS #1-0] 
+[internet explorer 9 WINDOWS #1-0] Failures:
+[internet explorer 9 WINDOWS #1-0] 
+[internet explorer 9 WINDOWS #1-0]   1) Test 2 - Bad Elephant.com Start test 42792
+[internet explorer 9 WINDOWS #1-0]    Message:
+[internet explorer 9 WINDOWS #1-0]      [31mError: Expected 'By.id("Login:LoginScreen:LoginDV:username")' to be present and visible. After 106 driverWaitIterations. Last webdriver error: Error: Wait timed out after 10029ms[0m
+[internet explorer 9 WINDOWS #1-0]    Stacktrace:
+[internet explorer 9 WINDOWS #1-0]      Error: Expected 'By.id("Login:LoginScreen:LoginDV:username")' to be present and visible. After 106 driverWaitIterations. Last webdriver error: Error: Wait timed out after 10029ms
+[internet explorer 9 WINDOWS #1-0]     at _throwError (D:\GitHub\Hank\ProtractorAutomation\test\helpers\WaitReady.js:30:11)
+[internet explorer 9 WINDOWS #1-0]     at D:\GitHub\Hank\ProtractorAutomation\test\helpers\WaitReady.js:65:5
+[internet explorer 9 WINDOWS #1-0]     at Array.forEach (native)
+[internet explorer 9 WINDOWS #1-0]     at goog.async.run.processWorkQueue (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\goog\async\run.js:130:15)
+[internet explorer 9 WINDOWS #1-0]     at process._tickCallback (node.js:364:9)
+[internet explorer 9 WINDOWS #1-0] From: Task: Asynchronous test function: it()
+[internet explorer 9 WINDOWS #1-0]     at [object Object].<anonymous> (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd\index.js:93:33)
+[internet explorer 9 WINDOWS #1-0]     at [object Object].<anonymous> (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\async-callback.js:45:37)
+[internet explorer 9 WINDOWS #1-0]     at [object Object].jasmine.Block.execute (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:1174:17)
+[internet explorer 9 WINDOWS #1-0]     at [object Object].jasmine.Queue.next_ (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:2209:31)
+[internet explorer 9 WINDOWS #1-0]     at [object Object]._onTimeout (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:2199:18)
+[internet explorer 9 WINDOWS #1-0] Error
+[internet explorer 9 WINDOWS #1-0]     at [object Object].<anonymous> (D:\GitHub\Hank\ProtractorAutomation\test\StandardTestCaseFlow.js:59:11)
+[internet explorer 9 WINDOWS #1-0]     at [object Object].jasmine.Env.describe_ (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:913:21)
+[internet explorer 9 WINDOWS #1-0]     at [object Object].jasmine.Env.describe (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:898:15)
+[internet explorer 9 WINDOWS #1-0]     at describe (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:658:27)
+[internet explorer 9 WINDOWS #1-0]     at [object Object].ExecuteTest (D:\GitHub\Hank\ProtractorAutomation\test\StandardTestCaseFlow.js:36:7)
+[internet explorer 9 WINDOWS #1-0]     at [object Object].<anonymous> (D:\GitHub\Hank\ProtractorAutomation\test\spec\27-04-2016-16-01-25-27\TestQueue_42792.js:4:24)
+[internet explorer 9 WINDOWS #1-0]     at [object Object].jasmine.Env.describe_ (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:913:21)
+[internet explorer 9 WINDOWS #1-0]     at [object Object].jasmine.Env.describe (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:898:15)
+[internet explorer 9 WINDOWS #1-0]     at describe (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:658:27)
+[internet explorer 9 WINDOWS #1-0] 
+[internet explorer 9 WINDOWS #1-0] Finished in 14.053 seconds
+[internet explorer 9 WINDOWS #1-0] [31m1 test, 2 assertions, 1 failure
+[0m[internet explorer 9 WINDOWS #1-0] 
+
+[launcher] 2 instance(s) of WebDriver still running
+
+------------------------------------
+[internet explorer 9 WINDOWS #1-2] PID: 29080
+[internet explorer 9 WINDOWS #1-2] Specs: D:\GitHub\Hank\ProtractorAutomation\test\spec\27-04-2016-16-01-25-27\TestQueue_42794.js
+[internet explorer 9 WINDOWS #1-2] 
+[internet explorer 9 WINDOWS #1-2] Using the selenium server at http://10.140.2.163:4444/wd/hub
+[internet explorer 9 WINDOWS #1-2] Inside CustomScreenShotReporter base
+[internet explorer 9 WINDOWS #1-2] TEst 2
+[internet explorer 9 WINDOWS #1-2]   Elephant.com
+[internet explorer 9 WINDOWS #1-2] [31m    Start test 42794 - fail[0m
+[internet explorer 9 WINDOWS #1-2] 
+[internet explorer 9 WINDOWS #1-2] 
+[internet explorer 9 WINDOWS #1-2] Failures:
+[internet explorer 9 WINDOWS #1-2] 
+[internet explorer 9 WINDOWS #1-2]   1) TEst 2 Elephant.com Start test 42794
+[internet explorer 9 WINDOWS #1-2]    Message:
+[internet explorer 9 WINDOWS #1-2]      [31mError: Expected 'By.id("Login:LoginScreen:LoginDV:username")' to be present and visible. After 108 driverWaitIterations. Last webdriver error: Error: Wait timed out after 10049ms[0m
+[internet explorer 9 WINDOWS #1-2]    Stacktrace:
+[internet explorer 9 WINDOWS #1-2]      Error: Expected 'By.id("Login:LoginScreen:LoginDV:username")' to be present and visible. After 108 driverWaitIterations. Last webdriver error: Error: Wait timed out after 10049ms
+[internet explorer 9 WINDOWS #1-2]     at _throwError (D:\GitHub\Hank\ProtractorAutomation\test\helpers\WaitReady.js:30:11)
+[internet explorer 9 WINDOWS #1-2]     at D:\GitHub\Hank\ProtractorAutomation\test\helpers\WaitReady.js:65:5
+[internet explorer 9 WINDOWS #1-2]     at Array.forEach (native)
+[internet explorer 9 WINDOWS #1-2]     at goog.async.run.processWorkQueue (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\goog\async\run.js:130:15)
+[internet explorer 9 WINDOWS #1-2]     at process._tickCallback (node.js:364:9)
+[internet explorer 9 WINDOWS #1-2] From: Task: Asynchronous test function: it()
+[internet explorer 9 WINDOWS #1-2]     at [object Object].<anonymous> (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd\index.js:93:33)
+[internet explorer 9 WINDOWS #1-2]     at [object Object].<anonymous> (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\async-callback.js:45:37)
+[internet explorer 9 WINDOWS #1-2]     at [object Object].jasmine.Block.execute (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:1174:17)
+[internet explorer 9 WINDOWS #1-2]     at [object Object].jasmine.Queue.next_ (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:2209:31)
+[internet explorer 9 WINDOWS #1-2]     at onComplete (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:2205:18)
+[internet explorer 9 WINDOWS #1-2]     at [object Object].jasmine.WaitsForBlock.execute (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:2704:5)
+[internet explorer 9 WINDOWS #1-2]     at [object Object]._onTimeout (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:2718:12)
+[internet explorer 9 WINDOWS #1-2] Error
+[internet explorer 9 WINDOWS #1-2]     at [object Object].<anonymous> (D:\GitHub\Hank\ProtractorAutomation\test\StandardTestCaseFlow.js:59:11)
+[internet explorer 9 WINDOWS #1-2]     at [object Object].jasmine.Env.describe_ (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:913:21)
+[internet explorer 9 WINDOWS #1-2]     at [object Object].jasmine.Env.describe (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:898:15)
+[internet explorer 9 WINDOWS #1-2]     at describe (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:658:27)
+[internet explorer 9 WINDOWS #1-2]     at [object Object].ExecuteTest (D:\GitHub\Hank\ProtractorAutomation\test\StandardTestCaseFlow.js:36:7)
+[internet explorer 9 WINDOWS #1-2]     at [object Object].<anonymous> (D:\GitHub\Hank\ProtractorAutomation\test\spec\27-04-2016-16-01-25-27\TestQueue_42794.js:4:24)
+[internet explorer 9 WINDOWS #1-2]     at [object Object].jasmine.Env.describe_ (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:913:21)
+[internet explorer 9 WINDOWS #1-2]     at [object Object].jasmine.Env.describe (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:898:15)
+[internet explorer 9 WINDOWS #1-2]     at describe (C:\Users\gurpreet.singh\AppData\Roaming\npm\node_modules\protractor\node_modules\minijasminenode\lib\jasmine-1.3.1.js:658:27)
+[internet explorer 9 WINDOWS #1-2] 
+[internet explorer 9 WINDOWS #1-2] Finished in 13.959 seconds
+[internet explorer 9 WINDOWS #1-2] [31m1 test, 2 assertions, 1 failure
+[0m[internet explorer 9 WINDOWS #1-2] 
+
+[launcher] 1 instance(s) of WebDriver still running
+
+------------------------------------
+[internet explorer 9 WINDOWS #1-3] PID: 25960
+[internet explorer 9 WINDOWS #1-3] Specs: D:\GitHub\Hank\ProtractorAutomation\test\spec\27-04-2016-16-01-25-27\protractor.conf.js
+[internet explorer 9 WINDOWS #1-3] 
+[internet explorer 9 WINDOWS #1-3] Using the selenium server at http://10.140.2.163:4444/wd/hub
+[internet explorer 9 WINDOWS #1-3] Inside CustomScreenShotReporter base
+[internet explorer 9 WINDOWS #1-3] 
+[internet explorer 9 WINDOWS #1-3] 
+[internet explorer 9 WINDOWS #1-3] Finished in 0.001 seconds
+[internet explorer 9 WINDOWS #1-3] [32m0 tests, 0 assertions, 0 failures
+[0m[internet explorer 9 WINDOWS #1-3] 
+
+[launcher] 0 instance(s) of WebDriver still running
+[launcher] internet explorer9 #1-1 failed 1 test(s)
+[launcher] internet explorer9 #1-0 failed 1 test(s)
+[launcher] internet explorer9 #1-2 failed 1 test(s)
+[launcher] internet explorer9 #1-3 passed
+[launcher] overall: 3 failed spec(s)
+[launcher] Process exited with error code 1

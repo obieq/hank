@@ -15,6 +15,190 @@
             </summary>
             <param name="bundles">The bundles.</param>
         </member>
+        <member name="T:Elephant.Hank.Api.Controllers.ApiTestModule.ApiCategoriesController">
+            <summary>
+            The ApiCategoriesController class
+            </summary>
+        </member>
+        <member name="T:Elephant.Hank.Api.Controllers.BaseApiController">
+            <summary>
+            The base api controller.
+            </summary>
+        </member>
+        <member name="F:Elephant.Hank.Api.Controllers.BaseApiController.userId">
+            <summary>
+            The user identifier
+            </summary>
+        </member>
+        <member name="F:Elephant.Hank.Api.Controllers.BaseApiController.isAdminUser">
+            <summary>
+            The is admin user
+            </summary>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.BaseApiController.#ctor(Elephant.Hank.Common.LogService.ILoggerService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.BaseApiController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.BaseApiController.ModelStateToMessage">
+            <summary>
+            Models the state to message.
+            </summary>
+            <returns>Message list</returns>
+        </member>
+        <member name="P:Elephant.Hank.Api.Controllers.BaseApiController.UserId">
+            <summary>
+            Gets the user identifier.
+            </summary>
+        </member>
+        <member name="P:Elephant.Hank.Api.Controllers.BaseApiController.IsAdminUser">
+            <summary>
+            Gets a value indicating whether this instance is admin user.
+            </summary>
+            <value>
+            <c>true</c> if this instance is admin user; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Elephant.Hank.Api.Controllers.BaseApiController.LoggerService">
+            <summary>
+            Gets the logger service.
+            </summary>
+        </member>
+        <member name="F:Elephant.Hank.Api.Controllers.ApiTestModule.ApiCategoriesController.apiCategoriesService">
+            <summary>
+            The api categories service.
+            </summary>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ApiTestModule.ApiCategoriesController.#ctor(Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.IApiCategoriesService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.ApiTestModule.ApiCategoriesController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="apiCategoriesService">The API categories service.</param>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ApiTestModule.ApiCategoriesController.GetAll(System.Int64)">
+            <summary>
+            Gets all.
+            </summary>
+            <param name="websiteId">The website identifier.</param>
+            <returns>List of TblApiCategoriesDto objects</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ApiTestModule.ApiCategoriesController.GetById(System.Int64)">
+            <summary>
+            The get by id.
+            </summary>
+            <param name="categoryId">The category id.</param>
+            <returns>TblApiCategoriesDto object</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ApiTestModule.ApiCategoriesController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="categoryId">The category identifier.</param>
+            <returns>
+            Deleted object
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ApiTestModule.ApiCategoriesController.Add(Elephant.Hank.Resources.Dto.TblApiCategoriesDto)">
+            <summary>
+            Adds the specified API categories dto.
+            </summary>
+            <param name="apiCategoriesDto">The API categories dto.</param>
+            <returns>TblApiCategoriesDto object</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ApiTestModule.ApiCategoriesController.Update(Elephant.Hank.Resources.Dto.TblApiCategoriesDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="apiCategoriesDto">The API categories dto.</param>
+            <param name="categoryId">The category identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ApiTestModule.ApiCategoriesController.AddUpdate(Elephant.Hank.Resources.Dto.TblApiCategoriesDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="apiCategoriesDto">The API categories dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="T:Elephant.Hank.Api.Controllers.ApiTestModule.ApiConnectionController">
+            <summary>
+            The ApiConnectionController class
+            </summary>
+            <seealso cref="T:Elephant.Hank.Api.Controllers.BaseApiController"/>
+        </member>
+        <member name="F:Elephant.Hank.Api.Controllers.ApiTestModule.ApiConnectionController.apiConnectionService">
+            <summary>
+            The API connection service
+            </summary>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ApiTestModule.ApiConnectionController.#ctor(Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.IApiConnectionService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.ApiTestModule.ApiConnectionController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="apiConnectionService">The API connection service.</param>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ApiTestModule.ApiConnectionController.GetAll(System.Int64)">
+            <summary>
+            Gets all.
+            </summary>
+            <param name="categoryId">The category identifier.</param>
+            <returns>
+            TblApiConnectionDto list object
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ApiTestModule.ApiConnectionController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="connectionId">The connection identifier.</param>
+            <returns>
+            TblApiConnectionDto objects
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ApiTestModule.ApiConnectionController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="connectionId">The connection identifier.</param>
+            <returns>
+            Deleted object
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ApiTestModule.ApiConnectionController.Add(Elephant.Hank.Resources.Dto.TblApiConnectionDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="apiConnectionDto">The API connection dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ApiTestModule.ApiConnectionController.Update(Elephant.Hank.Resources.Dto.TblApiConnectionDto,System.Int64)">
+            <summary>
+            Updates the specified action dto.
+            </summary>
+            <param name="apiConnectionDto">The API connection dto.</param>
+            <param name="connectionId">The connection identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ApiTestModule.ApiConnectionController.AddUpdate(Elephant.Hank.Resources.Dto.TblApiConnectionDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="apiConnectionDto">The API connection dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
         <member name="T:Elephant.Hank.Api.Security.CustomAuthorizeAttribute">
             <summary>
             The CustomAuthorizeAttribute class
@@ -1126,51 +1310,6 @@
         <member name="T:Elephant.Hank.Api.Controllers.ActionController">
             <summary>
             The ActionController class
-            </summary>
-        </member>
-        <member name="T:Elephant.Hank.Api.Controllers.BaseApiController">
-            <summary>
-            The base api controller.
-            </summary>
-        </member>
-        <member name="F:Elephant.Hank.Api.Controllers.BaseApiController.userId">
-            <summary>
-            The user identifier
-            </summary>
-        </member>
-        <member name="F:Elephant.Hank.Api.Controllers.BaseApiController.isAdminUser">
-            <summary>
-            The is admin user
-            </summary>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.BaseApiController.#ctor(Elephant.Hank.Common.LogService.ILoggerService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.BaseApiController"/> class.
-            </summary>
-            <param name="loggerService">The logger service.</param>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.BaseApiController.ModelStateToMessage">
-            <summary>
-            Models the state to message.
-            </summary>
-            <returns>Message list</returns>
-        </member>
-        <member name="P:Elephant.Hank.Api.Controllers.BaseApiController.UserId">
-            <summary>
-            Gets the user identifier.
-            </summary>
-        </member>
-        <member name="P:Elephant.Hank.Api.Controllers.BaseApiController.IsAdminUser">
-            <summary>
-            Gets a value indicating whether this instance is admin user.
-            </summary>
-            <value>
-            <c>true</c> if this instance is admin user; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:Elephant.Hank.Api.Controllers.BaseApiController.LoggerService">
-            <summary>
-            Gets the logger service.
             </summary>
         </member>
         <member name="F:Elephant.Hank.Api.Controllers.ActionController.actionsService">
