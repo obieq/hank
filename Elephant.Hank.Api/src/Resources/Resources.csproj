@@ -96,6 +96,7 @@
     <Compile Include="Dto\TblGroupDto.cs" />
     <Compile Include="Dto\TblGroupModuleAccessDto.cs" />
     <Compile Include="Dto\TblGroupUserDto.cs" />
+    <Compile Include="Dto\TblHashTagDescriptionDto.cs" />
     <Compile Include="Dto\TblModuleDto.cs" />
     <Compile Include="Dto\TblPagesDto.cs" />
     <Compile Include="Dto\TblReportDataDto.cs" />

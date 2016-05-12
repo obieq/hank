@@ -108,6 +108,7 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="TestDataServices\GroupUserService.cs" />
+    <Compile Include="TestDataServices\HashTagDescriptionService.cs" />
     <Compile Include="TestDataServices\ModuleService.cs" />
     <Compile Include="TestDataServices\ReportDataService.cs" />
     <Compile Include="TestDataServices\ActionsService.cs" />

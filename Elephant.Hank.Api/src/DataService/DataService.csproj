@@ -98,6 +98,7 @@
     <Compile Include="DBSchema\TblGroup.cs" />
     <Compile Include="DBSchema\TblGroupModuleAccess.cs" />
     <Compile Include="DBSchema\TblGroupUser.cs" />
+    <Compile Include="DBSchema\TblHashTagDescription.cs" />
     <Compile Include="DBSchema\TblModule.cs" />
     <Compile Include="DBSchema\TblSharedTest.cs" />
     <Compile Include="DBSchema\TblAction.cs" />
