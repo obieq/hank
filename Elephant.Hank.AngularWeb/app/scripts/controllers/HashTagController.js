@@ -9,7 +9,9 @@ app.controller('HashTagController', ['$scope', '$stateParams', '$state', 'CrudSe
     $scope.HashTagDescription = {};
 
     crudService.getById(ngAppSettings.HashTagDescriptionUrl, 1).then(function(response){
-      $scope.HashTagDescription = response.Item;
+      setTimeout(function () {
+        $scope.HashTagDescription = response.Item;
+      }, 200);
     },function(response){ commonUi.showErrorPopup(response); });
 
     $scope.addUpdate = function () {

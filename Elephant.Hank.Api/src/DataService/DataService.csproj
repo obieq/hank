@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBSchema\TblApiTestData.cs" />
     <Compile Include="DBSchema\CustomIdentity\TokenProvider.cs" />
     <Compile Include="DbHelper.cs" />
     <Compile Include="DBSchema\CustomIdentity\CustomRole.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="DBSchema\TblGroupUser.cs" />
     <Compile Include="DBSchema\TblHashTagDescription.cs" />
     <Compile Include="DBSchema\TblModule.cs" />
+    <Compile Include="DBSchema\TblRequestTypes.cs" />
     <Compile Include="DBSchema\TblSharedTest.cs" />
     <Compile Include="DBSchema\TblAction.cs" />
     <Compile Include="AuthContext.cs" />

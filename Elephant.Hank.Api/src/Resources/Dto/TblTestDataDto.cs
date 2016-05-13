@@ -153,5 +153,21 @@ namespace Elephant.Hank.Resources.Dto
         /// The shared test data identifier.
         /// </value>
         public long SharedTestDataId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the API test data identifier.
+        /// </summary>
+        /// <value>
+        /// The API test data identifier.
+        /// </value>
+        public long? ApiTestDataId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the API test data.
+        /// </summary>
+        /// <value>
+        /// The API test data.
+        /// </value>
+        public TblApiTestDataDto ApiTestData { get; set; }
     }
 }

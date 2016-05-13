@@ -85,5 +85,13 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <param name="testId">the test identifier</param>
         /// <returns>list of variable name</returns>
         ResultMessage<IEnumerable<string>> GetAllVariableByTestIdForAutoComplete(long testId);
+        
+        /// <summary>
+        /// Saves the or update with API test data.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="testData">The test data.</param>
+        /// <returns>TblTestDataDto object</returns>
+        ResultMessage<TblTestDataDto> SaveOrUpdateWithApiTestData(long userId, TblTestDataDto testData);
     }
 }

@@ -98,6 +98,7 @@
     <Compile Include="Services\CacheProvider.cs" />
     <Compile Include="TestDataServices\ApiCategoriesService.cs" />
     <Compile Include="TestDataServices\ApiConnectionService.cs" />
+    <Compile Include="TestDataServices\ApiTestDataService.cs" />
     <Compile Include="TestDataServices\BrowserService.cs" />
     <Compile Include="TestDataServices\DataBaseCategoriesService.cs" />
     <Compile Include="TestDataServices\DataBaseConnectionService.cs" />

@@ -41,7 +41,7 @@ app.controller('ApiConnectionController', ['$scope', '$rootScope', '$q', '$state
       }, function (response) {
         commonUi.showErrorPopup(response);
       });
-    }
+    };
 
     $scope.removeHeader = function(headerIndex){
       $scope.ApiConnection.Headers = $scope.ApiConnection.Headers || [];
@@ -78,7 +78,7 @@ app.controller('ApiConnectionController', ['$scope', '$rootScope', '$q', '$state
       }, function (response) {
         commonUi.showErrorPopup(response);
       });
-    }
+    };
 
     if($scope.IsEditMode){
       $scope.getConById();

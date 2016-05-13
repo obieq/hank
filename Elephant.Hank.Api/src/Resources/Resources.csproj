@@ -89,6 +89,7 @@
     <Compile Include="Dto\RollDataDto.cs" />
     <Compile Include="Dto\TblApiCategoriesDto.cs" />
     <Compile Include="Dto\TblApiConnectionDto.cs" />
+    <Compile Include="Dto\TblApiTestDataDto.cs" />
     <Compile Include="Dto\TblBrowsersDto.cs" />
     <Compile Include="Dto\TblDataBaseCategoriesDto.cs" />
     <Compile Include="Dto\TblDataBaseConnectionDto.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Dto\TblTestCategoriesDto.cs" />
     <Compile Include="Dto\TblTestQueueDto.cs" />
     <Compile Include="Dto\TblUserProfileDto.cs" />
+    <Compile Include="Dto\TblRequestTypesDto.cs" />
     <Compile Include="Enum\ActionTypes.cs" />
     <Compile Include="Enum\ApplicationTypes.cs" />
     <Compile Include="Enum\ExecutionReportStatus.cs" />

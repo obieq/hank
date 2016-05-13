@@ -15,9 +15,9 @@
             </summary>
             <param name="bundles">The bundles.</param>
         </member>
-        <member name="T:Elephant.Hank.Api.Controllers.ApiTestModule.ApiCategoriesController">
+        <member name="T:Elephant.Hank.Api.Controllers.HashTagDescriptionController">
             <summary>
-            The ApiCategoriesController class
+            The HashTagDescriptionController class
             </summary>
         </member>
         <member name="T:Elephant.Hank.Api.Controllers.BaseApiController">
@@ -63,6 +63,65 @@
         <member name="P:Elephant.Hank.Api.Controllers.BaseApiController.LoggerService">
             <summary>
             Gets the logger service.
+            </summary>
+        </member>
+        <member name="F:Elephant.Hank.Api.Controllers.HashTagDescriptionController.hashTagDescriptionService">
+            <summary>
+            The hash tag description service
+            </summary>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.HashTagDescriptionController.#ctor(Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.IHashTagDescriptionService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.HashTagDescriptionController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="hashTagDescriptionService">The hash tag description service.</param>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.HashTagDescriptionController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>TblHashTagDescriptionDto List object</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.HashTagDescriptionController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>TblHashTagDescriptionDto object by id</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.HashTagDescriptionController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>the deleted TblHashTagDescriptionDto object</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.HashTagDescriptionController.Add(Elephant.Hank.Resources.Dto.TblHashTagDescriptionDto)">
+            <summary>
+            Adds the specified hash tag description dto.
+            </summary>
+            <param name="hashTagDescriptionDto">The hash tag description dto.</param>
+            <returns>TblHashTagDescriptionDto added object</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.HashTagDescriptionController.Update(Elephant.Hank.Resources.Dto.TblHashTagDescriptionDto,System.Int64)">
+            <summary>
+            Updates the specified hash tag description dto.
+            </summary>
+            <param name="hashTagDescriptionDto">The hash tag description dto.</param>
+            <param name="id">The identifier.</param>
+            <returns>TblHashTagDescriptionDto updated object</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.HashTagDescriptionController.AddUpdate(Elephant.Hank.Resources.Dto.TblHashTagDescriptionDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="hashTagDescriptionDto">The hash tag description dto.</param>
+            <returns>TblHashTagDescriptionDto added/updated object</returns>
+        </member>
+        <member name="T:Elephant.Hank.Api.Controllers.ApiTestModule.ApiCategoriesController">
+            <summary>
+            The ApiCategoriesController class
             </summary>
         </member>
         <member name="F:Elephant.Hank.Api.Controllers.ApiTestModule.ApiCategoriesController.apiCategoriesService">
@@ -198,110 +257,6 @@
             <returns>
             Newly added object
             </returns>
-        </member>
-        <member name="T:Elephant.Hank.Api.Controllers.HashTagDescriptionController">
-            <summary>
-            The HashTagDescriptionController class
-            </summary>
-        </member>
-        <member name="T:Elephant.Hank.Api.Controllers.BaseApiController">
-            <summary>
-            The base api controller.
-            </summary>
-        </member>
-        <member name="F:Elephant.Hank.Api.Controllers.BaseApiController.userId">
-            <summary>
-            The user identifier
-            </summary>
-        </member>
-        <member name="F:Elephant.Hank.Api.Controllers.BaseApiController.isAdminUser">
-            <summary>
-            The is admin user
-            </summary>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.BaseApiController.#ctor(Elephant.Hank.Common.LogService.ILoggerService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.BaseApiController"/> class.
-            </summary>
-            <param name="loggerService">The logger service.</param>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.BaseApiController.ModelStateToMessage">
-            <summary>
-            Models the state to message.
-            </summary>
-            <returns>Message list</returns>
-        </member>
-        <member name="P:Elephant.Hank.Api.Controllers.BaseApiController.UserId">
-            <summary>
-            Gets the user identifier.
-            </summary>
-        </member>
-        <member name="P:Elephant.Hank.Api.Controllers.BaseApiController.IsAdminUser">
-            <summary>
-            Gets a value indicating whether this instance is admin user.
-            </summary>
-            <value>
-            <c>true</c> if this instance is admin user; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:Elephant.Hank.Api.Controllers.BaseApiController.LoggerService">
-            <summary>
-            Gets the logger service.
-            </summary>
-        </member>
-        <member name="F:Elephant.Hank.Api.Controllers.HashTagDescriptionController.hashTagDescriptionService">
-            <summary>
-            The hash tag description service
-            </summary>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.HashTagDescriptionController.#ctor(Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.IHashTagDescriptionService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.HashTagDescriptionController"/> class.
-            </summary>
-            <param name="loggerService">The logger service.</param>
-            <param name="hashTagDescriptionService">The hash tag description service.</param>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.HashTagDescriptionController.GetAll">
-            <summary>
-            Gets all.
-            </summary>
-            <returns>TblHashTagDescriptionDto List object</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.HashTagDescriptionController.GetById(System.Int64)">
-            <summary>
-            Gets the by identifier.
-            </summary>
-            <param name="id">The identifier.</param>
-            <returns>TblHashTagDescriptionDto object by id</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.HashTagDescriptionController.DeleteById(System.Int64)">
-            <summary>
-            Deletes the by identifier.
-            </summary>
-            <param name="id">The identifier.</param>
-            <returns>the deleted TblHashTagDescriptionDto object</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.HashTagDescriptionController.Add(Elephant.Hank.Resources.Dto.TblHashTagDescriptionDto)">
-            <summary>
-            Adds the specified hash tag description dto.
-            </summary>
-            <param name="hashTagDescriptionDto">The hash tag description dto.</param>
-            <returns>TblHashTagDescriptionDto added object</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.HashTagDescriptionController.Update(Elephant.Hank.Resources.Dto.TblHashTagDescriptionDto,System.Int64)">
-            <summary>
-            Updates the specified hash tag description dto.
-            </summary>
-            <param name="hashTagDescriptionDto">The hash tag description dto.</param>
-            <param name="id">The identifier.</param>
-            <returns>TblHashTagDescriptionDto updated object</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.HashTagDescriptionController.AddUpdate(Elephant.Hank.Resources.Dto.TblHashTagDescriptionDto)">
-            <summary>
-            Adds the update.
-            </summary>
-            <param name="hashTagDescriptionDto">The hash tag description dto.</param>
-            <returns>TblHashTagDescriptionDto added/updated object</returns>
         </member>
         <member name="T:Elephant.Hank.Api.Security.CustomAuthorizeAttribute">
             <summary>
@@ -1414,51 +1369,6 @@
         <member name="T:Elephant.Hank.Api.Controllers.ActionController">
             <summary>
             The ActionController class
-            </summary>
-        </member>
-        <member name="T:Elephant.Hank.Api.Controllers.BaseApiController">
-            <summary>
-            The base api controller.
-            </summary>
-        </member>
-        <member name="F:Elephant.Hank.Api.Controllers.BaseApiController.userId">
-            <summary>
-            The user identifier
-            </summary>
-        </member>
-        <member name="F:Elephant.Hank.Api.Controllers.BaseApiController.isAdminUser">
-            <summary>
-            The is admin user
-            </summary>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.BaseApiController.#ctor(Elephant.Hank.Common.LogService.ILoggerService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.BaseApiController"/> class.
-            </summary>
-            <param name="loggerService">The logger service.</param>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.BaseApiController.ModelStateToMessage">
-            <summary>
-            Models the state to message.
-            </summary>
-            <returns>Message list</returns>
-        </member>
-        <member name="P:Elephant.Hank.Api.Controllers.BaseApiController.UserId">
-            <summary>
-            Gets the user identifier.
-            </summary>
-        </member>
-        <member name="P:Elephant.Hank.Api.Controllers.BaseApiController.IsAdminUser">
-            <summary>
-            Gets a value indicating whether this instance is admin user.
-            </summary>
-            <value>
-            <c>true</c> if this instance is admin user; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:Elephant.Hank.Api.Controllers.BaseApiController.LoggerService">
-            <summary>
-            Gets the logger service.
             </summary>
         </member>
         <member name="F:Elephant.Hank.Api.Controllers.ActionController.actionsService">

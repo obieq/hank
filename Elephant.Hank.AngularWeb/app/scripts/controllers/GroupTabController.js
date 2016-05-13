@@ -16,7 +16,7 @@ app.controller('GroupTabController', ['$scope', '$stateParams', '$state', 'CrudS
         $scope.HeadingText = response.Item.GroupName;
         if ($stateParams.WebsiteId != undefined && $stateParams.WebsiteId > 0) {
           crudService.getById(ngAppSettings.WebSiteUrl, $stateParams.WebsiteId).then(function (response) {
-            $scope.HeadingText = $scope.HeadingText +" - "+ response.Item.Name;
+            $scope.HeadingText = $scope.HeadingText + " - " + response.Item.Name;
           }, function (response) {
             commonUi.showErrorPopup(response);
           });
@@ -25,10 +25,10 @@ app.controller('GroupTabController', ['$scope', '$stateParams', '$state', 'CrudS
       }, function (response) {
         commonUi.showErrorPopup(response);
       });
-    }
-    ;
+    } ;
 
     $scope.isActive = function (matchIndex, stateName) {
+
       matchIndex = matchIndex - 1;
 
       var states = $state.current.name.split('.');

@@ -107,7 +107,7 @@ namespace Elephant.Hank.Framework.Mapper
                 .ForMember(x => x.LocatorIdentifierValue, opt => opt.MapFrom(src => src.LocatorIdentifier != null ? src.LocatorIdentifier.Value : null))
                 .ForMember(x => x.LocatorValue, opt => opt.MapFrom(src => src.LocatorIdentifier != null && src.LocatorIdentifier.Locator != null ? src.LocatorIdentifier.Locator.Value : null))
                 .ForMember(x => x.SharedStepWebsiteName, opt => opt.MapFrom(src => src.Website != null ? src.Website.Name : null))
-                 .ForMember(x => x.SharedStepWebsiteTestName, opt => opt.MapFrom(src => src.SharedStepWebsiteTest != null ? src.SharedStepWebsiteTest.TestName : null))
+                .ForMember(x => x.SharedStepWebsiteTestName, opt => opt.MapFrom(src => src.SharedStepWebsiteTest != null ? src.SharedStepWebsiteTest.TestName : null))
                 .ReverseMap();
 
             AutoMapper.Mapper.CreateMap<TblTestDataDto, ExecutableTestData>().ConvertUsing<TblTestDataExecutableTestDataConverter>();
@@ -206,6 +206,12 @@ namespace Elephant.Hank.Framework.Mapper
                 .ReverseMap();
 
             AutoMapper.Mapper.CreateMap<TblHashTagDescriptionDto, TblHashTagDescription>().ReverseMap();
+
+            AutoMapper.Mapper.CreateMap<TblRequestTypesDto, TblRequestTypes>().ReverseMap();
+
+            AutoMapper.Mapper.CreateMap<TblApiTestData, TblApiTestDataDto>()
+                .ForMember(x => x.RequestName, opt => opt.MapFrom(x => x.RequestTypes != null ? x.RequestTypes.Name : string.Empty))
+                .ReverseMap();
         }
     }
 }

@@ -43,16 +43,23 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly ITestDataSharedTestDataMapService testDataSharedTestDataMapService;
 
         /// <summary>
+        /// The apiTestDataService
+        /// </summary>
+        private readonly IApiTestDataService apiTestDataService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TestDataService" /> class.
         /// </summary>
         /// <param name="mapperFactory">The mapper factory.</param>
         /// <param name="table">The table.</param>
         /// <param name="testDataSharedTestDataMapService">The testDataSharedTestDataMapService.</param>
-        public TestDataService(IMapperFactory mapperFactory, IRepository<TblTestData> table, ITestDataSharedTestDataMapService testDataSharedTestDataMapService)
+        /// <param name="apiTestDataService">The apiTestDataService.</param>
+        public TestDataService(IMapperFactory mapperFactory, IRepository<TblTestData> table, ITestDataSharedTestDataMapService testDataSharedTestDataMapService, IApiTestDataService apiTestDataService)
             : base(mapperFactory, table)
         {
             this.mapperFactory = mapperFactory;
             this.testDataSharedTestDataMapService = testDataSharedTestDataMapService;
+            this.apiTestDataService = apiTestDataService;
         }
 
         /// <summary>
@@ -191,6 +198,33 @@ namespace Elephant.Hank.Framework.TestDataServices
                 {
                     var sharedTestResult = this.testDataSharedTestDataMapService.SaveOrUpdate(userId, testData.Id, sharedTestSteps);
                     result.Item.SharedTestSteps = sharedTestResult.Item.ToList();
+                }
+
+                return result;
+            }
+
+            result.Messages.Add(new Message("Invalid Data", "Invalid data "));
+            return result;
+        }
+
+        /// <summary>
+        /// Saves the or update with API test data.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="testData">The test data.</param>
+        /// <returns>TblTestDataDtoTblTestDataDto object</returns>
+        public ResultMessage<TblTestDataDto> SaveOrUpdateWithApiTestData(long userId, TblTestDataDto testData)
+        {
+            var result = new ResultMessage<TblTestDataDto>();
+
+            if (testData.LinkTestType == (int)LinkTestType.ApiTestStep)
+            {
+                var apiTestData = this.apiTestDataService.SaveOrUpdate(testData.ApiTestData, userId);
+                if (!apiTestData.IsError)
+                {
+                    testData.ApiTestData = null;
+                    testData.ApiTestDataId = apiTestData.Item.Id;
+                    result = this.SaveOrUpdate(testData, userId);
                 }
 
                 return result;

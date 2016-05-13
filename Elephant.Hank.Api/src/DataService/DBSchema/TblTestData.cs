@@ -122,6 +122,23 @@ namespace Elephant.Hank.DataService.DBSchema
         public long? SharedStepWebsiteId { get; set; }
 
         /// <summary>
+        /// Gets or sets the API test data identifier.
+        /// </summary>
+        /// <value>
+        /// The API test data identifier.
+        /// </value>
+        public long? ApiTestDataId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the API test data.
+        /// </summary>
+        /// <value>
+        /// The API test data.
+        /// </value>
+        [ForeignKey("ApiTestDataId")]
+        public virtual TblApiTestData ApiTestData { get; set; }
+
+        /// <summary>
         /// Gets or sets the 
         /// </summary>
         [ForeignKey("SharedStepWebsiteId")]

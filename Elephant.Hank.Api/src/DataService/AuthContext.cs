@@ -361,6 +361,8 @@ namespace Elephant.Hank.DataService
             modelBuilder.Entity<TblApiCategories>().ToTable("TblApiCategories", DefaultSchema);
             modelBuilder.Entity<TblApiConnection>().ToTable("TblApiConnection", DefaultSchema);
             modelBuilder.Entity<TblHashTagDescription>().ToTable("TblHashTagDescription", DefaultSchema);
+            modelBuilder.Entity<TblApiTestData>().ToTable("TblApiTestData", DefaultSchema);
+            modelBuilder.Entity<TblRequestTypes>().ToTable("TblRequestTypes", DefaultSchema);
         }
 
         /// <summary>

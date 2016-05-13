@@ -35,5 +35,10 @@ namespace Elephant.Hank.Resources.Enum
         /// for simple test step
         /// </summary>
         SqlTestStep = 3,
+
+        /// <summary>
+        /// /// for Api Test Step      
+        /// </summary>
+        ApiTestStep = 4
     }
 }
