@@ -127,6 +127,7 @@
     <Compile Include="Mapper\MapperFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestDataServices\PagesService.cs" />
+    <Compile Include="TestDataServices\RequestTypesService.cs" />
     <Compile Include="TestDataServices\SchedulerHistoryService.cs" />
     <Compile Include="TestDataServices\SchedulerService.cs" />
     <Compile Include="TestDataServices\SchedulerSuiteMapService.cs" />

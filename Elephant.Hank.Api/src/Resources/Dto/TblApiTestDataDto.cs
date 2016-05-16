@@ -68,5 +68,13 @@ namespace Elephant.Hank.Resources.Dto
         /// The name of the request.
         /// </value>
         public string RequestName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the API category identifier.
+        /// </summary>
+        /// <value>
+        /// The API category identifier.
+        /// </value>
+        public long? ApiCategoryId { get; set; }
     }
 }

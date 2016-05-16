@@ -212,6 +212,9 @@ namespace Elephant.Hank.Framework.Mapper
             AutoMapper.Mapper.CreateMap<TblApiTestData, TblApiTestDataDto>()
                 .ForMember(x => x.RequestName, opt => opt.MapFrom(x => x.RequestTypes != null ? x.RequestTypes.Name : string.Empty))
                 .ReverseMap();
+
+            AutoMapper.Mapper.CreateMap<TblRequestTypes, TblRequestTypesDto>()
+               .ReverseMap();
         }
     }
 }

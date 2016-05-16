@@ -205,6 +205,14 @@ namespace Elephant.Hank.DataService
         public DbSet<TblHashTagDescription> TblHashTagDescription { get; set; }
 
         /// <summary>
+        /// Gets or sets the table request types.
+        /// </summary>
+        /// <value>
+        /// The table request types.
+        /// </value>
+        public DbSet<TblRequestTypes> TblRequestTypes { get; set; }
+
+        /// <summary>
         /// override save changes
         /// </summary>
         /// <returns>Save status</returns>

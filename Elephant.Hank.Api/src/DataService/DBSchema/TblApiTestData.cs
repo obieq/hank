@@ -39,6 +39,14 @@ namespace Elephant.Hank.DataService.DBSchema
         public string ApiUrl { get; set; }
 
         /// <summary>
+        /// Gets or sets the API category identifier.
+        /// </summary>
+        /// <value>
+        /// The API category identifier.
+        /// </value>
+        public long? ApiCategoryId { get; set; }
+
+        /// <summary>
         /// Gets or sets the headers.
         /// </summary>
         public string HeadersJson
@@ -98,5 +106,14 @@ namespace Elephant.Hank.DataService.DBSchema
         /// </value>
         [ForeignKey("RequestTypeId")]
         public virtual TblRequestTypes RequestTypes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the API categories.
+        /// </summary>
+        /// <value>
+        /// The API categories.
+        /// </value>
+        [ForeignKey("ApiCategoryId")]
+        public virtual TblApiCategories ApiCategories { get; set; }
     }
 }

@@ -457,15 +457,15 @@ var app = angular
       })
       .state('Website.TestDataAdd', {
         url: "/{WebsiteId:int}/test-category/{TestCatId:int}/Test/{TestId:int}/test-data/Add/{ExecutionSequence:int}",
-        templateUrl: 'views/TestData/test-data-add.html',
-        controller: 'Test_Data_Controller',
+        templateUrl: 'views/Test-Data/test-data-add.html',
+        controller: 'TestDataController',
         ncyBreadcrumb: {label: 'New Test Data', parent: "Website.TestData"},
         permissionData: {Roles: ["TestAdmin", "TestUser"]}
       })
       .state('Website.TestDataUpdate', {
         url: "/{WebsiteId:int}/test-category/{TestCatId:int}/Test/{TestId:int}/test-data/{TestDataId:int}",
-        templateUrl: 'views/TestData/test-data-update.html',
-        controller: 'Test_Data_Controller',
+        templateUrl: 'views/Test-Data/test-data-add.html',
+        controller: 'TestDataController',
         ncyBreadcrumb: {label: 'Edit', parent: "Website.TestData"},
         permissionData: {Roles: ["TestAdmin", "TestUser"]}
       })
@@ -761,7 +761,8 @@ var app = angular
     WebsiteSharedTestCasesUrl: "website/{0}/shared-test",
     WebsiteGetVariableForAutoComplete: 'website/{0}/variable-for-autocomplete',
     WebsiteDataBaseCategoriesUrl: "website/{0}/data-base-categories",
-
+    WebsiteApiCategoriesUrl: "website/{0}/api-categories",
+    RequestTypeUrl: "request-types",
     TestCatUrl: "website/{0}/test-cat",
     TestCatTestScriptsUrl: "website/{0}/test-cat/{1}/test",
 
@@ -821,5 +822,5 @@ var app = angular
     GroupModuleUrl: "group/{0}/group-module-access",
     GroupWebsiteModuleUrl: "group/{0}/website/{1}",
     GroupModuleAccessBulkUpdate: "group-module-access/update-access-bulk",
-    HashTagDescriptionUrl:"hash-tag-description"
+    HashTagDescriptionUrl: "hash-tag-description"
   });

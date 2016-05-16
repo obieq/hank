@@ -258,6 +258,29 @@
             Newly added object
             </returns>
         </member>
+        <member name="T:Elephant.Hank.Api.Controllers.RequestTypesController">
+            <summary>
+            The RequestTypesController classs
+            </summary>
+        </member>
+        <member name="F:Elephant.Hank.Api.Controllers.RequestTypesController.requestTypesService">
+            <summary>
+            The actions service
+            </summary>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.RequestTypesController.#ctor(Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.IRequestTypesService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.RequestTypesController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="requestTypesService">The actions service.</param>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.RequestTypesController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblRequestTypesDto objects</returns>
+        </member>
         <member name="T:Elephant.Hank.Api.Security.CustomAuthorizeAttribute">
             <summary>
             The CustomAuthorizeAttribute class

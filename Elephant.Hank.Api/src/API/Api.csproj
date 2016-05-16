@@ -213,6 +213,7 @@
     <Folder Include="Views\GroupUser\" />
     <Folder Include="Views\HashTagDescription\" />
     <Folder Include="Views\Profile\" />
+    <Folder Include="Views\RequestTypes\" />
     <Folder Include="Views\SchedulerSuite\" />
     <Folder Include="Views\Scheduler\" />
     <Folder Include="Views\SharedTestData\" />
@@ -225,6 +226,7 @@
     <Compile Include="Controllers\HashTagDescriptionController.cs" />
     <Compile Include="Controllers\ApiTestModule\ApiCategoriesController.cs" />
     <Compile Include="Controllers\ApiTestModule\ApiConnectionController.cs" />
+    <Compile Include="Controllers\RequestTypesController.cs" />
     <Compile Include="Security\CustomAuthorizeAttribute.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
