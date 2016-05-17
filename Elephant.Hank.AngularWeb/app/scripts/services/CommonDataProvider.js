@@ -85,8 +85,8 @@ app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettin
          storage.CurrentTest.Id = 0;
          }*/
 
-         if($stateParams.TestCatId && $stateParams.TestCatId != 0)
-         {
+        /* if($stateParams.TestCatId && $stateParams.TestCatId != 0)
+         {*/
             crudService.getById(ngAppSettings.TestUrl.format($stateParams.WebsiteId, $stateParams.TestCatId), $stateParams.TestId).then(function (response) {
                 storage.CurrentTest = response.Item;
                 storage.CurrentTest.timestamp = new Date().getTime();
@@ -94,9 +94,9 @@ app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettin
                 $scope.Test = storage.CurrentTest;
               }
               , function (response) {
-                commonUi.showErrorPopup(response);
+                //commonUi.showErrorPopup(response);
               });
-        }
+        //}
       },
 
       currentSharedTest: function ($scope) {

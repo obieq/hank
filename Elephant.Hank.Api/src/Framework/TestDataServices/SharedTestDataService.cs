@@ -22,6 +22,7 @@ namespace Elephant.Hank.Framework.TestDataServices
     using Elephant.Hank.Framework.Data;
     using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto;
+    using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Messages;
 
     /// <summary>
@@ -29,20 +30,27 @@ namespace Elephant.Hank.Framework.TestDataServices
     /// </summary>
     public class SharedTestDataService : GlobalService<TblSharedTestDataDto, TblSharedTestData>, ISharedTestDataService
     {
-         /// <summary>
+        /// <summary>
         /// The mapper factory
         /// </summary>
         private readonly IMapperFactory mapperFactory;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SharedTestDataService"/> class.
+        /// The apiTestDataService
+        /// </summary>
+        private readonly IApiTestDataService apiTestDataService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SharedTestDataService" /> class.
         /// </summary>
         /// <param name="mapperFactory">The mapper factory.</param>
         /// <param name="table">The table.</param>
-        public SharedTestDataService(IMapperFactory mapperFactory, IRepository<TblSharedTestData> table)
+        /// <param name="apiTestDataService">The API test data service.</param>
+        public SharedTestDataService(IMapperFactory mapperFactory, IRepository<TblSharedTestData> table, IApiTestDataService apiTestDataService)
             : base(mapperFactory, table)
         {
             this.mapperFactory = mapperFactory;
+            this.apiTestDataService = apiTestDataService;
         }
 
         /// <summary>
@@ -179,6 +187,37 @@ namespace Elephant.Hank.Framework.TestDataServices
             {
                 var mapper = this.mapperFactory.GetMapper<TblSharedTestData, TblSharedTestDataDto>();
                 result.Item = entities.Select(mapper.Map).OrderBy(x => x.ExecutionSequence);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Saves the update custom.
+        /// </summary>
+        /// <param name="sharedTestDataDto">The shared test data dto.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>
+        /// Added/Updated TblSharedTestDataDto object
+        /// </returns>
+        public ResultMessage<TblSharedTestDataDto> SaveUpdateCustom(TblSharedTestDataDto sharedTestDataDto, long userId)
+        {
+            var result = new ResultMessage<TblSharedTestDataDto>();
+            if (sharedTestDataDto.StepType == (int)LinkTestType.ApiTestStep && sharedTestDataDto.Id > 0)
+            {
+                var apiTestData = this.apiTestDataService.SaveOrUpdate(sharedTestDataDto.ApiTestData, userId);
+                if (!apiTestData.IsError)
+                {
+                    result = this.SaveOrUpdate(sharedTestDataDto, userId);
+                }
+                else
+                {
+                    result.Messages.Add(new Message("Eror in updating child elements!!"));
+                }
+            }
+            else
+            {
+                result = this.SaveOrUpdate(sharedTestDataDto, userId);
             }
 
             return result;

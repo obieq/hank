@@ -60,7 +60,7 @@ namespace Elephant.Hank.Api.Controllers
             this.sharedTestDataService = sharedTestDataService;
             this.testDataSharedTestDataMapService = testDataSharedTestDataMapService;
         }
-       
+
         /// <summary>
         /// Gets all.
         /// </summary>
@@ -182,22 +182,9 @@ namespace Elephant.Hank.Api.Controllers
             var result = new ResultMessage<TblSharedTestDataDto>();
             try
             {
-                if (sharedtestDataDto.Id == 0)
-                {
-                    sharedtestDataDto.ExecutionSequence = sharedtestDataDto.ExecutionSequence <= 0 ? 1 : sharedtestDataDto.ExecutionSequence;
-
-                    this.sharedTestDataService.ResetExecutionSequence(this.UserId, sharedtestDataDto.SharedTestId, sharedtestDataDto.Id, sharedtestDataDto.ExecutionSequence);
-
-                    result = this.sharedTestDataService.SaveOrUpdate(sharedtestDataDto, this.UserId);
-                }
-                else
-                {
-                    sharedtestDataDto.ExecutionSequence = sharedtestDataDto.ExecutionSequence <= 0 ? 1 : sharedtestDataDto.ExecutionSequence;
-
-                    this.sharedTestDataService.ResetExecutionSequence(this.UserId, sharedtestDataDto.SharedTestId, sharedtestDataDto.Id, sharedtestDataDto.ExecutionSequence);
-
-                    result = this.sharedTestDataService.SaveOrUpdate(sharedtestDataDto, this.UserId);
-                }
+                sharedtestDataDto.ExecutionSequence = sharedtestDataDto.ExecutionSequence <= 0 ? 1 : sharedtestDataDto.ExecutionSequence;
+                this.sharedTestDataService.ResetExecutionSequence(this.UserId, sharedtestDataDto.SharedTestId, sharedtestDataDto.Id, sharedtestDataDto.ExecutionSequence);
+                result = this.sharedTestDataService.SaveUpdateCustom(sharedtestDataDto, this.UserId);
             }
             catch (Exception ex)
             {

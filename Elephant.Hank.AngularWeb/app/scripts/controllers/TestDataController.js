@@ -35,6 +35,8 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
     $scope.PagesList = [];
     $scope.DisplayNameList = [];
     $scope.ActionList = [];
+    dataProvider.currentWebSite($scope);
+    dataProvider.currentTest($scope);
     $scope.StepTypes = [{
       'Id': 0,
       'Type': 'Test Step'
@@ -51,6 +53,7 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
       'Id': 4,
       'Type': 'Api Test Step'
     }];
+    $scope.StepTypeCodes = ngAppSettings.StepTypes;
     $scope.WebsiteList = [];
     $scope.TestList = [];
     $scope.VariableList = [];
@@ -71,13 +74,7 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
     //#Start Section For Add#//
 
     $scope.onLoadAdd = function () {
-      dataProvider.currentTest($scope);
-      dataProvider.currentWebSite($scope);
-      crudService.getById(ngAppSettings.ActionConstantUrl).then(function (response) {
-        $scope.ActionConstants = response.Item;
-      }, function (response) {
-        commonUi.showErrorPopup(response);
-      });
+      $scope.loadDataForAdd();
     };
 
     $scope.addTestData = function () {
@@ -102,6 +99,25 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
       }, function (response) {
         commonUi.showErrorPopup(response);
       });
+    };
+
+    $scope.loadDataForAdd = function () {
+      var deferred = $q.defer();
+      var promises = [];
+
+      promises.push(crudService.getById(ngAppSettings.ActionConstantUrl).then(function (response) {
+        $scope.ActionConstants = response.Item;
+      }, function (response) {
+        commonUi.showErrorPopup(response);
+      }));
+
+      $q.all(promises).then(function () {
+        deferred.resolve();
+      }, function () {
+        deferred.reject();
+      });
+
+      return deferred.promise;
     };
 
     //#End Section For Add#//
@@ -330,6 +346,80 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
 
     //#End Section For Update#//
 
+
+    //#Start Section Load List#//
+
+    $scope.onLoadList = function () {
+      $scope.loadDataForList().then(function () {
+        for (var i = 0; i < $scope.TestDataList.length; i++) {
+          if ($scope.TestDataList[i].LinkTestType == ngAppSettings.StepTypes.SharedTestStep) {
+            $scope.TestDataList[i].rowStyle = 'background-color: #dcdcdc;';
+            for (var j = 0; j < $scope.TestDataList[i].SharedTest.SharedTestDataList.length; j++) {
+              var lnkSharedStep = _.where($scope.TestDataList[i].SharedTestSteps, {'SharedTestDataId': $scope.TestDataList[i].SharedTest.SharedTestDataList[j].Id})[0];
+              $scope.TestDataList[i].SharedTest.SharedTestDataList[j].Ignore = $scope.TestDataList[i].SharedTest.SharedTestDataList[j].IsIgnored;
+              $scope.TestDataList[i].SharedTest.SharedTestDataList[j].UIExecutionSequence = 0;
+              if (lnkSharedStep != undefined && lnkSharedStep != null) {
+                $scope.TestDataList[i].SharedTest.SharedTestDataList[j].Ignore = lnkSharedStep.IsIgnored;
+                $scope.TestDataList[i].SharedTest.SharedTestDataList[j].UIValue = lnkSharedStep.NewValue;
+                $scope.TestDataList[i].SharedTest.SharedTestDataList[j].UIVariableName = lnkSharedStep.NewVariable;
+                $scope.TestDataList[i].SharedTest.SharedTestDataList[j].UIExecutionSequence = lnkSharedStep.NewOrder;
+                $scope.TestDataList[i].SharedTest.SharedTestDataList[j].LnkId = lnkSharedStep.Id;
+              }
+            }
+          }
+          else if ($scope.TestDataList[i].LinkTestType == ngAppSettings.StepTypes.WebsiteTestStep) {
+            $scope.TestDataList[i].rowStyle = 'background-color: #FFFFBA;';
+          }
+          $scope.TestDataList[i].ShowSharedTest = false;
+        }
+        $scope.LastSeqNumber = $scope.TestDataList.length <= 0 ? 1 : $scope.TestDataList.length + 1;
+
+      });
+    };
+
+
+    $scope.loadDataForList = function () {
+      var deferred = $q.defer();
+      var promises = [];
+
+      dataProvider.currentWebSite($scope);
+      dataProvider.currentTest($scope);
+
+      promises.push(crudService.getAll(ngAppSettings.TestDataAllByTestIdUrl.format($stateParams.WebsiteId, $stateParams.TestCatId, $stateParams.TestId)).then(function (response) {
+        $scope.TestDataList = response;
+      }, function (response) {
+        commonUi.showErrorPopup(response);
+      }));
+
+      promises.push(crudService.getById(ngAppSettings.ActionConstantUrl).then(function (response) {
+
+        $scope.ActionConstants = response.Item;
+      }, function (response) {
+        commonUi.showErrorPopup(response);
+      }));
+
+      $q.all(promises).then(function () {
+        deferred.resolve();
+      }, function () {
+        deferred.reject();
+      });
+
+      return deferred.promise;
+    };
+
+    //#End Section For Load List#//
+
+
+    $scope.deleteTestData = function (testDataId) {
+      if (confirm("Are you sure u want to delete step?")) {
+        crudService.delete(ngAppSettings.TestDataAllByTestIdUrl.format($stateParams.WebsiteId, $stateParams.TestCatId, $stateParams.TestId), {Id: testDataId}).then(function (response) {
+          $scope.onLoadList();
+        }, function (response) {
+          commonUi.showErrorPopup(response);
+        });
+      }
+    };
+
     $scope.onStepTypeChange = function () {
       var LinkTestType = $scope.TestData.LinkTestType;
       $scope.resetModel();
@@ -548,6 +638,19 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
         ApiTestData: {}
       };
       $scope.TestData.LinkTestType = event == 'onActionChange' ? linkTestType : undefined;
+    };
+
+    $scope.onSharedTestLinkClick = function (id) {
+      for (var i = 0; i < $scope.TestDataList.length; i++) {
+        if ($scope.TestDataList[i].Id == id) {
+          $scope.TestDataList[i].ShowSharedTest = $scope.TestDataList[i].ShowSharedTest ? false : true;
+          break;
+        }
+      }
+    };
+
+    $scope.onQueueClick = function () {
+      $rootScope.$broadcast('openTestQueuePopup', {'TestId': $stateParams.TestId, 'WebsiteId': $stateParams.WebsiteId});
     };
 
   }]);

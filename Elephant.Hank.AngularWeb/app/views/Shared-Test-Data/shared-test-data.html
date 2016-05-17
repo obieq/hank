@@ -44,10 +44,12 @@
             <tbody ng-if="SharedTestDataList.length>0">
             <tr ng-repeat="sharedTestData in SharedTestDataList | orderBy:'ExecutionSequence'"
                 ng-class="sharedTestData.IsIgnored ? 'alert-danger' : ''">
-              <td>{{sharedTestData.ExecutionSequence}}</td>
-              <td>{{sharedTestData.DisplayNameValue}}</td>
+              <td >{{sharedTestData.ExecutionSequence}}</td>
+              <td ng-if="sharedTestData.StepType==4"><b>Api Test Step:-</b> {{sharedTestData.ApiTestData.EndPoint}}</td>
+              <td ng-if="sharedTestData.StepType!=4">{{sharedTestData.DisplayNameValue}}</td>
               <td>{{sharedTestData.IsIgnored}}</td>
-              <td>{{sharedTestData.ActionValue}}</td>
+              <td ng-if="sharedTestData.StepType!=4">{{sharedTestData.ActionValue}}</td>
+              <td ng-if="sharedTestData.StepType==4"> {{sharedTestData.ApiTestData.ApiUrl}}</td>
               <td ng-class="sharedTestData.css">{{sharedTestData.Value}}</td>
               <td ng-class="sharedTestData.css">{{sharedTestData.VariableName}}</td>
               <td>{{sharedTestData.Description}}</td>

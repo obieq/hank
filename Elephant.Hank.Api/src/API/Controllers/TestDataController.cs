@@ -271,35 +271,25 @@ namespace Elephant.Hank.Api.Controllers
             var result = new ResultMessage<TblTestDataDto>();
             try
             {
-                if (testDataDto.Id == 0)
+                testDataDto.ExecutionSequence = testDataDto.ExecutionSequence <= 0 ? 1 : testDataDto.ExecutionSequence;
+                this.testDataService.ResetExecutionSequence(this.UserId, testDataDto.TestId, testDataDto.Id, testDataDto.ExecutionSequence);
+                if (testDataDto.LinkTestType == (int)LinkTestType.SharedTest)
                 {
-                    testDataDto.ExecutionSequence = testDataDto.ExecutionSequence <= 0 ? 1 : testDataDto.ExecutionSequence;
-                    this.testDataService.ResetExecutionSequence(this.UserId, testDataDto.TestId, testDataDto.Id, testDataDto.ExecutionSequence);
-                    if (testDataDto.LinkTestType == (int)LinkTestType.SharedTest)
+                    if (testDataDto.Id == 0)
                     {
                         testDataDto.LocatorIdentifierId = null;
                         testDataDto.ActionId = null;
-                        result = this.testDataService.SaveOrUpdateWithSharedTest(this.UserId, testDataDto);
                     }
-                    else
-                    {
-                        result = this.testDataService.SaveOrUpdate(testDataDto, this.UserId);
-                    }
+
+                    result = this.testDataService.SaveOrUpdateWithSharedTest(this.UserId, testDataDto);
+                }
+                else if (testDataDto.LinkTestType == (int)LinkTestType.ApiTestStep)
+                {
+                    result = this.testDataService.SaveOrUpdateWithApiTestData(testDataDto, this.UserId);
                 }
                 else
                 {
-                    testDataDto.ExecutionSequence = testDataDto.ExecutionSequence <= 0 ? 1 : testDataDto.ExecutionSequence;
-                    this.testDataService.ResetExecutionSequence(this.UserId, testDataDto.TestId, testDataDto.Id, testDataDto.ExecutionSequence);
-                    if (testDataDto.LinkTestType == (int)LinkTestType.SharedTest)
-                    {
-                        testDataDto.LocatorIdentifierId = null;
-                        testDataDto.ActionId = null;
-                        result = this.testDataService.SaveOrUpdateWithSharedTest(this.UserId, testDataDto);
-                    }
-                    else
-                    {
-                        result = this.testDataService.SaveOrUpdate(testDataDto, this.UserId);
-                    }
+                    result = this.testDataService.SaveOrUpdate(testDataDto, this.UserId);
                 }
             }
             catch (Exception ex)

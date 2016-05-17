@@ -102,5 +102,22 @@ namespace Elephant.Hank.DataService.DBSchema
         /// Gets or sets the StepType
         /// </summary>
         public int StepType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the API test data identifier.
+        /// </summary>
+        /// <value>
+        /// The API test data identifier.
+        /// </value>
+        public long? ApiTestDataId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the API test data.
+        /// </summary>
+        /// <value>
+        /// The API test data.
+        /// </value>
+        [ForeignKey("ApiTestDataId")]
+        public virtual TblApiTestData ApiTestData { get; set; }
     }
 }

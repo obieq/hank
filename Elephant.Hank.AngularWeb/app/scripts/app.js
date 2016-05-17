@@ -450,21 +450,21 @@ var app = angular
       })
       .state('Website.TestData', {
         url: "/{WebsiteId:int}/test-category/{TestCatId:int}/Test/{TestId:int}/test-data",
-        templateUrl: 'views/TestData/test-data.html',
-        controller: 'Test_Data_Controller',
+        templateUrl: 'views/Test-Data/test-data.html',
+        controller: 'TestDataController',
         ncyBreadcrumb: {label: 'Test Data', parent: "Website.TestCatTestUpdate"},
         permissionData: {Roles: ["TestAdmin", "TestUser"]}
       })
       .state('Website.TestDataAdd', {
         url: "/{WebsiteId:int}/test-category/{TestCatId:int}/Test/{TestId:int}/test-data/Add/{ExecutionSequence:int}",
-        templateUrl: 'views/Test-Data/test-data-add.html',
+        templateUrl: 'views/Test-Data/test-data-add-update.html',
         controller: 'TestDataController',
         ncyBreadcrumb: {label: 'New Test Data', parent: "Website.TestData"},
         permissionData: {Roles: ["TestAdmin", "TestUser"]}
       })
       .state('Website.TestDataUpdate', {
         url: "/{WebsiteId:int}/test-category/{TestCatId:int}/Test/{TestId:int}/test-data/{TestDataId:int}",
-        templateUrl: 'views/Test-Data/test-data-add.html',
+        templateUrl: 'views/Test-Data/test-data-add-update.html',
         controller: 'TestDataController',
         ncyBreadcrumb: {label: 'Edit', parent: "Website.TestData"},
         permissionData: {Roles: ["TestAdmin", "TestUser"]}
@@ -611,22 +611,22 @@ var app = angular
 
       .state('Website.SharedTestData', {
         url: "/{WebsiteId:int}/SharedTest/{SharedTestId:int}/test-data",
-        templateUrl: 'views/SharedTestData/test-data.html',
-        controller: 'Shared_Test_Data_Controller',
+        templateUrl: 'views/Shared-Test-Data/shared-test-data.html',
+        controller: 'SharedTestDataController',
         ncyBreadcrumb: {label: 'Shared Test Data', parent: "Website.SharedTestUpdate"},
         permissionData: {Roles: ["TestAdmin", "TestUser"]}
       })
       .state('Website.SharedTestDataAdd', {
         url: "/{WebsiteId:int}/SharedTest/{SharedTestId:int}/shared-test-data/Add/{ExecutionSequence:int}",
-        templateUrl: 'views/SharedTestData/test-data-add.html',
-        controller: 'Shared_Test_Data_Controller',
+        templateUrl: 'views/Shared-Test-Data/shared-test-data-add-update.html',
+        controller: 'SharedTestDataController',
         ncyBreadcrumb: {label: 'New Shared Test Data', parent: "Website.SharedTestData"},
         permissionData: {Roles: ["TestAdmin", "TestUser"]}
       })
       .state('Website.SharedTestDataUpdate', {
         url: "/{WebsiteId:int}/SharedTest/{SharedTestId:int}/shared-test-data/{TestDataId:int}",
-        templateUrl: 'views/SharedTestData/test-data-Update.html',
-        controller: 'Shared_Test_Data_Controller',
+        templateUrl: 'views/Shared-Test-Data/shared-test-data-add-Update.html',
+        controller: 'SharedTestDataController',
         ncyBreadcrumb: {label: 'Edit', parent: "Website.SharedTestData"},
         permissionData: {Roles: ["TestAdmin", "TestUser"]}
       })
@@ -728,7 +728,8 @@ var app = angular
       TestStep: 0,
       SharedTestStep: 1,
       WebsiteTestStep: 2,
-      SqlTestStep: 3
+      SqlTestStep: 3,
+      ApiTestStep: 4
     },
 
     ModuleType: {

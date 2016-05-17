@@ -210,27 +210,22 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <summary>
         /// Saves the or update with API test data.
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="testData">The test data.</param>
+        /// <param name="testDatadto">The test data.</param>
+        /// <param name="userId">The user identifier.</param>       
         /// <returns>TblTestDataDtoTblTestDataDto object</returns>
-        public ResultMessage<TblTestDataDto> SaveOrUpdateWithApiTestData(long userId, TblTestDataDto testData)
+        public ResultMessage<TblTestDataDto> SaveOrUpdateWithApiTestData(TblTestDataDto testDatadto, long userId)
         {
             var result = new ResultMessage<TblTestDataDto>();
-
-            if (testData.LinkTestType == (int)LinkTestType.ApiTestStep)
+            var apiTestData = this.apiTestDataService.SaveOrUpdate(testDatadto.ApiTestData, userId);
+            if (!apiTestData.IsError)
             {
-                var apiTestData = this.apiTestDataService.SaveOrUpdate(testData.ApiTestData, userId);
-                if (!apiTestData.IsError)
-                {
-                    testData.ApiTestData = null;
-                    testData.ApiTestDataId = apiTestData.Item.Id;
-                    result = this.SaveOrUpdate(testData, userId);
-                }
-
-                return result;
+                result = this.SaveOrUpdate(testDatadto, userId);
+            }
+            else
+            {
+                result.Messages.Add(new Message("Eror in updating child elements!!"));
             }
 
-            result.Messages.Add(new Message("Invalid Data", "Invalid data "));
             return result;
         }
 

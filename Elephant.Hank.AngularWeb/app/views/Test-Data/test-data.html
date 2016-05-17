@@ -3,7 +3,7 @@
     <!-- left column -->
     <div class=" col-md-12 ">
       <h1>Test Data for
-        <small> {{Test.WebsiteName}} - {{Test.TestName}}</small>
+        <small> {{Website.Name}} - {{Test.TestName}}</small>
         <a ng-if="Authentication.CanExecute" class=" btn btn-primary" style="float:right;cursor: pointer" ng-click="onQueueClick();" >Queue</a>
 
         <a type="button" class="btn btn-primary" style="float:right;cursor: pointer;margin-right: 5px;"
@@ -56,6 +56,11 @@
 
               <td ng-if="testData.LinkTestType==StepTypeCodes.WebsiteTestStep" colspan="5" style="font-weight: bold;">
                 <a target="_blank" ui-sref="Website.TestData({ WebsiteId: testData.SharedStepWebsiteId, TestCatId: 0, TestId: testData.SharedStepWebsiteTestId })"  >{{testData.SharedStepWebsiteName}} - ({{testData.SharedStepWebsiteTestName}})</a>
+
+              </td>
+
+              <td ng-if="testData.LinkTestType==StepTypeCodes.ApiTestStep" colspan="5" style="font-weight: bold;">
+                Api Test Step ( {{testData.ApiTestData.EndPoint}} ) ( {{testData.ApiTestData.ApiUrl}} )
 
               </td>
 

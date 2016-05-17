@@ -2,7 +2,10 @@
   <div class="row">
     <!-- left column -->
     <div class=" col-md-12">
-      <h1> Add Test Data for
+      <h1 ng-if="!stateParamTestDataId"> Add Test Data for
+        <small> {{Website.Name}} - {{Test.TestName}}</small>
+      </h1>
+      <h1 ng-if="stateParamTestDataId"> Update Test Data for
         <small> {{Website.Name}} - {{Test.TestName}}</small>
       </h1>
     </div>

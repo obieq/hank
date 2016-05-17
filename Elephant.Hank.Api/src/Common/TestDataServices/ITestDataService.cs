@@ -70,7 +70,7 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <returns>
         /// TblTestDataDto List object
         /// </returns>
-       bool CopyTestData(long userId, CopyTestDataModel copyTestDataModel);
+        bool CopyTestData(long userId, CopyTestDataModel copyTestDataModel);
 
         /// <summary>
         /// Get the Variable type test steps
@@ -78,20 +78,20 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <param name="testCaseId">test case identifier</param>
         /// <returns>TblTestDataDto List object</returns>
         ResultMessage<IEnumerable<ProtractorVariableModel>> GetVariableTypeTestDataByTestCase(long testCaseId);
-       
+
         /// <summary>
         /// Get all variable related to test for auto complete help
         /// </summary>
         /// <param name="testId">the test identifier</param>
         /// <returns>list of variable name</returns>
         ResultMessage<IEnumerable<string>> GetAllVariableByTestIdForAutoComplete(long testId);
-        
+
         /// <summary>
         /// Saves the or update with API test data.
         /// </summary>
-        /// <param name="userId">The user identifier.</param>
         /// <param name="testData">The test data.</param>
+        /// <param name="userId">The user identifier.</param>       
         /// <returns>TblTestDataDto object</returns>
-        ResultMessage<TblTestDataDto> SaveOrUpdateWithApiTestData(long userId, TblTestDataDto testData);
+        ResultMessage<TblTestDataDto> SaveOrUpdateWithApiTestData(TblTestDataDto testData, long userId);
     }
 }

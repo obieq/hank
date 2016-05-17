@@ -56,6 +56,16 @@ namespace Elephant.Hank.Common.TestDataServices
         /// </summary>
         /// <param name="sharedTestCaseId">test case identifier</param>
         /// <returns>TblTestDataDto List object</returns>
-        ResultMessage<IEnumerable<TblSharedTestDataDto>> GetVariableTypeSharedTestDataBySharedTestCase(long sharedTestCaseId);        
+        ResultMessage<IEnumerable<TblSharedTestDataDto>> GetVariableTypeSharedTestDataBySharedTestCase(long sharedTestCaseId);
+
+        /// <summary>
+        /// Saves the update custom.
+        /// </summary>
+        /// <param name="sharedTestDataDto">The shared test data dto.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>
+        /// Added/Updated TblSharedTestDataDto object
+        /// </returns>
+        ResultMessage<TblSharedTestDataDto> SaveUpdateCustom(TblSharedTestDataDto sharedTestDataDto, long userId);
     }
 }
