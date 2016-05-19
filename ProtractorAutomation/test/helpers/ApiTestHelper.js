@@ -15,9 +15,9 @@ var ApiTestHelper = function () {
   this.callApi = function (testInstance, callBackFunction) {
     var apiParameters = {
       method: testInstance.RequestType,
-      url: this.evaluateApiUrl(testInstance),
+      url: jsonHelper.replaceVariableWithValue(testInstance.ApiUrl),
       headers: this.evaluateHeader(testInstance),
-      form: testInstance.RequestBody
+      form: jsonHelper.replaceVariableWithValue(testInstance.RequestBody)
     };
 
     console.log("Api Parameters:-");
@@ -25,30 +25,6 @@ var ApiTestHelper = function () {
 
     var flow = protractor.promise.controlFlow();
     flow.wait(executeRequest(apiParameters)).then(callBackFunction);
-  };
-
-  this.evaluateApiUrl = function (testInstance) {
-    var evaluatedApiUrl = testInstance.ApiUrl;
-    var variables = evaluatedApiUrl.match(/\{(.*?)\}/g) || [];
-    if (variables.length > 0) {
-      for (var j = 0; j < variables.length; j++) {
-        var result = jsonHelper.GetIndexedVariableValueFromVariableContainer(variables[j].replace('{', '').replace('}', ''));
-        evaluatedApiUrl = evaluatedApiUrl.replace(variables[j], result);
-      }
-    }
-    return evaluatedApiUrl;
-  };
-
-  this.evaluateRequestBody = function (testInstance) {
-    var evaluatedRequestBody = testInstance.RequestBody;
-    var variables = evaluatedRequestBody.match(/\{(.*?)\}/g) || [];
-    if (variables.length > 0) {
-      for (var j = 0; j < variables.length; j++) {
-        var result = jsonHelper.GetIndexedVariableValueFromVariableContainer(variables[j].replace('{', '').replace('}', ''));
-        evaluatedRequestBody = evaluatedRequestBody.replace(variables[j], result);
-      }
-    }
-    return evaluatedRequestBody;
   };
 
   this.evaluateHeader = function (testInstance) {
@@ -64,14 +40,7 @@ var ApiTestHelper = function () {
       if (IsIgnoreHeader) {
         continue;
       }
-      var variables = testInstance.Headers[i].Value.match(/\{(.*?)\}/g) || [];
-      if (variables.length > 0) {
-        for (var j = 0; j < variables.length; j++) {
-          var result = jsonHelper.GetIndexedVariableValueFromVariableContainer(variables[j].replace('{', '').replace('}', ''));
-          testInstance.Headers[i].Value = testInstance.Headers[i].Value.replace(variables[j], result);
-        }
-      }
-      header[testInstance.Headers[i].Name] = testInstance.Headers[i].Value;
+      header[testInstance.Headers[i].Name] = jsonHelper.replaceVariableWithValue(testInstance.Headers[i].Value);
     }
     return header;
   };

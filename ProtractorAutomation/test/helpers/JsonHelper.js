@@ -321,18 +321,20 @@ var JsonHelper = function () {
     return result;
   };
 
-  var keyIndx = 0;
-  var mainIndx = 1;
-  var a = [];
-  a[0] = [];
-  a[1] = [];
+  var keyIndx=0;
+  var mainIndx=1;
 
-  this.converToTwoDimensionalArray = function (resultMessage, prepend) {
+  this.converToTwoDimensionalArray = function (resultMessage, prepend, a) {
+    if (a == undefined) {
+      a = [[], []];
+      keyIndx=0;
+      mainIndx=1;
+    }
     var keys = Object.keys(resultMessage);
     for (var j = 0; j < keys.length; j++) {
       var propertName = prepend == undefined ? keys[j] : prepend + keys[j];
-      if (typeof(resultMessage[keys[j]]) == 'object' && resultMessage[keys[j]]!=null) {
-        this.converToTwoDimensionalArray(resultMessage[keys[j]], propertName + ".")
+      if (typeof(resultMessage[keys[j]]) == 'object' && resultMessage[keys[j]] != null) {
+        this.converToTwoDimensionalArray(resultMessage[keys[j]], propertName + ".", a)
       }
       else {
         if (this.inArray(a[0], propertName, true) == -1) {
@@ -343,6 +345,18 @@ var JsonHelper = function () {
       }
     }
     return a;
+  };
+
+
+  this.replaceVariableWithValue = function (strVariable) {
+    var variables = strVariable.match(/\{(.*?)\}/g) || [];
+    if (variables.length > 0) {
+      for (var j = 0; j < variables.length; j++) {
+        var result = this.GetIndexedVariableValueFromVariableContainer(variables[j].replace('{', '').replace('}', ''));
+        strVariable = strVariable.replace(variables[j], result);
+      }
+    }
+    return strVariable;
   };
 
 };
