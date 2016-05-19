@@ -213,7 +213,6 @@ var JsonHelper = function () {
           var keys = Object.keys(resultMessage.Item[i]);
           for (var j = 0; j < keys.length; j++) {
             a[mainIndx][j] = resultMessage.Item[i][keys[j]];
-
             if (thisObj.inArray(a[0], keys[j], true) == -1) {
               a[0][keyIndx] = keys[j];
               keyIndx++;
@@ -309,6 +308,41 @@ var JsonHelper = function () {
       }
     }
     return result == undefined ? variableName : result;
+  };
+
+  this.getIndexInArray = function (arr, indexNameToSearch) {
+    var result = undefined;
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i] == indexNameToSearch) {
+        result = i;
+        break;
+      }
+    }
+    return result;
+  };
+
+  var keyIndx = 0;
+  var mainIndx = 1;
+  var a = [];
+  a[0] = [];
+  a[1] = [];
+
+  this.converToTwoDimensionalArray = function (resultMessage, prepend) {
+    var keys = Object.keys(resultMessage);
+    for (var j = 0; j < keys.length; j++) {
+      var propertName = prepend == undefined ? keys[j] : prepend + keys[j];
+      if (typeof(resultMessage[keys[j]]) == 'object' && resultMessage[keys[j]]!=null) {
+        this.converToTwoDimensionalArray(resultMessage[keys[j]], propertName + ".")
+      }
+      else {
+        if (this.inArray(a[0], propertName, true) == -1) {
+          a[0][keyIndx] = propertName;
+          keyIndx++;
+        }
+        a[mainIndx][this.getIndexInArray(a[0], propertName)] = resultMessage[keys[j]];
+      }
+    }
+    return a;
   };
 
 };

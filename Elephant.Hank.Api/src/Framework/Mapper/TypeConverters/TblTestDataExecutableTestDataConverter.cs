@@ -14,8 +14,11 @@ namespace Elephant.Hank.Framework.Mapper.TypeConverters
     using System.Linq;
 
     using AutoMapper;
+    using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.DataService.DBSchema;
     using Elephant.Hank.Resources.Dto;
+    using Elephant.Hank.Resources.Enum;
+    using Elephant.Hank.Resources.Messages;
     using Elephant.Hank.Resources.Models;
 
     /// <summary>
@@ -53,6 +56,14 @@ namespace Elephant.Hank.Framework.Mapper.TypeConverters
                 result.DisplayName = src.DisplayNameValue;
                 result.Locator = src.LocatorValue + string.Empty;
                 result.LocatorIdentifier = src.LocatorIdentifierValue + string.Empty;
+                if (src.LinkTestType == (int)LinkTestType.ApiTestStep)
+                {
+                    result.Headers = src.Headers;
+                    result.IgnoreHeaders = src.IgnoreHeaders;
+                    result.RequestType = src.RequestType;
+                    result.RequestBody = src.RequestBody;
+                    result.ApiUrl = src.ApiUrl;
+                }
             }
 
             return result;

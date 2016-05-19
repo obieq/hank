@@ -60,6 +60,11 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly IBrowserService browserService;
 
         /// <summary>
+        /// the browser service
+        /// </summary>
+        private readonly IApiConnectionService apiConncetionService;
+
+        /// <summary>
         /// The mapper factory
         /// </summary>
         private readonly IMapperFactory mapperFactory;
@@ -106,7 +111,8 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <param name="actionService">The action service.</param>
         /// <param name="testDataSharedTestDataMapService">The test data shared test data map service.</param>
         /// <param name="sharedTestDataService">The shared test data service.</param>
-        public TestQueueExecutableService(IRepository<TblTestData> table, ISuiteService suiteService, ITestQueueService testQueueService, IMapperFactory mapperFactory, ISchedulerService schedulerService, IBrowserService browserService, IActionsService actionService, ITestDataSharedTestDataMapService testDataSharedTestDataMapService, ISharedTestDataService sharedTestDataService)
+        /// <param name="apiConncetionService">The API conncetion service.</param>
+        public TestQueueExecutableService(IRepository<TblTestData> table, ISuiteService suiteService, ITestQueueService testQueueService, IMapperFactory mapperFactory, ISchedulerService schedulerService, IBrowserService browserService, IActionsService actionService, ITestDataSharedTestDataMapService testDataSharedTestDataMapService, ISharedTestDataService sharedTestDataService, IApiConnectionService apiConncetionService)
         {
             this.table = table;
             this.suiteService = suiteService;
@@ -117,6 +123,7 @@ namespace Elephant.Hank.Framework.TestDataServices
             this.actionService = actionService;
             this.testDataSharedTestDataMapService = testDataSharedTestDataMapService;
             this.sharedTestDataService = sharedTestDataService;
+            this.apiConncetionService = apiConncetionService;
         }
 
         /// <summary>
@@ -143,7 +150,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                         this.testPlan.Remove(this.testPlan.Last());
                         this.ExecutionSequence--;
                         continue;
-                    }                    
+                    }
 
                     switch (item.LinkTestType)
                     {
@@ -152,14 +159,39 @@ namespace Elephant.Hank.Framework.TestDataServices
                                 if (item.ActionId.Value != ActionConstants.Instance.TerminateTestActionId)
                                 {
                                     item.ExecutionSequence = this.ExecutionSequence++;
-                                    this.testPlan.Add(item);                                    
+                                    this.testPlan.Add(item);
                                 }
                                 else
                                 {
                                     breakParentLoop = true;
                                 }
 
-                                break;                               
+                                break;
+                            }
+
+                        case (int)LinkTestType.ApiTestStep:
+                            {
+                                long environMentId;
+                                if (testQueue.SchedulerId.HasValue)
+                                {
+                                    ResultMessage<TblSchedulerDto> schedulerDto = this.schedulerService.GetById(testQueue.SchedulerId.Value);
+                                    environMentId = Convert.ToInt64(schedulerDto.Item.UrlId);
+                                }
+                                else
+                                {
+                                    environMentId = Convert.ToInt64(testQueue.Settings.UrlId);
+                                }
+
+                                ResultMessage<TblApiConnectionDto> apiConnectionDto = this.apiConncetionService.GetByEnvironmentAndCategoryId(environMentId, item.ApiTestData.ApiCategoryId.Value);
+                                item.ApiUrl = string.IsNullOrEmpty(item.ApiTestData.ApiUrl) ? apiConnectionDto.Item.BaseUrl + item.ApiTestData.EndPoint : item.ApiTestData.ApiUrl + item.ApiTestData.EndPoint;
+                                item.Headers = apiConnectionDto.Item.Headers;
+                                item.Headers.AddRange(item.ApiTestData.Headers);
+                                item.IgnoreHeaders = item.ApiTestData.IgnoreHeaders;
+                                item.RequestType = item.ApiTestData.RequestName;
+                                item.RequestBody = item.ApiTestData.RequestBody;
+                                item.ExecutionSequence = this.ExecutionSequence++;
+                                this.testPlan.Add(item);
+                                break;
                             }
 
                         case (int)LinkTestType.SqlTestStep:
@@ -192,7 +224,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                                             sharedStep.VariableName = lnkSharedTestStep.NewVariable;
                                         }
 
-                                        sharedStep.IsIgnored = lnkSharedTestStep.IsIgnored ?? false;                                       
+                                        sharedStep.IsIgnored = lnkSharedTestStep.IsIgnored ?? false;
                                     }
 
                                     if (sharedStep.ActionId == ActionConstants.Instance.TerminateTestActionId && !sharedStep.IsIgnored)
@@ -202,14 +234,14 @@ namespace Elephant.Hank.Framework.TestDataServices
                                     }
                                 }
 
-                                sharedSteps.RemoveAll(m => m.IsIgnored);    
+                                sharedSteps.RemoveAll(m => m.IsIgnored);
                                 int indx = sharedSteps.IndexOf(sharedSteps.Where(m => m.ActionId == ActionConstants.Instance.TerminateTestActionId).FirstOrDefault());
 
                                 if (indx >= 0)
                                 {
                                     sharedSteps.RemoveRange(indx, sharedSteps.Count - indx);
-                                }         
-                      
+                                }
+
                                 var mapper = this.mapperFactory.GetMapper<TblSharedTestDataDto, TblTestDataDto>();
                                 var sharedStepMappedWithTestData = sharedSteps.Select(mapper.Map).OrderBy(x => x.ExecutionSequence).ToList();
 
@@ -262,7 +294,7 @@ namespace Elephant.Hank.Framework.TestDataServices
 
                                 this.ProcessTestQueueExecutableData(testDataDtoForSharedWebsiteTest, testQueue, deepIndex + 1);
                                 break;
-                            }                          
+                            }
                     }
 
                     if (breakParentLoop)

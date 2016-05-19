@@ -16,6 +16,7 @@ namespace Elephant.Hank.Resources.Dto
 
     using Elephant.Hank.Resources.Dto.CustomIdentity;
     using Elephant.Hank.Resources.Dto.Linking;
+    using Elephant.Hank.Resources.Models;
 
     /// <summary>
     /// The TblTestDataDto class
@@ -169,5 +170,45 @@ namespace Elephant.Hank.Resources.Dto
         /// The API test data.
         /// </value>
         public TblApiTestDataDto ApiTestData { get; set; }
+
+        /// <summary>
+        /// Gets or sets the headers.
+        /// </summary>
+        /// <value>
+        /// The headers.
+        /// </value>
+        public List<NameValuePair> Headers { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ignore headers.
+        /// </summary>
+        /// <value>
+        /// The ignore headers.
+        /// </value>
+        public List<NameValuePair> IgnoreHeaders { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of the request.
+        /// </summary>
+        /// <value>
+        /// The type of the request.
+        /// </value>
+        public string RequestType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the body.
+        /// </summary>
+        /// <value>
+        /// The body.
+        /// </value>
+        public string RequestBody { get; set; }
+
+        /// <summary>
+        /// Gets or sets the URL.
+        /// </summary>
+        /// <value>
+        /// The URL.
+        /// </value>
+        public string ApiUrl { get; set; }
     }
 }

@@ -23,6 +23,9 @@ var InputHelper = function () {
   var RestApiHelper = require('./../helpers/RestApiHelper.js');
   var restApiHelper = new RestApiHelper();
 
+  var ApiTestHelper = require('./../helpers/ApiTestHelper.js');
+  var apiTestHelper = new ApiTestHelper();
+
   var fs = require('fs');
   var FS = require("q-io/fs");
   var hotkeys = require('protractor-hotkeys');
@@ -213,7 +216,18 @@ var InputHelper = function () {
 
       default :
       {
-        this.setInput("", testInstance);
+        if (testInstance.StepType == 4) {
+          browser.getCurrentUrl().then(function (url) {
+            apiTestHelper.callApi(testInstance, function (response) {
+              console.log("response.body:-");
+              console.log(response);
+              thisobj.setVariable(testInstance.ExecutionSequence,testInstance.VariableName,response,"");
+            });
+          });
+        }
+        else {
+          this.setInput("", testInstance);
+        }
         break;
       }
     }
@@ -223,6 +237,7 @@ var InputHelper = function () {
 
   this.setInput = function (key, testInstance, testName) {
     if (key != null) {
+
       this.GetSharedVariable(testInstance);
       if (testInstance.VariableName.trim() == '' || testInstance.Action == actionConstant.LogText || testInstance.Action == actionConstant.DeclareVariable || testInstance.Action == actionConstant.SetVariable || testInstance.Action == actionConstant.SetVariableManually) {
 
@@ -368,7 +383,10 @@ var InputHelper = function () {
               browser.getCurrentUrl().then(function (urle) {
 
                 jsonHelper.parseJsonToExecuteSql(testInstance).then(function (a) {
-                  browser.params.config.logContainer.push({Name: testInstance.VariableName, Value: JSON.stringify(a)});
+                  browser.params.config.logContainer.push({
+                    Name: testInstance.VariableName,
+                    Value: JSON.stringify(a)
+                  });
                 });
 
               });
@@ -628,6 +646,8 @@ var InputHelper = function () {
             break;
           }
         }
+
+
       }
     }
   };

@@ -59,11 +59,9 @@ namespace Elephant.Hank.Framework.TestDataServices
         public ResultMessage<IEnumerable<TblGroupUserDto>> GetByGroupId(long groupId)
         {
             var result = new ResultMessage<IEnumerable<TblGroupUserDto>>();
-
             var entities = this.table.Find(x => x.GroupId == groupId && x.IsDeleted != true).ToList();
             var mapper = this.mapperFactory.GetMapper<TblGroupUser, TblGroupUserDto>();
             result.Item = entities.Select(mapper.Map);
-
             return result;
         }
 

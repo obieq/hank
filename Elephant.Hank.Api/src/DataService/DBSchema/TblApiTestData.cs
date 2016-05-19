@@ -115,5 +115,13 @@ namespace Elephant.Hank.DataService.DBSchema
         /// </value>
         [ForeignKey("ApiCategoryId")]
         public virtual TblApiCategories ApiCategories { get; set; }
+
+        /// <summary>
+        /// Gets or sets the body.
+        /// </summary>
+        /// <value>
+        /// The body.
+        /// </value>
+        public string RequestBody { get; set; }
     }
 }
