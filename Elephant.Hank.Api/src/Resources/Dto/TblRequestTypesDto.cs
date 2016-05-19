@@ -23,5 +23,13 @@ namespace Elephant.Hank.Resources.Dto
         /// The name.
         /// </value>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is request body allowed.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is request body allowed; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsRequestBodyAllowed { get; set; }
     }
 }

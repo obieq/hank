@@ -24,6 +24,7 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
         Name: 'Private'
       }
     ];
+
     $scope.TestList = [];
     $scope.CopyTestData = {};
     $scope.CopyTestData.HasTestData = false;

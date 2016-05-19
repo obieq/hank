@@ -25,6 +25,7 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
       'txtAutoCompVariableName': false,
       'chkAssignVariableValue': false
     };
+    $scope.IsRequestBodyAllowed = false;
     $scope.Test = {Id: $stateParams.TestId};
     $scope.stateParamWebsiteId = $stateParams.WebsiteId;
     $scope.stateParamTestDataId = $stateParams.TestDataId;
@@ -62,11 +63,11 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
     $scope.RequestTypeList = [];
 
 
-    $scope.addUpdateTestData=function(){
-      if($scope.stateParamTestDataId){
+    $scope.addUpdateTestData = function () {
+      if ($scope.stateParamTestDataId) {
         $scope.updateTestData();
       }
-      else{
+      else {
         $scope.addTestData();
       }
     };
@@ -138,8 +139,8 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
           $scope.TestData.SharedTestSteps[i].IsIgnored = $scope.TestData.SharedTestDataList[i].Ignore;
           $scope.TestData.SharedTestSteps[i].NewValue = $scope.TestData.SharedTestDataList[i].UIValue;
           $scope.TestData.SharedTestSteps[i].NewVariable = $scope.TestData.SharedTestDataList[i].UIVariableName;
-          var check1=$scope.TestData.SharedTestDataList[i].UIVariableName;
-          var check2=$scope.TestData.SharedTestSteps[i].NewVariable;
+          var check1 = $scope.TestData.SharedTestDataList[i].UIVariableName;
+          var check2 = $scope.TestData.SharedTestSteps[i].NewVariable;
           $scope.TestData.SharedTestSteps[i].NewOrder = $scope.TestData.SharedTestDataList[i].UIExecutionSequence;
         }
       }
@@ -647,6 +648,11 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
           break;
         }
       }
+    };
+
+    $scope.onRequestTypeChange = function () {
+      var request = _.where($scope.RequestTypeList, {'Id': $scope.TestData.ApiTestData.RequestTypeId});
+      $scope.IsRequestBodyAllowed = request[0].IsRequestBodyAllowed;
     };
 
     $scope.onQueueClick = function () {
