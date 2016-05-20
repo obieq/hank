@@ -140,10 +140,10 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
           {
             $scope.InputControlDisplayStatus.ddlAction = true;
 
-            if ($scope.SharedTestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId) {
+            if ($scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId) {
               $scope.InputControlDisplayStatus.txtValue = true;
             }
-            else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.TerminateTestActionId) {
+            else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId ||$scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.TerminateTestActionId) {
             }
             else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.DeclareVariableActionId) {
               $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
@@ -375,10 +375,14 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
         $scope.InputControlDisplayStatus.chkSkipByDefault = true;
         $scope.InputControlDisplayStatus.ddlAction = true;
         $scope.InputControlDisplayStatus.txtValue = true;
-        if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId) {
+        if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.DeclareVariableActionId) {
           $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
+          $scope.InputControlDisplayStatus.txtValue = $scope.SharedTestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId ? true : false;
         }
-        else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.TerminateTestActionId) {
+        else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId ||$scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId ||$scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId ||$scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId) {
+          $scope.InputControlDisplayStatus.txtValue = true;
+        }
+        else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId ||$scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.TerminateTestActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId) {
           $scope.InputControlDisplayStatus.txtValue = false;
         }
         else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SetVariableActionId) {

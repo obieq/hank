@@ -172,10 +172,10 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
             }
             $scope.InputControlDisplayStatus.ddlAction = true;
 
-            if ($scope.TestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId || $scope.TestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.TestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.TestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId) {
+            if ( $scope.TestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.TestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.TestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId) {
               $scope.InputControlDisplayStatus.txtValue = true;
             }
-            else if ($scope.TestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.TestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.TerminateTestActionId) {
+            else if ($scope.TestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.TestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.TerminateTestActionId) {
             }
             else if ($scope.TestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId || $scope.TestData.ActionId == $scope.ActionConstants.DeclareVariableActionId) {
               $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
@@ -511,10 +511,14 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
         $scope.resetAllInputControlDisplayStatus();
         $scope.InputControlDisplayStatus.ddlAction = true;
         $scope.InputControlDisplayStatus.txtValue = true;
-        if ($scope.TestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId || $scope.TestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId) {
+        if ($scope.TestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId || $scope.TestData.ActionId == $scope.ActionConstants.DeclareVariableActionId ) {
           $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
+          $scope.InputControlDisplayStatus.txtValue = $scope.TestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId ? true : false;
         }
-        else if ($scope.TestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.TestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.TerminateTestActionId) {
+        else if ($scope.TestData.ActionId == $scope.ActionConstants.WaitActionId ||$scope.TestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId ||$scope.TestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId ||$scope.TestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.TestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId) {
+          $scope.InputControlDisplayStatus.txtValue = true;
+        }
+        else if ($scope.TestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId ||$scope.TestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.TestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.TerminateTestActionId) {
           $scope.InputControlDisplayStatus.txtValue = false;
         }
         else if ($scope.TestData.ActionId == $scope.ActionConstants.SetVariableActionId) {

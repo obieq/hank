@@ -63,8 +63,8 @@ var HashTagHelper = function () {
         if (variables.length > 0) {
           result = jsonHelper.GetIndexedVariableValueFromVariableContainer(splittedHashTagArray[1].substring(splittedHashTagArray[1].indexOf('{') + 1, splittedHashTagArray[1].lastIndexOf('}')));
         }
-        else{
-          result=splittedHashTagArray[1].split('~')[1];
+        else {
+          result = splittedHashTagArray[1].split('~')[1];
         }
         defer.fulfill(result);
       });
@@ -81,7 +81,7 @@ var HashTagHelper = function () {
       var checkForDigit = true;
       var strReverseArray = valueArray[k].split('').reverse();
       for (var i = 0; i < strReverseArray.length; i++) {
-        if (!isNaN(strReverseArray[i]) && checkForDigit) {
+        if ((!isNaN(strReverseArray[i]) || strReverseArray[i] == '.' ) && checkForDigit) {
           operationValueArray[k] = strReverseArray[i] + operationValueArray[k];
         }
         else {
@@ -91,7 +91,7 @@ var HashTagHelper = function () {
       }
     }
     valueAfterOperaton = valueToPrepend;
-    valueAfterOperaton += hashTagAction == 'subtract' ? parseInt(operationValueArray[0]) - parseInt(operationValueArray[1]) : parseInt(operationValueArray[0]) + parseInt(operationValueArray[1]);
+    valueAfterOperaton += hashTagAction == 'subtract' ? parseFloat(operationValueArray[0]) - parseFloat(operationValueArray[1]) : parseFloat(operationValueArray[0]) + parseFloat(operationValueArray[1]);
     return valueAfterOperaton;
   };
 
