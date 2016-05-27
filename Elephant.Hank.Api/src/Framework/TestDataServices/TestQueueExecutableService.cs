@@ -211,7 +211,8 @@ namespace Elephant.Hank.Framework.TestDataServices
                                     {
                                         if (lnkSharedTestStep.NewOrder > 0)
                                         {
-                                            sharedStep.ExecutionSequence = lnkSharedTestStep.NewOrder;
+                                            sharedSteps.Where(x => x.ExecutionSequence > lnkSharedTestStep.NewOrder).ToList().ForEach(x => x.ExecutionSequence++);
+                                            sharedStep.ExecutionSequence = lnkSharedTestStep.NewOrder + 1;
                                         }
 
                                         if (!string.IsNullOrEmpty(lnkSharedTestStep.NewValue))
@@ -235,7 +236,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                                 }
 
                                 sharedSteps.RemoveAll(m => m.IsIgnored);
-                                int indx = sharedSteps.IndexOf(sharedSteps.Where(m => m.ActionId == ActionConstants.Instance.TerminateTestActionId).FirstOrDefault());
+                                int indx = sharedSteps.IndexOf(sharedSteps.FirstOrDefault(m => m.ActionId == ActionConstants.Instance.TerminateTestActionId));
 
                                 if (indx >= 0)
                                 {
@@ -500,7 +501,6 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <returns>auto incremented value</returns>
         private string GetAutoIncrementValue(string value)
         {
-            int incrementedValue;
             string[] splittedValue = value.Split('#');
             if (splittedValue[1] == "autoincrement")
             {
@@ -521,7 +521,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                     }
                 }
 
-                incrementedValue = int.Parse(strValueToIncrement) + 1;
+                int incrementedValue = strValueToIncrement.ToInt32() + 1;
                 return valueToPrepend + incrementedValue;
             }
 
@@ -546,16 +546,18 @@ namespace Elephant.Hank.Framework.TestDataServices
 
             if (splittedValue.Length > 1)
             {
-                if (splittedValue[1].ToLower() == "autogen" || splittedValue[1].ToLower() == "autogennum" || splittedValue[1].ToLower() == "autogenalpha")
+                var splittedValueLwr = splittedValue[1].ToLower();
+
+                if (splittedValueLwr == "autogen" || splittedValueLwr == "autogennum" || splittedValueLwr == "autogenalpha")
                 {
                     var autoGenModel = new AutoGenModel();
                     if (splittedValue.Length < 4)
                     {
-                        autoGenModel.AutoGenText = this.GenerateAutoString(string.Empty, splittedValue[1].ToLower(), randomStringLength);
+                        autoGenModel.AutoGenText = this.GenerateAutoString(string.Empty, splittedValueLwr, randomStringLength);
                     }
                     else
                     {
-                        autoGenModel.AutoGenText = this.GenerateAutoString(splittedValue[3], splittedValue[1].ToLower(), randomStringLength);
+                        autoGenModel.AutoGenText = this.GenerateAutoString(splittedValue[3], splittedValueLwr, randomStringLength);
                         autoGenModel.Prefix = splittedValue[3];
                     }
 
@@ -619,7 +621,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                 }
             }
 
-            if (preFix != null || preFix.Trim() != string.Empty)
+            if (preFix.IsNotBlank())
             {
                 randomString = preFix + randomString;
             }

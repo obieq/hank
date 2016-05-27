@@ -133,7 +133,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>
         /// Newly updated object
         /// </returns>
-        [Route("{id}")]
+        [Route("{browserId}")]
         [HttpPut]
         public IHttpActionResult Update([FromBody]TblBrowsersDto browsersDto, long browserId)
         {
