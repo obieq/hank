@@ -349,6 +349,10 @@ var JsonHelper = function () {
 
 
   this.replaceVariableWithValue = function (strVariable) {
+    if(strVariable == undefined || strVariable == null){
+      return strVariable;
+    }
+
     var variables = strVariable.match(/\{(.*?)\}/g) || [];
     if (variables.length > 0) {
       for (var j = 0; j < variables.length; j++) {

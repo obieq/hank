@@ -171,19 +171,18 @@ namespace Elephant.Hank.Framework.TestDataServices
 
                         case (int)LinkTestType.ApiTestStep:
                             {
-                                long environMentId;
+                                long environMentId = testQueue.Settings.UrlId;
                                 if (testQueue.SchedulerId.HasValue)
                                 {
                                     ResultMessage<TblSchedulerDto> schedulerDto = this.schedulerService.GetById(testQueue.SchedulerId.Value);
-                                    environMentId = Convert.ToInt64(schedulerDto.Item.UrlId);
-                                }
-                                else
-                                {
-                                    environMentId = Convert.ToInt64(testQueue.Settings.UrlId);
+                                    environMentId = schedulerDto.Item.UrlId;
                                 }
 
                                 ResultMessage<TblApiConnectionDto> apiConnectionDto = this.apiConncetionService.GetByEnvironmentAndCategoryId(environMentId, item.ApiTestData.ApiCategoryId.Value);
-                                item.ApiUrl = string.IsNullOrEmpty(item.ApiTestData.ApiUrl) ? apiConnectionDto.Item.BaseUrl + item.ApiTestData.EndPoint : item.ApiTestData.ApiUrl + item.ApiTestData.EndPoint;
+                                item.ApiUrl = (item.ApiTestData.ApiUrl.IsBlank() ? apiConnectionDto.Item.BaseUrl : item.ApiTestData.ApiUrl).Trim();
+
+                                item.ApiUrl += ((item.ApiUrl.EndsWith("\\") || item.ApiUrl.EndsWith("/")) ? string.Empty : "/") + item.ApiTestData.EndPoint;
+
                                 item.Headers = apiConnectionDto.Item.Headers;
                                 item.Headers.AddRange(item.ApiTestData.Headers);
                                 item.IgnoreHeaders = item.ApiTestData.IgnoreHeaders;

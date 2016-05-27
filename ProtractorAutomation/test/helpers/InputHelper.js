@@ -20,9 +20,6 @@ var InputHelper = function () {
   var Constant = require('./../constants/constant.js');
   var constant = new Constant();
 
-  var RestApiHelper = require('./../helpers/RestApiHelper.js');
-  var restApiHelper = new RestApiHelper();
-
   var ApiTestHelper = require('./../helpers/ApiTestHelper.js');
   var apiTestHelper = new ApiTestHelper();
 
@@ -494,7 +491,7 @@ var InputHelper = function () {
 
               browser.executeScript('window.onbeforeunload = null');
               browser.ignoreSynchronization = true;
-              browser.get(testInstance.Value).then(function () {
+              browser.get(jsonHelper.replaceVariableWithValue(testInstance.Value)).then(function () {
                 browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
               });
             });

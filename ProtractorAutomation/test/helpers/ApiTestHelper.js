@@ -17,11 +17,8 @@ var ApiTestHelper = function () {
       method: testInstance.RequestType,
       url: jsonHelper.replaceVariableWithValue(testInstance.ApiUrl),
       headers: this.evaluateHeader(testInstance),
-      form: jsonHelper.replaceVariableWithValue(testInstance.RequestBody)
+      body: jsonHelper.replaceVariableWithValue(testInstance.RequestBody)
     };
-
-    console.log("Api Parameters:-");
-    console.log(apiParameters);
 
     var flow = protractor.promise.controlFlow();
     flow.wait(executeRequest(apiParameters)).then(callBackFunction);
@@ -58,11 +55,8 @@ var ApiTestHelper = function () {
         console.log("****ApiTestHelper*****");
         defer.reject({error: error, message: message});
       } else {
-        console.log("****ApiTestHelper Fulfilled*****");
         resultMessage = JSON.parse(message.body);
         var response = jsonHelper.converToTwoDimensionalArray(resultMessage);
-        console.log("response on Api helper conversion");
-        console.log(response);
         defer.fulfill(JSON.stringify(response));
       }
     });

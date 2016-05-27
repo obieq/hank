@@ -25,7 +25,7 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
       'txtAutoCompVariableName': false,
       'chkAssignVariableValue': false
     };
-    $scope.IsRequestBodyAllowed = false;
+
     $scope.Test = {Id: $stateParams.TestId};
     $scope.stateParamWebsiteId = $stateParams.WebsiteId;
     $scope.stateParamTestDataId = $stateParams.TestDataId;
@@ -247,6 +247,7 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
             });
           }
         }
+        $scope.onRequestTypeChange();
       });
     };
 
@@ -325,6 +326,7 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
 
             promises.push(crudService.getAll(ngAppSettings.RequestTypeUrl).then(function (response) {
               $scope.RequestTypeList = response;
+              $scope.onRequestTypeChange();
             }, function (response) {
               commonUi.showErrorPopup(response);
             }));
@@ -656,7 +658,7 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
 
     $scope.onRequestTypeChange = function () {
       var request = _.where($scope.RequestTypeList, {'Id': $scope.TestData.ApiTestData.RequestTypeId});
-      $scope.IsRequestBodyAllowed = request[0].IsRequestBodyAllowed;
+      $scope.IsRequestBodyAllowed = request && request[0] ? request[0].IsRequestBodyAllowed : false;
     };
 
     $scope.onQueueClick = function () {
