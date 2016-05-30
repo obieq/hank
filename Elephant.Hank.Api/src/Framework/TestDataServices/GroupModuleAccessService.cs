@@ -11,6 +11,7 @@
 
 namespace Elephant.Hank.Framework.TestDataServices
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -50,7 +51,7 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// The table
         /// </summary>
         private readonly IRepository<TblGroupModuleAccess> table;
-       
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GroupModuleAccessService" /> class.
         /// </summary>
@@ -90,10 +91,10 @@ namespace Elephant.Hank.Framework.TestDataServices
                     }
                 }
             }
-
             groupModuleAccessList.Where(x => websiteIdList.All(web => web != x.WebsiteId)).ToList().ForEach(x => { x.IsDeleted = false; x.CanRead = false; x.CanWrite = false; x.CanDelete = false; x.CanExecute = false; });
-            groupModuleAccessList.Where(x => websiteIdList.Any(web => web == x.WebsiteId)).ToList().ForEach(x => { x.IsDeleted = false; x.CanRead = true; x.CanWrite = false; x.CanDelete = false; x.CanExecute = false; });
+            groupModuleAccessList.Where(x => websiteIdList.Any(web => web == x.WebsiteId)).ToList().ForEach(x => { x.IsDeleted = false; x.CanRead = true; });
             result = this.SaveOrUpdate(groupModuleAccessList, userId);
+
             return result;
         }
 

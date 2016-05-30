@@ -17,9 +17,14 @@
     <div class="form-group">
       <label class="col-sm-2 control-label"></label>
 
-      <div class="col-sm-6">
-        <button type="submit" class="btn btn-primary">Submit</button>
+      <div class="col-sm-6" ng-if="submit">
+        <button  type="submit" class="btn btn-primary">Submit</button>
       </div>
+
+      <div class="col-sm-6" ng-if="!submit">
+        <button disabled="disabled" class="btn btn-primary">Submit</button>
+      </div>
+
     </div>
   </form>
 </div>

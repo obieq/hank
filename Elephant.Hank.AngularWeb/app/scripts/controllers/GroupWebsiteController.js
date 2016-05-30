@@ -7,6 +7,7 @@
 app.controller('GroupWebsiteController', ['$scope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService',
   function ($scope, $stateParams, $state, crudService, ngAppSettings, commonUi) {
     $scope.WebsiteList = [];
+    $scope.submit=true;
     $scope.WebsiteIdList = [];
     $scope.GroupModuleList = [];
     $scope.stateparamsGroupId=$stateParams.GroupId;
@@ -34,6 +35,7 @@ app.controller('GroupWebsiteController', ['$scope', '$stateParams', '$state', 'C
     });
 
     $scope.onGroupWebsiteSubmit = function () {
+      $scope.submit=false;
       $scope.WebsiteIdList = [];
       for (var i = 0; i < $scope.WebsiteList.length; i++) {
         if ($scope.WebsiteList[i].Permission) {
