@@ -13,7 +13,6 @@ namespace Elephant.Hank.Api.Controllers
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
     using System.Web.Http;
@@ -21,10 +20,8 @@ namespace Elephant.Hank.Api.Controllers
     using Common.DataService;
     using Common.LogService;
 
-    using Elephant.Hank.Api.Security;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
-    using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Extensions;
     using Elephant.Hank.Resources.Messages;
 
@@ -195,7 +192,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </summary>
         /// <param name="model">change password model</param>
         /// <returns>message for result</returns>
-        [Authorize(Roles = RoleName.TestAdminRole)]
+        [Authorize]
         [Route("change-password")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordModel model)
         {

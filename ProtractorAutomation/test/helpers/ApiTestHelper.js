@@ -50,19 +50,22 @@ var ApiTestHelper = function () {
     var defer = protractor.promise.defer();
 
     request(reqOption, function (error, message) {
-        var resultMessage = null;
-        if(jsonHelper.isJson(message.body)){
-          resultMessage = JSON.parse(message.body);
-        }  else if(jsonHelper.isXml(message.body)){
-          resultMessage = parser.toJson(message.body, { object: true, reversible: false, sanitize: true, coerce: false });
-        } else {
-          resultMessage = { response: message.body }
-        }
+      var resultMessage = null;
+      if(message == undefined || message == ""){
+        message = { body: "No response returned!" }
+      }
+      if(jsonHelper.isJson(message.body)){
+        resultMessage = JSON.parse(message.body);
+      }  else if(jsonHelper.isXml(message.body)){
+        resultMessage = parser.toJson(message.body, { object: true, reversible: false, sanitize: true, coerce: false });
+      } else {
+        resultMessage = { response: message.body }
+      }
 
-        resultMessage.responsestatusCode = message.statusCode;
+      resultMessage.responsestatusCode = message.statusCode;
 
-        var response = jsonHelper.converToTwoDimensionalArray(resultMessage);
-        defer.fulfill(JSON.stringify(response));
+      var response = jsonHelper.converToTwoDimensionalArray(resultMessage);
+      defer.fulfill(JSON.stringify(response));
     });
 
     return defer.promise;
