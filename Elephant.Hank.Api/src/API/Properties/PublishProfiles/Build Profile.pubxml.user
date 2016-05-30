@@ -58,10 +58,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/19/2016 19:48:02</publishTime>
     </File>
     <File Include="bin/Elephant.Hank.Api.dll">
-      <publishTime>05/30/2016 14:42:37</publishTime>
+      <publishTime>05/30/2016 16:09:05</publishTime>
     </File>
     <File Include="bin/Elephant.Hank.Api.XML">
-      <publishTime>05/30/2016 14:42:37</publishTime>
+      <publishTime>05/30/2016 16:09:04</publishTime>
     </File>
     <File Include="bin/Elephant.Hank.Common.dll">
       <publishTime>05/30/2016 14:42:35</publishTime>
