@@ -216,8 +216,6 @@ var InputHelper = function () {
         if (testInstance.StepType == 4) {
           browser.getCurrentUrl().then(function (url) {
             apiTestHelper.callApi(testInstance, function (response) {
-              console.log("response.body:-");
-              console.log(response);
               thisobj.setVariable(testInstance.ExecutionSequence,testInstance.VariableName,response,"");
             });
           });

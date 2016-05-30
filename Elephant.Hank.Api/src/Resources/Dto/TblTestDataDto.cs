@@ -14,7 +14,6 @@ namespace Elephant.Hank.Resources.Dto
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using Elephant.Hank.Resources.Dto.CustomIdentity;
     using Elephant.Hank.Resources.Dto.Linking;
     using Elephant.Hank.Resources.Models;
 

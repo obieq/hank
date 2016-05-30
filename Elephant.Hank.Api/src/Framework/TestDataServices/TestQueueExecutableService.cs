@@ -183,8 +183,19 @@ namespace Elephant.Hank.Framework.TestDataServices
 
                                 item.ApiUrl += ((item.ApiUrl.EndsWith("\\") || item.ApiUrl.EndsWith("/")) ? string.Empty : "/") + item.ApiTestData.EndPoint;
 
-                                item.Headers = apiConnectionDto.Item.Headers;
-                                item.Headers.AddRange(item.ApiTestData.Headers);
+                                item.Headers = item.ApiTestData.Headers ?? new List<NameValuePair>();
+
+                                if (apiConnectionDto.Item.Headers != null)
+                                {
+                                    foreach (var header in apiConnectionDto.Item.Headers)
+                                    {
+                                        if (!item.Headers.Any(x => x.Name.EqualsIgnoreCase(header.Name)))
+                                        {
+                                            item.Headers.Add(header);
+                                        }
+                                    }
+                                }
+
                                 item.IgnoreHeaders = item.ApiTestData.IgnoreHeaders;
                                 item.RequestType = item.ApiTestData.RequestName;
                                 item.RequestBody = item.ApiTestData.RequestBody;

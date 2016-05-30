@@ -14,6 +14,7 @@ namespace Elephant.Hank.Api.Controllers
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Threading.Tasks;
     using System.Web.Http;
 
@@ -58,6 +59,26 @@ namespace Elephant.Hank.Api.Controllers
         {
             this.authRepository = authRepository;
             this.groupModuleService = groupModuleService;
+        }
+
+        /// <summary>
+        /// Tests the end point.
+        /// </summary>
+        /// <returns>null data</returns>
+        [Route("TestEndPoint-ContentOnly")]
+        [HttpGet]
+        public IHttpActionResult TestEndPoint()
+        {
+            return this.CreateCustomResponse<string>(null, HttpStatusCode.Found);
+        }
+
+        /// <summary>
+        /// Tests the end content of the point no.
+        /// </summary>
+        [Route("TestEndpoint-NoContent")]
+        [HttpGet]
+        public void TestEndPointNoContent()
+        {
         }
 
         /// <summary>

@@ -5,6 +5,8 @@
 
 var ApiTestHelper = function () {
 
+  var parser = require('xml2json');
+
   var JsonHelper = require('./JsonHelper.js');
   var jsonHelper = new JsonHelper();
   var thisObj = this;
@@ -29,7 +31,7 @@ var ApiTestHelper = function () {
     for (var i = 0; i < testInstance.Headers.length; i++) {
       var IsIgnoreHeader = false;
       for (var k = 0; k < testInstance.IgnoreHeaders.length; k++) {
-        if (testInstance.IgnoreHeaders[k].Name == testInstance.Headers[i].Name) {
+        if ((testInstance.IgnoreHeaders[k].Name + "").toLowerCase() == (testInstance.Headers[i].Name+ "").toLowerCase()) {
           IsIgnoreHeader = true;
           break;
         }
@@ -48,17 +50,19 @@ var ApiTestHelper = function () {
     var defer = protractor.promise.defer();
 
     request(reqOption, function (error, message) {
-      if (error || message.statusCode >= 400) {
-        console.log("*****ApiTestHelper*****", error);
-        console.log(reqOption);
-        console.log(message.body);
-        console.log("****ApiTestHelper*****");
-        defer.reject({error: error, message: message});
-      } else {
-        resultMessage = JSON.parse(message.body);
+        var resultMessage = null;
+        if(jsonHelper.isJson(message.body)){
+          resultMessage = JSON.parse(message.body);
+        }  else if(jsonHelper.isXml(message.body)){
+          resultMessage = parser.toJson(message.body, { object: true, reversible: false, sanitize: true, coerce: false });
+        } else {
+          resultMessage = { response: message.body }
+        }
+
+        resultMessage.responsestatusCode = message.statusCode;
+
         var response = jsonHelper.converToTwoDimensionalArray(resultMessage);
         defer.fulfill(JSON.stringify(response));
-      }
     });
 
     return defer.promise;

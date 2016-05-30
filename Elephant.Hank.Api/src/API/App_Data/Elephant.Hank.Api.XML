@@ -2457,6 +2457,17 @@
             <param name="loggerService">The logger service.</param>
             <param name="groupModuleService">The group Module service.</param>
         </member>
+        <member name="M:Elephant.Hank.Api.Controllers.AccountController.TestEndPoint">
+            <summary>
+            Tests the end point.
+            </summary>
+            <returns>null data</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.AccountController.TestEndPointNoContent">
+            <summary>
+            Tests the end content of the point no.
+            </summary>
+        </member>
         <member name="M:Elephant.Hank.Api.Controllers.AccountController.IsModuleAuthenticated">
             <summary>
             Check User is Autheorised for module or not

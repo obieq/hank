@@ -321,6 +321,22 @@ var JsonHelper = function () {
     return result;
   };
 
+  this.isJson = function (resultMessage) {
+    if(resultMessage == undefined || resultMessage == null){
+      return false;
+    }
+    resultMessage = this.customTrim(resultMessage);
+    return resultMessage.indexOf("{") == 0 || resultMessage.indexOf("[") == 0;
+  }
+
+  this.isXml = function (resultMessage) {
+    if(resultMessage == undefined || resultMessage == null){
+      return false;
+    }
+    resultMessage = this.customTrim(resultMessage);
+    return resultMessage.indexOf("<") == 0;
+  }
+
   var keyIndx=0;
   var mainIndx=1;
 
