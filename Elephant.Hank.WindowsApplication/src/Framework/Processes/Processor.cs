@@ -50,6 +50,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         /// </summary>
         public static void ExecuteService()
         {
+            Guid g = new Guid();
             var testQueue = TestDataApi.Get<List<TestQueue>>(EndPoints.GetTestQueue);
             if (!testQueue.IsError && testQueue.Item != null && testQueue.Item.Any())
             {
@@ -59,33 +60,40 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
 
                 if (!updateResult.IsError)
                 {
-                    Hub hub = GetHubBySeleniumAddress(testQueue.Item[0].Settings.SeleniumAddress);
-                    if (hub == null)
-                    {
-                        Hub hubCreated = AddHub(Guid.NewGuid(), testQueue.Item[0].Settings.SeleniumAddress);
-                        testQueue.Item.ForEach(x => x.HubInfo = hubCreated);
-                        ThreadPool.QueueUserWorkItem(ExecuteServiceThread, testQueue);
-                    }
-                    else
-                    {
-                        QueuedTest[Guid.NewGuid()] = testQueue;
-                    }
+                    SendTestToHub(testQueue);
                 }
             }
             else
             {
                 foreach (var item in QueuedTest)
                 {
-                    Hub hubPast = GetHubBySeleniumAddress(item.Value.Item[0].Settings.SeleniumAddress);
-                    if (hubPast == null)
-                    {
-                        Hub hubCreated = AddHub(Guid.NewGuid(), item.Value.Item[0].Settings.SeleniumAddress);
-                        item.Value.Item.ForEach(x => x.HubInfo = hubCreated);
-                        ThreadPool.QueueUserWorkItem(ExecuteServiceThread, item.Value);
-                        ResultMessage<List<TestQueue>> h;
-                        QueuedTest.TryRemove(item.Key, out h);
-                    }
+                    SendTestToHub(item.Value, item.Key);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Sends the test to hub.
+        /// </summary>
+        /// <param name="testQueue">The test queue.</param>
+        /// <param name="key">The key.</param>
+        private static void SendTestToHub(ResultMessage<List<TestQueue>> testQueue, Guid key = new Guid())
+        {
+            Hub hub = GetHubBySeleniumAddress(testQueue.Item[0].Settings.SeleniumAddress);
+            if (hub == null)
+            {
+                Hub hubCreated = AddHub(Guid.NewGuid(), testQueue.Item[0].Settings.SeleniumAddress);
+                testQueue.Item.ForEach(x => x.HubInfo = hubCreated);
+                ThreadPool.QueueUserWorkItem(ExecuteServiceThread, testQueue);
+                if (key != Guid.Empty)
+                {
+                    ResultMessage<List<TestQueue>> h;
+                    QueuedTest.TryRemove(key, out h);
+                }
+            }
+            else if (key == Guid.Empty)
+            {
+                QueuedTest[Guid.NewGuid()] = testQueue;
             }
         }
 
