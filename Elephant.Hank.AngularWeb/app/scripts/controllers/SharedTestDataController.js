@@ -135,11 +135,12 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
       $scope.resetAllInputControlDisplayStatus();
       $scope.resetModel();
       $scope.loadDataForEdit().then(function () {
+        $scope.InputControlDisplayStatus.chkSkipByDefault=true;
+        $scope.InputControlDisplayStatus.chkOptional=true;
         switch ($scope.SharedTestData.StepType) {
           case 0:
           {
             $scope.InputControlDisplayStatus.ddlAction = true;
-
             if ($scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId) {
               $scope.InputControlDisplayStatus.txtValue = true;
             }
