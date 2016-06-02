@@ -50,25 +50,32 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         /// </summary>
         public static void ExecuteService()
         {
-            Guid g = new Guid();
-            var testQueue = TestDataApi.Get<List<TestQueue>>(EndPoints.GetTestQueue);
-            if (!testQueue.IsError && testQueue.Item != null && testQueue.Item.Any())
+            try
             {
-                var testQueueFirst = testQueue.Item.First();
-
-                var updateResult = TestDataApi.Get<bool>(string.Format(EndPoints.BulkUpdateTestQueue, testQueueFirst.GroupName, 1));
-
-                if (!updateResult.IsError)
+                var testQueue = TestDataApi.Get<List<TestQueue>>(EndPoints.GetTestQueue);
+                if (!testQueue.IsError && testQueue.Item != null && testQueue.Item.Any())
                 {
-                    SendTestToHub(testQueue);
+                    var testQueueFirst = testQueue.Item.First();
+
+                    var updateResult =
+                        TestDataApi.Get<bool>(string.Format(EndPoints.BulkUpdateTestQueue, testQueueFirst.GroupName, 1));
+
+                    if (!updateResult.IsError)
+                    {
+                        SendTestToHub(testQueue);
+                    }
+                }
+                else
+                {
+                    foreach (var item in QueuedTest)
+                    {
+                        SendTestToHub(item.Value, item.Key);
+                    }
                 }
             }
-            else
+            catch (Exception ex)
             {
-                foreach (var item in QueuedTest)
-                {
-                    SendTestToHub(item.Value, item.Key);
-                }
+                LoggerService.LogException("ExecuteService: " + ex.Message);
             }
         }
 
@@ -120,11 +127,9 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
 
                     ProtractorCommandRunner protractorCommandRunner = new ProtractorCommandRunner();
 
-                    double maxExecutionTime = TimeSpan.FromMinutes(testQueue.Item.Count * testQueue.Item[0].Browsers.Count * 10).TotalMilliseconds;
+                    var status = protractorCommandRunner.ExecuteCommand(groupName);
 
-                    protractorCommandRunner.ExecuteCommand(groupName, maxExecutionTime);
-
-                    TestDataApi.Post(string.Format(EndPoints.SchedulerHistoryStatus, groupName, (int)SchedulerExecutionStatus.Completed), new List<SchedulerHistory>());
+                    TestDataApi.Post(string.Format(EndPoints.SchedulerHistoryStatus, groupName, (int)status), new List<SchedulerHistory>());
 
                     ProcessUnprocessedResultWithJson(groupName);
 
@@ -142,7 +147,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
                 ResultMessage<List<TestQueue>> testQueue = testQueueData as ResultMessage<List<TestQueue>>;
                 Hub hubInfo = testQueue.Item.First().HubInfo;
                 DeleteHub(hubInfo.ProcessId, hubInfo.SeleniumAddress);
-                LoggerService.LogException(ex);
+                LoggerService.LogException("ExecuteServiceThread: " + ex.Message);
             }
         }
 
