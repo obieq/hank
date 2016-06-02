@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------
+﻿﻿// ---------------------------------------------------------------------------------------------------
 // <copyright file="Processor.cs" company="Elephant Insurance Services, LLC">
 //     Copyright (c) 2015 All Right Reserved
 // </copyright>
@@ -50,32 +50,25 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         /// </summary>
         public static void ExecuteService()
         {
-            try
+            Guid g = new Guid();
+            var testQueue = TestDataApi.Get<List<TestQueue>>(EndPoints.GetTestQueue);
+            if (!testQueue.IsError && testQueue.Item != null && testQueue.Item.Any())
             {
-                var testQueue = TestDataApi.Get<List<TestQueue>>(EndPoints.GetTestQueue);
+                var testQueueFirst = testQueue.Item.First();
 
-                if (!testQueue.IsError && testQueue.Item != null && testQueue.Item.Any())
+                var updateResult = TestDataApi.Get<bool>(string.Format(EndPoints.BulkUpdateTestQueue, testQueueFirst.GroupName, 1));
+
+                if (!updateResult.IsError)
                 {
-                    var testQueueFirst = testQueue.Item.First();
-
-                    var updateResult = TestDataApi.Get<bool>(string.Format(EndPoints.BulkUpdateTestQueue, testQueueFirst.GroupName, 1));
-
-                    if (!updateResult.IsError)
-                    {
-                        SendTestToHub(testQueue);
-                    }
-                }
-                else
-                {
-                    foreach (var item in QueuedTest)
-                    {
-                        SendTestToHub(item.Value, item.Key);
-                    }
+                    SendTestToHub(testQueue);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                LoggerService.LogException("ExecuteService: " + ex.Message);
+                foreach (var item in QueuedTest)
+                {
+                    SendTestToHub(item.Value, item.Key);
+                }
             }
         }
 
@@ -94,13 +87,14 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
                 ThreadPool.QueueUserWorkItem(ExecuteServiceThread, testQueue);
                 if (key != Guid.Empty)
                 {
+                    DeleteFromQueueTest(key, hub.SeleniumAddress);
                     ResultMessage<List<TestQueue>> h;
                     QueuedTest.TryRemove(key, out h);
                 }
             }
             else if (key == Guid.Empty)
             {
-                QueuedTest[Guid.NewGuid()] = testQueue;
+                AddToQueueTest(testQueue);
             }
         }
 
@@ -126,9 +120,11 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
 
                     ProtractorCommandRunner protractorCommandRunner = new ProtractorCommandRunner();
 
-                    var status = protractorCommandRunner.ExecuteCommand(groupName);
+                    double maxExecutionTime = TimeSpan.FromMinutes(testQueue.Item.Count * testQueue.Item[0].Browsers.Count * 10).TotalMilliseconds;
 
-                    TestDataApi.Post(string.Format(EndPoints.SchedulerHistoryStatus, groupName, (int)status), new List<SchedulerHistory>());
+                    protractorCommandRunner.ExecuteCommand(groupName, maxExecutionTime);
+
+                    TestDataApi.Post(string.Format(EndPoints.SchedulerHistoryStatus, groupName, (int)SchedulerExecutionStatus.Completed), new List<SchedulerHistory>());
 
                     ProcessUnprocessedResultWithJson(groupName);
 
@@ -139,14 +135,14 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
 
                 Hub hubInfo = testQueue.Item.First().HubInfo;
 
-                DeleteHub(hubInfo.SeleniumAddress);
+                DeleteHub(hubInfo.ProcessId, hubInfo.SeleniumAddress);
             }
             catch (Exception ex)
             {
                 ResultMessage<List<TestQueue>> testQueue = testQueueData as ResultMessage<List<TestQueue>>;
                 Hub hubInfo = testQueue.Item.First().HubInfo;
-                DeleteHub(hubInfo.SeleniumAddress);
-                LoggerService.LogException("ExecuteServiceThread: " + ex.Message);
+                DeleteHub(hubInfo.ProcessId, hubInfo.SeleniumAddress);
+                LoggerService.LogException(ex);
             }
         }
 
@@ -200,11 +196,9 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         public static void ExecuteCleaner()
         {
             var settings = SettingsHelper.Get();
-
             FileFolderRemover.DeleteOldFilesFolders(settings.BaseSpecPath, (uint)settings.ClearLogHours);
             FileFolderRemover.DeleteOldFilesFolders(settings.BaseTestLogPath, (uint)settings.ClearLogHours);
             FileFolderRemover.DeleteOldFilesFolders(settings.LogsLocation, (uint)settings.ClearLogHours);
-
             FileFolderRemover.DeleteOldFilesFolders(settings.BaseReportPath, (uint)settings.ClearReportHours);
         }
 
@@ -212,24 +206,47 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         {
             var hub = new Hub { ProcessId = processId, SeleniumAddress = seleniumAddress };
             HubInfo[processId] = hub;
+            LoggerService.LogException(string.Format("********** Added New Entry in hub for selenium address :- {0} and processId:- {1} *********", seleniumAddress, processId));
             return hub;
         }
 
-        private static Hub GetHubBySeleniumAddress(string seleniumAddress)
-        {
-            return HubInfo.Values.FirstOrDefault(u => u.SeleniumAddress == seleniumAddress);
-        }
-
-        private static bool DeleteHub(string seleniumAddress)
+        private static bool DeleteHub(Guid processId, string seleniumAddress)
         {
             var hub = GetHubBySeleniumAddress(seleniumAddress);
             if (hub != null && HubInfo.ContainsKey(hub.ProcessId))
             {
                 Hub h;
-                return HubInfo.TryRemove(hub.ProcessId, out h);
+                bool IsRemoved = HubInfo.TryRemove(hub.ProcessId, out h);
+                if (!IsRemoved)
+                {
+                    LoggerService.LogException(string.Format("******* Error Not able to release hub with selenim address:- {0}  and processid:- {1}*********", seleniumAddress, processId));
+                    DeleteHub(processId, seleniumAddress);
+                }
+                return IsRemoved;
             }
-
             return false;
+        }
+
+        private static void AddToQueueTest(ResultMessage<List<TestQueue>> testQueue)
+        {
+            LoggerService.LogException(string.Format("+++++++++ Added New Entry in Queued Test for selenium address :- {0} and processId:- {1} ++++++++++", testQueue.Item[0].HubInfo.SeleniumAddress, testQueue.Item[0].HubInfo.ProcessId));
+            QueuedTest[Guid.NewGuid()] = testQueue;
+        }
+
+        private static void DeleteFromQueueTest(Guid processId, string seleniumAddress)
+        {
+            ResultMessage<List<TestQueue>> h;
+            bool IsRemoved = QueuedTest.TryRemove(processId, out h);
+            if (!IsRemoved)
+            {
+                LoggerService.LogException(string.Format("++++++++++ Error Not able to release TestQueue with selenim address:- {0}  and processid:- {1} ++++++++++++", seleniumAddress, processId));
+                DeleteFromQueueTest(processId, seleniumAddress);
+            }
+        }
+
+        private static Hub GetHubBySeleniumAddress(string seleniumAddress)
+        {
+            return HubInfo.Values.FirstOrDefault(u => u.SeleniumAddress == seleniumAddress);
         }
 
         private static void ProcessUnprocessedResultWithJson(string groupName)
@@ -248,7 +265,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
                             string jsonString = File.ReadAllText(path);
                             JavaScriptSerializer serializer = new JavaScriptSerializer();
                             object output = serializer.Deserialize<object>(jsonString);
-                            TestDataApi.Post("api/report", output);
+                            TestDataApi.Post<object>("api/report", output);
                         }
 
                     }
