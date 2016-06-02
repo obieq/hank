@@ -87,13 +87,14 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
                 ThreadPool.QueueUserWorkItem(ExecuteServiceThread, testQueue);
                 if (key != Guid.Empty)
                 {
+                    DeleteFromQueueTest(key, hub.SeleniumAddress);
                     ResultMessage<List<TestQueue>> h;
                     QueuedTest.TryRemove(key, out h);
                 }
             }
             else if (key == Guid.Empty)
             {
-                QueuedTest[Guid.NewGuid()] = testQueue;
+                AddToQueueTest(testQueue);
             }
         }
 
@@ -195,11 +196,9 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         public static void ExecuteCleaner()
         {
             var settings = SettingsHelper.Get();
-
             FileFolderRemover.DeleteOldFilesFolders(settings.BaseSpecPath, (uint)settings.ClearLogHours);
             FileFolderRemover.DeleteOldFilesFolders(settings.BaseTestLogPath, (uint)settings.ClearLogHours);
             FileFolderRemover.DeleteOldFilesFolders(settings.LogsLocation, (uint)settings.ClearLogHours);
-
             FileFolderRemover.DeleteOldFilesFolders(settings.BaseReportPath, (uint)settings.ClearReportHours);
         }
 
@@ -207,12 +206,8 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         {
             var hub = new Hub { ProcessId = processId, SeleniumAddress = seleniumAddress };
             HubInfo[processId] = hub;
+            LoggerService.LogException(string.Format("********** Added New Entry in hub for selenium address :- {0} and processId:- {1} *********", seleniumAddress, processId));
             return hub;
-        }
-
-        private static Hub GetHubBySeleniumAddress(string seleniumAddress)
-        {
-            return HubInfo.Values.FirstOrDefault(u => u.SeleniumAddress == seleniumAddress);
         }
 
         private static bool DeleteHub(Guid processId, string seleniumAddress)
@@ -221,9 +216,37 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
             if (hub != null && HubInfo.ContainsKey(hub.ProcessId))
             {
                 Hub h;
-                return HubInfo.TryRemove(hub.ProcessId, out h);
+                bool IsRemoved = HubInfo.TryRemove(hub.ProcessId, out h);
+                if (!IsRemoved)
+                {
+                    LoggerService.LogException(string.Format("******* Error Not able to release hub with selenim address:- {0}  and processid:- {1}*********", seleniumAddress, processId));
+                    DeleteHub(processId, seleniumAddress);
+                }
+                return IsRemoved;
             }
             return false;
+        }
+
+        private static void AddToQueueTest(ResultMessage<List<TestQueue>> testQueue)
+        {
+            LoggerService.LogException(string.Format("+++++++++ Added New Entry in Queued Test for selenium address :- {0} and processId:- {1} ++++++++++", testQueue.Item[0].HubInfo.SeleniumAddress, testQueue.Item[0].HubInfo.ProcessId));
+            QueuedTest[Guid.NewGuid()] = testQueue;
+        }
+
+        private static void DeleteFromQueueTest(Guid processId, string seleniumAddress)
+        {
+            ResultMessage<List<TestQueue>> h;
+            bool IsRemoved = QueuedTest.TryRemove(processId, out h);
+            if (!IsRemoved)
+            {
+                LoggerService.LogException(string.Format("++++++++++ Error Not able to release TestQueue with selenim address:- {0}  and processid:- {1} ++++++++++++", seleniumAddress, processId));
+                DeleteFromQueueTest(processId, seleniumAddress);
+            }
+        }
+
+        private static Hub GetHubBySeleniumAddress(string seleniumAddress)
+        {
+            return HubInfo.Values.FirstOrDefault(u => u.SeleniumAddress == seleniumAddress);
         }
 
         private static void ProcessUnprocessedResultWithJson(string groupName)
