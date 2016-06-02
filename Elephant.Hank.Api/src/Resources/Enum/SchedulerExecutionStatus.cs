@@ -40,6 +40,18 @@ namespace Elephant.Hank.Resources.Enum
         /// The completed
         /// </summary>
         [DisplayText("Complete")]
-        Completed
+        Completed,
+
+        /// <summary>
+        /// The error while executing
+        /// </summary>
+        [DisplayText("Error at runtime")]
+        ErrorWhileExecuting,
+
+        /// <summary>
+        /// The forcily terminated at time out
+        /// </summary>
+        [DisplayText("Ran out of time")]
+        ForcilyTerminatedAtTimeOut
     }
 }

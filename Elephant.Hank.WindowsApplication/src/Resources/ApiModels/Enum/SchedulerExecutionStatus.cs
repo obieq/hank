@@ -34,6 +34,16 @@ namespace Elephant.Hank.WindowsApplication.Resources.ApiModels.Enum
         /// <summary>
         /// The completed
         /// </summary>
-        Completed
+        Completed,
+
+        /// <summary>
+        /// The error while executing
+        /// </summary>
+        ErrorWhileExecuting,
+
+        /// <summary>
+        /// The forcily terminated at time out
+        /// </summary>
+        ForcilyTerminatedAtTimeOut
     }
 }

@@ -12,8 +12,15 @@
 namespace Elephant.Hank.WindowsApplication.Framework.Processes
 {
     using System;
+    using System.Configuration;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Management;
 
     using Elephant.Hank.WindowsApplication.Framework.Helpers;
+    using Elephant.Hank.WindowsApplication.Resources.ApiModels.Enum;
+    using Elephant.Hank.WindowsApplication.Resources.Constants;
+    using Elephant.Hank.WindowsApplication.Resources.Extensions;
 
     /// <summary>
     /// The ProtractorCommandRunner class
@@ -29,25 +36,64 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         /// Executes the command.
         /// </summary>
         /// <param name="groupName">Name of the group.</param>
-        public void ExecuteCommand(string groupName, double maxExecutionTime)
+        /// <returns>SchedulerExecutionStatus status</returns>
+        public SchedulerExecutionStatus ExecuteCommand(string groupName)
         {
             try
             {
                 var settings = SettingsHelper.Get();
 
-                string cmdProtractorRunner = string.Format(
-                    command,
-                    settings.BaseTestPath,
-                    groupName);
+                string cmdProtractorRunner = string.Format(command, settings.BaseTestPath, groupName);
 
                 LoggerService.LogInformation("Executing: " + cmdProtractorRunner);
 
-                var process = System.Diagnostics.Process.Start("CMD.exe", "/C " + cmdProtractorRunner);
-                process.WaitForExit(Int32.Parse(maxExecutionTime.ToString()));
+                var process = Process.Start("CMD.exe", "/C " + cmdProtractorRunner);
+
+                var maxExecutionTime = ConfigurationManager.AppSettings[ConfigConstants.ProcessKillTimeMinutes].ToInt32(180) * 60 * 1000;
+
+                var exitSuccess = process.WaitForExit(maxExecutionTime);
+
+                if (!exitSuccess)
+                {
+                    this.KillProcessAndChildren(process.Id);
+                    LoggerService.LogInformation("Force exit: " + cmdProtractorRunner);
+
+                    return SchedulerExecutionStatus.ForcilyTerminatedAtTimeOut;
+                }
             }
             catch (Exception ex)
             {
                 LoggerService.LogException(ex);
+                return SchedulerExecutionStatus.ErrorWhileExecuting;
+            }
+
+            return SchedulerExecutionStatus.Completed;
+        }
+
+        /// <summary>
+        /// Kills the process and children.
+        /// </summary>
+        /// <param name="pid">The pid.</param>
+        private void KillProcessAndChildren(int pid)
+        {
+            using (var searcher = new ManagementObjectSearcher("Select * From Win32_Process Where ParentProcessID=" + pid))
+            {
+                var moc = searcher.Get();
+
+                foreach (var mo in moc.Cast<ManagementObject>())
+                {
+                    this.KillProcessAndChildren(Convert.ToInt32(mo["ProcessID"]));
+                }
+
+                try
+                {
+                    var proc = Process.GetProcessById(pid);
+                    proc.Kill();
+                }
+                catch (Exception e)
+                {
+                    // Process already exited.
+                }
             }
         }
     }

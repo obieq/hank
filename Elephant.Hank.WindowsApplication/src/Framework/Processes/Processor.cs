@@ -50,42 +50,49 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         /// </summary>
         public static void ExecuteService()
         {
-            var testQueue = TestDataApi.Get<List<TestQueue>>(EndPoints.GetTestQueue);
-            if (!testQueue.IsError && testQueue.Item != null && testQueue.Item.Any())
+            try
             {
-                var testQueueFirst = testQueue.Item.First();
-
-                var updateResult = TestDataApi.Get<bool>(string.Format(EndPoints.BulkUpdateTestQueue, testQueueFirst.GroupName, 1));
-
-                if (!updateResult.IsError)
+                var testQueue = TestDataApi.Get<List<TestQueue>>(EndPoints.GetTestQueue);
+                if (!testQueue.IsError && testQueue.Item != null && testQueue.Item.Any())
                 {
-                    Hub hub = GetHubBySeleniumAddress(testQueue.Item[0].Settings.SeleniumAddress);
-                    if (hub == null)
+                    var testQueueFirst = testQueue.Item.First();
+
+                    var updateResult = TestDataApi.Get<bool>(string.Format(EndPoints.BulkUpdateTestQueue, testQueueFirst.GroupName, 1));
+
+                    if (!updateResult.IsError)
                     {
-                        Hub hubCreated = AddHub(Guid.NewGuid(), testQueue.Item[0].Settings.SeleniumAddress);
-                        testQueue.Item.ForEach(x => x.HubInfo = hubCreated);
-                        ThreadPool.QueueUserWorkItem(ExecuteServiceThread, testQueue);
+                        Hub hub = GetHubBySeleniumAddress(testQueue.Item[0].Settings.SeleniumAddress);
+                        if (hub == null)
+                        {
+                            Hub hubCreated = AddHub(Guid.NewGuid(), testQueue.Item[0].Settings.SeleniumAddress);
+                            testQueue.Item.ForEach(x => x.HubInfo = hubCreated);
+                            ThreadPool.QueueUserWorkItem(ExecuteServiceThread, testQueue);
+                        }
+                        else
+                        {
+                            QueuedTest[Guid.NewGuid()] = testQueue;
+                        }
                     }
-                    else
+                }
+                else
+                {
+                    foreach (var item in QueuedTest)
                     {
-                        QueuedTest[Guid.NewGuid()] = testQueue;
+                        Hub hubPast = GetHubBySeleniumAddress(item.Value.Item[0].Settings.SeleniumAddress);
+                        if (hubPast == null)
+                        {
+                            Hub hubCreated = AddHub(Guid.NewGuid(), item.Value.Item[0].Settings.SeleniumAddress);
+                            item.Value.Item.ForEach(x => x.HubInfo = hubCreated);
+                            ThreadPool.QueueUserWorkItem(ExecuteServiceThread, item.Value);
+                            ResultMessage<List<TestQueue>> h;
+                            QueuedTest.TryRemove(item.Key, out h);
+                        }
                     }
                 }
             }
-            else
+            catch (Exception ex)
             {
-                foreach (var item in QueuedTest)
-                {
-                    Hub hubPast = GetHubBySeleniumAddress(item.Value.Item[0].Settings.SeleniumAddress);
-                    if (hubPast == null)
-                    {
-                        Hub hubCreated = AddHub(Guid.NewGuid(), item.Value.Item[0].Settings.SeleniumAddress);
-                        item.Value.Item.ForEach(x => x.HubInfo = hubCreated);
-                        ThreadPool.QueueUserWorkItem(ExecuteServiceThread, item.Value);
-                        ResultMessage<List<TestQueue>> h;
-                        QueuedTest.TryRemove(item.Key, out h);
-                    }
-                }
+                LoggerService.LogException("ExecuteService: " + ex.Message);
             }
         }
 
@@ -111,11 +118,9 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
 
                     ProtractorCommandRunner protractorCommandRunner = new ProtractorCommandRunner();
 
-                    double maxExecutionTime = TimeSpan.FromMinutes(testQueue.Item.Count * testQueue.Item[0].Browsers.Count * 10).TotalMilliseconds;
+                    var status = protractorCommandRunner.ExecuteCommand(groupName);
 
-                    protractorCommandRunner.ExecuteCommand(groupName, maxExecutionTime);
-
-                    TestDataApi.Post(string.Format(EndPoints.SchedulerHistoryStatus, groupName, (int)SchedulerExecutionStatus.Completed), new List<SchedulerHistory>());
+                    TestDataApi.Post(string.Format(EndPoints.SchedulerHistoryStatus, groupName, (int)status), new List<SchedulerHistory>());
 
                     ProcessUnprocessedResultWithJson(groupName);
 
@@ -131,9 +136,14 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
             catch (Exception ex)
             {
                 ResultMessage<List<TestQueue>> testQueue = testQueueData as ResultMessage<List<TestQueue>>;
-                Hub hubInfo = testQueue.Item.First().HubInfo;
-                DeleteHub(hubInfo.ProcessId, hubInfo.SeleniumAddress);
-                LoggerService.LogException(ex);
+
+                if (testQueue != null && testQueue.Item != null && testQueue.Item.Any())
+                {
+                    Hub hubInfo = testQueue.Item.First().HubInfo;
+                    DeleteHub(hubInfo.ProcessId, hubInfo.SeleniumAddress);
+                }
+
+                LoggerService.LogException("ExecuteServiceThread: " + ex.Message);
             }
         }
 

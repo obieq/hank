@@ -85,12 +85,13 @@ namespace Elephant.Hank.Framework.TestDataServices
             {
                 foreach (var module in moduleResult.Item)
                 {
-                    if (groupModuleAccessList.Where(x => x.ModuleId == module.Id && x.WebsiteId == website).Count() == 0)
+                    if (groupModuleAccessList.Count(x => x.ModuleId == module.Id && x.WebsiteId == website) == 0)
                     {
                         groupModuleAccessList.Add(new TblGroupModuleAccessDto { GroupId = groupId, IsDeleted = false, ModifiedBy = userId, CreatedBy = userId, ModuleId = module.Id, WebsiteId = website, CanDelete = false, CanRead = false, CanWrite = false, CanExecute = false });
                     }
                 }
             }
+
             groupModuleAccessList.Where(x => websiteIdList.All(web => web != x.WebsiteId)).ToList().ForEach(x => { x.IsDeleted = false; x.CanRead = false; x.CanWrite = false; x.CanDelete = false; x.CanExecute = false; });
             groupModuleAccessList.Where(x => websiteIdList.Any(web => web == x.WebsiteId)).ToList().ForEach(x => { x.IsDeleted = false; x.CanRead = true; });
             result = this.SaveOrUpdate(groupModuleAccessList, userId);

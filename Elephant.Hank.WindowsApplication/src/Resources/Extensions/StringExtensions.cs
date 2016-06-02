@@ -65,14 +65,21 @@ namespace Elephant.Hank.WindowsApplication.Resources.Extensions
         }
 
         /// <summary>
-        /// To the int32.
+        /// To the int 32.
         /// </summary>
         /// <param name="value">The value.</param>
-        /// <returns>Int value</returns>
-        public static int ToInt32(this string value)
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>
+        /// Int value
+        /// </returns>
+        public static int ToInt32(this string value, int defaultValue = 0)
         {
             int retValue;
-            int.TryParse(value, out retValue);
+
+            if (!int.TryParse(value, out retValue))
+            {
+                retValue = defaultValue;
+            }
 
             return retValue;
         }

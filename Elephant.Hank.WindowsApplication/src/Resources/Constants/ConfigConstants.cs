@@ -25,5 +25,10 @@ namespace Elephant.Hank.WindowsApplication.Resources.Constants
         /// The bcc to
         /// </summary>
         public const string BccTo = "BccTo";
+
+        /// <summary>
+        /// The process kill time minutes
+        /// </summary>
+        public const string ProcessKillTimeMinutes = "ProcessKillTimeMinutes";
     }
 }
