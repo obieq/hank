@@ -234,7 +234,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         {
             var hub = new Hub { ProcessId = processId, SeleniumAddress = seleniumAddress };
             HubInfo[processId] = hub;
-            LoggerService.LogException(string.Format("AddHub: Added New Entry Selenium address: {0} and ProcessId: {1}", seleniumAddress, processId));
+            LoggerService.LogInformation(string.Format("AddHub: Added New Entry Selenium address: {0} and ProcessId: {1}", seleniumAddress, processId));
             return hub;
         }
 
@@ -248,7 +248,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         {
             if (tryCount > MaxReTry)
             {
-                LoggerService.LogException(string.Format("DeleteHub: Max Try Reached Error Hun Locked Selenium address: {0}  and ProcessId: {1}, Try Count: {2}", seleniumAddress, processId, tryCount));
+                LoggerService.LogInformation(string.Format("DeleteHub: Max Try Reached Error Hun Locked Selenium address: {0}  and ProcessId: {1}, Try Count: {2}", seleniumAddress, processId, tryCount));
                 return;
             }
 
@@ -259,13 +259,13 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
 
                 if (!isRemoved)
                 {
-                    LoggerService.LogException(string.Format("DeleteHub: Try Count: {2} Error Hun Locked Selenium address: {0}  and ProcessId: {1}, Try Count: {2}", seleniumAddress, processId, tryCount));
+                    LoggerService.LogInformation(string.Format("DeleteHub: Try Count: {2} Error Hun Locked Selenium address: {0}  and ProcessId: {1}, Try Count: {2}", seleniumAddress, processId, tryCount));
                     Thread.Sleep(MaxReTryGapMs);
                     DeleteHub(processId, seleniumAddress, tryCount++);
                 }
                 else
                 {
-                    LoggerService.LogException(string.Format("DeleteHub: Successfully Selenium address: {0} and ProcessId: {1}, Try Count: {2}", seleniumAddress, processId, tryCount));
+                    LoggerService.LogInformation(string.Format("DeleteHub: Successfully Selenium address: {0} and ProcessId: {1}, Try Count: {2}", seleniumAddress, processId, tryCount));
                 }
             }
         }
@@ -279,7 +279,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         private static void AddToQueueTest(ResultMessage<List<TestQueue>> testQueue)
         {
             Guid testQueueId = Guid.NewGuid();
-            LoggerService.LogException(string.Format("AddToQueueTest: Added New Entry Selenium address : {0} and ProcessId: {1}", testQueue.Item[0].Settings.SeleniumAddress, testQueueId));
+            LoggerService.LogInformation(string.Format("AddToQueueTest: Added New Entry Selenium address : {0} and ProcessId: {1}", testQueue.Item[0].Settings.SeleniumAddress, testQueueId));
             QueuedTest[testQueueId] = testQueue;
         }
 
@@ -293,7 +293,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         {
             if (tryCount > MaxReTry)
             {
-                LoggerService.LogException(string.Format("DeleteFromQueueTest: Max Try Reached Error Hun Locked Selenium address: {0}  and ProcessId: {1}, Try Count: {2}", seleniumAddress, processId, tryCount));
+                LoggerService.LogInformation(string.Format("DeleteFromQueueTest: Max Try Reached Error Hun Locked Selenium address: {0}  and ProcessId: {1}, Try Count: {2}", seleniumAddress, processId, tryCount));
                 return;
             }
 
@@ -304,22 +304,31 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
 
                 if (!isRemoved)
                 {
-                    LoggerService.LogException(string.Format("DeleteFromQueueTest: Error Hun Locked Selenium address: {0}  and ProcessId: {1}, Try Count: {2}", seleniumAddress, processId, tryCount));
+                    LoggerService.LogInformation(string.Format("DeleteFromQueueTest: Error Hun Locked Selenium address: {0}  and ProcessId: {1}, Try Count: {2}", seleniumAddress, processId, tryCount));
                     Thread.Sleep(MaxReTryGapMs);
                     DeleteFromQueueTest(processId, seleniumAddress, tryCount++);
                 }
                 else
                 {
-                    LoggerService.LogException(string.Format("DeleteFromQueueTest: Successfully Selenium address: {0} and ProcessId: {1}, Try Count: {2}", seleniumAddress, processId, tryCount));
+                    LoggerService.LogInformation(string.Format("DeleteFromQueueTest: Successfully Selenium address: {0} and ProcessId: {1}, Try Count: {2}", seleniumAddress, processId, tryCount));
                 }
             }
         }
 
+        /// <summary>
+        /// Gets the hub by selenium address.
+        /// </summary>
+        /// <param name="seleniumAddress">The selenium address.</param>
+        /// <returns>Hub object</returns>
         private static Hub GetHubBySeleniumAddress(string seleniumAddress)
         {
             return HubInfo.Values.FirstOrDefault(u => u.SeleniumAddress == seleniumAddress);
         }
 
+        /// <summary>
+        /// Processes the unprocessed result with json.
+        /// </summary>
+        /// <param name="groupName">Name of the group.</param>
         private static void ProcessUnprocessedResultWithJson(string groupName)
         {
             try
