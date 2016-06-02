@@ -1,6 +1,6 @@
-﻿﻿// ---------------------------------------------------------------------------------------------------
+﻿// ---------------------------------------------------------------------------------------------------
 // <copyright file="Processor.cs" company="Elephant Insurance Services, LLC">
-//     Copyright (c) 2015 All Right Reserved
+//     Copyright (c) 2016 All Right Reserved
 // </copyright>
 // <author>Gurpreet Singh</author>
 // <date>2015-05-28</date>
@@ -36,14 +36,24 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
     public static class Processor
     {
         /// <summary>
+        /// The maximum re try
+        /// </summary>
+        private const int maxReTry = 10;
+
+        /// <summary>
+        /// The maximum re try gap
+        /// </summary>
+        private const int maxReTryGap = 2000;
+
+        /// <summary>
         /// The hub information
         /// </summary>
-        private static readonly ConcurrentDictionary<Guid, Hub> HubInfo = new ConcurrentDictionary<Guid, Hub>();
+        public static readonly ConcurrentDictionary<Guid, Hub> HubInfo = new ConcurrentDictionary<Guid, Hub>();
 
         /// <summary>
         /// The queued test
         /// </summary>
-        private static readonly ConcurrentDictionary<Guid, ResultMessage<List<TestQueue>>> QueuedTest = new ConcurrentDictionary<Guid, ResultMessage<List<TestQueue>>>();
+        public static readonly ConcurrentDictionary<Guid, ResultMessage<List<TestQueue>>> QueuedTest = new ConcurrentDictionary<Guid, ResultMessage<List<TestQueue>>>();
 
         /// <summary>
         /// Executes the service.
@@ -57,12 +67,20 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
                 {
                     var testQueueFirst = testQueue.Item.First();
 
-                    var updateResult =
-                        TestDataApi.Get<bool>(string.Format(EndPoints.BulkUpdateTestQueue, testQueueFirst.GroupName, 1));
+                    testQueue.SchedulerId = testQueueFirst.SchedulerId;
+                    testQueue.TestQueueId = testQueueFirst.Id;
+                    testQueue.SeleniumAddress = testQueueFirst.Settings.SeleniumAddress;
+
+                    var updateResult = TestDataApi.Get<bool>(string.Format(EndPoints.BulkUpdateTestQueue, testQueueFirst.GroupName, 1));
 
                     if (!updateResult.IsError)
                     {
                         SendTestToHub(testQueue);
+                    }
+                    else
+                    {
+                        var data = updateResult.Messages.Aggregate(string.Empty, (current, message) => current + (message.Name + ":" + message.Value + "\n"));
+                        LoggerService.LogException("ExecuteService UpdateResult: " + data);
                     }
                 }
                 else
@@ -90,6 +108,9 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
             if (hub == null)
             {
                 Hub hubCreated = AddHub(Guid.NewGuid(), testQueue.Item[0].Settings.SeleniumAddress);
+                hubCreated.SchedulerId = testQueue.Item[0].SchedulerId;
+                hubCreated.TestQueueId = testQueue.Item[0].Id;
+
                 testQueue.Item.ForEach(x => x.HubInfo = hubCreated);
                 ThreadPool.QueueUserWorkItem(ExecuteServiceThread, testQueue);
                 if (key != Guid.Empty)
@@ -215,24 +236,26 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
             return hub;
         }
 
-        private static bool DeleteHub(Guid processId, string seleniumAddress)
+        private static bool DeleteHub(Guid processId, string seleniumAddress, int tryCount = 0)
         {
             var hub = GetHubBySeleniumAddress(seleniumAddress);
             if (hub != null && HubInfo.ContainsKey(hub.ProcessId))
             {
-                Hub h;
-                bool IsRemoved = HubInfo.TryRemove(hub.ProcessId, out h);
-                if (!IsRemoved)
+                bool isRemoved = HubInfo.TryRemove(hub.ProcessId, out hub);
+
+                if (!isRemoved)
                 {
-                    LoggerService.LogException(string.Format("******* Error Not able to release hub with selenim address:- {0}  and processid:- {1}*********", seleniumAddress, processId));
+                    LoggerService.LogException(string.Format("DeleteHub: Error Hun Locked Selenim address:- {0}  and processid:- {1}*********", seleniumAddress, processId));
                     DeleteHub(processId, seleniumAddress);
                 }
                 else
                 {
-                    LoggerService.LogException(string.Format("******* Successfully release hub with selenim address:- {0}  and processid:- {1}*********", seleniumAddress, processId));
+                    LoggerService.LogException(string.Format("DeleteHub: Successfully Selenim address: {0} and Processid: {1}*********", seleniumAddress, processId));
                 }
-                return IsRemoved;
+
+                return isRemoved;
             }
+
             return false;
         }
 
@@ -245,8 +268,8 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         private static void DeleteFromQueueTest(Guid processId, string seleniumAddress)
         {
             ResultMessage<List<TestQueue>> h;
-            bool IsRemoved = QueuedTest.TryRemove(processId, out h);
-            if (!IsRemoved)
+            bool isRemoved = QueuedTest.TryRemove(processId, out h);
+            if (!isRemoved)
             {
                 LoggerService.LogException(string.Format("++++++++++ Error Not able to release TestQueue with selenim address:- {0}  and processid:- {1} ++++++++++++", seleniumAddress, processId));
                 DeleteFromQueueTest(processId, seleniumAddress);
@@ -286,7 +309,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
             }
             catch (Exception ex)
             {
-                LoggerService.LogException(ex);
+                LoggerService.LogException("ProcessUnprocessedResultWithJson: " + ex.Message);
             }
         }
     }

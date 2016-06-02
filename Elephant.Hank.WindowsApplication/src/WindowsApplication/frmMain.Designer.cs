@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tmrSchedular = new System.Windows.Forms.Timer(this.components);
             this.mnuCtxRightClick = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -40,6 +42,8 @@
             this.tmrHideMe = new System.Windows.Forms.Timer(this.components);
             this.tmrCleaner = new System.Windows.Forms.Timer(this.components);
             this.grpCleaner = new System.Windows.Forms.GroupBox();
+            this.lblCleanerHours = new System.Windows.Forms.Label();
+            this.txtCleanerRunAtHour = new System.Windows.Forms.TextBox();
             this.lblClearReportHours = new System.Windows.Forms.Label();
             this.lblClearLogHours = new System.Windows.Forms.Label();
             this.txtClearReportHours = new System.Windows.Forms.TextBox();
@@ -55,11 +59,18 @@
             this.txtExecutionTimeLapseInMilli = new System.Windows.Forms.TextBox();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnCompressPng = new System.Windows.Forms.Button();
-            this.lblCleanerHours = new System.Windows.Forms.Label();
-            this.txtCleanerRunAtHour = new System.Windows.Forms.TextBox();
+            this.grpRunning = new System.Windows.Forms.GroupBox();
+            this.grpInQueue = new System.Windows.Forms.GroupBox();
+            this.dgRunning = new System.Windows.Forms.DataGridView();
+            this.dgInQueue = new System.Windows.Forms.DataGridView();
+            this.btnClearHub = new System.Windows.Forms.Button();
             this.mnuCtxRightClick.SuspendLayout();
             this.grpCleaner.SuspendLayout();
             this.grpBase.SuspendLayout();
+            this.grpRunning.SuspendLayout();
+            this.grpInQueue.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgRunning)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgInQueue)).BeginInit();
             this.SuspendLayout();
             // 
             // tmrSchedular
@@ -106,7 +117,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(517, 311);
+            this.btnSave.Location = new System.Drawing.Point(519, 605);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 4;
@@ -134,12 +145,28 @@
             this.grpCleaner.Controls.Add(this.lblClearLogHours);
             this.grpCleaner.Controls.Add(this.txtClearReportHours);
             this.grpCleaner.Controls.Add(this.txtClearLogHours);
-            this.grpCleaner.Location = new System.Drawing.Point(12, 183);
+            this.grpCleaner.Location = new System.Drawing.Point(12, 170);
             this.grpCleaner.Name = "grpCleaner";
             this.grpCleaner.Size = new System.Drawing.Size(663, 122);
             this.grpCleaner.TabIndex = 22;
             this.grpCleaner.TabStop = false;
             this.grpCleaner.Text = "I/O Cleaner Setup";
+            // 
+            // lblCleanerHours
+            // 
+            this.lblCleanerHours.AutoSize = true;
+            this.lblCleanerHours.Location = new System.Drawing.Point(36, 30);
+            this.lblCleanerHours.Name = "lblCleanerHours";
+            this.lblCleanerHours.Size = new System.Drawing.Size(108, 13);
+            this.lblCleanerHours.TabIndex = 27;
+            this.lblCleanerHours.Text = "Cleaner run at (hours)";
+            // 
+            // txtCleanerRunAtHour
+            // 
+            this.txtCleanerRunAtHour.Location = new System.Drawing.Point(187, 30);
+            this.txtCleanerRunAtHour.Name = "txtCleanerRunAtHour";
+            this.txtCleanerRunAtHour.Size = new System.Drawing.Size(435, 20);
+            this.txtCleanerRunAtHour.TabIndex = 26;
             // 
             // lblClearReportHours
             // 
@@ -256,7 +283,7 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(600, 311);
+            this.btnClose.Location = new System.Drawing.Point(600, 605);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 24;
@@ -266,7 +293,7 @@
             // 
             // btnCompressPng
             // 
-            this.btnCompressPng.Location = new System.Drawing.Point(391, 311);
+            this.btnCompressPng.Location = new System.Drawing.Point(393, 605);
             this.btnCompressPng.Name = "btnCompressPng";
             this.btnCompressPng.Size = new System.Drawing.Size(120, 23);
             this.btnCompressPng.TabIndex = 25;
@@ -274,28 +301,73 @@
             this.btnCompressPng.UseVisualStyleBackColor = true;
             this.btnCompressPng.Click += new System.EventHandler(this.btnCompressPng_Click);
             // 
-            // lblCleanerHours
+            // grpRunning
             // 
-            this.lblCleanerHours.AutoSize = true;
-            this.lblCleanerHours.Location = new System.Drawing.Point(36, 30);
-            this.lblCleanerHours.Name = "lblCleanerHours";
-            this.lblCleanerHours.Size = new System.Drawing.Size(108, 13);
-            this.lblCleanerHours.TabIndex = 27;
-            this.lblCleanerHours.Text = "Cleaner run at (hours)";
+            this.grpRunning.Controls.Add(this.dgRunning);
+            this.grpRunning.Location = new System.Drawing.Point(12, 298);
+            this.grpRunning.Name = "grpRunning";
+            this.grpRunning.Size = new System.Drawing.Size(663, 140);
+            this.grpRunning.TabIndex = 26;
+            this.grpRunning.TabStop = false;
+            this.grpRunning.Text = "Running";
             // 
-            // txtCleanerRunAtHour
+            // grpInQueue
             // 
-            this.txtCleanerRunAtHour.Location = new System.Drawing.Point(187, 30);
-            this.txtCleanerRunAtHour.Name = "txtCleanerRunAtHour";
-            this.txtCleanerRunAtHour.Size = new System.Drawing.Size(435, 20);
-            this.txtCleanerRunAtHour.TabIndex = 26;
+            this.grpInQueue.Controls.Add(this.dgInQueue);
+            this.grpInQueue.Location = new System.Drawing.Point(12, 444);
+            this.grpInQueue.Name = "grpInQueue";
+            this.grpInQueue.Size = new System.Drawing.Size(663, 140);
+            this.grpInQueue.TabIndex = 27;
+            this.grpInQueue.TabStop = false;
+            this.grpInQueue.Text = "In Queue";
+            // 
+            // dgRunning
+            // 
+            this.dgRunning.AllowUserToAddRows = false;
+            this.dgRunning.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.dgRunning.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgRunning.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgRunning.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgRunning.Location = new System.Drawing.Point(10, 22);
+            this.dgRunning.Name = "dgRunning";
+            this.dgRunning.ReadOnly = true;
+            this.dgRunning.Size = new System.Drawing.Size(640, 112);
+            this.dgRunning.TabIndex = 0;
+            // 
+            // dgInQueue
+            // 
+            this.dgInQueue.AllowUserToAddRows = false;
+            this.dgInQueue.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.dgInQueue.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            this.dgInQueue.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgInQueue.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgInQueue.Location = new System.Drawing.Point(10, 19);
+            this.dgInQueue.Name = "dgInQueue";
+            this.dgInQueue.ReadOnly = true;
+            this.dgInQueue.Size = new System.Drawing.Size(640, 115);
+            this.dgInQueue.TabIndex = 1;
+            // 
+            // btnClearHub
+            // 
+            this.btnClearHub.Location = new System.Drawing.Point(267, 605);
+            this.btnClearHub.Name = "btnClearHub";
+            this.btnClearHub.Size = new System.Drawing.Size(120, 23);
+            this.btnClearHub.TabIndex = 28;
+            this.btnClearHub.Text = "Clear Hub";
+            this.btnClearHub.UseVisualStyleBackColor = true;
+            this.btnClearHub.Click += new System.EventHandler(this.btnClearHub_Click);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(689, 347);
+            this.ClientSize = new System.Drawing.Size(689, 640);
             this.ContextMenuStrip = this.mnuCtxRightClick;
+            this.Controls.Add(this.btnClearHub);
+            this.Controls.Add(this.grpInQueue);
+            this.Controls.Add(this.grpRunning);
             this.Controls.Add(this.btnCompressPng);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.grpBase);
@@ -316,6 +388,10 @@
             this.grpCleaner.PerformLayout();
             this.grpBase.ResumeLayout(false);
             this.grpBase.PerformLayout();
+            this.grpRunning.ResumeLayout(false);
+            this.grpInQueue.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgRunning)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgInQueue)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -349,5 +425,10 @@
         private System.Windows.Forms.Button btnCompressPng;
         private System.Windows.Forms.Label lblCleanerHours;
         private System.Windows.Forms.TextBox txtCleanerRunAtHour;
+        private System.Windows.Forms.GroupBox grpRunning;
+        private System.Windows.Forms.GroupBox grpInQueue;
+        private System.Windows.Forms.DataGridView dgRunning;
+        private System.Windows.Forms.DataGridView dgInQueue;
+        private System.Windows.Forms.Button btnClearHub;
     }
 }

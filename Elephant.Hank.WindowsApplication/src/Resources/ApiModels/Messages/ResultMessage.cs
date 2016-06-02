@@ -11,6 +11,7 @@
 
 namespace Elephant.Hank.WindowsApplication.Resources.ApiModels.Messages
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -26,7 +27,28 @@ namespace Elephant.Hank.WindowsApplication.Resources.ApiModels.Messages
         public ResultMessage()
         {
             this.Messages = new List<Message>();
+            this.CreatedOn = DateTime.Now;
         }
+
+        /// <summary>
+        /// Gets or sets the created on.
+        /// </summary>
+        public DateTime CreatedOn { get; set; }
+
+        /// <summary>
+        /// Gets or sets the selenium address.
+        /// </summary>
+        public string SeleniumAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the scheduler.
+        /// </summary>
+        public long? SchedulerId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the test queue identifier.
+        /// </summary>
+        public long TestQueueId { get; set; }
 
         /// <summary>
         /// Gets or sets the item.

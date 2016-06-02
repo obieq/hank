@@ -13,6 +13,7 @@ namespace Elephant.Hank.WindowsApplication
 {
     using System;
     using System.Configuration;
+    using System.Linq;
     using System.Windows.Forms;
 
     using Elephant.Hank.WindowsApplication.Framework.Extensions;
@@ -93,6 +94,9 @@ namespace Elephant.Hank.WindowsApplication
         private void tmrSchedular_Tick(object sender, EventArgs e)
         {
             Processor.ExecuteService();
+
+            this.dgRunning.DataSource = Processor.HubInfo.Select(x => new { StartedAt = x.Value.StartedAt, SchedulerId = x.Value.SchedulerId, TestQueueId = x.Value.TestQueueId, SeleniumAddress = x.Value.SeleniumAddress }).OrderBy(x => x.StartedAt).ToList();
+            this.dgInQueue.DataSource = Processor.QueuedTest.Select(x => new { CreeatedAt = x.Value.CreatedOn, SchedulerId = x.Value.SchedulerId, TestQueueId = x.Value.TestQueueId, SeleniumAddress = x.Value.SeleniumAddress }).OrderBy(x => x.CreeatedAt).ToList();
         }
 
         /// <summary>
@@ -216,6 +220,16 @@ namespace Elephant.Hank.WindowsApplication
         private void btnCompressPng_Click(object sender, EventArgs e)
         {
             ImageProcessor.ProcessImages("");
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnClearHub control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnClearHub_Click(object sender, EventArgs e)
+        {
+            Processor.HubInfo.Clear();
         }
     }
 }
