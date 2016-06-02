@@ -227,6 +227,10 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
                     LoggerService.LogException(string.Format("******* Error Not able to release hub with selenim address:- {0}  and processid:- {1}*********", seleniumAddress, processId));
                     DeleteHub(processId, seleniumAddress);
                 }
+                else
+                {
+                    LoggerService.LogException(string.Format("******* Successfully release hub with selenim address:- {0}  and processid:- {1}*********", seleniumAddress, processId));
+                }
                 return IsRemoved;
             }
             return false;
@@ -246,6 +250,10 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
             {
                 LoggerService.LogException(string.Format("++++++++++ Error Not able to release TestQueue with selenim address:- {0}  and processid:- {1} ++++++++++++", seleniumAddress, processId));
                 DeleteFromQueueTest(processId, seleniumAddress);
+            }
+            else
+            {
+                LoggerService.LogException(string.Format("++++++++++ Successfully release TestQueue with selenim address:- {0}  and processid:- {1} ++++++++++++", seleniumAddress, processId));
             }
         }
 
