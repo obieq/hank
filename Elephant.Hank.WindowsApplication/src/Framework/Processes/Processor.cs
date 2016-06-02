@@ -115,7 +115,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
                 ThreadPool.QueueUserWorkItem(ExecuteServiceThread, testQueue);
                 if (key != Guid.Empty)
                 {
-                    DeleteFromQueueTest(key, hub.SeleniumAddress);
+                    DeleteFromQueueTest(key, testQueue.Item[0].Settings.SeleniumAddress);
                     ResultMessage<List<TestQueue>> h;
                     QueuedTest.TryRemove(key, out h);
                 }
@@ -261,8 +261,9 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
 
         private static void AddToQueueTest(ResultMessage<List<TestQueue>> testQueue)
         {
-            LoggerService.LogException(string.Format("+++++++++ Added New Entry in Queued Test for selenium address :- {0} and processId:- {1} ++++++++++", testQueue.Item[0].HubInfo.SeleniumAddress, testQueue.Item[0].HubInfo.ProcessId));
-            QueuedTest[Guid.NewGuid()] = testQueue;
+            Guid testQueueId = Guid.NewGuid();
+            LoggerService.LogException(string.Format("+++++++++ Added New Entry in Queued Test for selenium address :- {0} and processId:- {1} ++++++++++", testQueue.Item[0].Settings.SeleniumAddress, testQueueId));
+            QueuedTest[testQueueId] = testQueue;
         }
 
         private static void DeleteFromQueueTest(Guid processId, string seleniumAddress)
