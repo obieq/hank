@@ -189,7 +189,7 @@
                 </div>
               </div>
 
-              <table class="table table-bordered table-striped" ng-if="TestData.SharedTestDataList.length>0">
+              <table class="table table-bordered table-striped"  ng-if="TestData.SharedTestDataList.length>0">
                 <thead>
                 <tr>
                   <th>Default Sequence</th>
@@ -205,14 +205,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="testData in TestData.SharedTestDataList | orderBy:'ExecutionSequence'"
-                    ng-init="testData.Ignore = testData.IsIgnored" ng-class="testData.Ignore ? 'alert-danger' : ''">
+                <tr ng-repeat="testData in TestData.SharedTestDataList | orderBy:'ExecutionSequence'"  ng-class="testData.Ignore ? 'alert-danger' : ''">
                   <td>{{testData.ExecutionSequence}}</td>
                   <td><input type="text" style="width: 100%" ng-model="testData.UIExecutionSequence"></td>
                   <td>{{testData.DisplayNameValue}}</td>
                   <td>{{testData.ActionValue}}</td>
                   <td align="center"><input type="checkbox" disabled ng-model="testData.IsIgnored"></td>
-                  <td align="center"><input type="checkbox" ng-model="testData.Ignore"></td>
+                  <td align="center"> <input type="checkbox" ng-model="testData.Ignore"></td>
                   <td>{{testData.VariableName}}</td>
                   <td><input type="text" ng-model="testData.UIVariableName"></td>
                   <td>{{testData.Value}}</td>
