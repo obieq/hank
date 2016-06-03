@@ -54,7 +54,7 @@
 
               <div class="col-sm-4">
                 <select class="form-control" ng-model="Test.TestCaseAccessStatus"
-                        ng-options="testAccessStatus.Id as testAccessStatus.Name for testAccessStatus in testAccessStatusList">
+                        ng-options="testAccessStatus.Id as testAccessStatus.Name for testAccessStatus in testAccessStatusList" required="">
                   <option style="display:none" value="">--Select--</option>
                 </select>
               </div>
