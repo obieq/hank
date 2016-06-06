@@ -5,6 +5,9 @@
 function RestangularCustom() {
   return ['$state', '$q', '$http', 'Restangular', 'AppSettings', 'authService', function ($state, $q, $http, Restangular, appSettings, authService) {
     return Restangular.withConfig(function (RestangularConfigurer) {
+      var isLocked = false;
+      var promiseData = [];
+
       RestangularConfigurer.setBaseUrl(appSettings.ApiEndpoints.BASE_API_URI);
 
       RestangularConfigurer.addFullRequestInterceptor(function (elem, operation, path, url, headers, params, httpConfig) {
@@ -14,9 +17,29 @@ function RestangularCustom() {
         }
       });
 
+      var executeRefreshAccesstoken = function(){
+        if(isLocked == false && promiseData.length > 0){
+          isLocked = true;
+          var promiseToPass = promiseData.pop(0);
+
+          authService.refreshToken().then(function(response){
+            isLocked = false;
+            setTimeout(executeRefreshAccesstoken, 100);
+            promiseToPass.resolve(response);
+          }, function(response){
+            isLocked = false;
+            setTimeout(executeRefreshAccesstoken, 100);
+            promiseToPass.reject(response);
+          });
+        }
+      }
+
       var refreshAccesstoken = function () {
         var deferred = $q.defer();
-        authService.refreshToken().then(deferred.resolve, deferred.reject);
+        promiseData.push(deferred);
+
+        setTimeout(executeRefreshAccesstoken, 100);
+
         return deferred.promise;
       };
 

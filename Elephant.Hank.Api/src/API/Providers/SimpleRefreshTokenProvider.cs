@@ -17,6 +17,7 @@ namespace Elephant.Hank.Api.Providers
     using Elephant.Hank.Common.DataService;
     using Elephant.Hank.DataService;
     using Elephant.Hank.Resources.Dto;
+    using Elephant.Hank.Resources.Extensions;
 
     using Microsoft.Owin.Security.Infrastructure;
 
@@ -51,7 +52,7 @@ namespace Elephant.Hank.Api.Providers
                                 ClientId = clientid,
                                 Subject = context.Ticket.Identity.Name,
                                 IssuedUtc = DateTime.UtcNow,
-                                ExpiresUtc = DateTime.UtcNow.AddMinutes(Convert.ToDouble(refreshTokenLifeTime))
+                                ExpiresUtc = DateTime.UtcNow.AddMinutes(refreshTokenLifeTime.ToInt64())
                             };
 
             context.Ticket.Properties.IssuedUtc = token.IssuedUtc;
