@@ -62,8 +62,6 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         {
             try
             {
-                ProcessEmail(new ResultMessage<List<TestQueue>> { Item = new List<TestQueue> { new TestQueue { SchedulerId = 30 } } }, "10-06-2016-03-10-02-30");
-
                 var testQueue = TestDataApi.Get<List<TestQueue>>(EndPoints.GetTestQueue);
                 if (!testQueue.IsError && testQueue.Item != null && testQueue.Item.Any())
                 {

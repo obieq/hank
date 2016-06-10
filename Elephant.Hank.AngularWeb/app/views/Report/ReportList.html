@@ -162,7 +162,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr dir-paginate="report in ReportList | itemsPerPage: PageSize" total-items="Total" current-page="CurrentPage"  class="ng-scope">
+            <tr dir-paginate="report in ReportList | itemsPerPage: PageSize" total-items="Total" current-page="CurrentPage"  class="ng-scope" style="color: {{ report.ExecutionStatusText == 'Failed'?'red' : '' }};">
               <td class="col-md-1" ng-if="report.Id <= 0">{{report.TestQueueId}}</td>
               <td class="col-md-1" ng-if="report.Id > 0"><a href="/#/Website/{{StateParamsWebsiteId}}/Report-Detail/{{report.Id}}"
                                                             target="_blank">{{report.TestQueueId}}</a></td>
