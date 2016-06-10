@@ -62,6 +62,8 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         {
             try
             {
+                ProcessEmail(new ResultMessage<List<TestQueue>> { Item = new List<TestQueue> { new TestQueue { SchedulerId = 30 } } }, "10-06-2016-03-10-02-30");
+
                 var testQueue = TestDataApi.Get<List<TestQueue>>(EndPoints.GetTestQueue);
                 if (!testQueue.IsError && testQueue.Item != null && testQueue.Item.Any())
                 {
@@ -181,7 +183,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
             {
                 var schedulerIds = testQueue.Item.Select(x => x.SchedulerId).Distinct();
 
-                var resultData = TestDataApi.Post<SearchReportObject, List<ReportData>>(EndPoints.ReportSearch, new SearchReportObject { ExecutionGroup = groupName });
+                var resultData = TestDataApi.Post<SearchReportObject, SearchReportResult>(EndPoints.ReportSearch, new SearchReportObject { ExecutionGroup = groupName });
 
                 if (resultData == null || resultData.IsError)
                 {
@@ -202,7 +204,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
 
                         if (schedularData != null && !schedularData.IsError && schedularData.Item != null)
                         {
-                            var repostData = new ReportResultData(resultData.Item, schedularData.Item, groupName);
+                            var repostData = new ReportResultData(resultData.Item.Data, schedularData.Item, groupName);
                             emailStatus = emailProcessor.EmailReport(repostData);
                         }
                     }

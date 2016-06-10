@@ -11,13 +11,15 @@
 
 namespace Elephant.Hank.Resources.Dto
 {
+    using System;
     using System.Configuration;
     using System.Web;
 
     using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Extensions;
-    using Elephant.Hank.Resources.Models;
+
+    using Newtonsoft.Json;
 
     /// <summary>
     /// The TblReportDataDto class
@@ -28,6 +30,24 @@ namespace Elephant.Hank.Resources.Dto
         /// Gets or sets the test suite identifier.
         /// </summary>
         public long TestQueueId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the count.
+        /// </summary>
+        [JsonIgnore]
+        public long Count { get; set; }
+
+        /// <summary>
+        /// Gets or sets the count passed.
+        /// </summary>
+        [JsonIgnore]
+        public long CountPassed { get; set; }
+
+        /// <summary>
+        /// Gets or sets the count failed.
+        /// </summary>
+        [JsonIgnore]
+        public long CountFailed { get; set; }
 
         /// <summary>
         /// Gets or sets the execution group.
@@ -104,6 +124,18 @@ namespace Elephant.Hank.Resources.Dto
         /// Gets or sets the FinishTime
         /// </summary>
         public string FinishTime { get; set; }
+
+        /// <summary>
+        /// Gets the time taken.
+        /// </summary>
+        public string TimeTaken
+        {
+            get
+            {
+                var timeSpan = TimeSpan.FromMilliseconds(this.FinishTime.ToInt32());
+                return timeSpan.ToString(@"hh\:mm\:ss");
+            }
+        }
 
         /// <summary>
         /// Gets or sets the finished at.

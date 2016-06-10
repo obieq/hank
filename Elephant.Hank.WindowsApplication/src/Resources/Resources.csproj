@@ -55,6 +55,7 @@
     <Compile Include="ApiModels\SchedulerHistory.cs" />
     <Compile Include="ApiModels\SchedulerSettings.cs" />
     <Compile Include="ApiModels\SearchReportObject.cs" />
+    <Compile Include="ApiModels\SearchReportResult.cs" />
     <Compile Include="ApiModels\TestQueue.cs" />
     <Compile Include="ApiModels\TestQueueSettings.cs" />
     <Compile Include="Constants\ConfigConstants.cs" />

@@ -2379,6 +2379,13 @@
             <param name="loggerService">The logger service.</param>
             <param name="reportDataService">The report data service.</param>
         </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ReportsController.SearchReportCriteriaData(System.Int64)">
+            <summary>
+            Searches the report criteria data.
+            </summary>
+            <param name="webSiteId">The web site identifier.</param>
+            <returns>SearchCriteriaData object</returns>
+        </member>
         <member name="M:Elephant.Hank.Api.Controllers.ReportsController.SearchReport(Elephant.Hank.Resources.Models.SearchReportObject)">
             <summary>
             Returns the protractor report

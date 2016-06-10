@@ -1,55 +1,147 @@
+<style type="text/css">
+  .content{
+    min-height: auto;
+  }
+</style>
 <section class="content-header">
   <div class="row">
     <!-- left column -->
     <div class=" col-md-12 ">
-      <h1>
-        Report's</h1>
+      <h1>Report's</h1>
     </div>
   </div>
 </section>
 
-
-<div class="row">
-  <div class="col-xs-12" style="margin-left: 15px;">
-    <div class="form-group">
-      <div class="input-group date form_date col-md-5" data-date="" data-date-format="dd MM yyyy"
-           data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-        <div class="input-group-addon">
-          <i class="fa fa-calendar"></i>
+<section class="content" ng-init="loadDataSearchData()">
+  <div class="row">
+    <!-- left column -->
+    <div class="col-xs-12">
+      <!-- general form elements -->
+      <div class="box box-primary">
+        <div class="box-header with-border" class="col-xs-12">
+          <div class="col-xs-6" align="left"  style="background-color: transparent;font-size: 20px">
+            <b>Filters</b>
+          </div>
+          <div class="col-xs-6" align="right" style="background-color: transparent">
+            <button type="button" class="btn btn-primary fa" ng-class="SectionOpen ? 'fa-minus' : 'fa-plus'" ng-click="SectionOpen = !SectionOpen"></button>
+          </div>
         </div>
-        <input class="form-control" size="16" type="text" value="" ng-change="onDatePickerChange()"
-               ng-model="searchObject.CreatedOn" readonly="">
-       <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>-->
-      </div>
-      <input type="hidden" id="dtp_input2" value="">
-    </div>
-  </div>
-</div>
-</div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" name="SuiteForm" ng-submit="SuiteForm.$valid && searchReport()" ng-show="SectionOpen">
+          <div class="box-body">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Day</label>
+              <div style="padding-left: 15px;;padding-right:15px" class="input-group date form_date col-sm-4" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                <div class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+                <input class="form-control" size="16" type="text" value="" ng-model="SearchObject.CreatedOn" readonly="">
+              </div>
+              <input type="hidden" id="dtp_input2" value="">
+            </div>
 
-<section class="content"  ng-init="getReport()">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Suite Name</label>
+              <div class="col-sm-4">
+                <select class="form-control" ng-model="SearchObject.SuiteId" ng-options="suite.Value as suite.Name for suite in SearchCriteriaData.Suites | orderBy: 'Name'">
+                  <option value="">All</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Test Cases</label>
+              <div class="col-sm-4">
+                <select class="form-control" ng-model="SearchObject.TestId" ng-options="test.Value as test.Name for test in SearchCriteriaData.TestCases | orderBy: 'Name'">
+                  <option value="">All</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Os</label>
+              <div class="col-sm-4">
+                <select class="form-control" ng-model="SearchObject.OsName" ng-options="opSys.Value as opSys.Name for opSys in SearchCriteriaData.OperationSystems | orderBy: 'Name'">
+                  <option value="">All</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Browser</label>
+              <div class="col-sm-4">
+                  <select class="form-control" ng-model="SearchObject.Browser" ng-options="browser.Value as browser.Name for browser in SearchCriteriaData.Browsers | orderBy: 'Name'">
+                    <option value="">All</option>
+                  </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Status</label>
+              <div class="col-sm-4">
+                <select class="form-control" ng-model="SearchObject.TestStatus" ng-options="testStatus.Value as testStatus.Name for testStatus in SearchCriteriaData.TestStatus | orderBy: 'Name'">
+                  <option value="">All</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Queued by</label>
+              <div class="col-sm-4">
+                <select class="form-control" ng-model="SearchObject.UserId" ng-options="user.Value as user.Name for user in SearchCriteriaData.Users | orderBy: 'Name'">
+                  <option value="">All</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Search</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+    </div>
+</section>
+
+<section class="content" ng-init="getReport(1)">
 
   <div class="row">
     <div class="col-xs-12">
       <div class="box">
-        <div class="box-header">
-          <h3 class="box-title"></h3>
-
-        </div>
         <!-- /.box-header -->
         <div class="box-body table-responsive no-padding">
+
+          <div class="col-xs-12" style="background-color: white">
+            <div class="col-xs-6" style="background-color: transparent;padding-top: 20px">
+              Showing {{StartNum}} to {{EndNum}} of {{Total}} {{ Total > 1 ? 'records' : 'record'}}
+            </div>
+            <div class="col-xs-6" align="right" style="background-color: transparent">
+              <dir-pagination-controls> </dir-pagination-controls>
+            </div>
+          </div>
+
           <table class="table table-hover table-bordered">
             <thead>
             <tr>
-              <th colspan="3">
-                Total: {{ReportList.length}}
+              <th>
+                <select ng-model="PageSize" ng-options="pageSize.Value as pageSize.Name for pageSize in PageSizes">
+                </select>
               </th>
-              <th colspan="3" style="color: #008000">
-                Passed: {{passed}}
+              <th colspan="2">
+                Total: {{Total}}
               </th>
-              <th colspan="5" style="color:red">
-                Faulted: {{faulted}}
+              <th colspan="2" style="color: #008000">
+                Passed: {{Passed}}
+              </th>
+              <th colspan="2" style="color:red">
+                Faulted: {{Faulted}}
+              </th>
+              <th colspan="3" style="color:red">
               </th>
             </tr>
             </thead>
@@ -68,71 +160,24 @@
               <th class="col-md-1">Queued By</th>
               <th class="col-md-1">Queue</th>
             </tr>
-            <tr>
-              <th class="col-md-1">
-                <select class="form-control" ng-change="queryReport()" ng-model="ExecutionGroup"
-                        ng-options="EG.Value as EG.Value for EG in ExecutionGroupList | orderBy: 'Id'" name="Suite">
-                  <option style="display:none" value="">All</option>
-                </select>
-              </th>
-              <th class="col-md-1">
-                <select class="form-control" ng-change="queryReport();queryReportOnSuiteSelected()" ng-model="SuiteName"
-                        ng-options="suite.Value as suite.Value for suite in SuiteList | orderBy:'Id'" name="Suite">
-                  <option style="display:none" value="">All</option>
-                </select>
-              </th>
-              <th class="col-md-1">
-                <select class="form-control" ng-change="queryReport()" ng-model="TestName"
-                        ng-options="test.Value as test.Value for test in TestList | orderBy:'Id'" name="Suite">
-                  <option style="display:none" value="">All</option>
-                </select>
-              </th>
-              <th class="col-md-1"></th>
-              <th class="col-md-1">
-                <select class="form-control" ng-change="queryReport()" ng-model="Os"
-                        ng-options="OS.Value as OS.Value for OS in OperatingSystemList | orderBy:'Id'" name="OperatingSystem">
-                  <option style="display:none" value="">All</option>
-                </select>
-              </th>
-              <th class="col-md-1">
-                <select class="form-control" ng-change="queryReport()" ng-model="BrowserName"
-                        ng-options="browser.Value as browser.Value for browser in BrowserList | orderBy:'Id'"
-                        name="OperatingSystem">
-                  <option style="display:none" value="">All</option>
-                </select>
-              </th>
-              <th class="col-md-1"></th>
-              <th class="col-md-1">
-                <select class="form-control" ng-change="queryReport()" ng-model="ExecutionStatusText"
-                        ng-options="passed.Value as passed.Value for passed in ExecutionStatusList | orderBy:'Id'"
-                        name="Passed">
-                  <option style="display:none" value="">All</option>
-                </select>
-              </th>
-              <th class="col-md-1"></th>
-              <th class="col-md-1"></th>
-              <th class="col-md-1">Action</th>
-            </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="report in ReportList" style="color: {{ report.ExecutionStatusText == 'Failed'?'red' : '' }};">
+            <tr dir-paginate="report in ReportList | itemsPerPage: PageSize" total-items="Total" current-page="CurrentPage"  class="ng-scope">
               <td class="col-md-1" ng-if="report.Id <= 0">{{report.TestQueueId}}</td>
               <td class="col-md-1" ng-if="report.Id > 0"><a href="/#/Website/{{StateParamsWebsiteId}}/Report-Detail/{{report.Id}}"
                                                             target="_blank">{{report.TestQueueId}}</a></td>
-              <td class="col-md-1"><a
-                ui-sref="Website.SuiteUpdate({ WebsiteId: StateParamsWebsiteId, SuiteId: report.SuiteId || 0 })">{{report.SuiteName}}</a>
+              <td class="col-md-1"><a ui-sref="Website.SuiteUpdate({ WebsiteId: StateParamsWebsiteId, SuiteId: report.SuiteId || 0 })">{{report.SuiteName}}</a>
               </td>
-              <td class="col-md-1"><a
-                ui-sref="Website.TestData({ WebsiteId: StateParamsWebsiteId, TestCatId: 0, TestId: report.TestId })">{{report.TestName}}</a>
+              <td class="col-md-1"><a ui-sref="Website.TestData({ WebsiteId: StateParamsWebsiteId, TestCatId: 0, TestId: report.TestId })">{{report.TestName}}</a>
               </td>
-              <td class="col-md-1">{{report.FinishTime}}</td>
-              <td class="col-md-1">{{report.Os}}</td>
-              <td class="col-md-1">{{report.BrowserName}}</td>
-              <td class="col-md-1">{{report.BrowserVersion}}</td>
-              <td class="col-md-1">{{report.ExecutionStatusText}}</td>
-              <td class="col-md-1" ng-if="report.ExecutionStatus < 8">&nbsp;</td>
-              <td class="col-md-1" ng-if="report.ExecutionStatus >= 8">
-                <a target="new" href="{{ report.ScreenShotUrl }}"><img ng-src="{{ report.ScreenShotThum200Url }}"
+              <td class="col-md-1">{{::report.TimeTaken}}</td>
+              <td class="col-md-1">{{::report.Os}}</td>
+              <td class="col-md-1">{{::report.BrowserName}}</td>
+              <td class="col-md-1">{{::report.BrowserVersion}}</td>
+              <td class="col-md-1">{{::report.ExecutionStatusText}}</td>
+              <td class="col-md-1" ng-if="::report.ExecutionStatus < 8">&nbsp;</td>
+              <td class="col-md-1" ng-if="::report.ExecutionStatus >= 8">
+                <a target="new" href="{{ ::report.ScreenShotUrl }}"><img ng-src="{{ ::report.ScreenShotThum200Url }}"
                                                                        style="width: 200px;border:0;"/></a>
               </td>
               <td class="col-md-1">
@@ -144,6 +189,14 @@
             </tr>
             </tbody>
           </table>
+          <div class="col-xs-12" style="background-color: white">
+            <div class="col-xs-6" style="background-color: transparent;padding-top: 20px">
+              Showing {{StartNum}} to {{EndNum}} of {{Total}} {{ Total > 1 ? 'records' : 'record'}}
+            </div>
+            <div class="col-xs-6" align="right" style="background-color: transparent">
+              <dir-pagination-controls on-page-change="getReport(newPageNumber)"> </dir-pagination-controls>
+            </div>
+          </div>
         </div>
         <!-- /.box-body -->
       </div>

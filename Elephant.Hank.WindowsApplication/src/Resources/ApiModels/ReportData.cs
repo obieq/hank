@@ -96,15 +96,9 @@ namespace Elephant.Hank.WindowsApplication.Resources.ApiModels
         public int? FinishTime { get; set; }
 
         /// <summary>
-        /// Gets the finish time in seconds.
+        /// Gets or sets the time taken.
         /// </summary>
-        public int? FinishTimeInSeconds
-        {
-            get
-            {
-                return this.FinishTime.HasValue ? this.FinishTime.Value / 1000 : 0;
-            }
-        }
+        public string TimeTaken { get; set; }
 
         /// <summary>
         /// Gets or sets the finished at.

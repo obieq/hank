@@ -13,13 +13,17 @@ namespace Elephant.Hank.Framework.TestDataServices
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using Elephant.Hank.Common.DataService;
     using Elephant.Hank.Common.Mapper;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.DataService.DBSchema;
+    using Elephant.Hank.DataService.DBSchema.CustomIdentity;
     using Elephant.Hank.Framework.Data;
     using Elephant.Hank.Resources.Dto;
+    using Elephant.Hank.Resources.Dto.CustomIdentity;
+    using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Extensions;
     using Elephant.Hank.Resources.Messages;
     using Elephant.Hank.Resources.Models;
@@ -36,14 +40,92 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly IMapperFactory mapperFactory;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReportDataService"/> class.
+        /// The user manager.
+        /// </summary>
+        private readonly CustomUserManager userManager;
+
+        /// <summary>
+        /// The browser service.
+        /// </summary>
+        private readonly IBrowserService browserService;
+
+        /// <summary>
+        /// The suite service.
+        /// </summary>
+        private readonly ISuiteService suiteService;
+
+        /// <summary>
+        /// The test service.
+        /// </summary>
+        private readonly ITestService testService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReportDataService" /> class.
         /// </summary>
         /// <param name="mapperFactory">The mapper factory.</param>
         /// <param name="table">The table.</param>
-        public ReportDataService(IMapperFactory mapperFactory, IRepository<TblReportData> table)
+        /// <param name="userManager">The user manager.</param>
+        /// <param name="browserService">The browser service.</param>
+        /// <param name="suiteService">The suite service.</param>
+        /// <param name="testService">The test service.</param>
+        public ReportDataService(
+            IMapperFactory mapperFactory,
+            IRepository<TblReportData> table,
+            CustomUserManager userManager,
+            IBrowserService browserService,
+            ISuiteService suiteService,
+            ITestService testService)
             : base(mapperFactory, table)
         {
             this.mapperFactory = mapperFactory;
+            this.userManager = userManager;
+            this.browserService = browserService;
+            this.suiteService = suiteService;
+            this.testService = testService;
+        }
+
+        /// <summary>
+        /// The get search criteria data by web site.
+        /// </summary>
+        /// <param name="websiteId">The website id.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>
+        /// SearchCriteriaData object
+        /// </returns>
+        public async Task<ResultMessage<SearchCriteriaData>> GetSearchCriteriaDataByWebSite(long websiteId, long userId)
+        {
+            var result = new ResultMessage<SearchCriteriaData> { Item = new SearchCriteriaData() };
+
+            var userData = this.userManager.Users.Where(x => x.IsActive).Select(x => new CustomUserDto { FirstName = x.FirstName, Id = x.Id, LastName = x.LastName, UserName = x.UserName }).ToList();
+
+            result.Item.TestStatus = (new ExecutionReportStatus()).ToNameValueList();
+            result.Item.Users = userData.Select(x => new NameValuePair { Name = x.FullName, Value = x.Id.ToString() }).ToList();
+
+            var testCasesData = this.testService.GetByWebSiteId(websiteId, userId);
+            if (!testCasesData.IsError)
+            {
+                result.Item.TestCases = testCasesData.Item.Select(x => new NameValuePair { Name = x.TestName, Value = x.Id.ToString() }).ToList();
+            }
+
+            var testSuiteData = this.suiteService.GetByWebsiteId(websiteId);
+            if (!testSuiteData.IsError)
+            {
+                result.Item.Suites = testSuiteData.Item.Select(x => new NameValuePair { Name = x.Name, Value = x.Id.ToString() }).ToList();
+            }
+
+            var browserData = this.browserService.GetAll();
+            if (!browserData.IsError)
+            {
+                result.Item.Browsers = browserData.Item.Select(x => new NameValuePair { Name = x.DisplayName, Value = x.ConfigName }).ToList();
+                result.Item.OperationSystems = new List<NameValuePair> { new NameValuePair { Value = "XP", Name = "XP" } };
+
+                foreach (var browser in browserData.Item.Where(browser => result.Item.OperationSystems.All(x => x.Name != browser.Platform)))
+                {
+                    result.Item.OperationSystems.Add(new NameValuePair { Value = browser.Platform, Name = browser.Platform });
+                }
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -51,9 +133,12 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// </summary>
         /// <param name="searchReportObject">the searchReportObject object</param>
         /// <returns>the ReportData object</returns>
-        public ResultMessage<IEnumerable<TblReportDataDto>> GetReportData(SearchReportObject searchReportObject)
+        public ResultMessage<SearchReportResult> GetReportData(SearchReportObject searchReportObject)
         {
-            var result = new ResultMessage<IEnumerable<TblReportDataDto>>();
+            var result = new ResultMessage<SearchReportResult>();
+
+            int pageSize = searchReportObject.PageSize <= 0 ? 0 : searchReportObject.PageSize;
+            long startAt = searchReportObject.PageNum <= 0 ? 0 : (searchReportObject.PageNum - 1) * pageSize;
 
             Dictionary<string, object> dictionary = new Dictionary<string, object>
                                                         {
@@ -62,16 +147,48 @@ namespace Elephant.Hank.Framework.TestDataServices
                                                                 searchReportObject.CreatedOn
                                                             },
                                                             {
-                                                                "executiongroup",
-                                                                searchReportObject.ExecutionGroup.IsNotBlank() ? searchReportObject.ExecutionGroup : null
-                                                            },
-                                                            {
                                                                 "websiteid",
                                                                 searchReportObject.WebsiteId
+                                                            },
+                                                            {
+                                                                "suiteid",
+                                                                searchReportObject.SuiteId ?? 0
+                                                            },
+                                                            {
+                                                                "testid",
+                                                                searchReportObject.TestId ?? 0
+                                                            },
+                                                            {
+                                                                "osname",
+                                                                searchReportObject.OsName.IsBlank() ? null : searchReportObject.OsName
+                                                            },
+                                                            {
+                                                                "browser",
+                                                                searchReportObject.Browser.IsBlank() ? null : searchReportObject.Browser
+                                                            },
+                                                            {
+                                                                "teststatus",
+                                                                searchReportObject.TestStatus.HasValue ? (int)searchReportObject.TestStatus : 0
+                                                            },
+                                                            {
+                                                                "userid",
+                                                                searchReportObject.UserId.HasValue ? (int)searchReportObject.UserId : 0
+                                                            },
+                                                            {
+                                                                "startat",
+                                                                startAt
+                                                            },
+                                                            {
+                                                                "pagesize",
+                                                                pageSize
+                                                            },
+                                                            {
+                                                                "executiongroup",
+                                                                searchReportObject.ExecutionGroup.IsBlank() ? null : searchReportObject.ExecutionGroup
                                                             }
                                                         };
 
-            var entities = this.Table.SqlQuery<TblReportDataDto>("Select * from procsearchreport(@createdOn,@websiteid,@executiongroup);", dictionary).ToList();
+            var entities = this.Table.SqlQuery<TblReportDataDto>("Select * from procsearchreportv2(@createdOn, @websiteid, @suiteid, @testid, @osname, @browser, @teststatus, @userid, @startat, @pagesize, @executiongroup);", dictionary).ToList();
 
             if (!entities.Any())
             {
@@ -79,7 +196,18 @@ namespace Elephant.Hank.Framework.TestDataServices
             }
             else
             {
-                result.Item = entities;
+                result.Item = new SearchReportResult { Data = entities };
+
+                var resultStart = entities.First();
+
+                result.Total = resultStart.Count;
+
+                result.Item.CountPassed = resultStart.CountPassed;
+                result.Item.CountFailed = resultStart.CountFailed;
+
+                result.PageSize = pageSize == 0 ? result.Total : pageSize;
+
+                result.StartedAt = startAt;
             }
 
             return result;

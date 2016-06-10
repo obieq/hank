@@ -146,9 +146,11 @@
     <Compile Include="Models\NameValuePair.cs" />
     <Compile Include="Models\ProtractorVariableModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
+    <Compile Include="Models\SearchCriteriaData.cs" />
     <Compile Include="Models\SearchData.cs" />
     <Compile Include="Models\SearchLogModel.cs" />
     <Compile Include="Models\SearchReportObject.cs" />
+    <Compile Include="Models\SearchReportResult.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
     <Compile Include="Dto\BaseTableDto.cs" />
     <Compile Include="Dto\ClientDto.cs" />

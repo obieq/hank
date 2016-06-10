@@ -45,6 +45,7 @@ module.exports = function(config) {
       'bower_components/admin-lte/dist/js/app.js',
       'bower_components/admin-lte/bootstrap/js/bootstrap.js',
       'bower_components/ng-csv/build/ng-csv.min.js',
+      'bower_components/angularUtils-pagination/dirPagination.js',
       // endbower
       'app/scripts/**/*.js',
       'test/mock/**/*.js',

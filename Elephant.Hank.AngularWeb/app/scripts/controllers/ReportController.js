@@ -4,136 +4,92 @@
 
 'use strict';
 
-app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$location', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider',
-  function ($scope, $rootScope, $filter, $location, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider) {
+app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider',
+  function ($scope, $rootScope, $filter, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider) {
+
+    $scope.SectionOpen = true;
     $scope.ReportDetail = {};
-    $scope.MasterReportList = [];
     $scope.ReportList = [];
-    $scope.faulted = 0;
-    $scope.passed = 0;
+    $scope.Faulted = 0;
+    $scope.Passed = 0;
     $scope.StateParamsWebsiteId = 0;
     $scope.CurrentDate = new Date().dateFormat($filter, true);
     $scope.DefaultOption = {Id: "0000", Value: "All"};
+    $scope.SearchCriteriaData = {};
+    $scope.Total = 0;
+    $scope.StartNum = 0;
+    $scope.EndNum = 0;
+    $scope.CurrentPage = 1;
+    $scope.PageSize = ngAppSettings.PageSize;
+
+    $scope.PageSizes = [
+      {Name: "10", Value: 10 },
+      {Name: "20", Value: 20 },
+      {Name: "40", Value: 40 },
+      {Name: "60", Value: 60 },
+      {Name: "80", Value: 80 },
+      {Name: "100", Value: 100 }
+    ];
 
     dataProvider.currentWebSite($scope);
 
     if ($stateParams.CreatedOn == '' || $stateParams.CreatedOn == undefined) {
-      $scope.searchObject = {'CreatedOn': $scope.CurrentDate};
+      $scope.SearchObject = {'CreatedOn': $scope.CurrentDate};
     }
     else {
-      $scope.searchObject = {'executiongroup': $stateParams.CreatedOn};
+      $scope.SearchObject = {'executiongroup': $stateParams.CreatedOn};
     }
 
-    $scope.getReport = function () {
-      var x = $location.search();
-      $scope.StateParamsWebsiteId = $scope.searchObject.WebsiteId = $stateParams.WebsiteId;
-      crudService.search(ngAppSettings.SearchReportUrl.format($stateParams.WebsiteId), $scope.searchObject).then(function (response) {
-        for (var i = 0; i < response.Item.length; i++) {
-          response.Item[i].FinishTime = (response.Item[i].FinishTime + "").formatTime();
-          if (response.Item[i].Passed == false) {
-            $scope.faulted++;
-          }
-          else if (response.Item[i].Passed) {
-            $scope.passed++;
-          }
-        }
-        $scope.ReportList = response.Item;
-        $scope.MasterReportList = response.Item;
-        $scope.loadData(true);
+    $scope.loadDataSearchData = function(){
+      crudService.getById(ngAppSettings.SearchReportUrl.format($stateParams.WebsiteId)).then(function (response) {
+        $scope.SearchCriteriaData = response.Item;
       }, function (response) {
-        $scope.ReportList = [];
-        $scope.MasterReportList;
         commonUi.showErrorPopup(response);
       });
     };
 
-    $scope.onDatePickerChange = function () {
-      $scope.StateParamsWebsiteId = $scope.searchObject.WebsiteId = $stateParams.WebsiteId;
-      $scope.searchObject.executiongroup = undefined;
-      crudService.search(ngAppSettings.SearchReportUrl.format($stateParams.WebsiteId), $scope.searchObject).then(function (response) {
-        for (var i = 0; i < response.Item.length; i++) {
-          response.Item[i].FinishTime = (response.Item[i].FinishTime + "").formatTime();
-          if (response.Item[i].Passed == false) {
-            $scope.faulted++;
-          }
-          else if (response.Item[i].Passed) {
-            $scope.passed++;
-          }
+    $scope.searchReport = function () {
+      if($scope.CurrentPage != 1){
+        $scope.CurrentPage = 1;
+      } else {
+        $scope.getReport();
+      }
+
+    };
+
+    $scope.getReport = function (pageNum) {
+      $scope.StateParamsWebsiteId = $scope.SearchObject.WebsiteId = $stateParams.WebsiteId;
+
+      $scope.SearchObject.PageSize = $scope.PageSize;
+      $scope.SearchObject.PageNum = pageNum || 1;
+
+      crudService.search(ngAppSettings.SearchReportUrl.format($stateParams.WebsiteId), $scope.SearchObject).then(function (response) {
+        $scope.Total = response.Total;
+        $scope.PageSize = response.PageSize;
+
+        $scope.Passed = response.Item.CountPassed;
+        $scope.Faulted = response.Item.CountFailed;
+
+        $scope.StartNum = (($scope.SearchObject.PageNum - 1) * $scope.SearchObject.PageSize) + 1;
+        $scope.EndNum = $scope.StartNum + $scope.SearchObject.PageSize - 1;
+        $scope.EndNum = $scope.EndNum >= $scope.Total ? $scope.Total : $scope.EndNum;
+        $scope.CurrentPage = $scope.SearchObject.PageNum;
+        if(pageNum == undefined){
+          $scope.SectionOpen = false;
         }
-        $scope.ReportList = response.Item;
-        $scope.MasterReportList = response.Item;
-        $scope.loadData(true);
+
+        $scope.ReportList = response.Item.Data;
       }, function (response) {
+        $scope.Total = 0;
+        $scope.PageSize = 0;
+        $scope.Faulted = 0;
+        $scope.Passed = 0;
+        $scope.StartNum = 0;
+        $scope.EndNum = 0;
+        $scope.EndNum = 0;
         $scope.ReportList = [];
-        $scope.MasterReportList;
         commonUi.showErrorPopup(response);
       });
-    };
-
-    $scope.loadData = function (setDropDownToAll) {
-      $scope.ExecutionGroupList = [$scope.DefaultOption];
-      $scope.SuiteList = [$scope.DefaultOption];
-      $scope.BrowserList = [$scope.DefaultOption];
-      $scope.OperatingSystemList = [$scope.DefaultOption];
-      $scope.ExecutionStatusList = [$scope.DefaultOption];
-      $scope.TestList = [$scope.DefaultOption];
-
-      $scope.lookupData($scope.ReportList, "ExecutionGroup", "ExecutionGroupList");
-
-      if ($scope.searchObject.executiongroup == undefined) {
-        $scope.ExecutionGroup = setDropDownToAll ? "All" : $scope.ExecutionGroup;
-      }
-      else {
-        $scope.ExecutionGroup = $scope.searchObject.executiongroup;
-      }
-
-      $scope.lookupData($scope.ReportList, "SuiteName", "SuiteList");
-      $scope.SuiteName = setDropDownToAll ? "All" : $scope.SuiteName;
-      $scope.lookupData($scope.ReportList, "TestName", "TestList");
-      $scope.TestName = setDropDownToAll ? "All" : $scope.TestName;
-      $scope.lookupData($scope.ReportList, "BrowserName", "BrowserList");
-      $scope.BrowserName = setDropDownToAll ? "All" : $scope.BrowserName;
-      $scope.lookupData($scope.ReportList, "Os", "OperatingSystemList");
-      $scope.Os = setDropDownToAll ? "All" : $scope.Os;
-      $scope.lookupData($scope.ReportList, "ExecutionStatusText", "ExecutionStatusList");
-      $scope.ExecutionStatusText = setDropDownToAll ? "All" : $scope.ExecutionStatusText;
-    };
-
-    $scope.lookupData = function (items, property, property1, clearArrayFirst) {
-      var obj = _.uniq(items, property);
-      for (var i = 0; i < obj.length; i++) {
-        var value = eval("obj[i]." + property) + "";
-        eval("$scope." + property1).push({Id: value, Value: value});
-      }
-    };
-
-    $scope.queryReport = function () {
-      var searchParam = {};
-      var filters = ['SuiteName', 'ExecutionGroup', 'BrowserName', 'Os', 'ExecutionStatusText', 'TestName'];
-      for (var i = 0; i < filters.length; i++) {
-        if (eval('$scope.' + filters[i]) != 'All') {
-          searchParam[filters[i]] = eval('$scope.' + filters[i]);
-        }
-      }
-      $scope.ReportList = _.where($scope.MasterReportList, searchParam);
-      $scope.faulted = _.where($scope.ReportList, {'Passed': false}).length;
-      $scope.passed = _.where($scope.ReportList, {'Passed': true}).length;
-    };
-
-    $scope.queryReportOnSuiteSelected = function () {
-      var testList = [];
-      if ($scope.SuiteName == "All") {
-        testList = $scope.MasterReportList;
-      }
-      else {
-        testList = _.where($scope.MasterReportList, {'SuiteName': $scope.SuiteName});
-      }
-      var obj = _.uniq(testList, 'TestName');
-      $scope.TestList = [$scope.DefaultOption];
-      $scope.lookupData(testList, "TestName", "TestList");
-      $scope.TestName = "All";
-
-      $scope.queryReport();
     };
 
     $scope.getReportDetails = function () {
@@ -141,8 +97,6 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$locatio
       crudService.getById(ngAppSettings.ReportUrl.format($stateParams.WebsiteId), $stateParams.ReportId).then(function (response) {
         $scope.ReportDetail = response.Item;
         $scope.ReportDetail.JsonValue = JSON.parse($scope.ReportDetail.Value);
-        console.log($scope.ReportDetail.JsonValue);
-        $scope.ReportDetail.FinishTime = $scope.ReportDetail.FinishTime.formatTime();
       }, function (response) {
         commonUi.showErrorPopup(response);
       });
@@ -157,5 +111,4 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$locatio
         'BrowserName': BrowserName
       });
     };
-
   }]);

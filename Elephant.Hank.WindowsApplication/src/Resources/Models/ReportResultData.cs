@@ -27,7 +27,7 @@ namespace Elephant.Hank.WindowsApplication.Resources.Models
         /// <param name="reportData">The report data.</param>
         /// <param name="scheduler">The scheduler.</param>
         /// <param name="groupName">Name of the group.</param>
-        public ReportResultData(List<ReportData> reportData, Scheduler scheduler, string groupName)
+        public ReportResultData(IEnumerable<ReportData> reportData, Scheduler scheduler, string groupName)
         {
             this.ReportData = reportData;
 
@@ -50,7 +50,7 @@ namespace Elephant.Hank.WindowsApplication.Resources.Models
         /// <summary>
         /// Gets or sets the report data.
         /// </summary>
-        public List<ReportData> ReportData { get; set; }
+        public IEnumerable<ReportData> ReportData { get; set; }
 
         /// <summary>
         /// Gets or sets the post fix to subject.

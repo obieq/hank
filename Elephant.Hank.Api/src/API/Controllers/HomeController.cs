@@ -58,7 +58,7 @@ namespace Elephant.Hank.Api.Controllers
                 imageUrl = imageUrl.ToLower().Replace(".jpg", ".png");
             }
 
-            return this.File(imageUrl, "image/jpg");
+            return new FileInfo(imageUrl).Exists ? this.File(imageUrl, "image/jpg") : this.File("~/images/lost image.jpg", "image/jpg");
         }
     }
 }

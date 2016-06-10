@@ -13,6 +13,7 @@ namespace Elephant.Hank.Api.Controllers
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using System.Web.Http;
 
     using Elephant.Hank.Api.Security;
@@ -27,6 +28,8 @@ namespace Elephant.Hank.Api.Controllers
     using Elephant.Hank.Resources.ViewModal;
 
     using Newtonsoft.Json;
+
+    using WebGrease.Activities;
 
     /// <summary>
     /// The ReportsController class
@@ -51,6 +54,30 @@ namespace Elephant.Hank.Api.Controllers
         }
 
         /// <summary>
+        /// Searches the report criteria data.
+        /// </summary>
+        /// <param name="webSiteId">The web site identifier.</param>
+        /// <returns>SearchCriteriaData object</returns>
+        [Route("SearchReport")]
+        [HttpGet]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Reports)]
+        public async Task<IHttpActionResult> SearchReportCriteriaData(long webSiteId)
+        {
+            var result = new ResultMessage<SearchCriteriaData>();
+            try
+            {
+                result = await this.reportDataService.GetSearchCriteriaDataByWebSite(webSiteId, this.UserId);
+            }
+            catch (Exception ex)
+            {
+                this.LoggerService.LogException(ex);
+                result.Messages.Add(new Message(null, ex.Message));
+            }
+
+            return this.CreateCustomResponse(result);
+        }
+
+        /// <summary>
         /// Returns the protractor report
         /// </summary>
         /// <param name="searchReportObject">the searchReportObject</param>
@@ -60,7 +87,7 @@ namespace Elephant.Hank.Api.Controllers
         [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Reports)]
         public IHttpActionResult SearchReport(SearchReportObject searchReportObject)
         {
-            var result = new ResultMessage<IEnumerable<TblReportDataDto>>();
+            var result = new ResultMessage<SearchReportResult>();
             try
             {
                 result = this.reportDataService.GetReportData(searchReportObject);

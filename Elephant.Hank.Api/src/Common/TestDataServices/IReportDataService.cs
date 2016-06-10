@@ -12,6 +12,7 @@
 namespace Elephant.Hank.Common.TestDataServices
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     using Elephant.Hank.Common.DataService;
     using Elephant.Hank.Resources.Dto;
@@ -25,11 +26,19 @@ namespace Elephant.Hank.Common.TestDataServices
     public interface IReportDataService : IBaseService<TblReportDataDto>
     {
         /// <summary>
+        /// Gets the search criteria data by web site.
+        /// </summary>
+        /// <param name="websiteId">The website identifier.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>SearchCriteriaData object</returns>
+        Task<ResultMessage<SearchCriteriaData>> GetSearchCriteriaDataByWebSite(long websiteId, long userId);
+
+        /// <summary>
         /// Get the search report data
         /// </summary>
         /// <param name="searchReportObject">the searchReportObject object</param>
         /// <returns>the ReportData object</returns>
-        ResultMessage<IEnumerable<TblReportDataDto>> GetReportData(SearchReportObject searchReportObject);
+        ResultMessage<SearchReportResult> GetReportData(SearchReportObject searchReportObject);
 
         /// <summary>
         /// Get the ReportData By Id

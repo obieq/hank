@@ -24,7 +24,8 @@ var app = angular
     'ui.bootstrap',
     'ncy-angular-breadcrumb',
     'daterangepicker',
-    'LocalStorageModule'
+    'LocalStorageModule',
+    'angularUtils.directives.dirPagination'
   ])
   .factory('RestangularCustom', RestangularCustom())
   .constant('AppSettings', AppSettings())
@@ -723,6 +724,7 @@ var app = angular
   })
   .constant('ngAppSettings', {
     StorageTimeOut: 300000,
+    PageSize: 40,
 
     StepTypes: {
       TestStep: 0,

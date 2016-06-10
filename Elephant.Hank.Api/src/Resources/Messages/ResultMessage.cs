@@ -14,6 +14,8 @@ namespace Elephant.Hank.Resources.Messages
     using System.Collections.Generic;
     using System.Linq;
 
+    using Newtonsoft.Json;
+
     /// <summary>
     /// The result message.
     /// </summary>
@@ -51,6 +53,24 @@ namespace Elephant.Hank.Resources.Messages
         /// Gets or sets the item.
         /// </summary>
         public T Item { get; set; }
+
+        /// <summary>
+        /// Gets or sets the total.
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public long? Total { get; set; }
+
+        /// <summary>
+        /// Gets or sets the page size.
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public long? PageSize { get; set; }
+
+        /// <summary>
+        /// Gets or sets the page size.
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public long? StartedAt { get; set; }
 
         /// <summary>
         /// Gets or sets the messages.

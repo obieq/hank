@@ -38,4 +38,5 @@ var ActionConstant = function () {
   this.OpenNewWindow = "Open New Window";
   this.AssertNotToEqual = 'Assert Not To Equal';
 };
+
 module.exports = ActionConstant;

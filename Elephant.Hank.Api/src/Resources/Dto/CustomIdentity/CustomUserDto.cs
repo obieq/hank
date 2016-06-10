@@ -13,6 +13,10 @@ namespace Elephant.Hank.Resources.Dto.CustomIdentity
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    using Elephant.Hank.Resources.Attributes;
+    using Elephant.Hank.Resources.Extensions;
 
     /// <summary>
     /// The CustomUser user.
@@ -138,5 +142,19 @@ namespace Elephant.Hank.Resources.Dto.CustomIdentity
         /// Gets or sets the last name.
         /// </summary>
         public string LastName { get; set; }
+
+        /// <summary>
+        /// Gets the full name.
+        /// </summary>
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                var retValue = (this.FirstName + " " + this.LastName).Trim();
+
+                return retValue.IsBlank() ? this.UserName : retValue;
+            }
+        }
     }
 }

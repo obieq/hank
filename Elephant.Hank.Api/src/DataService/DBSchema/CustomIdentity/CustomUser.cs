@@ -17,6 +17,7 @@ namespace Elephant.Hank.DataService.DBSchema.CustomIdentity
     using System.Threading.Tasks;
 
     using Elephant.Hank.Resources.Attributes;
+    using Elephant.Hank.Resources.Extensions;
 
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
@@ -108,7 +109,7 @@ namespace Elephant.Hank.DataService.DBSchema.CustomIdentity
         [NotMapped]
         [EfIgnoreDbLog]
         public Guid LogTracker { get; set; }
-     
+
         /// <summary>
         /// The generate user identity async.
         /// </summary>

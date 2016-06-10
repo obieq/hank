@@ -104,7 +104,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.FileHelper
                         .Replace("##SuiteName##", reportData.SuiteName)
                         .Replace("##Test Case##", reportData.Description ?? reportData.TestName)
                         .Replace("##Completed(EST)##", reportData.FinishedAtDateTime.ToDateEstFormat())
-                        .Replace("##Time Taken(Seconds)##", reportData.FinishTimeInSeconds + string.Empty)
+                        .Replace("##Time Taken##", reportData.TimeTaken)
                         .Replace("##Operating System##", reportData.Os)
                         .Replace("##Browser Name##", reportData.BrowserName)
                         .Replace("##Browser Version##", reportData.BrowserVersion)
