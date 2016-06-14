@@ -41,7 +41,7 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.model(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          element(by.model(testInstance.LocatorIdentifier)).waitReady();
+          this.waitReady(by.model(testInstance.LocatorIdentifier), testInstance);
           this.setInput(element(by.model(testInstance.LocatorIdentifier)), testInstance);
         }
         break;
@@ -73,7 +73,7 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.css(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          element(by.css(testInstance.LocatorIdentifier)).waitReady();
+          this.waitReady(by.css(testInstance.LocatorIdentifier), testInstance);
           this.setInput(element(by.css(testInstance.LocatorIdentifier)), testInstance);
         }
         break;
@@ -84,7 +84,7 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.tagName(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          element(by.tagName(testInstance.LocatorIdentifier)).waitReady();
+          this.waitReady(by.tagName(testInstance.LocatorIdentifier), testInstance);
           this.setInput(element(by.tagName(testInstance.LocatorIdentifier)), testInstance);
         }
         break;
@@ -95,7 +95,7 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.id(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          element(by.id(testInstance.LocatorIdentifier)).waitReady();
+          this.waitReady(by.id(testInstance.LocatorIdentifier), testInstance);
           this.setInput(element(by.id(testInstance.LocatorIdentifier)), testInstance);
         }
         break;
@@ -106,7 +106,7 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.xpath(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          element(by.xpath(testInstance.LocatorIdentifier)).waitReady();
+          this.waitReady(by.xpath(testInstance.LocatorIdentifier), testInstance);
           thisobj.setInput(element.all(by.xpath(testInstance.LocatorIdentifier)), testInstance, testName);
         }
         break;
@@ -125,7 +125,7 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.css(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          element(by.css(testInstance.LocatorIdentifier)).waitReady();
+          this.waitReady(by.css(testInstance.LocatorIdentifier), testInstance);
           this.setInput(element(by.css(testInstance.LocatorIdentifier)), testInstance);
         }
         break;
@@ -136,7 +136,7 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.buttonText(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          element(by.buttonText(testInstance.LocatorIdentifier)).waitReady();
+          this.waitReady(by.buttonText(testInstance.LocatorIdentifier), testInstance);
           this.setInput(element(by.buttonText(testInstance.LocatorIdentifier)), testInstance);
         }
         break;
@@ -147,7 +147,7 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.partialButtonText(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          element(by.partialButtonText(testInstance.LocatorIdentifier)).waitReady();
+          this.waitReady(by.partialButtonText(testInstance.LocatorIdentifier), testInstance);
           this.setInput(element(by.partialButtonText(testInstance.LocatorIdentifier)), testInstance);
         }
         break;
@@ -158,7 +158,7 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.linkText(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          element(by.linkText(testInstance.LocatorIdentifier)).waitReady();
+          this.waitReady(by.linkText(testInstance.LocatorIdentifier), testInstance);
           this.setInput(element(by.linkText(testInstance.LocatorIdentifier)), testInstance);
         }
         break;
@@ -170,7 +170,7 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.partialLinkText(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          element(by.partialLinkText(testInstance.LocatorIdentifier)).waitReady();
+          this.waitReady(by.partialLinkText(testInstance.LocatorIdentifier), testInstance);
           this.setInput(element(by.partialLinkText(testInstance.LocatorIdentifier)), testInstance);
         }
         break;
@@ -182,7 +182,7 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.cssContainingText(testInstance.LocatorIdentifier.split('~')[0], testInstance.LocatorIdentifier.split('~')[1])), testInstance);
         }
         else {
-          element(by.cssContainingText(testInstance.LocatorIdentifier.split('~')[0], testInstance.LocatorIdentifier.split('~')[1])).waitReady();
+          this.waitReady(by.cssContainingText(testInstance.LocatorIdentifier.split('~')[0], testInstance.LocatorIdentifier.split('~')[1]), testInstance);
           this.setInput(element(by.cssContainingText(testInstance.LocatorIdentifier.split('~')[0], testInstance.LocatorIdentifier.split('~')[1])), testInstance);
         }
         break;
@@ -205,7 +205,7 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.js(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          element(by.js(testInstance.LocatorIdentifier)).waitReady();
+          this.waitReady(by.js(testInstance.LocatorIdentifier), testInstance);
           this.setInput(element(by.js(testInstance.LocatorIdentifier)), testInstance);
         }
         break;
@@ -229,6 +229,11 @@ var InputHelper = function () {
     return key;
   };
 
+  this.waitReady = function(elementFinder, testInstance){
+    if(actionConstant.AssertElementToBePresent != testInstance.Action){
+      element(elementFinder).waitReady();
+    }
+  }
 
   this.setInput = function (key, testInstance, testName) {
     if (key != null) {
@@ -907,7 +912,23 @@ var InputHelper = function () {
   };
 
   this.performAssertElementToBePresent = function (executionSequence, key, value) {
-    expect(key.isPresent()).toBe(value == 'true');
+    if(key.isPresent){
+      key.isPresent().then(function(isPresent){
+        if(isPresent){
+          expect(key.isDisplayed()).toBe(value == 'true');
+        } else{
+          expect(false).toBe(value == 'true');
+        }
+      });
+    } else{
+      key.then(function(items){
+        if(items.length == 0){
+          expect(false).toBe(value == 'true');
+        } else{
+          thisobj.performAssertElementToBePresent(executionSequence, items[0], value);
+        }
+      });
+    }
   };
 
   this.performAssertToContain = function (executionSequence, key, value) {
