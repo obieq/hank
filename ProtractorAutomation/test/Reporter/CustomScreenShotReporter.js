@@ -43,6 +43,7 @@ CustomScreenShotReporter.prototype.reportSpecResults =
           ScreenShotArray: config.screenShotArray,
           logContainer: config.logContainer,
           variableStateContainer: config.variableStateContainer,
+          status: config.isCancelled ? 5 : (spec.results().passed() ? 8 : 9),
           passed: spec.results().passed(),
           message: itemLength >= 0 ? spec.results().items_[itemLength].message : undefined,
           trace: itemLength >= 0 ? spec.results().items_[itemLength].trace + "" : undefined,
@@ -91,11 +92,11 @@ CustomScreenShotReporter.prototype.reportSpecResults =
           }
         });
 
-        
+
         restApiHelper.doPost(jsonHelper.format(config.baseApiUrl + config.baseTestReportUrl), reportData, function () {
-		  
+
         });
-        
+
 
 
       });

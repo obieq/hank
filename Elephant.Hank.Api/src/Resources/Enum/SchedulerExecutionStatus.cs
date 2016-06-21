@@ -52,6 +52,12 @@ namespace Elephant.Hank.Resources.Enum
         /// The forcily terminated at time out
         /// </summary>
         [DisplayText("Ran out of time")]
-        ForcilyTerminatedAtTimeOut
+        ForcilyTerminatedAtTimeOut,
+
+        /// <summary>
+        /// The completed
+        /// </summary>
+        [DisplayText("Cancelled")]
+        Cancelled
     }
 }

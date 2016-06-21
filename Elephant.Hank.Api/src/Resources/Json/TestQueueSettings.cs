@@ -26,6 +26,11 @@ namespace Elephant.Hank.Resources.Json
         public int UrlId { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this instance is cancelled.
+        /// </summary>
+        public bool IsCancelled { get; set; }
+
+        /// <summary>
         /// Gets or sets the custom URL to test.
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

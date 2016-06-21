@@ -57,6 +57,15 @@ app.controller('SchedulerController', ['$scope', '$q', '$filter', '$stateParams'
       });
     };
 
+    $scope.cancelExecution = function(scheduleHistoryObj){
+      crudService.update(ngAppSettings.SchedulerHistoryUrl.format($stateParams.WebsiteId, $stateParams.Id), scheduleHistoryObj).then(function (response) {
+        scheduleHistoryObj.IsCancelAble = !scheduleHistoryObj.IsCancelAble;
+        scheduleHistoryObj.IsResumeAble = !scheduleHistoryObj.IsResumeAble;
+      }, function (response) {
+        commonUi.showErrorPopup(response);
+      });
+    };
+
     $scope.addScheduler = function () {
       $scope.Scheduler.WebsiteId = $stateParams.WebsiteId;
       $scope.Scheduler.Settings.Browsers = $scope.getSelectedBrowsers();

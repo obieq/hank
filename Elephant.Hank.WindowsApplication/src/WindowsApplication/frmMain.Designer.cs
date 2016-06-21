@@ -60,16 +60,17 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.btnCompressPng = new System.Windows.Forms.Button();
             this.grpRunning = new System.Windows.Forms.GroupBox();
-            this.grpInQueue = new System.Windows.Forms.GroupBox();
             this.dgRunning = new System.Windows.Forms.DataGridView();
+            this.grpInQueue = new System.Windows.Forms.GroupBox();
             this.dgInQueue = new System.Windows.Forms.DataGridView();
             this.btnClearHub = new System.Windows.Forms.Button();
+            this.btnPause = new System.Windows.Forms.Button();
             this.mnuCtxRightClick.SuspendLayout();
             this.grpCleaner.SuspendLayout();
             this.grpBase.SuspendLayout();
             this.grpRunning.SuspendLayout();
-            this.grpInQueue.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgRunning)).BeginInit();
+            this.grpInQueue.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgInQueue)).BeginInit();
             this.SuspendLayout();
             // 
@@ -311,16 +312,6 @@
             this.grpRunning.TabStop = false;
             this.grpRunning.Text = "Running";
             // 
-            // grpInQueue
-            // 
-            this.grpInQueue.Controls.Add(this.dgInQueue);
-            this.grpInQueue.Location = new System.Drawing.Point(12, 444);
-            this.grpInQueue.Name = "grpInQueue";
-            this.grpInQueue.Size = new System.Drawing.Size(663, 140);
-            this.grpInQueue.TabIndex = 27;
-            this.grpInQueue.TabStop = false;
-            this.grpInQueue.Text = "In Queue";
-            // 
             // dgRunning
             // 
             this.dgRunning.AllowUserToAddRows = false;
@@ -334,6 +325,16 @@
             this.dgRunning.ReadOnly = true;
             this.dgRunning.Size = new System.Drawing.Size(640, 112);
             this.dgRunning.TabIndex = 0;
+            // 
+            // grpInQueue
+            // 
+            this.grpInQueue.Controls.Add(this.dgInQueue);
+            this.grpInQueue.Location = new System.Drawing.Point(12, 444);
+            this.grpInQueue.Name = "grpInQueue";
+            this.grpInQueue.Size = new System.Drawing.Size(663, 140);
+            this.grpInQueue.TabIndex = 27;
+            this.grpInQueue.TabStop = false;
+            this.grpInQueue.Text = "In Queue";
             // 
             // dgInQueue
             // 
@@ -359,12 +360,23 @@
             this.btnClearHub.UseVisualStyleBackColor = true;
             this.btnClearHub.Click += new System.EventHandler(this.btnClearHub_Click);
             // 
+            // btnPause
+            // 
+            this.btnPause.Location = new System.Drawing.Point(141, 605);
+            this.btnPause.Name = "btnPause";
+            this.btnPause.Size = new System.Drawing.Size(120, 23);
+            this.btnPause.TabIndex = 29;
+            this.btnPause.Text = "Pause";
+            this.btnPause.UseVisualStyleBackColor = true;
+            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(689, 640);
             this.ContextMenuStrip = this.mnuCtxRightClick;
+            this.Controls.Add(this.btnPause);
             this.Controls.Add(this.btnClearHub);
             this.Controls.Add(this.grpInQueue);
             this.Controls.Add(this.grpRunning);
@@ -389,8 +401,8 @@
             this.grpBase.ResumeLayout(false);
             this.grpBase.PerformLayout();
             this.grpRunning.ResumeLayout(false);
-            this.grpInQueue.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgRunning)).EndInit();
+            this.grpInQueue.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgInQueue)).EndInit();
             this.ResumeLayout(false);
 
@@ -430,5 +442,6 @@
         private System.Windows.Forms.DataGridView dgRunning;
         private System.Windows.Forms.DataGridView dgInQueue;
         private System.Windows.Forms.Button btnClearHub;
+        private System.Windows.Forms.Button btnPause;
     }
 }

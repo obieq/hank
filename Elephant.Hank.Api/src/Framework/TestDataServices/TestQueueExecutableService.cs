@@ -45,6 +45,11 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly ISchedulerService schedulerService;
 
         /// <summary>
+        /// The scheduler history service
+        /// </summary>
+        private readonly ISchedulerHistoryService schedulerHistoryService;
+
+        /// <summary>
         /// The test queue service
         /// </summary>
         private readonly ITestQueueService testQueueService;
@@ -112,7 +117,19 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <param name="testDataSharedTestDataMapService">The test data shared test data map service.</param>
         /// <param name="sharedTestDataService">The shared test data service.</param>
         /// <param name="apiConncetionService">The API conncetion service.</param>
-        public TestQueueExecutableService(IRepository<TblTestData> table, ISuiteService suiteService, ITestQueueService testQueueService, IMapperFactory mapperFactory, ISchedulerService schedulerService, IBrowserService browserService, IActionsService actionService, ITestDataSharedTestDataMapService testDataSharedTestDataMapService, ISharedTestDataService sharedTestDataService, IApiConnectionService apiConncetionService)
+        /// <param name="schedulerHistoryService">The scheduler history service.</param>
+        public TestQueueExecutableService(
+            IRepository<TblTestData> table,
+            ISuiteService suiteService,
+            ITestQueueService testQueueService,
+            IMapperFactory mapperFactory,
+            ISchedulerService schedulerService,
+            IBrowserService browserService,
+            IActionsService actionService,
+            ITestDataSharedTestDataMapService testDataSharedTestDataMapService,
+            ISharedTestDataService sharedTestDataService,
+            IApiConnectionService apiConncetionService,
+            ISchedulerHistoryService schedulerHistoryService)
         {
             this.table = table;
             this.suiteService = suiteService;
@@ -124,6 +141,7 @@ namespace Elephant.Hank.Framework.TestDataServices
             this.testDataSharedTestDataMapService = testDataSharedTestDataMapService;
             this.sharedTestDataService = sharedTestDataService;
             this.apiConncetionService = apiConncetionService;
+            this.schedulerHistoryService = schedulerHistoryService;
         }
 
         /// <summary>
@@ -328,6 +346,18 @@ namespace Elephant.Hank.Framework.TestDataServices
             var testQueue = this.testQueueService.GetById(testQueueId);
             if (testQueue.Item != null)
             {
+                bool isCancelled = false;
+
+                if (testQueue.Item.SchedulerId.HasValue)
+                {
+                    var schedulerHistory = this.schedulerHistoryService.GetByGroupName(testQueue.Item.GroupName);
+
+                    if (!schedulerHistory.IsError)
+                    {
+                        isCancelled = schedulerHistory.Item.IsCancelled;
+                    }
+                }
+
                 if (testQueue.Item.SuiteId.HasValue)
                 {
                     var testSuite = this.suiteService.GetById(testQueue.Item.SuiteId.Value);
@@ -339,7 +369,8 @@ namespace Elephant.Hank.Framework.TestDataServices
 
                         resultMessage.Item = new TestQueue_FullTestData
                         {
-                            Suite = testSuite.Item
+                            Suite = testSuite.Item,
+                            IsCancelled = isCancelled
                         };
 
                         var testData = this.table.Find(x => x.TestId == testQueue.Item.TestId && !x.IsDeleted).OrderBy(x => x.ExecutionSequence).ToList();

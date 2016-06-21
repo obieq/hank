@@ -37,6 +37,11 @@ namespace Elephant.Hank.WindowsApplication.Resources.Constants
         public const string SchedulerHistoryStatus = "api/website/0/scheduler/0/scheduler-history/status/{0}/{1}";
 
         /// <summary>
+        /// The scheduler history
+        /// </summary>
+        public const string SchedulerHistory = "api/website/0/scheduler/0/scheduler-history/{0}";
+
+        /// <summary>
         /// The scheduler history email status
         /// </summary>
         public const string SchedulerHistoryEmailStatus = "api/website/0/scheduler/0/scheduler-history/status/{0}/email/{1}";

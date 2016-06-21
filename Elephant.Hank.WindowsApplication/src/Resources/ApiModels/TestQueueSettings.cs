@@ -24,6 +24,11 @@ namespace Elephant.Hank.WindowsApplication.Resources.ApiModels
         public int UrlId { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether is cancelled.
+        /// </summary>
+        public bool IsCancelled { get; set; }
+
+        /// <summary>
         /// Gets or sets the custom URL to test.
         /// </summary>
         public string CustomUrlToTest { get; set; }

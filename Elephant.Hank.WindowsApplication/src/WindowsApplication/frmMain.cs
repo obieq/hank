@@ -33,6 +33,11 @@ namespace Elephant.Hank.WindowsApplication
         private bool isExitEvent;
 
         /// <summary>
+        /// The is pause event
+        /// </summary>
+        private bool isPauseEvent;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="frmMain"/> class.
         /// </summary>
         public frmMain()
@@ -93,10 +98,10 @@ namespace Elephant.Hank.WindowsApplication
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void tmrSchedular_Tick(object sender, EventArgs e)
         {
-            Processor.ExecuteService();
+            Processor.ExecuteService(this.isPauseEvent);
 
             this.dgRunning.DataSource = Processor.HubInfo.Select(x => new { StartedAt = x.Value.StartedAt, SchedulerId = x.Value.SchedulerId, TestQueueId = x.Value.TestQueueId, SeleniumAddress = x.Value.SeleniumAddress }).OrderBy(x => x.StartedAt).ToList();
-            this.dgInQueue.DataSource = Processor.QueuedTest.Select(x => new { CreeatedAt = x.Value.CreatedOn, SchedulerId = x.Value.SchedulerId, TestQueueId = x.Value.TestQueueId, SeleniumAddress = x.Value.SeleniumAddress }).OrderBy(x => x.CreeatedAt).ToList();
+            this.dgInQueue.DataSource = Processor.QueuedTest.Select(x => new { CreatedAt = x.Value.CreatedOn, SchedulerId = x.Value.SchedulerId, TestQueueId = x.Value.TestQueueId, SeleniumAddress = x.Value.SeleniumAddress }).OrderBy(x => x.CreatedAt).ToList();
         }
 
         /// <summary>
@@ -230,6 +235,17 @@ namespace Elephant.Hank.WindowsApplication
         private void btnClearHub_Click(object sender, EventArgs e)
         {
             Processor.HubInfo.Clear();
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnPause control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnPause_Click(object sender, EventArgs e)
+        {
+            this.isPauseEvent = !this.isPauseEvent;
+            this.btnPause.Text = this.isPauseEvent ? "Resume" : "Pause";
         }
     }
 }

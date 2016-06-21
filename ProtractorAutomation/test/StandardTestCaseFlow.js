@@ -49,6 +49,8 @@ var StandardTestCaseFlow =
               suite = resultMessage.Item.Suite != null ? resultMessage.Item.Suite : {Name: 'Anonymous'};
               testCase = resultMessage.Item.TestCase;
               testDataList = resultMessage.Item.TestData;
+
+              params.config.isCancelled = resultMessage.Item.IsCancelled;
               params.config.TestSuiteId = resultMessage.Item.Suite != null ? resultMessage.Item.Suite.Id : 0;
               params.config.TestCaseId = resultMessage.Item.TestCase.Id;
               TakeScreenShot = resultMessage.Item.TakeScreenShot;
@@ -67,12 +69,20 @@ var StandardTestCaseFlow =
               try {
                 browser.ignoreSynchronization = website.IsAngular == false;
 
-                restApiHelper.doPost(jsonHelper.format(params.config.baseApiUrl + params.config.baseTestStateUrl, params.config.TestQueueId, 3), {}, function () {});
+                var nextStatus = 3;
+                if(params.config.isCancelled){
+                  nextStatus = 5;
+                }
+                restApiHelper.doPost(jsonHelper.format(params.config.baseApiUrl + params.config.baseTestStateUrl, params.config.TestQueueId, nextStatus), {}, function () {});
 
-                browser.get(params.config.urlToTest);
+                if(params.config.isCancelled){
+                  expect("ErroMessage:").toEqual("Test execution has been cancelled by the user!")
+                } else {
+                  browser.get(params.config.urlToTest);
 
-                for (var i = 0; i < testDataList.length; i++) {
-                  var key = inputHelper.setLocator(testDataList[i], testCase.TestName, TakeScreenShot, TakeScreenShotBrowser);
+                  for (var i = 0; i < testDataList.length; i++) {
+                    var key = inputHelper.setLocator(testDataList[i], testCase.TestName, TakeScreenShot, TakeScreenShotBrowser);
+                  }
                 }
               }
               catch (err) {

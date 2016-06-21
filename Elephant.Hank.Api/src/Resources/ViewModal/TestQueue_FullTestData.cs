@@ -27,6 +27,11 @@ namespace Elephant.Hank.Resources.ViewModal
         public string UrlToTest { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this instance is cancelled.
+        /// </summary>
+        public bool IsCancelled { get; set; }
+
+        /// <summary>
         /// Gets or sets the website
         /// </summary>
         public TblWebsiteDto Website { get; set; }

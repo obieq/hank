@@ -28,6 +28,11 @@ namespace Elephant.Hank.DataService.DBSchema
         public long SchedulerId { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this instance is cancelled.
+        /// </summary>
+        public bool IsCancelled { get; set; }
+
+        /// <summary>
         /// Gets or sets the status.
         /// </summary>
         public SchedulerExecutionStatus Status { get; set; }

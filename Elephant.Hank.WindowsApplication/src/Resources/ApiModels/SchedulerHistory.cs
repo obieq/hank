@@ -57,5 +57,10 @@ namespace Elephant.Hank.WindowsApplication.Resources.ApiModels
         /// Gets or sets a value indicating whether [ForceExecute test].
         /// </summary>
         public bool ForceExecute { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is cancelled.
+        /// </summary>
+        public bool IsCancelled { get; set; }
     }
 }

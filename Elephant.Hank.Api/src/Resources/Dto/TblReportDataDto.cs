@@ -62,16 +62,16 @@ namespace Elephant.Hank.Resources.Dto
         /// <summary>
         /// Gets or sets the Execution Status
         /// </summary>
-        public ExecutionReportStatus ExecutionStatus { get; set; }
+        public ExecutionReportStatus Status { get; set; }
 
         /// <summary>
         /// Gets the execution status text.
         /// </summary>
-        public string ExecutionStatusText
+        public string StatusText
         {
             get
             {
-                return this.ExecutionStatus.GetAttributeText();
+                return this.Status.GetAttributeText();
             }
         }
 

@@ -20,6 +20,7 @@ namespace Elephant.Hank.Framework.TestDataServices
     using Elephant.Hank.DataService.DBSchema;
     using Elephant.Hank.Framework.Data;
     using Elephant.Hank.Resources.Dto;
+    using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Json;
     using Elephant.Hank.Resources.Messages;
 
@@ -46,22 +47,30 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly ISchedulerService schedulerService;
 
         /// <summary>
+        /// The table scheduler history
+        /// </summary>
+        private readonly IRepository<TblSchedulerHistory> tblSchedulerHistory;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TestQueueService" /> class.
         /// </summary>
         /// <param name="mapperFactory">The mapper factory.</param>
         /// <param name="table">The table.</param>
         /// <param name="browserService">The browser service.</param>
         /// <param name="schedulerService">The scheduler service.</param>
+        /// <param name="tblSchedulerHistory">The table scheduler history.</param>
         public TestQueueService(
             IMapperFactory mapperFactory,
             IRepository<TblTestQueue> table,
             IBrowserService browserService,
-            ISchedulerService schedulerService)
+            ISchedulerService schedulerService, 
+            IRepository<TblSchedulerHistory> tblSchedulerHistory)
             : base(mapperFactory, table)
         {
             this.mapperFactory = mapperFactory;
             this.browserService = browserService;
             this.schedulerService = schedulerService;
+            this.tblSchedulerHistory = tblSchedulerHistory;
         }
 
         /// <summary>
@@ -73,16 +82,23 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <returns>
         /// Status update
         /// </returns>
-        public ResultMessage<bool> UpdateTestQueueStatusByGroupName(long userId, string groupName, int status)
+        public ResultMessage<bool> UpdateTestQueueStatusByGroupName(long userId, string groupName, ExecutionReportStatus status)
         {
+            var sqlQuery = "update \"TblTestQueue\" set \"Status\" = @Status, \"ModifiedOn\" = current_timestamp, \"ModifiedBy\" = @UserId where \"GroupName\" = @groupName";
+
+            if (status == ExecutionReportStatus.Cancelled)
+            {
+                sqlQuery = "update \"TblTestQueue\" set \"Status\" = @Status, \"ModifiedOn\" = current_timestamp, \"ModifiedBy\" = @UserId where \"GroupName\" = @groupName and \"Status\" in (0, 1)";
+            }
+
             var result = new ResultMessage<bool>
                              {
                                  Item =
                                      this.Table.ExecuteSqlCommand(
-                                         "update \"TblTestQueue\" set \"Status\" = @Status, \"ModifiedOn\" = current_timestamp, \"ModifiedBy\" = @UserId where \"GroupName\" = @groupName",
+                                         sqlQuery,
                                          new NpgsqlParameter("@groupName", groupName),
                                          new NpgsqlParameter("@UserId", userId),
-                                         new NpgsqlParameter("@Status", status)) > 0
+                                         new NpgsqlParameter("@Status", (int)status)) > 0
                              };
 
             return result;
@@ -170,10 +186,13 @@ namespace Elephant.Hank.Framework.TestDataServices
             if (browsers != null && testQueueSrc.SchedulerId.HasValue && (testQueueDest.Browsers == null || !testQueueDest.Browsers.Any()))
             {
                 ResultMessage<TblSchedulerDto> schedulerDto = this.schedulerService.GetById(testQueueSrc.SchedulerId.Value);
+                var schedulerHistory = this.tblSchedulerHistory.Find(x => x.GroupName == testQueueSrc.GroupName).FirstOrDefault();
+
                 testQueueDest.Settings = new TestQueueSettings
                                              {
                                                  SeleniumAddress = schedulerDto.Item.Settings.SeleniumAddress,
-                                                 Browsers = schedulerDto.Item.Settings.Browsers
+                                                 Browsers = schedulerDto.Item.Settings.Browsers,
+                                                 IsCancelled = schedulerHistory != null && schedulerHistory.IsCancelled
                                              };
                 if (schedulerDto.Item.Settings.Browsers != null)
                 {
