@@ -69,6 +69,26 @@ var HashTagHelper = function () {
         defer.fulfill(result);
       });
     }
+    else if (splittedHashTagArray[1].split('~')[0].toLowerCase() == 'substring') {
+      browser.getCurrentUrl().then(function (curUrl) {
+        result = jsonHelper.GetIndexedVariableValueFromVariableContainer(splittedHashTagArray[1].substring(splittedHashTagArray[1].indexOf('{') + 1, splittedHashTagArray[1].lastIndexOf('}')));
+        var substrIndex = splittedHashTagArray[1].split('~')[2];
+        result = eval("result.substr(" + substrIndex + ")");
+        defer.fulfill(result);
+      });
+    }
+    else if (splittedHashTagArray[1].split('~')[0].toLowerCase() == 'split') {
+      browser.getCurrentUrl().then(function (curUrl) {
+        result = jsonHelper.GetIndexedVariableValueFromVariableContainer(splittedHashTagArray[1].substring(splittedHashTagArray[1].indexOf('{') + 1, splittedHashTagArray[1].lastIndexOf('}')));
+        var splitDelimeter = splittedHashTagArray[1].split('~')[2];
+        var defaultArray = [["Output"]];
+        var splittedArray = result.split(splitDelimeter);
+        for (var k = 0; k < splittedArray.length; k++) {
+          defaultArray.push([splittedArray[k]]);
+        }
+        defer.fulfill(JSON.stringify(defaultArray));
+      });
+    }
     return defer.promise;
   };
 
