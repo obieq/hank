@@ -38,6 +38,9 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
     $scope.stateParamWebsiteId = $stateParams.WebsiteId;
     $scope.TestCatId = $stateParams.TestCatId;
     $scope.TestCatList = [];
+    $scope.UniqueTestListByCreatedBy = [];
+    $scope.MasterTestList = [];
+    $scope.createdByFilter = {};
 
     if ($scope.TestCatId > 0) {
       $scope.Test.CategoryId = $scope.TestCatId;
@@ -46,9 +49,22 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
     $scope.BrowserList = [];
     $scope.Step_Types = ngAppSettings.StepTypes;
 
+    $scope.onCreatedByFilterChange = function () {
+        if ($scope.createdByFilter == 0) {
+            $scope.TestList = $scope.MasterTestList;
+        }
+        else {
+            $scope.TestList = _.where($scope.MasterTestList, { CreatedBy: $scope.createdByFilter });
+        }
+    };
+
     $scope.getAllTests = function () {
       crudService.getAll(ngAppSettings.TestCatTestScriptsUrl.format($stateParams.WebsiteId, $scope.TestCatId)).then(function (response) {
-        $scope.TestList = response;
+          $scope.MasterTestList = $scope.TestList = response;
+          $scope.UniqueTestListByCreatedBy = _.uniq($scope.TestList, function (x) {
+              return x.CreatedByUserName;
+          });
+          $scope.UniqueTestListByCreatedBy.push({CreatedByUserName:'All',CreatedBy:0});
       }, function (response) {
         commonUi.showErrorPopup(response);
       });

@@ -7,16 +7,25 @@
 app.controller('SuiteController', ['$scope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider',
   function ($scope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider) {
     $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
-    dataProvider.setAuthenticationParameters($scope,$stateParams.WebsiteId,ngAppSettings.ModuleType.Suites);
+    dataProvider.setAuthenticationParameters($scope, $stateParams.WebsiteId, ngAppSettings.ModuleType.Suites);
     $scope.Website = [];
     $scope.TestList = [];
+    $scope.TestListAdded = [];
     $scope.SelectAll = false;
+    $scope.ShiftDirection = {NotAddedToToBeAdded: 1, ToBeAddedToNotAdded: 2};
 
     $scope.message = "";
 
     $scope.LinkSuiteTestList = [];
     $scope.SuiteList = [];
     $scope.Suite = {WebsiteId: ""};
+    $scope.TestCatList = [];
+    $scope.markUnMark = false;
+
+    crudService.getAll(ngAppSettings.WebSiteTestCatUrl.format($stateParams.WebsiteId)).then(function (response) {
+      $scope.TestCatList = response;
+    }, function (response) {
+    });
 
     $scope.stateParamWebsiteId = $stateParams.WebsiteId;
 
@@ -33,8 +42,18 @@ app.controller('SuiteController', ['$scope', '$stateParams', '$state', 'CrudServ
     $scope.getSuiteById = function () {
       crudService.getById(ngAppSettings.WebSiteSuiteUrl.format($stateParams.WebsiteId), $stateParams.SuiteId).then(function (response) {
         $scope.Suite = response.Item;
-        $scope.bindTest($scope.Suite);
-        $scope.getSuiteTestLinks($scope.Suite.Id);
+        crudService.getAll(ngAppSettings.SuiteTestMapUrl.format($stateParams.WebsiteId, $stateParams.SuiteId)).then(function (response) {
+          $scope.LinkSuiteTestList = response;
+          crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($stateParams.WebsiteId, 0)).then(function (response) {
+              $scope.TestList = response;
+              $scope.processTestData();
+            },
+            function (response) {
+              commonUi.showErrorPopup(response);
+            });
+        }, function (response) {
+          commonUi.showErrorPopup(response);
+        });
       }, function (response) {
         commonUi.showErrorPopup(response);
       });
@@ -59,7 +78,6 @@ app.controller('SuiteController', ['$scope', '$stateParams', '$state', 'CrudServ
 
     $scope.addSuiteTestLinks = function (suiteId, doRedirect) {
       var mapData = $scope.getSelectedTestCase(suiteId);
-
       crudService.add(ngAppSettings.SuiteTestMapUrl.format($stateParams.WebsiteId, suiteId), mapData).then(function () {
         if (doRedirect) {
           $state.go("Website.Suite", {WebsiteId: $scope.stateParamWebsiteId});
@@ -72,40 +90,16 @@ app.controller('SuiteController', ['$scope', '$stateParams', '$state', 'CrudServ
       });
     };
 
-    $scope.getSuiteTestLinks = function (suiteId) {
-      crudService.getAll(ngAppSettings.SuiteTestMapUrl.format($stateParams.WebsiteId, suiteId)).then(function (response) {
-        $scope.LinkSuiteTestList = response;
-        $scope.processTestData();
-      }, function (response) {
-        commonUi.showErrorPopup(response);
-      });
-    };
-
     $scope.getSelectedTestCase = function (suiteId) {
       var result = [];
-      for (var i = 0; i < $scope.TestList.length; i++) {
-        if ($scope.TestList[i].Checked) {
-          result.push({TestId: $scope.TestList[i].Id, SuiteId: suiteId});
-        }
+      for (var i = 0; i < $scope.TestListAdded.length; i++) {
+        result.push({TestId: $scope.TestListAdded[i].Id, SuiteId: suiteId});
       }
       return result;
     };
 
-    $scope.bindTest = function (suiteData) {
-      if (suiteData.WebsiteId == 0) {
-        $scope.TestList = [];
-      }
-      else {
-        crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format(suiteData.WebsiteId, 0)).then(function (response) {
-            $scope.TestList = response;
-            $scope.SelectAll = false;
-            $scope.markUnMarkAll();
-            $scope.processTestData();
-          },
-          function (response) {
-            commonUi.showErrorPopup(response);
-          });
-      }
+    $scope.addRemoveTest = function (test, direction) {
+      $scope.shift(test, direction);
     };
 
     $scope.loadData = function () {
@@ -121,15 +115,29 @@ app.controller('SuiteController', ['$scope', '$stateParams', '$state', 'CrudServ
         for (var j = 0; j < $scope.TestList.length; j++) {
           if ($scope.TestList[j].Id == $scope.LinkSuiteTestList[i].TestId) {
             $scope.TestList[j].Checked = true;
+            $scope.shift($scope.TestList[j], $scope.ShiftDirection.NotAddedToToBeAdded);
           }
         }
       }
     };
 
     $scope.markUnMarkAll = function () {
-      for (var i = 0; i < $scope.TestList.length; i++) {
-        $scope.TestList[i].Checked = $scope.SelectAll;
+
+      if ($scope.markUnMark) {
+        var tstLst = angular.copy($scope.TestList);
+        for (var i = 0; i < tstLst.length; i++) {
+          tstLst[i].Checked = true;
+          $scope.addRemoveTest(tstLst[i], $scope.ShiftDirection.NotAddedToToBeAdded);
+        }
       }
+      else {
+        var tstLst = angular.copy($scope.TestListAdded);
+        for (var i = 0; i < tstLst.length; i++) {
+          tstLst[i].Checked = false;
+          $scope.addRemoveTest(tstLst[i], $scope.ShiftDirection.ToBeAddedToNotAdded);
+        }
+      }
+
     };
 
     $scope.textChecked = function (test) {
@@ -137,4 +145,47 @@ app.controller('SuiteController', ['$scope', '$stateParams', '$state', 'CrudServ
         $scope.SelectAll = false;
       }
     };
+
+    $scope.onTestCategoryChange = function () {
+      crudService.getAll(ngAppSettings.TestCatTestScriptsUrl.format($stateParams.WebsiteId, $scope.Suite.TestCatId)).then(function (response) {
+        $scope.TestList = [];
+        for (var i = 0; i < response.length; i++) {
+          var inAdded = _.where($scope.TestListAdded, {Id: response[i].Id})[0];
+          if (!inAdded) {
+            $scope.TestList.push(response[i])
+          }
+        }
+      }, function (response) {
+        commonUi.showErrorPopup(response);
+      });
+    };
+
+    $scope.shift = function (test, shiftDirection) {
+      if (shiftDirection == $scope.ShiftDirection.NotAddedToToBeAdded) {
+        var alreadyExist = _.where($scope.TestListAdded, {Id: test.Id})[0];
+        if (!alreadyExist) {
+          $scope.TestListAdded.push(test);
+        }
+        for (var i = 0; i < $scope.TestList.length; i++) {
+          if ($scope.TestList[i].Id == test.Id) {
+            var removedObject = $scope.TestList.splice(i, 1);
+            removedObject = null;
+            break;
+          }
+        }
+      }
+      else if (shiftDirection == $scope.ShiftDirection.ToBeAddedToNotAdded) {
+        var alreadyExist = _.where($scope.TestList, {Id: test.Id})[0];
+        if (!alreadyExist) {
+          $scope.TestList.push(test);
+        }
+        for (var i = 0; i < $scope.TestListAdded.length; i++) {
+          if ($scope.TestListAdded[i].Id == test.Id) {
+            var removedObject = $scope.TestListAdded.splice(i, 1);
+            removedObject = null;
+            break;
+          }
+        }
+      }
+    }
   }]);

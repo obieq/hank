@@ -41,6 +41,15 @@
             </div>
           </div>
           <div class="form-group">
+            <label class="col-sm-2 control-label">Test Category</label>
+            <div class="col-sm-4">
+              <select class="form-control" ng-model="Suite.TestCatId" ng-change="onTestCategoryChange()"
+                      ng-options="testCat.Id as testCat.Name for testCat in TestCatList">
+                <option style="display:none" value="">--All--</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
               <button type="submit" class="btn btn-primary">Submit</button>
             </div>
@@ -56,15 +65,15 @@
               <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th> <input ng-click="markUnMarkAll()" type="checkbox" ng-model="Mark" /></th>
+                  <th> <input ng-change="markUnMarkAll()" type="checkbox" ng-model="markUnMark" /></th>
                   <th>Id</th>
                   <th>Test Name</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="test in TestList | orderBy:'Id' | filter: { Checked: 'false' }">
-                  <td><input type="checkbox" ng-model="test.Checked" />  </td>
-                  <td>{{::test.Id}}</td>
+                <tr ng-repeat="test in TestList | orderBy:'Id'">
+                  <td><input type="checkbox" ng-model="test.Checked" ng-change="addRemoveTest(test,ShiftDirection.NotAddedToToBeAdded)" />  </td>
+                  <td ng-click="addRemoveTest(test,true)">{{::test.Id}}</td>
                   <td><a ui-sref="Website.TestData({WebsiteId: Website.Id, TestCatId: test.CategoryId + 0, TestId: test.Id })" target="_blank">{{::test.TestName}}</a></td>
                 </tr>
                 </tbody>
@@ -76,14 +85,14 @@
               <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th> <input ng-click="markUnMarkAll()" type="checkbox" ng-model="Mark" /></th>
+                  <th><!-- <input ng-click="markUnMarkAll()" type="checkbox" ng-model="Mark" />--></th>
                   <th>Id</th>
                   <th>Test Name</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="test in TestList | orderBy:'Id' | filter: { Checked: 'true' }">
-                  <td><input type="checkbox" ng-model="test.Checked" />  </td>
+                <tr ng-repeat="test in TestListAdded | orderBy:'Id'">
+                  <td><input type="checkbox" ng-model="test.Checked" ng-change="addRemoveTest(test,ShiftDirection.ToBeAddedToNotAdded)" />  </td>
                   <td>{{::test.Id}} </td>
                   <td><a ui-sref="Website.TestData({WebsiteId: Website.Id, TestCatId: test.CategoryId + 0, TestId: test.Id })" target="_blank">{{::test.TestName}}</a></td>
                 </tr>
