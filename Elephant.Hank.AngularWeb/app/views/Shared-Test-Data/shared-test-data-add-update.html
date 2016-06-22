@@ -151,7 +151,7 @@
                   <select ng-if="stateParamSharedTestDataId" class="form-control" ng-model="SharedTestData.ActionId"
                           name="ActionId"
                           ng-options="action.Id as action.Value for action in ActionList | orderBy:'Value'"
-                          required disabled="disabled">
+                          required  ng-change="onActionChange()">
                     <option style="display:none" value="">--Select--</option>
                   </select>
                 </div>
@@ -280,7 +280,7 @@
                 <label class="col-sm-2 control-label">Request Type </label>
 
                 <div class="col-sm-4">
-                  <select class="form-control" ng-model="SharedTestData.ApiTestData.RequestTypeId" name="RequestTypeId"
+                  <select class="form-control" ng-change="onRequestTypeChange()" ng-model="SharedTestData.ApiTestData.RequestTypeId" name="RequestTypeId"
                           ng-options="requestType.Id as requestType.Name for requestType in RequestTypeList | orderBy:'Name'"
                           required>
                     <option style="display:none" value="">--Select--</option>
@@ -390,6 +390,16 @@
 
                 <div class="col-sm-4">
                   <input type="checkbox" ng-model="SharedTestData.IsOptional">
+                </div>
+              </div>
+
+              <div class="form-group" ng-if="IsRequestBodyAllowed">
+                <label class="col-sm-2 control-label">Request Body</label>
+
+                <div class="col-sm-4">
+                  <textarea type="text" class="form-control ng-pristine ng-valid ng-touched"
+                            ng-model="SharedTestData.ApiTestData.RequestBody"
+                            name="RequestBody" placeholder="Request Body"></textarea>
                 </div>
               </div>
 
