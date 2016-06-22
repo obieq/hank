@@ -98,6 +98,7 @@ namespace Elephant.Hank.WindowsApplication
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void tmrSchedular_Tick(object sender, EventArgs e)
         {
+            tmrSchedular.Enabled = false;
             Processor.ExecuteService(this.isPauseEvent);
 
             this.dgRunning.DataSource = Processor.HubInfo.Select(x => new { StartedAt = x.Value.StartedAt, SchedulerId = x.Value.SchedulerId, TestQueueId = x.Value.TestQueueId, SeleniumAddress = x.Value.SeleniumAddress }).OrderBy(x => x.StartedAt).ToList();

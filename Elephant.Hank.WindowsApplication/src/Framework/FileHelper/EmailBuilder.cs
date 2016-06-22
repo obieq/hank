@@ -18,6 +18,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.FileHelper
     using System.Text;
 
     using Elephant.Hank.WindowsApplication.Resources.ApiModels;
+    using Elephant.Hank.WindowsApplication.Resources.ApiModels.Enum;
     using Elephant.Hank.WindowsApplication.Resources.Constants;
     using Elephant.Hank.WindowsApplication.Resources.Extensions;
     using Elephant.Hank.WindowsApplication.Resources.Models;
@@ -52,6 +53,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.FileHelper
             html = html.Replace("##Passed##", reportResultData.PassedCount.ToString())
                    .Replace("##Faulted##", reportResultData.FaultCount.ToString())
                    .Replace("##Total##", reportResultData.TotalCount.ToString())
+                   .Replace("##Cancelled##", reportResultData.TotalCount.ToString())
                    .Replace("##UnProcessed##", reportResultData.UnProcessedCount.ToString())
                    .Replace("##ReportUrl##", string.Format(Properties.Settings.Default.BaseWebUrl + WebEndPoints.ReportByWebSiteId, reportResultData.WebsiteId));
 
@@ -71,11 +73,13 @@ namespace Elephant.Hank.WindowsApplication.Framework.FileHelper
                 html = html.Replace("##Execution Started##", startDate.ToDateEstFormat());
                 html = html.Replace("##Execution Completed##", endDate.ToDateEstFormat());
 
-                html = html.Replace("##Tr-Passed##", this.GetTrHtml(trHtml, reportResultData.ReportData.Where(x => x.Passed ?? false).OrderBy(x => x.SuiteId), reportResultData.WebsiteId));
+                html = html.Replace("##Tr-Passed##", this.GetTrHtml(trHtml, reportResultData.ReportData.Where(x => x.Status == ExecutionReportStatus.Passed).OrderBy(x => x.SuiteId), reportResultData.WebsiteId));
 
-                html = html.Replace("##Tr-Faulted##", this.GetTrHtml(trHtml, reportResultData.ReportData.Where(x => x.Passed.HasValue && !x.Passed.Value).OrderBy(x => x.SuiteId), reportResultData.WebsiteId));
+                html = html.Replace("##Tr-Faulted##", this.GetTrHtml(trHtml, reportResultData.ReportData.Where(x => x.Status == ExecutionReportStatus.Failed).OrderBy(x => x.SuiteId), reportResultData.WebsiteId));
 
-                html = html.Replace("##Tr-UnProcessed##", this.GetTrHtml(trHtml, reportResultData.ReportData.Where(x => !x.Passed.HasValue).OrderBy(x => x.SuiteId), reportResultData.WebsiteId));
+                html = html.Replace("##Tr-Cancelled##", this.GetTrHtml(trHtml, reportResultData.ReportData.Where(x => x.Status == ExecutionReportStatus.Cancelled).OrderBy(x => x.SuiteId), reportResultData.WebsiteId, false));
+
+                html = html.Replace("##Tr-UnProcessed##", this.GetTrHtml(trHtml, reportResultData.ReportData.Where(x => x.Status != ExecutionReportStatus.Passed && x.Status != ExecutionReportStatus.Failed && x.Status != ExecutionReportStatus.Cancelled).OrderBy(x => x.SuiteId), reportResultData.WebsiteId, false));
             }
 
             html = html.Replace(trHtml, string.Empty).Replace(TrStartTag, string.Empty).Replace(TrEndTag, string.Empty);
@@ -89,14 +93,21 @@ namespace Elephant.Hank.WindowsApplication.Framework.FileHelper
         /// <param name="trTemplate">The tr template.</param>
         /// <param name="lstReportData">The LST report data.</param>
         /// <param name="webSiteId">The web site identifier.</param>
+        /// <param name="genrateViewLnk">if set to <c>true</c> [genrate view LNK].</param>
         /// <returns>
         /// HTML based on template
         /// </returns>
-        private string GetTrHtml(string trTemplate, IEnumerable<ReportData> lstReportData, long webSiteId)
+        private string GetTrHtml(string trTemplate, IEnumerable<ReportData> lstReportData, long webSiteId, bool genrateViewLnk = true)
         {
             StringBuilder sbDataRow = new StringBuilder();
 
             int count = 1;
+
+            if (!genrateViewLnk)
+            {
+                trTemplate = trTemplate.Replace("<td><a href=\"##ReportUrlById##\">View</a></td>", string.Empty);
+            }
+
             foreach (var reportData in lstReportData)
             {
                 sbDataRow.Append(trTemplate.Replace("##Sno##", count.ToString())

@@ -13,6 +13,7 @@ namespace Elephant.Hank.WindowsApplication.Resources.ApiModels
 {
     using System;
 
+    using Elephant.Hank.WindowsApplication.Resources.ApiModels.Enum;
     using Elephant.Hank.WindowsApplication.Resources.Extensions;
 
     /// <summary>
@@ -49,6 +50,11 @@ namespace Elephant.Hank.WindowsApplication.Resources.ApiModels
         /// Gets or sets the TestId
         /// </summary>
         public int TestId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the status.
+        /// </summary>
+        public ExecutionReportStatus Status { get; set; }
 
         /// <summary>
         /// Gets or sets the SuiteName
