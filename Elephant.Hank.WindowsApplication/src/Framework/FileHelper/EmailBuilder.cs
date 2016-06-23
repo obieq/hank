@@ -22,7 +22,6 @@ namespace Elephant.Hank.WindowsApplication.Framework.FileHelper
     using Elephant.Hank.WindowsApplication.Resources.Constants;
     using Elephant.Hank.WindowsApplication.Resources.Extensions;
     using Elephant.Hank.WindowsApplication.Resources.Models;
-    using Elephant.Hank.WindowsApplication.Framework.Helpers;
 
     /// <summary>
     /// The EmailBuilder class
@@ -53,7 +52,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.FileHelper
             html = html.Replace("##Passed##", reportResultData.PassedCount.ToString())
                    .Replace("##Faulted##", reportResultData.FaultCount.ToString())
                    .Replace("##Total##", reportResultData.TotalCount.ToString())
-                   .Replace("##Cancelled##", reportResultData.TotalCount.ToString())
+                   .Replace("##Cancelled##", reportResultData.CancelledCount.ToString())
                    .Replace("##UnProcessed##", reportResultData.UnProcessedCount.ToString())
                    .Replace("##ReportUrl##", string.Format(Properties.Settings.Default.BaseWebUrl + WebEndPoints.ReportByWebSiteId, reportResultData.WebsiteId));
 
@@ -110,8 +109,22 @@ namespace Elephant.Hank.WindowsApplication.Framework.FileHelper
 
             foreach (var reportData in lstReportData)
             {
+                var color = "rgb(172, 148, 6)";
+                if (reportData.Status == ExecutionReportStatus.Passed)
+                {
+                    color = "green";
+                }
+                else if (reportData.Status == ExecutionReportStatus.Failed)
+                {
+                    color = "red";
+                }
+                else if (reportData.Status == ExecutionReportStatus.Cancelled)
+                {
+                    color = "brown";
+                }
+
                 sbDataRow.Append(trTemplate.Replace("##Sno##", count.ToString())
-                    .Replace("##Color##", reportData.Passed ?? false ? "green" : reportData.Passed.HasValue ? "red" : "rgb(172, 148, 6)")
+                    .Replace("##Color##", color)
                         .Replace("##SuiteName##", reportData.SuiteName)
                         .Replace("##Test Case##", reportData.Description ?? reportData.TestName)
                         .Replace("##Completed(EST)##", reportData.FinishedAtDateTime.ToDateEstFormat())
