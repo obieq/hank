@@ -69,7 +69,7 @@
 
                   <select ng-if="stateParamTestDataId" class="form-control" ng-model="TestData.ActionId" name="ActionId"
                           ng-options="action.Id as action.Value for action in ActionList | orderBy:'Value'"
-                          required disabled="disabled">
+                          required  ng-change="onActionChange()">
                     <option style="display:none" value="">--Select--</option>
                   </select>
                 </div>
