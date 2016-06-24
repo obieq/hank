@@ -43,9 +43,12 @@ var JsonHelper = function () {
   };
 
   this.GetIndexesFromVariable = function (varName, aryData) {
-    varName = varName || "";
 
+    varName = varName || "";
+    var containsOpearation = false;
     varName = this.checkVariableInVariableAndGetValue(varName);
+
+
 
     var indexes = varName.match(/\[(.*?)\]/g) || [];
 
@@ -74,17 +77,35 @@ var JsonHelper = function () {
 
       for (var i = 0; i < searchData.length; i++) {
         var tmpData = searchData[i].split('~');
+
+        if (!!tmpData[1]) {
+          if (tmpData[1].startsWith('%')) {
+            containsOpearation = true;
+            tmpData[1] = tmpData[1].replace('%', '');
+          }
+        }
         colNameValuePair.push({ColIndex: this.inArray(aryData[0], tmpData[0], true), Value: tmpData[1]});
       }
+
+
 
       var isMatchFound = false;
       for (var i = 0; i < aryData.length; i++) {
         isMatchFound = true;
         for (var j = 0; j < colNameValuePair.length; j++) {
-          if (colNameValuePair[j].Value && colNameValuePair[j].Value.toLowerCase() != (aryData[i][colNameValuePair[j].ColIndex] + "").toLowerCase()) {
-            isMatchFound = false;
-            break;
+          if (!containsOpearation) {
+            if (colNameValuePair[j].Value && colNameValuePair[j].Value.toLowerCase() != (aryData[i][colNameValuePair[j].ColIndex] + "").toLowerCase()) {
+              isMatchFound = false;
+              break;
+            }
           }
+          else {
+            if (colNameValuePair[j].Value && !(aryData[i][colNameValuePair[j].ColIndex] + "").toLowerCase().includes(colNameValuePair[j].Value.toLowerCase())) {
+              isMatchFound = false;
+              break;
+            }
+          }
+
         }
 
         if (isMatchFound) {
@@ -93,7 +114,6 @@ var JsonHelper = function () {
           break;
         }
       }
-
       idxRowVal = rowIndex;
       idxColVal = tmpColIndex;
 
@@ -322,7 +342,7 @@ var JsonHelper = function () {
   };
 
   this.isJson = function (resultMessage) {
-    if(resultMessage == undefined || resultMessage == null){
+    if (resultMessage == undefined || resultMessage == null) {
       return false;
     }
     resultMessage = this.customTrim(resultMessage);
@@ -330,21 +350,21 @@ var JsonHelper = function () {
   }
 
   this.isXml = function (resultMessage) {
-    if(resultMessage == undefined || resultMessage == null){
+    if (resultMessage == undefined || resultMessage == null) {
       return false;
     }
     resultMessage = this.customTrim(resultMessage);
     return resultMessage.indexOf("<") == 0;
   }
 
-  var keyIndx=0;
-  var mainIndx=1;
+  var keyIndx = 0;
+  var mainIndx = 1;
 
   this.converToTwoDimensionalArray = function (resultMessage, prepend, a) {
     if (a == undefined) {
       a = [[], []];
-      keyIndx=0;
-      mainIndx=1;
+      keyIndx = 0;
+      mainIndx = 1;
     }
     var keys = Object.keys(resultMessage);
     for (var j = 0; j < keys.length; j++) {
@@ -365,7 +385,7 @@ var JsonHelper = function () {
 
 
   this.replaceVariableWithValue = function (strVariable) {
-    if(strVariable == undefined || strVariable == null){
+    if (strVariable == undefined || strVariable == null) {
       return strVariable;
     }
 
@@ -378,6 +398,14 @@ var JsonHelper = function () {
     }
     return strVariable;
   };
+
+  this.createGuid = function () {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    }
+
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+  }
 
 };
 module.exports = JsonHelper;
