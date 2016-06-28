@@ -466,6 +466,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
       var linkTestType = $scope.SharedTestData.StepType;
       $scope.SharedTestData = {};
       $scope.SharedTestData = {
+        Id: $stateParams.TestDataId,
         ExecutionSequence: parseInt($stateParams.ExecutionSequence),
         SharedTestId: $stateParams.SharedTestId,
         ApiTestData: {}
