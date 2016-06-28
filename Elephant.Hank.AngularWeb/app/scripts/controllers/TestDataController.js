@@ -644,6 +644,7 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
       var linkTestType = $scope.TestData.LinkTestType;
       $scope.TestData = {};
       $scope.TestData = {
+        Id: $stateParams.TestDataId,
         ExecutionSequence: parseInt($stateParams.ExecutionSequence),
         TestId: $stateParams.TestId,
         SharedTestDataList: [],

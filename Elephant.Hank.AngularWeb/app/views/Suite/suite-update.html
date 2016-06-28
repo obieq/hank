@@ -44,7 +44,7 @@
             <label class="col-sm-2 control-label">Test Category</label>
             <div class="col-sm-4">
               <select class="form-control" ng-model="Suite.TestCatId" ng-change="onTestCategoryChange()"
-                      ng-options="testCat.Id as testCat.Name for testCat in TestCatList">
+                      ng-options="testCat.Id as testCat.Name for testCat in TestCatList | orderBy:'Id'">
                 <option style="display:none" value="">--All--</option>
               </select>
             </div>
