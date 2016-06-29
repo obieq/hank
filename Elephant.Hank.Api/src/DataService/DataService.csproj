@@ -76,6 +76,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBSchema\TblTicketHistory.cs" />
+    <Compile Include="DBSchema\TblTicketMaster.cs" />
     <Compile Include="DBSchema\TblApiTestData.cs" />
     <Compile Include="DBSchema\CustomIdentity\TokenProvider.cs" />
     <Compile Include="DbHelper.cs" />

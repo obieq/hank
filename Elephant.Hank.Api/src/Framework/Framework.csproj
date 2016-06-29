@@ -96,6 +96,8 @@
     <Compile Include="Mapper\TypeConverters\TblTestDataExecutableTestDataConverter.cs" />
     <Compile Include="Services\ApiClient.cs" />
     <Compile Include="Services\CacheProvider.cs" />
+    <Compile Include="TestDataServices\TicketHistoryService.cs" />
+    <Compile Include="TestDataServices\TicketManagerService.cs" />
     <Compile Include="TestDataServices\ApiCategoriesService.cs" />
     <Compile Include="TestDataServices\ApiConnectionService.cs" />
     <Compile Include="TestDataServices\ApiTestDataService.cs" />

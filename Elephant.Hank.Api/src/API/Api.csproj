@@ -223,6 +223,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Controllers\HashTagDescriptionController.cs" />
     <Compile Include="Controllers\ApiTestModule\ApiCategoriesController.cs" />
     <Compile Include="Controllers\ApiTestModule\ApiConnectionController.cs" />

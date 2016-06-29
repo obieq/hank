@@ -38,6 +38,19 @@ namespace Elephant.Hank.Resources.Extensions
         }
 
         /// <summary>
+        /// To the list.
+        /// </summary>
+        /// <typeparam name="TEnum">The type of the enum.</typeparam>
+        /// <param name="value">The value.</param>
+        /// <returns>Enum to list</returns>
+        public static List<NameValueIntPair> ToNameValueIntList<TEnum>(this TEnum value) where TEnum : struct
+        {
+            return Enum.GetValues(typeof(TEnum))
+                    .Cast<TEnum>()
+                    .Select(x => new NameValueIntPair { Name = x.GetAttributeText(), Value = Convert.ToInt64(x) }).ToList();
+        }
+
+        /// <summary>
         /// Gets the attribute text.
         /// </summary>
         /// <typeparam name="TEnum">The type of the enum.</typeparam>

@@ -87,6 +87,8 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Dto\RollDataDto.cs" />
+    <Compile Include="Dto\TblTicketHistoryDto.cs" />
+    <Compile Include="Dto\TblTicketMasterDto.cs" />
     <Compile Include="Dto\TblApiCategoriesDto.cs" />
     <Compile Include="Dto\TblApiConnectionDto.cs" />
     <Compile Include="Dto\TblApiTestDataDto.cs" />
@@ -143,9 +145,11 @@
     <Compile Include="Models\ErrorTrace.cs" />
     <Compile Include="Models\FullTrace.cs" />
     <Compile Include="Models\ModuleAuthenticationModel.cs" />
+    <Compile Include="Models\NameValueIntPair.cs" />
     <Compile Include="Models\NameValuePair.cs" />
     <Compile Include="Models\ProtractorVariableModel.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
+    <Compile Include="Models\TicketsData.cs" />
     <Compile Include="Models\SearchCriteriaData.cs" />
     <Compile Include="Models\SearchData.cs" />
     <Compile Include="Models\SearchLogModel.cs" />
@@ -155,6 +159,9 @@
     <Compile Include="Dto\BaseTableDto.cs" />
     <Compile Include="Dto\ClientDto.cs" />
     <Compile Include="Dto\RefreshTokenDto.cs" />
+    <Compile Include="Enum\TicketPriority.cs" />
+    <Compile Include="Enum\TicketStatus.cs" />
+    <Compile Include="Enum\TicketType.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Dto\TblActionDto.cs" />

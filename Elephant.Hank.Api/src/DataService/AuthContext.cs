@@ -211,6 +211,16 @@ namespace Elephant.Hank.DataService
         /// The table request types.
         /// </value>
         public DbSet<TblRequestTypes> TblRequestTypes { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the Tickets Master action.
+        /// </summary>
+        public DbSet<TblTicketMaster> TblTicketMaster { get; set; }
+
+        /// <summary>
+        /// Gets or sets the TicketHistory
+        /// </summary>
+        public DbSet<TblTicketHistory> TblTicketHistory { get; set; }
 
         /// <summary>
         /// override save changes
@@ -237,32 +247,35 @@ namespace Elephant.Hank.DataService
 
             foreach (var item in dbEntityEntries)
             {
-                string classname = item.Entity.GetType().Name.Split('_')[0];
+                var classname = item.Entity.GetType().Name.Split('_')[0];
 
-                if (!entityToIgnore.Contains(classname))
+                if (entityToIgnore.Contains(classname))
                 {
-                    TblDbLog dbLog = new TblDbLog
-                    {
-                        TableType = classname,
-                        ValueId = (long)item.CurrentValues["Id"]
-                    };
-                    dynamic vari = item.Entity;
-                    dbLog.LogTracker = (Guid)vari.LogTracker;
-                    dbLog.ModifiedOn = DateTime.Now;
-                    dbLog.OperationType = (int)item.State;
-                    if (item.State == EntityState.Added)
-                    {
-                        dbLog.NewValue = this.GetEntryValueInString(item, false);
-                        dbLog.CreatedBy = dbLog.ModifiedBy = (long)item.CurrentValues["CreatedBy"];
-                    }
-                    else
-                    {
-                        dbLog.PreviousValue = this.GetEntryValueInString(item, true);
-                        dbLog.CreatedBy = dbLog.ModifiedBy = (long)item.CurrentValues["ModifiedBy"];
-                    }
-
-                    dbLogList.Add(dbLog);
+                    continue;
                 }
+
+                var dbLog = new TblDbLog
+                {
+                    TableType = classname,
+                    ValueId = (long)item.CurrentValues["Id"]
+                };
+
+                dynamic vari = item.Entity;
+                dbLog.LogTracker = (Guid)vari.LogTracker;
+                dbLog.ModifiedOn = DateTime.Now;
+                dbLog.OperationType = (int)item.State;
+                if (item.State == EntityState.Added)
+                {
+                    dbLog.NewValue = this.GetEntryValueInString(item, false);
+                    dbLog.CreatedBy = dbLog.ModifiedBy = (long)item.CurrentValues["CreatedBy"];
+                }
+                else
+                {
+                    dbLog.PreviousValue = this.GetEntryValueInString(item, true);
+                    dbLog.CreatedBy = dbLog.ModifiedBy = (long)item.CurrentValues["ModifiedBy"];
+                }
+
+                dbLogList.Add(dbLog);
             }
 
             int saveChangeResult = base.SaveChanges();
@@ -371,6 +384,8 @@ namespace Elephant.Hank.DataService
             modelBuilder.Entity<TblHashTagDescription>().ToTable("TblHashTagDescription", DefaultSchema);
             modelBuilder.Entity<TblApiTestData>().ToTable("TblApiTestData", DefaultSchema);
             modelBuilder.Entity<TblRequestTypes>().ToTable("TblRequestTypes", DefaultSchema);
+            modelBuilder.Entity<TblTicketMaster>().ToTable("TblTicketMaster", DefaultSchema);
+            modelBuilder.Entity<TblTicketHistory>().ToTable("TblTicketHistory", DefaultSchema);
         }
 
         /// <summary>
