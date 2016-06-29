@@ -207,6 +207,7 @@
     <Folder Include="Views\DataBaseConnection\" />
     <Folder Include="Views\DBCategories\" />
     <Folder Include="Views\DbLog\" />
+    <Folder Include="Views\Default\" />
     <Folder Include="Views\Environment\" />
     <Folder Include="Views\ExecuteSql\" />
     <Folder Include="Views\GroupModuleAccess\" />
@@ -223,11 +224,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Controllers\HashTagDescriptionController.cs" />
     <Compile Include="Controllers\ApiTestModule\ApiCategoriesController.cs" />
     <Compile Include="Controllers\ApiTestModule\ApiConnectionController.cs" />
     <Compile Include="Controllers\RequestTypesController.cs" />
+    <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Security\CustomAuthorizeAttribute.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />

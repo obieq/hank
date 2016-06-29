@@ -35,8 +35,8 @@
         </span>
             </div>
           </div>
-          
-          
+
+
            <div class="form-group">
             <label class="col-sm-2 control-label">Description</label>
 
@@ -49,8 +49,8 @@
         </span>
             </div>
           </div>
-          
-          
+
+
 
           <div class="form-group">
              <label class="col-sm-2 control-label">Type</label>
@@ -61,7 +61,7 @@
               </select>
             </div>
           </div>
-          
+
            <div class="form-group">
             <label class="col-sm-2 control-label"> Status </label>
 
@@ -72,8 +72,8 @@
               </select>
             </div>
           </div>
-          
-          
+
+
            <div class="form-group">
             <label class="col-sm-2 control-label"> AssignedTo </label>
 
@@ -84,8 +84,8 @@
               </select>
             </div>
           </div>
-          
-          
+
+
           <div class="form-group">
             <label class="col-sm-2 control-label"> Priority </label>
 
@@ -95,9 +95,8 @@
                 <option  value="">--Select--</option>
               </select>
           </div>
-          
-          <br/>
-           <br/>
+
+         </div>
 
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
@@ -119,7 +118,7 @@
       <h1>
         Ticket History
         <small></small>
-        
+
     </div>
   </div>
 </section>
@@ -158,8 +157,8 @@
                  <td ng-class="{'selected':TicketHistory[$index].PriorityText != TicketHistory[$index -1].PriorityText && $index != 0}">{{history.PriorityText}}</td>
                   <td ng-class="{'selected':TicketHistory[$index].CreatedBy != TicketHistory[$index -1].CreatedBy && $index != 0}">{{formatTicketData(history.CreatedBy)}}</td>
                    <td ng-class="{'selected':TicketHistory[$index].AssignedTo != TicketHistory[$index -1].AssignedTo && $index != 0}">{{formatTicketData(history.AssignedTo)}}</td>
-                   
-            </tr>          
+
+            </tr>
             </tbody>
           </table>
         </div>
