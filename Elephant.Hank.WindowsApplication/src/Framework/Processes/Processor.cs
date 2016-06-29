@@ -58,42 +58,58 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
         /// <summary>
         /// Executes the service.
         /// </summary>
-        public static void ExecuteService()
+        /// <param name="isPauseEvent">if set to <c>true</c> [is pause event].</param>
+        public static void ExecuteService(bool isPauseEvent)
         {
             try
             {
-                var testQueue = TestDataApi.Get<List<TestQueue>>(EndPoints.GetTestQueue);
-                if (!testQueue.IsError && testQueue.Item != null && testQueue.Item.Any())
+                if (!isPauseEvent)
                 {
-                    var testQueueFirst = testQueue.Item.First();
-
-                    testQueue.SchedulerId = testQueueFirst.SchedulerId;
-                    testQueue.TestQueueId = testQueueFirst.Id;
-                    testQueue.SeleniumAddress = testQueueFirst.Settings.SeleniumAddress;
-
-                    var updateResult = TestDataApi.Get<bool>(string.Format(EndPoints.BulkUpdateTestQueue, testQueueFirst.GroupName, 1));
-
-                    if (!updateResult.IsError)
+                    var testQueue = TestDataApi.Get<List<TestQueue>>(EndPoints.GetTestQueue);
+                    if (!testQueue.IsError && testQueue.Item != null && testQueue.Item.Any())
                     {
-                        SendTestToHub(testQueue);
+                        var testQueueFirst = testQueue.Item.First();
+
+                        testQueue.SchedulerId = testQueueFirst.SchedulerId;
+                        testQueue.TestQueueId = testQueueFirst.Id;
+                        testQueue.SeleniumAddress = testQueueFirst.Settings.SeleniumAddress;
+
+                        var updateResult = TestDataApi.Get<bool>(string.Format(EndPoints.BulkUpdateTestQueue, testQueueFirst.GroupName, 1));
+
+                        if (!updateResult.IsError)
+                        {
+                            SendTestToHub(testQueue);
+                        }
+                        else
+                        {
+                            var data = updateResult.Messages.Aggregate(string.Empty, (current, message) => current + (message.Name + ":" + message.Value + "\n"));
+                            LoggerService.LogException("ExecuteService UpdateResult: " + data);
+                        }
                     }
                     else
                     {
-                        var data = updateResult.Messages.Aggregate(string.Empty, (current, message) => current + (message.Name + ":" + message.Value + "\n"));
-                        LoggerService.LogException("ExecuteService UpdateResult: " + data);
+                        ProcessPendingQueue();
                     }
                 }
                 else
                 {
-                    foreach (var item in QueuedTest)
-                    {
-                        SendTestToHub(item.Value, item.Key);
-                    }
+                    ProcessPendingQueue();
                 }
             }
             catch (Exception ex)
             {
                 LoggerService.LogException("ExecuteService: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Processes the pending queue.
+        /// </summary>
+        private static void ProcessPendingQueue()
+        {
+            foreach (var item in QueuedTest.OrderBy(x => x.Value.CreatedOn))
+            {
+                SendTestToHub(item.Value, item.Key);
             }
         }
 
@@ -140,15 +156,34 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
 
                     string groupName = testQueue.Item[0].GroupName;
 
-                    TestDataApi.Post(string.Format(EndPoints.SchedulerHistoryStatus, groupName, (int)SchedulerExecutionStatus.InProgress), new List<SchedulerHistory>());
+                    var schedulerHistory = testQueue.Item[0].SchedulerId > 0
+                                               ? TestDataApi.Get<SchedulerHistory>(string.Format(EndPoints.SchedulerHistory, groupName))
+                                               : new ResultMessage<SchedulerHistory>();
 
-                    ProtractorCommandRunner protractorCommandRunner = new ProtractorCommandRunner();
+                    if (schedulerHistory.Item == null || !schedulerHistory.Item.IsCancelled)
+                    {
+                        TestDataApi.Post(string.Format(EndPoints.SchedulerHistoryStatus, groupName, (int)SchedulerExecutionStatus.InProgress), new List<SchedulerHistory>());
 
-                    var status = protractorCommandRunner.ExecuteCommand(groupName);
+                        ProtractorCommandRunner protractorCommandRunner = new ProtractorCommandRunner();
 
-                    TestDataApi.Post(string.Format(EndPoints.SchedulerHistoryStatus, groupName, (int)status), new List<SchedulerHistory>());
+                        var status = protractorCommandRunner.ExecuteCommand(groupName);
 
-                    ProcessUnprocessedResultWithJson(groupName);
+                        schedulerHistory = testQueue.Item[0].SchedulerId > 0
+                           ? TestDataApi.Get<SchedulerHistory>(string.Format(EndPoints.SchedulerHistory, groupName))
+                           : new ResultMessage<SchedulerHistory>();
+
+                        status = (schedulerHistory.Item == null || !schedulerHistory.Item.IsCancelled)
+                                     ? status
+                                     : SchedulerExecutionStatus.Cancelled;
+
+                        TestDataApi.Post(string.Format(EndPoints.SchedulerHistoryStatus, groupName, (int)status), new List<SchedulerHistory>());
+
+                        ProcessUnprocessedResultWithJson(groupName);
+                    }
+                    else
+                    {
+                        TestDataApi.Post(string.Format(EndPoints.SchedulerHistoryStatus, groupName, (int)SchedulerExecutionStatus.Cancelled), new List<SchedulerHistory>());
+                    }
 
                     ProcessEmail(testQueue, groupName);
 

@@ -13,6 +13,7 @@ namespace Elephant.Hank.Resources.Json
 {
     using System;
 
+    using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Models;
 
     /// <summary>
@@ -114,5 +115,10 @@ namespace Elephant.Hank.Resources.Json
         /// Gets or sets the Last step executed
         /// </summary>
         public string LastStepExecuted { get; set; }
+
+        /// <summary>
+        /// Gets or sets the status.
+        /// </summary>
+        public ExecutionReportStatus Status { get; set; }
     }
 }

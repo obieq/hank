@@ -15,6 +15,7 @@ namespace Elephant.Hank.WindowsApplication.Resources.Models
     using System.Linq;
 
     using Elephant.Hank.WindowsApplication.Resources.ApiModels;
+    using Elephant.Hank.WindowsApplication.Resources.ApiModels.Enum;
 
     /// <summary>
     /// The ReportResultData class
@@ -41,9 +42,10 @@ namespace Elephant.Hank.WindowsApplication.Resources.Models
 
             if (this.ReportData != null)
             {
-                this.PassedCount = this.ReportData.Count(x => x.Passed ?? false);
-                this.FaultCount = this.ReportData.Count(x => x.Passed.HasValue && !x.Passed.Value);
-                this.UnProcessedCount = this.ReportData.Count() - (this.PassedCount + this.FaultCount);
+                this.PassedCount = this.ReportData.Count(x => x.Status == ExecutionReportStatus.Passed);
+                this.FaultCount = this.ReportData.Count(x => x.Status == ExecutionReportStatus.Failed);
+                this.CancelledCount = this.ReportData.Count(x => x.Status == ExecutionReportStatus.Cancelled);
+                this.UnProcessedCount = this.ReportData.Count() - (this.PassedCount + this.FaultCount + this.CancelledCount);
             }
         }
 
@@ -98,13 +100,18 @@ namespace Elephant.Hank.WindowsApplication.Resources.Models
         public int UnProcessedCount { get; set; }
 
         /// <summary>
+        /// Gets or sets the cancelled count.
+        /// </summary>
+        public int CancelledCount { get; set; }
+
+        /// <summary>
         /// Gets the total count.
         /// </summary>
         public int TotalCount 
         {
             get
             {
-                return this.PassedCount + this.FaultCount + this.UnProcessedCount;
+                return this.PassedCount + this.FaultCount + this.UnProcessedCount + this.CancelledCount;
             }
         }
     }

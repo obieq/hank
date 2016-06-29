@@ -507,8 +507,10 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
 
     $scope.onActionChange = function () {
       var actionId = $scope.TestData.ActionId;
+      var executionSequence = $scope.TestData.ExecutionSequence;
       $scope.resetModel('onActionChange');
       $scope.TestData.ActionId = actionId;
+      $scope.TestData.ExecutionSequence = executionSequence;
       if ($scope.TestData.LinkTestType == 0) {
         $scope.resetAllInputControlDisplayStatus();
         $scope.InputControlDisplayStatus.ddlAction = true;
@@ -642,6 +644,7 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
       var linkTestType = $scope.TestData.LinkTestType;
       $scope.TestData = {};
       $scope.TestData = {
+        Id: $stateParams.TestDataId,
         ExecutionSequence: parseInt($stateParams.ExecutionSequence),
         TestId: $stateParams.TestId,
         SharedTestDataList: [],
@@ -666,6 +669,10 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
 
     $scope.onQueueClick = function () {
       $rootScope.$broadcast('openTestQueuePopup', {'TestId': $stateParams.TestId, 'WebsiteId': $stateParams.WebsiteId});
+    };
+
+    $scope.onActionChangeOnEdit = function () {
+
     };
 
   }]);

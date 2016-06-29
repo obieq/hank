@@ -89,6 +89,10 @@ var HashTagHelper = function () {
         defer.fulfill(JSON.stringify(defaultArray));
       });
     }
+    else if (splittedHashTagArray[1].split('~')[0].toLowerCase() == 'newguid') {
+      var newGuid = jsonHelper.createGuid();
+      defer.fulfill(newGuid);
+    }
     return defer.promise;
   };
 

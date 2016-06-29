@@ -24,6 +24,7 @@ app.controller('SuiteController', ['$scope', '$stateParams', '$state', 'CrudServ
 
     crudService.getAll(ngAppSettings.WebSiteTestCatUrl.format($stateParams.WebsiteId)).then(function (response) {
       $scope.TestCatList = response;
+      $scope.TestCatList.push({"Id": 0, "Name": "--All--"})
     }, function (response) {
     });
 
@@ -122,7 +123,6 @@ app.controller('SuiteController', ['$scope', '$stateParams', '$state', 'CrudServ
     };
 
     $scope.markUnMarkAll = function () {
-
       if ($scope.markUnMark) {
         var tstLst = angular.copy($scope.TestList);
         for (var i = 0; i < tstLst.length; i++) {
@@ -147,17 +147,32 @@ app.controller('SuiteController', ['$scope', '$stateParams', '$state', 'CrudServ
     };
 
     $scope.onTestCategoryChange = function () {
-      crudService.getAll(ngAppSettings.TestCatTestScriptsUrl.format($stateParams.WebsiteId, $scope.Suite.TestCatId)).then(function (response) {
-        $scope.TestList = [];
-        for (var i = 0; i < response.length; i++) {
-          var inAdded = _.where($scope.TestListAdded, {Id: response[i].Id})[0];
-          if (!inAdded) {
-            $scope.TestList.push(response[i])
+      if ($scope.Suite.TestCatId == 0) {
+        crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($stateParams.WebsiteId, 0)).then(function (response) {
+          $scope.TestList = [];
+          for (var i = 0; i < response.length; i++) {
+            var inAdded = _.where($scope.TestListAdded, {Id: response[i].Id})[0];
+            if (!inAdded) {
+              $scope.TestList.push(response[i]);
+            }
           }
-        }
-      }, function (response) {
-        commonUi.showErrorPopup(response);
-      });
+        }, function (response) {
+          commonUi.showErrorPopup(response);
+        });
+      }
+      else {
+        crudService.getAll(ngAppSettings.TestCatTestScriptsUrl.format($stateParams.WebsiteId, $scope.Suite.TestCatId)).then(function (response) {
+          $scope.TestList = [];
+          for (var i = 0; i < response.length; i++) {
+            var inAdded = _.where($scope.TestListAdded, {Id: response[i].Id})[0];
+            if (!inAdded) {
+              $scope.TestList.push(response[i])
+            }
+          }
+        }, function (response) {
+          commonUi.showErrorPopup(response);
+        });
+      }
     };
 
     $scope.shift = function (test, shiftDirection) {

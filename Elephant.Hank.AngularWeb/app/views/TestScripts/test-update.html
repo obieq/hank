@@ -34,7 +34,7 @@
             <div class="col-sm-4">
               <input type="text" class="form-control" ng-model="Test.TestName" name="State"  placeholder="TestName" required>
        <span ng-show="TestForm.TestName.$touched || TestForm.$submitted">
-        <small class="help-block"  ng-show="TestForm.TestName.$error.required"  style="color:red">Please enter test script name.</small>
+        <small class="help-block"  ng-show="TestForm.TestName.$error.required"  style="color:red">Please enter test script name.</small>k
         </span>
             </div>
           </div>
@@ -45,7 +45,7 @@
             <div class="col-sm-4">
               <select class="form-control" ng-model="Test.CategoryId" ng-options="testCat.Id as testCat.Name for testCat in TestCatList">
                 <option style="display:none" value="">--Select--</option>
-              </select>k
+              </select>
             </div>
           </div>
 

@@ -24,11 +24,28 @@ namespace Elephant.Hank.Common.TestDataServices
     public interface ISchedulerHistoryService : IBaseService<TblSchedulerHistoryDto>
     {
         /// <summary>
+        /// Cancels the execution.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="schedulerHistoryId">The scheduler history identifier.</param>
+        /// <returns>
+        /// TblSchedulerHistoryDto object
+        /// </returns>
+        ResultMessage<TblSchedulerHistoryDto> CancelExecution(long userId, long schedulerHistoryId);
+
+        /// <summary>
         /// Gets the by scheduler identifier.
         /// </summary>
         /// <param name="schedulerId">The scheduler identifier.</param>
         /// <returns>TblSchedulerHistoryDto object</returns>
         ResultMessage<IEnumerable<TblSchedulerHistoryDto>> GetBySchedulerId(long schedulerId);
+
+        /// <summary>
+        /// Gets the name of the by group.
+        /// </summary>
+        /// <param name="groupName">Name of the group.</param>
+        /// <returns>TblSchedulerHistoryDto object</returns>
+        ResultMessage<TblSchedulerHistoryDto> GetByGroupName(string groupName);
 
         /// <summary>
         /// Updates the name of the status by group.

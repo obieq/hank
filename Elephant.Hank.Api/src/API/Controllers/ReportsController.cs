@@ -216,6 +216,7 @@ namespace Elephant.Hank.Api.Controllers
                                     {
                                         TestQueueId = reportJson.TestQueueId,
                                         ExecutionGroup = reportJson.ExecutionGroup,
+                                        Status = reportJson.Status,
                                         Value = JsonConvert.SerializeObject(reportJson)
                                     };
 

@@ -47,6 +47,54 @@ namespace Elephant.Hank.Api.Controllers
         }
 
         /// <summary>
+        /// Gets the name of the by group.
+        /// </summary>
+        /// <param name="groupName">Name of the group.</param>
+        /// <returns>TblSchedulerHistoryDto object</returns>
+        [Route("{groupName}")]
+        [HttpGet]
+        public IHttpActionResult GetByGroupName(string groupName)
+        {
+            var result = new ResultMessage<TblSchedulerHistoryDto>();
+            try
+            {
+                result = this.schedulerHistoryService.GetByGroupName(groupName);
+            }
+            catch (Exception ex)
+            {
+                this.LoggerService.LogException(ex);
+                result.Messages.Add(new Message(null, ex.Message));
+            }
+
+            return this.CreateCustomResponse(result);
+        }
+
+        /// <summary>
+        /// Cancels the execution.
+        /// </summary>
+        /// <param name="schedulerHistoryId">The scheduler history identifier.</param>
+        /// <returns>
+        /// TblSchedulerHistoryDto objects
+        /// </returns>
+        [Route("{schedulerHistoryId}")]
+        [HttpPut]
+        public IHttpActionResult CancelExecution(long schedulerHistoryId)
+        {
+            var result = new ResultMessage<TblSchedulerHistoryDto>();
+            try
+            {
+                result = this.schedulerHistoryService.CancelExecution(this.UserId, schedulerHistoryId);
+            }
+            catch (Exception ex)
+            {
+                this.LoggerService.LogException(ex);
+                result.Messages.Add(new Message(null, ex.Message));
+            }
+
+            return this.CreateCustomResponse(result);
+        }
+
+        /// <summary>
         /// Gets the by identifier.
         /// </summary>
         /// <param name="groupName">Name of the group.</param>

@@ -53,6 +53,32 @@ namespace Elephant.Hank.Framework.TestDataServices
         }
 
         /// <summary>
+        /// Cancels the execution.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="schedulerHistoryId">The scheduler history identifier.</param>
+        /// <returns>
+        /// TblSchedulerHistoryDto object
+        /// </returns>
+        public ResultMessage<TblSchedulerHistoryDto> CancelExecution(long userId, long schedulerHistoryId)
+        {
+            var data = this.GetById(schedulerHistoryId);
+
+            if (!data.IsError && (data.Item.Status == SchedulerExecutionStatus.InProgress || data.Item.Status == SchedulerExecutionStatus.InQueue))
+            {
+                data.Item.IsCancelled = !data.Item.IsCancelled;
+
+                data = this.SaveOrUpdate(data.Item, userId);
+            }
+            else if (!data.IsError)
+            {
+                data.Messages.Add(new Message("Invalid state of scheduler history, may be changed by someother process, kindly refresh the page!"));
+            }
+
+            return data;
+        }
+
+        /// <summary>
         /// Gets the by scheduler identifier.
         /// </summary>
         /// <param name="schedulerId">The scheduler identifier.</param>
@@ -65,6 +91,30 @@ namespace Elephant.Hank.Framework.TestDataServices
 
             var mapper = this.mapperFactory.GetMapper<TblSchedulerHistory, TblSchedulerHistoryDto>();
             result.Item = entity.Select(mapper.Map);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the name of the by group.
+        /// </summary>
+        /// <param name="groupName">Name of the group.</param>
+        /// <returns>TblSchedulerHistoryDto object</returns>
+        public ResultMessage<TblSchedulerHistoryDto> GetByGroupName(string groupName)
+        {
+            var result = new ResultMessage<TblSchedulerHistoryDto>();
+
+            var entity = this.Table.Find(x => x.GroupName == groupName && x.IsDeleted != true).FirstOrDefault();
+
+            if (entity != null)
+            {
+                var mapper = this.mapperFactory.GetMapper<TblSchedulerHistory, TblSchedulerHistoryDto>();
+                result.Item = mapper.Map(entity);
+            }
+            else
+            {
+                result.Messages.Add(new Message("Record not found!"));
+            }
 
             return result;
         }
@@ -100,6 +150,10 @@ namespace Elephant.Hank.Framework.TestDataServices
             {
                 // Mark tests processed
                 this.testQueueService.UpdateTestQueueProcessingFlag(userId, groupName, true);
+            }
+            else if (status == SchedulerExecutionStatus.Cancelled)
+            {
+                this.testQueueService.UpdateTestQueueStatusByGroupName(userId, groupName, ExecutionReportStatus.Cancelled);
             }
 
             var mapper = this.mapperFactory.GetMapper<TblSchedulerHistory, TblSchedulerHistoryDto>();

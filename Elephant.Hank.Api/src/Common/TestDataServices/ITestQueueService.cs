@@ -15,6 +15,7 @@ namespace Elephant.Hank.Common.TestDataServices
 
     using Elephant.Hank.Common.DataService;
     using Elephant.Hank.Resources.Dto;
+    using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Messages;
 
     /// <summary>
@@ -37,7 +38,7 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <returns>
         /// Status update
         /// </returns>
-        ResultMessage<bool> UpdateTestQueueStatusByGroupName(long userId, string groupName, int status);
+        ResultMessage<bool> UpdateTestQueueStatusByGroupName(long userId, string groupName, ExecutionReportStatus status);
 
         /// <summary>
         /// Updates the test queue processing flag.

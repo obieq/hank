@@ -44,6 +44,7 @@
     <Compile Include="ApiModels\BaseApiModel.cs" />
     <Compile Include="ApiModels\Browsers.cs" />
     <Compile Include="ApiModels\Credentials.cs" />
+    <Compile Include="ApiModels\Enum\ExecutionReportStatus.cs" />
     <Compile Include="ApiModels\Enum\FrequencyEnum.cs" />
     <Compile Include="ApiModels\Enum\SchedulerExecutionStatus.cs" />
     <Compile Include="ApiModels\Enum\SchedulerHistoryEmailStatus.cs" />

@@ -13,6 +13,7 @@ namespace Elephant.Hank.DataService.DBSchema
 {   
     using System.ComponentModel.DataAnnotations.Schema;
     using Elephant.Hank.Resources.Attributes;
+    using Elephant.Hank.Resources.Enum;
 
     /// <summary>
     /// The TblReportData class
@@ -34,6 +35,11 @@ namespace Elephant.Hank.DataService.DBSchema
         /// Gets or sets the value.
         /// </summary>
         public string Value { get; set; }
+
+        /// <summary>
+        /// Gets or sets the status.
+        /// </summary>
+        public ExecutionReportStatus? Status { get; set; }
 
         /// <summary>
         /// Gets or sets the suite.

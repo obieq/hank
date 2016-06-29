@@ -52,7 +52,11 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="schedulerService">The scheduler service.</param>
         /// <param name="schedulerSuiteMapService">The schedulerSuite service.</param>
         /// <param name="schedulerHistoryService">The scheduler history service.</param>
-        public SchedulerController(ILoggerService loggerService, ISchedulerService schedulerService, ISchedulerSuiteMapService schedulerSuiteMapService, ISchedulerHistoryService schedulerHistoryService)
+        public SchedulerController(
+            ILoggerService loggerService,
+            ISchedulerService schedulerService,
+            ISchedulerSuiteMapService schedulerSuiteMapService, 
+            ISchedulerHistoryService schedulerHistoryService)
             : base(loggerService)
         {
             this.schedulerService = schedulerService;

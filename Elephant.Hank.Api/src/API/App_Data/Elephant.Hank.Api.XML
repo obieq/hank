@@ -2761,6 +2761,22 @@
             <param name="loggerService">The logger service.</param>
             <param name="schedulerHistoryService">The scheduler history service.</param>
         </member>
+        <member name="M:Elephant.Hank.Api.Controllers.SchedulerHistoryController.GetByGroupName(System.String)">
+            <summary>
+            Gets the name of the by group.
+            </summary>
+            <param name="groupName">Name of the group.</param>
+            <returns>TblSchedulerHistoryDto object</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.SchedulerHistoryController.CancelExecution(System.Int64)">
+            <summary>
+            Cancels the execution.
+            </summary>
+            <param name="schedulerHistoryId">The scheduler history identifier.</param>
+            <returns>
+            TblSchedulerHistoryDto objects
+            </returns>
+        </member>
         <member name="M:Elephant.Hank.Api.Controllers.SchedulerHistoryController.UpdateStatusByGroupName(System.String,Elephant.Hank.Resources.Enum.SchedulerExecutionStatus)">
             <summary>
             Gets the by identifier.
@@ -3441,7 +3457,7 @@
             Newly updated object
             </returns>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TestQueueController.UpdateBulk(System.String,System.Int32)">
+        <member name="M:Elephant.Hank.Api.Controllers.TestQueueController.UpdateBulk(System.String,Elephant.Hank.Resources.Enum.ExecutionReportStatus)">
             <summary>
             Updates the bulk.
             </summary>
@@ -3465,7 +3481,7 @@
             <param name="executableTestData">The executable test data.</param>
             <returns>auto incremented value</returns>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TestQueueController.ChangeTestQueueState(System.Int64,System.Int32)">
+        <member name="M:Elephant.Hank.Api.Controllers.TestQueueController.ChangeTestQueueState(System.Int64,Elephant.Hank.Resources.Enum.ExecutionReportStatus)">
             <summary>
             change the status of test queue
             </summary>

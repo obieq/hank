@@ -162,7 +162,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr dir-paginate="report in ReportList | itemsPerPage: PageSize" total-items="Total" current-page="CurrentPage"  class="ng-scope" style="color: {{ report.ExecutionStatusText == 'Failed'?'red' : '' }};">
+            <tr dir-paginate="report in ReportList | itemsPerPage: PageSize" total-items="Total" current-page="CurrentPage"  class="ng-scope" style="color: {{ report.StatusText == 'Failed'?'red' : '' }};">
               <td class="col-md-1" ng-if="report.Id <= 0">{{report.TestQueueId}}</td>
               <td class="col-md-1" ng-if="report.Id > 0"><a href="/#/Website/{{StateParamsWebsiteId}}/Report-Detail/{{report.Id}}"
                                                             target="_blank">{{report.TestQueueId}}</a></td>
@@ -174,9 +174,9 @@
               <td class="col-md-1">{{::report.Os}}</td>
               <td class="col-md-1">{{::report.BrowserName}}</td>
               <td class="col-md-1">{{::report.BrowserVersion}}</td>
-              <td class="col-md-1">{{::report.ExecutionStatusText}}</td>
-              <td class="col-md-1" ng-if="::report.ExecutionStatus < 8">&nbsp;</td>
-              <td class="col-md-1" ng-if="::report.ExecutionStatus >= 8">
+              <td class="col-md-1">{{::report.StatusText}}</td>
+              <td class="col-md-1" ng-if="::report.Status < 8">&nbsp;</td>
+              <td class="col-md-1" ng-if="::report.Status >= 8">
                 <a target="new" href="{{ ::report.ScreenShotUrl }}"><img ng-src="{{ ::report.ScreenShotThum200Url }}"
                                                                        style="width: 200px;border:0;"/></a>
               </td>

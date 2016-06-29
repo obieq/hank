@@ -176,7 +176,7 @@ namespace Elephant.Hank.Api.Controllers
         [Route("{groupName}/update-state/{status}")]
         [HttpGet]
         [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
-        public IHttpActionResult UpdateBulk(string groupName, int status)
+        public IHttpActionResult UpdateBulk(string groupName, ExecutionReportStatus status)
         {
             var result = new ResultMessage<bool>();
             try
@@ -248,7 +248,7 @@ namespace Elephant.Hank.Api.Controllers
         [Route("{testQueueId}/test-state/{stateId}")]
         [HttpPost]
         [CustomAuthorize(ActionType = ActionTypes.Write, ModuleType = FrameworkModules.TestScripts)]
-        public IHttpActionResult ChangeTestQueueState(long testQueueId, int stateId)
+        public IHttpActionResult ChangeTestQueueState(long testQueueId, ExecutionReportStatus stateId)
         {
             var result = new ResultMessage<TblTestQueueDto>();
             try
@@ -257,7 +257,7 @@ namespace Elephant.Hank.Api.Controllers
 
                 if (!result.IsError)
                 {
-                    result.Item.Status = stateId;
+                    result.Item.Status = (int)stateId;
 
                     result = this.testQueueService.SaveOrUpdate(result.Item, this.UserId);
                 }

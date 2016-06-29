@@ -271,6 +271,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
 
             promises.push(crudService.getAll(ngAppSettings.RequestTypeUrl).then(function (response) {
               $scope.RequestTypeList = response;
+              $scope.onRequestTypeChange();
             }, function (response) {
               commonUi.showErrorPopup(response);
             }));
@@ -367,8 +368,9 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
 
     $scope.onActionChange = function () {
       var actionId = $scope.SharedTestData.ActionId;
+      var executionSequence = $scope.SharedTestData.ExecutionSequence;
       $scope.resetModel('onActionChange');
-
+      $scope.SharedTestData.ExecutionSequence = executionSequence;
       $scope.SharedTestData.ActionId = actionId;
       if ($scope.SharedTestData.StepType == 0) {
         $scope.resetAllInputControlDisplayStatus();
@@ -464,6 +466,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
       var linkTestType = $scope.SharedTestData.StepType;
       $scope.SharedTestData = {};
       $scope.SharedTestData = {
+        Id: $stateParams.TestDataId,
         ExecutionSequence: parseInt($stateParams.ExecutionSequence),
         SharedTestId: $stateParams.SharedTestId,
         ApiTestData: {}
@@ -480,6 +483,11 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
         $scope.SharedTestData.ApiTestData.IgnoreHeaders = $scope.SharedTestData.ApiTestData.IgnoreHeaders || [];
         $scope.SharedTestData.ApiTestData.IgnoreHeaders.splice(headerIndex, 1);
       }
+    };
+
+    $scope.onRequestTypeChange = function () {
+      var request = _.where($scope.RequestTypeList, {'Id': $scope.SharedTestData.ApiTestData.RequestTypeId});
+      $scope.IsRequestBodyAllowed = request && request[0] ? request[0].IsRequestBodyAllowed : false;
     };
 
     $scope.addBlankHeader = function (type) {

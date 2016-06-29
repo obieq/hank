@@ -33,12 +33,17 @@
             <tbody>
             <tr ng-repeat="schedule in SchedulerHistory | orderBy:'-Id'" ng-class="schedule.IsDisabled ? 'alert-danger': ''">
               <td>{{$index+1}}</td>
-              <td>{{schedule.GroupName}}</td>
-              <td>{{schedule.CreatedOn | date:'MM-dd-yyyy hh:mm a'}}</td>
-              <td>{{schedule.ModifiedOn | date:'MM-dd-yyyy hh:mm a'}}</td>
-              <td>{{schedule.StatusText}}</td>
-              <td>{{schedule.EmailStatusText}}</td>
-              <td><a href="/#/Website/{{StateParamsWebsiteId}}/Report/{{schedule.GroupName}}">View Report</a></td>
+              <td>{{::schedule.GroupName}}</td>
+              <td>{{::schedule.CreatedOn | date:'MM-dd-yyyy hh:mm a'}}</td>
+              <td>{{::schedule.ModifiedOn | date:'MM-dd-yyyy hh:mm a'}}</td>
+              <td>{{::schedule.StatusText}}</td>
+              <td>{{::schedule.EmailStatusText}}</td>
+              <td>
+                <a href="/#/Website/{{StateParamsWebsiteId}}/Report/{{schedule.GroupName}}" title="View report"><i class="btn btn-primary fa fa-file-text"></i></a>
+
+                <button ng-if="schedule.IsCancelAble" title="Cancel" ng-click="cancelExecution(schedule)" class="btn btn-danger fa fa-close"></button>
+                <button ng-if="schedule.IsResumeAble" title="Resume" ng-click="cancelExecution(schedule)" class="btn btn-success fa fa-check"></button>
+              </td>
             </tr>
             </tbody>
           </table>
