@@ -1,0 +1,107 @@
+<section class="content-header">
+  <div class="row">
+    <!-- left column -->
+    <div class=" col-md-12 ">
+      <h1>
+        Tickets
+        <small></small>
+        <a ui-sref="Tickets.Add" class=" btn btn-primary" style="float:right;cursor: pointer">Add New Ticket</a></h1>
+    </div>
+  </div>
+</section>
+
+<section class="content">
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title"></h3>
+
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+              <th>Id</th>
+              <th>
+                <a href="#/Tickets" ng-click="sortType = 'Title' ; sortReverse = !sortReverse">
+                Title
+                 <span ng-show="sortType == 'Title' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'Title' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+                
+                </th>
+              <th>Description</th>
+              <th>
+                 <a href="#/Tickets" ng-click="sortType = 'TicketTypeText' ; sortReverse = !sortReverse">
+                Type
+                 <span ng-show="sortType == 'Title' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'Title' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+          
+                </th>
+              <th>
+                 <a href="#/Tickets" ng-click="sortType = 'TicketStatusText' ; sortReverse = !sortReverse">
+                Status
+                 <span ng-show="sortType == 'Title' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'Title' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+          
+                </th>
+              <th>
+                 <a href="#/Tickets" ng-click="sortType = 'PriorityText' ; sortReverse = !sortReverse">
+                Priority
+                 <span ng-show="sortType == 'Title' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'Title' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+          
+          
+                </th>
+               <th>
+                  <a href="#/Tickets" ng-click="sortType = 'CreatedByUserName' ; sortReverse = !sortReverse">
+               Created By
+                 <span ng-show="sortType == 'Title' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'Title' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+          
+                 
+                </th>
+              <th>
+                
+                <a href="#/Tickets" ng-click="sortType = 'AssignedToUserName' ; sortReverse = !sortReverse">
+              AssignedTo
+                 <span ng-show="sortType == 'Title' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'Title' && sortReverse" class="fa fa-caret-up"></span>
+          </a>
+                </th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody ng-init="getAllTickets()">
+            <tr ng-repeat="ticket in Tickets | orderBy:sortType:sortReverse">
+              <td>{{ticket.Id}}</td>
+              <td>{{ticket.Title}} </td>
+              <td>{{ticket.Description}}</td>
+               <td>{{ticket.TicketTypeText}}</td>
+                <td>{{ticket.TicketStatusText}}</td>
+                 <td>{{ticket.PriorityText}}</td>
+                 <td>{{ticket.CreatedByUserName}}</td>
+                  <td>{{ticket.AssignedToUserName}}</td>
+                  
+              <td>
+                <a ui-sref="Tickets.Update({ Id: ticket.Id })">Edit</a>
+              </td>             
+            </tr>          
+            </tbody>
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+  </div>
+
+</section>
+

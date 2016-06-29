@@ -720,7 +720,35 @@ var app = angular
         ncyBreadcrumb: {label: '{{HeadingText}}', parent: "Group.List"},
         permissionData: {Roles: ["TestAdmin"]}
       })
-
+      .state('Tickets', {
+        abstract: true,
+        url: "/Tickets",
+        views: {
+          "NavView": {templateUrl: "views/navigation.html", controller: 'NavCtrl'},
+          "MainView": {template: '<ui-view />'}
+        }
+      })
+      .state('Tickets.List', {
+        url: "",
+        templateUrl: "views/Tickets/tickets.html",
+        controller: 'TicketsController',
+        ncyBreadcrumb: {label: 'Tickets'},
+        permissionData: {Roles: ["TestAdmin"]}
+      })
+      .state('Tickets.Update', {
+        url: "/{Id:int}",
+        templateUrl: 'views/Tickets/ticket-update.html',
+        controller: 'TicketsController',
+        ncyBreadcrumb: {label: '{{Ticket.Description}}', parent: "Tickets.List"},
+        permissionData: {Roles: ["TestAdmin"]}
+      })
+      .state('Tickets.Add', {
+        url: "/Add",
+        templateUrl: 'views/Tickets/ticket-add.html',
+        controller: 'TicketsController',
+        ncyBreadcrumb: {label: 'New Ticket', parent: "Tickets.List"},
+        permissionData: {Roles: ["TestAdmin"]}
+      })
   })
   .constant('ngAppSettings', {
     StorageTimeOut: 300000,
@@ -801,6 +829,8 @@ var app = angular
 
     BrowserUrl: "browser",
     EnvironmentUrl: "environment",
+    TicketsUrl: "tickets",
+    TicketsDataUrl: "tickets/ticketsData",
 
     DbLogUrl: "dblog/{0}/{1}",
     DbLogRollDataUrl: "dblog/roll-data",

@@ -249,6 +249,13 @@
               <i class="fa fa-book"></i> <span>Hash Tag Description</span>
             </a>
           </li>
+          
+           <li ng-class="isActive(1, 'Tickets.List')" ng-show="IsLoggedIn &&  IsAdmin">
+            <a ui-sref="Tickets.List">
+              <i class="fa fa-book"></i> <span>Tickets</span>
+            </a>
+          </li>
+          
 
         </ul>
       </section>
@@ -370,6 +377,7 @@
 
 <script src="scripts/controllers/ApiTestModule/ApiCategoriesController.js"></script>
 <script src="scripts/controllers/ApiTestModule/ApiConnectionController.js"></script>
+<script src="scripts/controllers/TicketsController.js"></script>
 
 <script src="scripts/controllers/GroupController.js"></script>
 <script src="scripts/controllers/GroupWebsiteController.js"></script>
