@@ -87,8 +87,6 @@ var JsonHelper = function () {
         colNameValuePair.push({ColIndex: this.inArray(aryData[0], tmpData[0], true), Value: tmpData[1]});
       }
 
-
-
       var isMatchFound = false;
       for (var i = 0; i < aryData.length; i++) {
         isMatchFound = true;

@@ -189,11 +189,15 @@ namespace Elephant.Hank.Framework.TestDataServices
 
                         case (int)LinkTestType.ApiTestStep:
                             {
-                                long environMentId = testQueue.Settings.UrlId;
+                                long environMentId;
                                 if (testQueue.SchedulerId.HasValue)
                                 {
                                     ResultMessage<TblSchedulerDto> schedulerDto = this.schedulerService.GetById(testQueue.SchedulerId.Value);
                                     environMentId = schedulerDto.Item.UrlId;
+                                }
+                                else
+                                {
+                                    environMentId = testQueue.Settings.UrlId;
                                 }
 
                                 ResultMessage<TblApiConnectionDto> apiConnectionDto = this.apiConncetionService.GetByEnvironmentAndCategoryId(environMentId, item.ApiTestData.ApiCategoryId.Value);
