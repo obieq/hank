@@ -97,7 +97,8 @@
                     <th class="col-md-2">Display Name</th>
                     <th class="col-md-2">Action</th>
                     <th class="col-md-1" style="text-align: center;">Default Skip</th>
-                    <th class="col-md-1" style="text-align: center;">Skip</th>
+                    <!--<th class="col-md-1" style="text-align: center;">Skip</th>-->
+                    <th class="col-md-1" style="text-align: center;">Modified By </th>
                     <th class="col-md-1">Default Value</th>
                     <th class="col-md-1">Value</th>
                     <th class="col-md-1">Default Variable</th>
@@ -113,7 +114,8 @@
                     <td>{{stestData.DisplayNameValue}}</td>
                     <td>{{stestData.ActionValue}}</td>
                     <td align="center"><input type="checkbox" disabled ng-model="stestData.IsIgnored"></td>
-                    <td align="center"><input type="checkbox" disabled ng-model="stestData.Ignore"></td>
+                   <!-- <td align="center"><input type="checkbox" disabled ng-model="stestData.Ignore"></td>-->
+                    <td align="center">{{stestData.UIModifiedByUserName}}</td>
                     <td>{{stestData.Value}}</td>
                     <td>{{stestData.UIValue}}</td>
                     <td>{{stestData.VariableName}}</td>

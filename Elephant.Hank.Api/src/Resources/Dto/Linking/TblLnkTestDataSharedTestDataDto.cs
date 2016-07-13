@@ -47,5 +47,13 @@ namespace Elephant.Hank.Resources.Dto.Linking
         /// Gets or sets the new variable.
         /// </summary>
         public string NewVariable { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the modified by user.
+        /// </summary>
+        /// <value>
+        /// The name of the modified by user.
+        /// </value>
+        public string ModifiedByUserName { get; set; }
     }
 }

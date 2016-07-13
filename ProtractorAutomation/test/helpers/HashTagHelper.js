@@ -115,19 +115,17 @@ var HashTagHelper = function () {
       }
     }
     valueAfterOperaton = valueToPrepend;
-    valueAfterOperaton += hashTagAction == 'subtract' ? parseFloat(operationValueArray[0]) - parseFloat(operationValueArray[1]) : parseFloat(operationValueArray[0]) + parseFloat(operationValueArray[1]);
+    valueAfterOperaton += hashTagAction == 'subtract' ? (parseFloat(operationValueArray[0]) - parseFloat(operationValueArray[1])).toFixed(2) : (parseFloat(operationValueArray[0]) + parseFloat(operationValueArray[1])).toFixed(2);
     return valueAfterOperaton;
   };
 
   this.computeDate = function (hashTagText, correspondingValue) {
-
     switch (hashTagText) {
       case 'now':
       {
         currentCycleDate = new Date();
         break;
       }
-
       case 'variable':
       {
         var variableContainer = browser.params.config.variableContainer;

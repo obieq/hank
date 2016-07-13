@@ -366,6 +366,7 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
                 $scope.TestDataList[i].SharedTest.SharedTestDataList[j].UIValue = lnkSharedStep.NewValue;
                 $scope.TestDataList[i].SharedTest.SharedTestDataList[j].UIVariableName = lnkSharedStep.NewVariable;
                 $scope.TestDataList[i].SharedTest.SharedTestDataList[j].UIExecutionSequence = lnkSharedStep.NewOrder;
+                $scope.TestDataList[i].SharedTest.SharedTestDataList[j].UIModifiedByUserName=lnkSharedStep.ModifiedByUserName;
                 $scope.TestDataList[i].SharedTest.SharedTestDataList[j].LnkId = lnkSharedStep.Id;
               }
             }
