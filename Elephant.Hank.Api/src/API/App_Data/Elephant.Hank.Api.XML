@@ -15,9 +15,9 @@
             </summary>
             <param name="bundles">The bundles.</param>
         </member>
-        <member name="T:Elephant.Hank.Api.Controllers.TicketsController">
+        <member name="T:Elephant.Hank.Api.Controllers.HashTagDescriptionController">
             <summary>
-            The ActionController class
+            The HashTagDescriptionController class
             </summary>
         </member>
         <member name="T:Elephant.Hank.Api.Controllers.BaseApiController">
@@ -63,88 +63,6 @@
         <member name="P:Elephant.Hank.Api.Controllers.BaseApiController.LoggerService">
             <summary>
             Gets the logger service.
-            </summary>
-        </member>
-        <member name="F:Elephant.Hank.Api.Controllers.TicketsController.ticketManagerService">
-            <summary>
-            The TicketManager service
-            </summary>
-        </member>
-        <member name="F:Elephant.Hank.Api.Controllers.TicketsController.ticketHistoryService">
-            <summary>
-            The TicketHistoryService service
-            </summary>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.#ctor(Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.ITicketManagerService,Elephant.Hank.Common.TestDataServices.ITicketHistoryService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.TicketsController"/> class.
-            </summary>
-            <param name="loggerService">The logger service.</param>
-            <param name="ticketManagerService">The TicketManager service.</param>
-            <param name="ticketHistoryService">The TicketHistory Service</param>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.GetTicketData">
-            <summary>
-            Searches the report criteria data.
-            </summary>
-            <returns>SearchCriteriaData object</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.GetAll">
-            <summary>
-            Gets all.
-            </summary>
-            <returns>List of TblTicketMasterDto objects</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.GetById(System.Int64)">
-            <summary>
-            Gets the by identifier.
-            </summary>
-            <param name="ticketId">The identifier.</param>
-            <returns>TblTicketMasterDto objects</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.DeleteById(System.Int64)">
-            <summary>
-            Deletes the by identifier.
-            </summary>
-            <param name="ticketId">The identifier.</param>
-            <returns>Deleted object</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.Add(Elephant.Hank.Resources.Dto.TblTicketMasterDto)">
-            <summary>
-            Gets the by identifier.
-            </summary>
-            <param name="ticketMasterDto">The TicketMaster dto.</param>
-            <returns>
-            Newly added object
-            </returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.Update(Elephant.Hank.Resources.Dto.TblTicketMasterDto,System.Int64)">
-            <summary>
-            Updates the specified TicketMaster dto.
-            </summary>
-            <param name="ticketMasterDto">The TicketMaster dto.</param>
-            <param name="ticketId">The identifier.</param>
-            <returns>
-            Newly updated object
-            </returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.AddUpdate(Elephant.Hank.Resources.Dto.TblTicketMasterDto)">
-            <summary>
-            Adds the update.
-            </summary>
-            <param name="ticketMasterDto">The ticketMasterDto dto.</param>
-            <returns>Newly added object</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.SaveHistory(Elephant.Hank.Resources.Dto.TblTicketMasterDto,Elephant.Hank.Resources.Dto.TblTicketMasterDto)">
-            <summary>
-            Save the History of changes happened with ticket
-            </summary>
-            <param name="ticketMasterDto">The TicketMasterDto </param>
-            <param name="item">The object saved in DB firts time</param>
-        </member>
-        <member name="T:Elephant.Hank.Api.Controllers.HashTagDescriptionController">
-            <summary>
-            The HashTagDescriptionController class
             </summary>
         </member>
         <member name="F:Elephant.Hank.Api.Controllers.HashTagDescriptionController.hashTagDescriptionService">
@@ -362,6 +280,88 @@
             Gets all.
             </summary>
             <returns>List of TblRequestTypesDto objects</returns>
+        </member>
+        <member name="T:Elephant.Hank.Api.Controllers.TicketsController">
+            <summary>
+            The ActionController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Hank.Api.Controllers.TicketsController.ticketManagerService">
+            <summary>
+            The TicketManager service
+            </summary>
+        </member>
+        <member name="F:Elephant.Hank.Api.Controllers.TicketsController.ticketHistoryService">
+            <summary>
+            The TicketHistoryService service
+            </summary>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.#ctor(Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.ITicketManagerService,Elephant.Hank.Common.TestDataServices.ITicketHistoryService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.TicketsController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="ticketManagerService">The TicketManager service.</param>
+            <param name="ticketHistoryService">The TicketHistory Service</param>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.GetTicketData">
+            <summary>
+            Searches the report criteria data.
+            </summary>
+            <returns>SearchCriteriaData object</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblTicketMasterDto objects</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="ticketId">The identifier.</param>
+            <returns>TblTicketMasterDto objects</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.DeleteById(System.Int64)">
+            <summary>
+            Deletes the by identifier.
+            </summary>
+            <param name="ticketId">The identifier.</param>
+            <returns>Deleted object</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.Add(Elephant.Hank.Resources.Dto.TblTicketMasterDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="ticketMasterDto">The TicketMaster dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.Update(Elephant.Hank.Resources.Dto.TblTicketMasterDto,System.Int64)">
+            <summary>
+            Updates the specified TicketMaster dto.
+            </summary>
+            <param name="ticketMasterDto">The TicketMaster dto.</param>
+            <param name="ticketId">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.AddUpdate(Elephant.Hank.Resources.Dto.TblTicketMasterDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="ticketMasterDto">The ticketMasterDto dto.</param>
+            <returns>Newly added object</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.SaveHistory(Elephant.Hank.Resources.Dto.TblTicketMasterDto,Elephant.Hank.Resources.Dto.TblTicketMasterDto)">
+            <summary>
+            Save the History of changes happened with ticket
+            </summary>
+            <param name="ticketMasterDto">The TicketMasterDto </param>
+            <param name="item">The object saved in DB firts time</param>
         </member>
         <member name="T:Elephant.Hank.Api.Security.CustomAuthorizeAttribute">
             <summary>

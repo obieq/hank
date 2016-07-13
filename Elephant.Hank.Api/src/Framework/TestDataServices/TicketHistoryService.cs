@@ -52,6 +52,27 @@ namespace Elephant.Hank.Framework.TestDataServices
         }
 
         /// <summary>
+        /// Gets the by ticket identifier.
+        /// </summary>
+        /// <param name="ticketId">The ticket identifier.</param>
+        /// <returns>
+        /// TblTicketMasterDto objects
+        /// </returns>
+        public IEnumerable<TblTicketMasterDto> GetByTicketId(long ticketId)
+        {
+            var historyItems = this.table.Find(m => m.TicketId == ticketId);
+
+            var items = historyItems.Select(historyItem =>
+            {
+                var resultData = JsonConvert.DeserializeObject<TblTicketMasterDto>(historyItem.Value);
+                resultData.Id = historyItem.Id;
+                return resultData;
+            }).OrderByDescending(x => x.Id);
+
+            return items;
+        }
+
+        /// <summary>
         /// Saves the or update.
         /// </summary>
         /// <param name="sourceData">The source data.</param>

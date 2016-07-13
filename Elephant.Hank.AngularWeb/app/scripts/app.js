@@ -737,14 +737,14 @@ var app = angular
       })
       .state('Tickets.Update', {
         url: "/{Id:int}",
-        templateUrl: 'views/Tickets/ticket-update.html',
+        templateUrl: 'views/Tickets/ticket-add-update.html',
         controller: 'TicketsController',
-        ncyBreadcrumb: {label: '{{Ticket.Description}}', parent: "Tickets.List"},
+        ncyBreadcrumb: {label: '{{Ticket.Title}}', parent: "Tickets.List"},
         permissionData: {Roles: ["TestAdmin"]}
       })
       .state('Tickets.Add', {
         url: "/Add",
-        templateUrl: 'views/Tickets/ticket-add.html',
+        templateUrl: 'views/Tickets/ticket-add-update.html',
         controller: 'TicketsController',
         ncyBreadcrumb: {label: 'New Ticket', parent: "Tickets.List"},
         permissionData: {Roles: ["TestAdmin"]}

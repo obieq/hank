@@ -20,7 +20,7 @@ namespace Elephant.Hank.Api.Controllers
     using Common.TestDataServices;
     using Framework.Extensions;
     using Newtonsoft.Json;
-    using Resources.Constants;
+
     using Resources.Dto;
     using Resources.Messages;
     using Resources.Models;
@@ -30,7 +30,7 @@ namespace Elephant.Hank.Api.Controllers
     /// The ActionController class
     /// </summary>
     [RoutePrefix("api/tickets")]
-    [CustomAuthorize(Roles = RoleName.TestAdminRole)]
+    [CustomAuthorize]
     public class TicketsController : BaseApiController
     {
         /// <summary>
@@ -113,10 +113,7 @@ namespace Elephant.Hank.Api.Controllers
             try
             {
                 result = this.ticketManagerService.GetById(ticketId);
-                var historyData = this.ticketHistoryService.GetAll().Item.ToList();
-                var historyItems = historyData.FindAll(m => m.TicketId == ticketId);
-                var items = historyItems.Select(historyItem => JsonConvert.DeserializeObject<TblTicketMasterDto>(historyItem.Value)).ToList();
-                result.Item.TicketHistory = items;
+                result.Item.TicketHistory = this.ticketHistoryService.GetByTicketId(ticketId);
             }
             catch (Exception ex)
             {

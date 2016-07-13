@@ -104,6 +104,20 @@ namespace Elephant.Hank.DataService.DBSchema.CustomIdentity
         public DateTime? ModifiedOn { get; set; }
 
         /// <summary>
+        /// Gets the full name.
+        /// </summary>
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                var retValue = (this.FirstName + " " + this.LastName).Trim();
+
+                return retValue.IsBlank() ? this.UserName : retValue;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the log tracker.
         /// </summary>
         [NotMapped]

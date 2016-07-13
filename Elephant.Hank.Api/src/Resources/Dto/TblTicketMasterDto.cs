@@ -100,8 +100,7 @@ namespace Elephant.Hank.Resources.Dto
         /// <summary>
         /// Gets or sets the History for the Ticket
         /// </summary>
-        [Required]
-        public List<TblTicketMasterDto> TicketHistory { get; set; }
+        public IEnumerable<TblTicketMasterDto> TicketHistory { get; set; }
 
         /// <summary>
         /// Gets or sets the CreatedByUserName.

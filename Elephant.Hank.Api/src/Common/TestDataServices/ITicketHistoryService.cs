@@ -11,6 +11,8 @@
 
 namespace Elephant.Hank.Common.TestDataServices
 {
+    using System.Collections.Generic;
+
     using DataService;
 
     using Resources.Dto;
@@ -30,5 +32,12 @@ namespace Elephant.Hank.Common.TestDataServices
         /// Tin object
         /// </returns>
         ResultMessage<TblTicketHistoryDto> Save(TblTicketMasterDto sourceData, long userId);
+
+        /// <summary>
+        /// Gets the by ticket identifier.
+        /// </summary>
+        /// <param name="ticketId">The ticket identifier.</param>
+        /// <returns>TblTicketMasterDto objects</returns>
+        IEnumerable<TblTicketMasterDto> GetByTicketId(long ticketId);
     }
 }
