@@ -103,8 +103,7 @@ namespace Elephant.Hank.Framework.Mapper
                 .ForMember(x => x.AssignedToUserName, opt => opt.MapFrom(src => src.AssignedToUser != null ? src.AssignedToUser.FullName : null))
                 .ReverseMap();
             AutoMapper.Mapper.CreateMap<TblTicketHistory, TblTicketHistoryDto>()
-                .ForMember(x => x.CreatedByUserName, opt => opt.MapFrom(src => src.CreatedByUser != null ? src.CreatedByUser.FullName : null))
-.ReverseMap();
+                .ForMember(x => x.CreatedByUserName, opt => opt.MapFrom(src => src.CreatedByUser != null ? src.CreatedByUser.FullName : null)).ReverseMap();
             AutoMapper.Mapper.CreateMap<TblTicketMasterDto, TblTicketHistoryDto>().ReverseMap();
 
             AutoMapper.Mapper.CreateMap<TblTestData, TblTestDataDto>()
@@ -139,7 +138,7 @@ namespace Elephant.Hank.Framework.Mapper
             AutoMapper.Mapper.CreateMap<TblScheduler, TblSchedulerDto>()
                 .ForMember(x => x.WebsiteName, opt => opt.MapFrom(src => src.Website != null ? src.Website.Name : null))
                 .ForMember(x => x.UrlList, opt => opt.MapFrom(src => src.Website != null ? src.Website.WebsiteUrlList : null))
-                 .ForMember(x => x.LastUpdatedBy, opt => opt.MapFrom(src => src.User != null ? src.User.FirstName + " " + src.User.LastName : null))
+                 .ForMember(x => x.LastUpdatedBy, opt => opt.MapFrom(src => src.User != null ? src.User.FullName : null))
                 .ReverseMap();
 
             AutoMapper.Mapper.CreateMap<TblLnkSchedulerSuite, TblLnkSchedulerSuiteDto>()
@@ -188,7 +187,7 @@ namespace Elephant.Hank.Framework.Mapper
             AutoMapper.Mapper.CreateMap<TblEnvironmentDto, TblEnvironment>().ReverseMap();
 
             AutoMapper.Mapper.CreateMap<TblDbLog, TblDbLogDto>()
-                .ForMember(x => x.LastUpdatedBy, opt => opt.MapFrom(src => src.User != null ? src.User.FirstName + " " + src.User.LastName : null))
+                .ForMember(x => x.LastUpdatedBy, opt => opt.MapFrom(src => src.User != null ? src.User.FullName : null))
                 .ReverseMap();
 
             AutoMapper.Mapper.CreateMap<TblTestCategories, TblTestCategoriesDto>()

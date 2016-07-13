@@ -7,7 +7,9 @@
 app.controller('TicketsController',['$scope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService',
   function ($scope, $stateParams, $state, crudService, ngAppSettings, commonUi) {
     $scope.Tickets = [ ];
-    $scope.Ticket = {} ;
+    $scope.Ticket = {
+      Id: 0
+    } ;
     $scope.TicketData = {} ;
 
     $scope.AssignedTo = [ ];

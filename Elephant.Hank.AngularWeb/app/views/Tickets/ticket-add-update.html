@@ -2,10 +2,8 @@
   <div class="row">
     <!-- left column -->
     <div class=" col-md-8 col-md-offset-2">
-      <h1>
-        Create New Ticket
-        <small></small>
-      </h1>
+      <h1 ng-if="Ticket.Id <= 0">Create New Ticket</h1>
+      <h1 ng-if="Ticket.Id > 0">Update Ticket</h1>
     </div>
   </div>
 </section>
