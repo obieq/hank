@@ -186,6 +186,16 @@ namespace Elephant.Hank.Resources.Dto
         public string LastStepExecuted { get; set; }
 
         /// <summary>
+        /// Gets or sets the variable state container.
+        /// </summary>
+        public string VariableStateContainer { get; set; }
+
+        /// <summary>
+        /// Gets or sets the log container.
+        /// </summary>
+        public string LogContainer { get; set; }
+
+        /// <summary>
         /// Gets or sets the QueuedBy
         /// </summary>
         public string QueuedBy { get; set; }

@@ -74,5 +74,10 @@ namespace Elephant.Hank.Resources.Models
         /// Gets or sets the Execution group
         /// </summary>
         public string ExecutionGroup { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [extra data].
+        /// </summary>
+        public bool ExtraData { get; set; }
     }
 }
