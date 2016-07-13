@@ -55,5 +55,14 @@ namespace Elephant.Hank.DataService.DBSchema.Linking
         /// </summary>
         [ForeignKey("TestDataId")]
         public virtual TblTestData TestData { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the modified by user.
+        /// </summary>
+        /// <value>
+        /// The name of the modified by user.
+        /// </value>
+        [ForeignKey("ModifiedBy")]
+        public virtual CustomUser ModifiedByUser { get; set; }
     }
 }

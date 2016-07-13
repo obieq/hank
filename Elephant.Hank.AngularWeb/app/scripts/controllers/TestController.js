@@ -4,25 +4,25 @@
 
 'use strict';
 
-app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider','authService',
-  function ($scope, $rootScope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider,authService) {
+app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider', 'authService',
+  function ($scope, $rootScope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider, authService) {
 
     $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
     dataProvider.setAuthenticationParameters($scope, $stateParams.WebsiteId, ngAppSettings.ModuleType.TestScripts);
     var authData = authService.getAuthData();
 
-    $scope.LoggeddInUserName=authData.userName;
+    $scope.LoggeddInUserName = authData.userName;
 
     $scope.testAccessStatusList = [{
       Id: 1,
       Name: 'Public'
-    },{
-        Id: 2,
-        Name: 'Read Only'
-      }, {
-        Id: 3,
-        Name: 'Private'
-      }
+    }, {
+      Id: 2,
+      Name: 'Read Only'
+    }, {
+      Id: 3,
+      Name: 'Private'
+    }
     ];
 
     $scope.TestList = [];
@@ -49,22 +49,37 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
     $scope.BrowserList = [];
     $scope.Step_Types = ngAppSettings.StepTypes;
 
-    $scope.onCreatedByFilterChange = function () {
-        if ($scope.createdByFilter == 0) {
-            $scope.TestList = $scope.MasterTestList;
-        }
-        else {
-            $scope.TestList = _.where($scope.MasterTestList, { CreatedBy: $scope.createdByFilter });
-        }
+    $scope.onFilterChange = function () {
+      if ($scope.createdByFilter == 0 && $scope.categoryFilter == 0) {
+        $scope.TestList = $scope.MasterTestList;
+      }
+      else if ($scope.categoryFilter == 0 || $scope.categoryFilter == undefined) {
+        $scope.TestList = _.where($scope.MasterTestList, {CreatedBy: $scope.createdByFilter});
+      }
+      else if ($scope.createdByFilter == 0 || $scope.createdByFilter == undefined) {
+        $scope.TestList = _.where($scope.MasterTestList, {CategoryId: $scope.categoryFilter});
+      }
+      else {
+        $scope.TestList = _.where($scope.MasterTestList, {CategoryId: $scope.categoryFilter});
+        $scope.TestList = _.where($scope.TestList, {CreatedBy: $scope.createdByFilter});
+      }
     };
 
     $scope.getAllTests = function () {
+      $scope.createdByFilter = $scope.categoryFilter = 0;
       crudService.getAll(ngAppSettings.TestCatTestScriptsUrl.format($stateParams.WebsiteId, $scope.TestCatId)).then(function (response) {
-          $scope.MasterTestList = $scope.TestList = response;
-          $scope.UniqueTestListByCreatedBy = _.uniq($scope.TestList, function (x) {
-              return x.CreatedByUserName;
-          });
-          $scope.UniqueTestListByCreatedBy.push({CreatedByUserName:'All',CreatedBy:0});
+        $scope.MasterTestList = $scope.TestList = response;
+        $scope.UniqueTestListByCreatedBy = _.uniq($scope.TestList, function (x) {
+          return x.CreatedByUserName;
+        });
+        $scope.UniqueTestListByCategory = _.uniq($scope.TestList, function (x) {
+          return x.CategoryName;
+        });
+        _.remove($scope.UniqueTestListByCategory, function (x) {
+          return x.CategoryName == null;
+        });
+        $scope.UniqueTestListByCategory.push({CategoryName: 'All', CategoryId: 0});
+        $scope.UniqueTestListByCreatedBy.push({CreatedByUserName: 'All', CreatedBy: 0});
       }, function (response) {
         commonUi.showErrorPopup(response);
       });
@@ -87,6 +102,9 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
     };
 
     $scope.updateTest = function () {
+      if ($scope.Test.CategoryId == 0) {
+        $scope.Test.CategoryId = undefined;
+      }
       crudService.update(ngAppSettings.TestUrl.format($stateParams.WebsiteId, $stateParams.TestCatId), $scope.Test).then(function (response) {
         $state.go("Website.TestCatTest", {WebsiteId: $scope.stateParamWebsiteId, TestCatId: $scope.TestCatId});
       }, function (response) {
@@ -139,6 +157,7 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
       if (ignoreCatListLoad == false) {
         crudService.getAll(ngAppSettings.WebSiteTestCatUrl.format($stateParams.WebsiteId)).then(function (response) {
           $scope.TestCatList = response;
+          $scope.TestCatList.push({Id: 0, Name: '--NONE--'});
         }, function (response) {
         });
       }

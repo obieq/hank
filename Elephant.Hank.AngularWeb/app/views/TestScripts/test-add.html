@@ -49,7 +49,7 @@
 
               <div class="col-sm-4">
                 <select class="form-control" ng-model="Test.CategoryId"
-                        ng-options="testCat.Id as testCat.Name for testCat in TestCatList">
+                        ng-options="testCat.Id as testCat.Name for testCat in TestCatList | orderBy:'Id'">
                   <option style="display:none" value="">--Select--</option>
                 </select>
               </div>

@@ -174,7 +174,9 @@ namespace Elephant.Hank.Framework.Mapper
 
             AutoMapper.Mapper.CreateMap<TblBrowsers, TblBrowsersDto>().ReverseMap();
 
-            AutoMapper.Mapper.CreateMap<TblLnkTestDataSharedTestDataDto, TblLnkTestDataSharedTestData>().ReverseMap();
+            AutoMapper.Mapper.CreateMap<TblLnkTestDataSharedTestData, TblLnkTestDataSharedTestDataDto>()
+                .ForMember(x => x.ModifiedByUserName, opt => opt.MapFrom(src => src.ModifiedByUser.FirstName))
+                .ReverseMap();
 
             AutoMapper.Mapper.CreateMap<TblSharedTestData, TblTestData>();
 

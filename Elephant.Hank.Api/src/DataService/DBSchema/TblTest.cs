@@ -57,7 +57,7 @@ namespace Elephant.Hank.DataService.DBSchema
         /// Gets or sets the category.
         /// </summary>
         [ForeignKey("CategoryId")]
-        public TblTestCategories Category { get; set; }
+        public virtual TblTestCategories Category { get; set; }
 
         /// <summary>
         /// Gets or sets the User.
