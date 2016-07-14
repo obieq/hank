@@ -106,6 +106,10 @@ namespace Elephant.Hank.Framework.Mapper
                 .ForMember(x => x.CreatedByUserName, opt => opt.MapFrom(src => src.CreatedByUser != null ? src.CreatedByUser.FullName : null)).ReverseMap();
             AutoMapper.Mapper.CreateMap<TblTicketMasterDto, TblTicketHistoryDto>().ReverseMap();
 
+            AutoMapper.Mapper.CreateMap<TblTicketComment, TblTicketCommentDto>()
+               .ForMember(x => x.CreatedByUserName, opt => opt.MapFrom(src => src.CreatedByUser != null ? src.CreatedByUser.FullName : null))               
+               .ReverseMap();
+            
             AutoMapper.Mapper.CreateMap<TblTestData, TblTestDataDto>()
                 .ForMember(x => x.TestName, opt => opt.MapFrom(src => src.Test != null ? src.Test.TestName : null))
                 .ForMember(x => x.DisplayNameValue, opt => opt.MapFrom(src => src.LocatorIdentifier != null ? src.LocatorIdentifier.DisplayName : null))

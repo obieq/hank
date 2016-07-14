@@ -44,16 +44,23 @@ namespace Elephant.Hank.Api.Controllers
         private readonly ITicketHistoryService ticketHistoryService;
 
         /// <summary>
+        /// The TicketCommentService service
+        /// </summary>
+        private readonly ITicketCommentService ticketCommentService;
+        
+        /// <summary>
         /// Initializes a new instance of the <see cref="TicketsController"/> class.
         /// </summary>
         /// <param name="loggerService">The logger service.</param>
         /// <param name="ticketManagerService">The TicketManager service.</param>
         /// <param name="ticketHistoryService">The TicketHistory Service</param>
-        public TicketsController(ILoggerService loggerService, ITicketManagerService ticketManagerService, ITicketHistoryService ticketHistoryService)
+        /// <param name="ticketCommentService">The TicketComment Service</param>        
+        public TicketsController(ILoggerService loggerService, ITicketManagerService ticketManagerService, ITicketHistoryService ticketHistoryService, ITicketCommentService ticketCommentService)
             : base(loggerService)
         {
             this.ticketManagerService = ticketManagerService;
             this.ticketHistoryService = ticketHistoryService;
+            this.ticketCommentService = ticketCommentService;
         }
 
         /// <summary>
@@ -112,8 +119,7 @@ namespace Elephant.Hank.Api.Controllers
             var result = new ResultMessage<TblTicketMasterDto>();
             try
             {
-                result = this.ticketManagerService.GetById(ticketId);
-                result.Item.TicketHistory = this.ticketHistoryService.GetByTicketId(ticketId);
+                result = this.ticketManagerService.GetById(ticketId);                
             }
             catch (Exception ex)
             {
@@ -124,6 +130,52 @@ namespace Elephant.Hank.Api.Controllers
             return this.CreateCustomResponse(result);
         }
 
+        /// <summary>
+        /// Gets all comments based on ticketId
+        /// </summary>
+        /// <param name="ticketId">The identifier.</param>
+        /// <returns>TblTicketMasterDto objects</returns>
+        [Route("{ticketId}/comment")]
+        [AllowAnonymous]
+        public IHttpActionResult GetCommentsById(long ticketId)
+        {
+            var result = new ResultMessage<IEnumerable<TblTicketCommentDto>>();            
+            try
+            {
+                result.Item = this.ticketCommentService.GetByTicketId(ticketId);
+            }
+            catch (Exception ex)
+            {
+                LoggerService.LogException(ex);
+                result.Messages.Add(new Message(null, ex.Message));
+            }
+
+            return this.CreateCustomResponse(result);
+        }
+
+        /// <summary>
+        /// Gets all History based on ticketId
+        /// </summary>
+        /// <param name="ticketId">The identifier.</param>
+        /// <returns>TblTicketHistoryDto objects</returns>
+        [Route("{ticketId}/history")]
+        [AllowAnonymous]
+        public IHttpActionResult GetHistoryById(long ticketId)
+        {
+            var result = new ResultMessage<IEnumerable<TblTicketMasterDto>>();
+            try
+            {
+                result.Item = this.ticketHistoryService.GetByTicketId(ticketId);
+            }
+            catch (Exception ex)
+            {
+                LoggerService.LogException(ex);
+                result.Messages.Add(new Message(null, ex.Message));
+            }
+
+            return this.CreateCustomResponse(result);
+        }
+        
         /// <summary>
         /// Deletes the by identifier.
         /// </summary>
@@ -167,6 +219,23 @@ namespace Elephant.Hank.Api.Controllers
             }
 
             return this.AddUpdate(ticketMasterDto);
+        }
+
+        /// <summary>
+        /// Save a comment
+        /// </summary>
+        /// <param name="tblTicketCommentDto">The TblTicketComment dto.</param>
+        /// <param name="ticketId">The TicketID</param>
+        /// <returns>
+        /// Newly added object
+        /// </returns>
+        [Route("{ticketId}/comment")]
+        [HttpPost]
+        [AllowAnonymous]
+        public IHttpActionResult SaveComment([FromBody]TblTicketCommentDto tblTicketCommentDto, long ticketId)
+        {
+            var result = this.ticketCommentService.Save(tblTicketCommentDto, this.UserId, ticketId, tblTicketCommentDto.Description);
+            return this.CreateCustomResponse(result);
         }
 
         /// <summary>
@@ -223,7 +292,7 @@ namespace Elephant.Hank.Api.Controllers
             }
             else
             {
-                ticketMasterDto = ticketMasterDto.TicketHistory.First();
+                ticketMasterDto = this.ticketHistoryService.GetByTicketId(ticketMasterDto.Id).First();
 
                 if (ticketMasterDto.Description != item.Description || ticketMasterDto.Type != item.Type || ticketMasterDto.AssignedTo != item.AssignedTo || ticketMasterDto.Title != item.Title ||
                         ticketMasterDto.Status != item.Status || ticketMasterDto.Priority != item.Priority || ticketMasterDto.IsDeleted != item.IsDeleted)

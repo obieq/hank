@@ -10,6 +10,10 @@ app.controller('TicketsController',['$scope', '$stateParams', '$state', 'CrudSer
     $scope.Ticket = {
       Id: 0
     } ;
+    $scope.Comment = {
+      Id: 0
+    } ;
+    
     $scope.TicketData = {} ;
 
     $scope.AssignedTo = [ ];
@@ -28,6 +32,8 @@ app.controller('TicketsController',['$scope', '$stateParams', '$state', 'CrudSer
 
           if($stateParams.Id){
             $scope.getTicketById();
+            $scope.getAllHistory();
+             $scope.getAllComments();
           }
         },function(responseData){ commonUi.showErrorPopup(responseData); });
       }
@@ -38,7 +44,20 @@ app.controller('TicketsController',['$scope', '$stateParams', '$state', 'CrudSer
         $scope.Tickets = response;
       },function(response){ commonUi.showErrorPopup(response); });
     };
-
+    
+     $scope.getAllComments = function(){
+      crudService.getAll(ngAppSettings.TicketsCommentUrl.format($stateParams.Id)).then(function(response){
+        $scope.Comments = response;
+      },function(response){ commonUi.showErrorPopup(response); });
+    };
+    
+     $scope.getAllHistory = function(){
+      crudService.getAll(ngAppSettings.TicketsHistoryUrl.format($stateParams.Id)).then(function(response){
+       $scope.TicketHistory = response;
+      },function(response){ commonUi.showErrorPopup(response); });
+    };
+       
+    
     $scope.getTicketById = function(){
       crudService.getById(ngAppSettings.TicketsUrl, $stateParams.Id).then(function(response){
         $scope.Ticket = response.Item;
@@ -61,7 +80,13 @@ app.controller('TicketsController',['$scope', '$stateParams', '$state', 'CrudSer
         },function(response){ commonUi.showErrorPopup(response); });
       }
     };
-
+    
+     $scope.addComment = function(){
+        crudService.add(ngAppSettings.TicketsCommentUrl.format($stateParams.Id),$scope.Comment).then(function(response){
+             $scope.getAllComments();       
+        },function(response){ commonUi.showErrorPopup(response); });
+      }
+      
     $scope.formatTicketData = function (item) {
      var user =  $.grep($scope.AssignedTo, function(e){ return e.Value == item; });
      if(user.length > 0)

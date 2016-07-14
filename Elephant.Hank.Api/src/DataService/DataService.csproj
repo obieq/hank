@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBSchema\TblTicketHistory.cs" />
+    <Compile Include="DBSchema\TblTicketComment.cs" />
     <Compile Include="DBSchema\TblTicketMaster.cs" />
     <Compile Include="DBSchema\TblApiTestData.cs" />
     <Compile Include="DBSchema\CustomIdentity\TokenProvider.cs" />

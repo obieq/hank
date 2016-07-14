@@ -223,6 +223,11 @@ namespace Elephant.Hank.DataService
         public DbSet<TblTicketHistory> TblTicketHistory { get; set; }
 
         /// <summary>
+        /// Gets or sets the TicketComment
+        /// </summary>
+        public DbSet<TblTicketComment> TblTicketComment { get; set; }
+
+        /// <summary>
         /// override save changes
         /// </summary>
         /// <returns>Save status</returns>
@@ -386,6 +391,7 @@ namespace Elephant.Hank.DataService
             modelBuilder.Entity<TblRequestTypes>().ToTable("TblRequestTypes", DefaultSchema);
             modelBuilder.Entity<TblTicketMaster>().ToTable("TblTicketMaster", DefaultSchema);
             modelBuilder.Entity<TblTicketHistory>().ToTable("TblTicketHistory", DefaultSchema);
+            modelBuilder.Entity<TblTicketComment>().ToTable("TblTicketComment", DefaultSchema);
         }
 
         /// <summary>

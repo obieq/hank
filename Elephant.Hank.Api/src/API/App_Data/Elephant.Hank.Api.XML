@@ -296,13 +296,19 @@
             The TicketHistoryService service
             </summary>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.#ctor(Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.ITicketManagerService,Elephant.Hank.Common.TestDataServices.ITicketHistoryService)">
+        <member name="F:Elephant.Hank.Api.Controllers.TicketsController.ticketCommentService">
+            <summary>
+            The TicketCommentService service
+            </summary>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.#ctor(Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.ITicketManagerService,Elephant.Hank.Common.TestDataServices.ITicketHistoryService,Elephant.Hank.Common.TestDataServices.ITicketCommentService)">
             <summary>
             Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.TicketsController"/> class.
             </summary>
             <param name="loggerService">The logger service.</param>
             <param name="ticketManagerService">The TicketManager service.</param>
             <param name="ticketHistoryService">The TicketHistory Service</param>
+            <param name="ticketCommentService">The TicketComment Service</param>        
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.TicketsController.GetTicketData">
             <summary>
@@ -323,6 +329,20 @@
             <param name="ticketId">The identifier.</param>
             <returns>TblTicketMasterDto objects</returns>
         </member>
+        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.GetCommentsById(System.Int64)">
+            <summary>
+            Gets all comments based on ticketId
+            </summary>
+            <param name="ticketId">The identifier.</param>
+            <returns>TblTicketMasterDto objects</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.GetHistoryById(System.Int64)">
+            <summary>
+            Gets all History based on ticketId
+            </summary>
+            <param name="ticketId">The identifier.</param>
+            <returns>TblTicketHistoryDto objects</returns>
+        </member>
         <member name="M:Elephant.Hank.Api.Controllers.TicketsController.DeleteById(System.Int64)">
             <summary>
             Deletes the by identifier.
@@ -335,6 +355,16 @@
             Gets the by identifier.
             </summary>
             <param name="ticketMasterDto">The TicketMaster dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.SaveComment(Elephant.Hank.Resources.Dto.TblTicketCommentDto,System.Int64)">
+            <summary>
+            Save a comment
+            </summary>
+            <param name="tblTicketCommentDto">The TblTicketComment dto.</param>
+            <param name="ticketId">The TicketID</param>
             <returns>
             Newly added object
             </returns>

@@ -831,6 +831,8 @@ var app = angular
     EnvironmentUrl: "environment",
     TicketsUrl: "tickets",
     TicketsDataUrl: "tickets/ticketsData",
+    TicketsCommentUrl: "tickets/{0}/comment",
+    TicketsHistoryUrl: "tickets/{0}/history",
 
     DbLogUrl: "dblog/{0}/{1}",
     DbLogRollDataUrl: "dblog/roll-data",

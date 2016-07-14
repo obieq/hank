@@ -88,6 +88,7 @@
     </Compile>
     <Compile Include="Dto\RollDataDto.cs" />
     <Compile Include="Dto\TblTicketHistoryDto.cs" />
+    <Compile Include="Dto\TblTicketCommentDto.cs" />
     <Compile Include="Dto\TblTicketMasterDto.cs" />
     <Compile Include="Dto\TblApiCategoriesDto.cs" />
     <Compile Include="Dto\TblApiConnectionDto.cs" />
