@@ -183,12 +183,16 @@ namespace Elephant.Hank.Framework.TestDataServices
                                                                 pageSize
                                                             },
                                                             {
+                                                                "extraData",
+                                                                searchReportObject.ExtraData
+                                                            },
+                                                            {
                                                                 "executiongroup",
                                                                 searchReportObject.ExecutionGroup.IsBlank() ? null : searchReportObject.ExecutionGroup
                                                             }
                                                         };
 
-            var entities = this.Table.SqlQuery<TblReportDataDto>("Select * from procsearchreportv2(@createdOn, @websiteid, @suiteid, @testid, @osname, @browser, @teststatus, @userid, @startat, @pagesize, @executiongroup);", dictionary).ToList();
+            var entities = this.Table.SqlQuery<TblReportDataDto>("Select * from procsearchreportv2(@createdOn, @websiteid, @suiteid, @testid, @osname, @browser, @teststatus, @userid, @startat, @pagesize, @extraData, @executiongroup);", dictionary).ToList();
 
             if (!entities.Any())
             {
