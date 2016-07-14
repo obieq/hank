@@ -349,6 +349,50 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
 
     //#End Section For Update#//
 
+    $scope.getCsvHeaders = function(){
+      return ['Sequence', 'Display Name', 'Action', 'Value', 'Variable Name', 'Description'];
+    };
+
+    $scope.getCsvData = function(){
+      var result = [];
+      var count = 1;
+      for (var i = 0; i < $scope.TestDataList.length; i++) {
+        if($scope.TestDataList[i].SharedTest && $scope.TestDataList[i].SharedTest.SharedTestDataList) {
+          for(var j = 0; j < $scope.TestDataList[i].SharedTest.SharedTestDataList.length; j++){
+            var testData = $scope.TestDataList[i].SharedTest.SharedTestDataList[j];
+            result.push(testDataToUi(testData, count));
+            count++;
+          }
+        }
+        else{
+          result.push(testDataToUi($scope.TestDataList[i], count));
+          count++;
+        }
+      }
+      console.log($scope.TestDataList)
+      return result;
+    };
+
+    function testDataToUi(testData, sno){
+      var obj = {};
+      obj.Sequence = sno;
+
+      if(testData) {
+        if(testData.SharedStepWebsiteName) {
+          obj.DisplayName = testData.SharedStepWebsiteName + " - (" + testData.SharedStepWebsiteTestName + ")";
+        }
+        else{
+          obj.DisplayName = testData.DisplayNameValue;
+        }
+
+        obj.Action = testData.ActionValue;
+        obj.Value = testData.UIValue || testData.Value;
+        obj.VariableName = testData.VariableName;
+        obj.Description = testData.Description;
+      }
+
+      return obj;
+    };
 
     //#Start Section Load List#//
 
