@@ -221,10 +221,15 @@ namespace Elephant.Hank.Api.Controllers
                 ticketMasterDto.Id = item.Id;
                 this.ticketHistoryService.Save(item, this.UserId);
             }
-            else if (ticketMasterDto.Description != item.Description || ticketMasterDto.Type != item.Type || ticketMasterDto.AssignedTo != item.AssignedTo || ticketMasterDto.CreatedByUserName != item.CreatedByUserName ||
-                     ticketMasterDto.Status != item.Status || ticketMasterDto.Priority != item.Priority || ticketMasterDto.IsDeleted != item.IsDeleted)
+            else
             {
-                this.ticketHistoryService.Save(item, this.UserId);
+                ticketMasterDto = ticketMasterDto.TicketHistory.First();
+
+                if (ticketMasterDto.Description != item.Description || ticketMasterDto.Type != item.Type || ticketMasterDto.AssignedTo != item.AssignedTo || ticketMasterDto.Title != item.Title ||
+                        ticketMasterDto.Status != item.Status || ticketMasterDto.Priority != item.Priority || ticketMasterDto.IsDeleted != item.IsDeleted)
+                {
+                    this.ticketHistoryService.Save(item, this.UserId);
+                }
             }
         }
     }
