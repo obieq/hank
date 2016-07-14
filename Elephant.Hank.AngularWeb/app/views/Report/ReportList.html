@@ -98,6 +98,8 @@
             <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" class="btn btn-primary">Search</button>
+                <a type="button" class="btn btn-primary" style="cursor: pointer;margin-right: 5px;"
+                   ng-csv="getCsvData()" csv-header="getCsvHeaders()" lazy-load="true" filename="report.csv">To Excel</a>
               </div>
             </div>
           </div>

@@ -18,6 +18,7 @@ namespace Elephant.Hank.Resources.Dto
     using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Extensions;
+    using Elephant.Hank.Resources.Models;
 
     using Newtonsoft.Json;
 
@@ -199,5 +200,43 @@ namespace Elephant.Hank.Resources.Dto
         /// Gets or sets the QueuedBy
         /// </summary>
         public string QueuedBy { get; set; }
+
+        /// <summary>
+        /// Gets the json log container.
+        /// </summary>
+        /// <value>
+        /// The json log container.
+        /// </value>
+        public NameValuePair[] JsonLogContainer
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.LogContainer))
+                {
+                    return JsonConvert.DeserializeObject<NameValuePair[]>(this.LogContainer);
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the json variable state container.
+        /// </summary>
+        /// <value>
+        /// The json variable state container.
+        /// </value>
+        public NameValuePair[] JsonVariableStateContainer
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(this.VariableStateContainer))
+                {
+                    return JsonConvert.DeserializeObject<NameValuePair[]>(this.VariableStateContainer);
+                }
+
+                return null;
+            }
+        }
     }
 }
