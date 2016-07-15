@@ -131,6 +131,85 @@ namespace Elephant.Hank.Api.Controllers
         }
 
         /// <summary>
+        /// Deletes the by identifier.
+        /// </summary>
+        /// <param name="ticketId">The identifier.</param>
+        /// <returns>Deleted object</returns>
+        [Route("{ticketId}")]
+        [HttpDelete]
+        public IHttpActionResult DeleteById(long ticketId)
+        {
+            var result = new ResultMessage<TblTicketMasterDto>();
+            try
+            {
+                result = this.ticketManagerService.DeleteById(ticketId, this.UserId);
+            }
+            catch (Exception ex)
+            {
+                LoggerService.LogException(ex);
+                result.Messages.Add(new Message(null, ex.Message));
+            }
+
+            return this.CreateCustomResponse(result);
+        }
+
+        /// <summary>
+        /// Gets the by identifier.
+        /// </summary>
+        /// <param name="ticketMasterDto">The TicketMaster dto.</param>
+        /// <returns>
+        /// Newly added object
+        /// </returns>
+        [HttpPost]
+        public IHttpActionResult Add([FromBody]TblTicketMasterDto ticketMasterDto)
+        {
+            return this.AddUpdate(ticketMasterDto);
+        }
+
+        /// <summary>
+        /// Updates the specified TicketMaster dto.
+        /// </summary>
+        /// <param name="ticketMasterDto">The TicketMaster dto.</param>
+        /// <param name="ticketId">The identifier.</param>
+        /// <returns>
+        /// Newly updated object
+        /// </returns>
+        [Route("{ticketId}")]
+        [HttpPut]
+        public IHttpActionResult Update([FromBody]TblTicketMasterDto ticketMasterDto, long ticketId)
+        {
+            ticketMasterDto.Id = ticketId;
+            return this.AddUpdate(ticketMasterDto);
+        }
+
+        /// <summary>
+        /// Save a comment
+        /// </summary>
+        /// <param name="tblTicketCommentDto">The TblTicketComment dto.</param>
+        /// <param name="ticketId">The TicketID</param>
+        /// <returns>
+        /// Newly added object
+        /// </returns>
+        [Route("{ticketId}/comment")]
+        [HttpPost]
+        [AllowAnonymous]
+        public IHttpActionResult SaveComment([FromBody]TblTicketCommentDto tblTicketCommentDto, long ticketId)
+        {
+            var result = new ResultMessage<TblTicketCommentDto>();
+            try
+            {
+                result = this.ticketCommentService.Save(tblTicketCommentDto, this.UserId, ticketId);
+            }
+            catch (Exception ex)
+            {
+                LoggerService.LogException(ex);
+                result.Messages.Add(new Message(null, ex.Message));
+            }
+
+            return this.CreateCustomResponse(result);
+        }
+
+        /// <summary>
         /// Gets all comments based on ticketId
         /// </summary>
         /// <param name="ticketId">The identifier.</param>
@@ -139,7 +218,7 @@ namespace Elephant.Hank.Api.Controllers
         [AllowAnonymous]
         public IHttpActionResult GetCommentsById(long ticketId)
         {
-            var result = new ResultMessage<IEnumerable<TblTicketCommentDto>>();            
+            var result = new ResultMessage<IEnumerable<TblTicketCommentDto>>();
             try
             {
                 result.Item = this.ticketCommentService.GetByTicketId(ticketId);
@@ -174,85 +253,6 @@ namespace Elephant.Hank.Api.Controllers
             }
 
             return this.CreateCustomResponse(result);
-        }
-        
-        /// <summary>
-        /// Deletes the by identifier.
-        /// </summary>
-        /// <param name="ticketId">The identifier.</param>
-        /// <returns>Deleted object</returns>
-        [Route("{ticketId}")]
-        [HttpDelete]
-        public IHttpActionResult DeleteById(long ticketId)
-        {
-            var result = new ResultMessage<TblTicketMasterDto>();
-            try
-            {
-                result = this.ticketManagerService.DeleteById(ticketId, this.UserId);
-            }
-            catch (Exception ex)
-            {
-                LoggerService.LogException(ex);
-                result.Messages.Add(new Message(null, ex.Message));
-            }
-
-            return this.CreateCustomResponse(result);
-        }
-
-        /// <summary>
-        /// Gets the by identifier.
-        /// </summary>
-        /// <param name="ticketMasterDto">The TicketMaster dto.</param>
-        /// <returns>
-        /// Newly added object
-        /// </returns>
-        [HttpPost]
-        public IHttpActionResult Add([FromBody]TblTicketMasterDto ticketMasterDto)
-        {
-            var data = this.ticketManagerService.GetById(ticketMasterDto.Id);
-
-            if (!data.IsError)
-            {
-                data.Messages.Add(new Message(null, "Ticket already exists with '" + ticketMasterDto.Id + "' Id!"));
-
-                return this.CreateCustomResponse(data, HttpStatusCode.BadRequest);
-            }
-
-            return this.AddUpdate(ticketMasterDto);
-        }
-
-        /// <summary>
-        /// Save a comment
-        /// </summary>
-        /// <param name="tblTicketCommentDto">The TblTicketComment dto.</param>
-        /// <param name="ticketId">The TicketID</param>
-        /// <returns>
-        /// Newly added object
-        /// </returns>
-        [Route("{ticketId}/comment")]
-        [HttpPost]
-        [AllowAnonymous]
-        public IHttpActionResult SaveComment([FromBody]TblTicketCommentDto tblTicketCommentDto, long ticketId)
-        {
-            var result = this.ticketCommentService.Save(tblTicketCommentDto, this.UserId, ticketId, tblTicketCommentDto.Description);
-            return this.CreateCustomResponse(result);
-        }
-
-        /// <summary>
-        /// Updates the specified TicketMaster dto.
-        /// </summary>
-        /// <param name="ticketMasterDto">The TicketMaster dto.</param>
-        /// <param name="ticketId">The identifier.</param>
-        /// <returns>
-        /// Newly updated object
-        /// </returns>
-        [Route("{ticketId}")]
-        [HttpPut]
-        public IHttpActionResult Update([FromBody]TblTicketMasterDto ticketMasterDto, long ticketId)
-        {
-            this.ticketManagerService.GetById(ticketMasterDto.Id);
-            ticketMasterDto.Id = ticketId;
-            return this.AddUpdate(ticketMasterDto);
         }
 
         /// <summary>

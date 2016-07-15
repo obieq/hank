@@ -58,6 +58,7 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$statePa
     };
 
     $scope.getReport = function (pageNum) {
+      $scope.SearchObject.ExtraData = false;
       $scope.StateParamsWebsiteId = $scope.SearchObject.WebsiteId = $stateParams.WebsiteId;
 
       $scope.SearchObject.PageSize = $scope.PageSize;
@@ -81,7 +82,7 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$statePa
         $scope.ReportList = response.Item.Data;
       }, function (response) {
         $scope.Total = 0;
-        $scope.PageSize = 0;
+        $scope.PageSize = ngAppSettings.PageSize;
         $scope.Faulted = 0;
         $scope.Passed = 0;
         $scope.StartNum = 0;
@@ -114,58 +115,42 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$statePa
 
 
     $scope.getCsvHeaders = function () {
-      return ['Queue', 'Suite', 'Test Name', 'OS', 'Browser', 'Status', 'QueuedBy', 'Variable Name', 'Variable Value', 'Log Key', 'Log Value'];
+      return ['Sno', 'Queue', 'Suite', 'Test Name', 'OS', 'Browser', 'Status', 'QueuedBy', 'Variable Name', 'Variable Value', 'Log Key', 'Log Value'];
     };
 
     $scope.getCsvData = function () {
       var deferred = $q.defer();
       $scope.SearchObject.ExtraData = true;
+      $scope.SearchObject.PageSize = 0;
+
       crudService.search(ngAppSettings.SearchReportUrl.format($stateParams.WebsiteId), $scope.SearchObject).then(function (response) {
-        var ReportList = response.Item.Data;
+        var reportList = response.Item.Data;
         var result = [];
-        var count = 1;
-        for (var i = 0; i < ReportList.length; i++) {
-          var obj = {};
-          obj.TestQueueId = ReportList[i].TestQueueId;
-          obj.SuiteName = ReportList[i].SuiteName.replace(',', ';').replace('\n', '');
-          obj.TestName = ReportList[i].TestName.replace(',', ';').replace('\n', '');
-          obj.Os = ReportList[i].Os;
-          obj.BrowserName = ReportList[i].BrowserName;
-          obj.Status = ReportList[i].Status;
-          obj.QueuedBy = ReportList[i].QueuedBy.replace(',', ';').replace('\n', '');
-          var variableLength = !!ReportList[i].JsonVariableStateContainer ? ReportList[i].JsonVariableStateContainer.length : 0;
-          var logLength = !!ReportList[i].JsonLogContainer ? ReportList[i].JsonLogContainer.length : 0;
-          for (var j = 0; j < (variableLength > logLength ? variableLength : logLength); j++) {
-            if (j == 0) {
-              if (!!ReportList[i].JsonVariableStateContainer) {
-                obj.VariableName = !!ReportList[i].JsonVariableStateContainer[j] ? ReportList[i].JsonVariableStateContainer[j].Name.replace(',', ';').replace('\n', '') : '';
-                obj.VariableValue = !!ReportList[i].JsonVariableStateContainer[j] ? ReportList[i].JsonVariableStateContainer[j].Value.replace(',', ';').replace('\n', '') : '';
-              }
-              if (!!ReportList[i].JsonLogContainer) {
-                obj.LogName = !!ReportList[i].JsonLogContainer[j] ? ReportList[i].JsonLogContainer[j].Name.replace(',', ';').replace('\n', '') : '';
-                obj.LogValue = !!ReportList[i].JsonLogContainer[j] ? ReportList[i].JsonLogContainer[j].Value.replace(',', ';').replace('\n', '') : '';
-              }
-              result.push(obj);
+        var count = 0;
+        for (var i = 0; i < reportList.length; i++) {
+          var obj = getReportObject(reportList[i], ++count);
+          var variableLength = reportList[i].JsonVariableStateContainer ? reportList[i].JsonVariableStateContainer.length : 0;
+          var logLength = reportList[i].JsonLogContainer ? reportList[i].JsonLogContainer.length : 0;
+          var maxLen = (variableLength > logLength ? variableLength : logLength);
+
+          if(maxLen == 0){
+            result.push(obj);
+            continue;
+          }
+
+          for (var j = 0; j < maxLen; j++) {
+            if(j > 0){
+              obj = getReportObject(reportList[i], count);
             }
-            else {
-              obj = {};
-              obj.TestQueueId = '';
-              obj.SuiteName = '';
-              obj.TestName = '';
-              obj.Os = '';
-              obj.BrowserName = '';
-              obj.Status = '';
-              obj.QueuedBy = '';
-              if (!!ReportList[i].JsonVariableStateContainer) {
-                obj.VariableName = !!ReportList[i].JsonVariableStateContainer[j] ? ReportList[i].JsonVariableStateContainer[j].Name.replace(',', ';').replace('\n', '') : '';
-                obj.VariableValue = !!ReportList[i].JsonVariableStateContainer[j] ? ReportList[i].JsonVariableStateContainer[j].Value.replace(',', ';').replace('\n', '') : '';
-              }
-              if (!!ReportList[i].JsonLogContainer) {
-                obj.LogName = !!ReportList[i].JsonLogContainer[j] ? ReportList[i].JsonLogContainer[j].Name.replace(',', ';').replace('\n', '') : '';
-                obj.LogValue = !!ReportList[i].JsonLogContainer[j] ? ReportList[i].JsonLogContainer[j].Value.replace(',', ';').replace('\n', '') : '';
-              }
-              result.push(obj);
+            if (reportList[i].JsonVariableStateContainer) {
+              obj.VariableName = reportList[i].JsonVariableStateContainer[j] ? cleanDataForCsv(reportList[i].JsonVariableStateContainer[j].Name) : '';
+              obj.VariableValue = reportList[i].JsonVariableStateContainer[j] ? cleanDataForCsv(reportList[i].JsonVariableStateContainer[j].Value) : '';
             }
+            if (reportList[i].JsonLogContainer) {
+              obj.LogName = reportList[i].JsonLogContainer[j] ? cleanDataForCsv(reportList[i].JsonLogContainer[j].Name) : '';
+              obj.LogValue = reportList[i].JsonLogContainer[j] ? cleanDataForCsv(reportList[i].JsonLogContainer[j].Value) : '';
+            }
+            result.push(obj);
           }
         }
         deferred.resolve(result);
@@ -176,4 +161,24 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$statePa
       return deferred.promise;
     };
 
+    function getReportObject(reportObj, sno){
+      return {
+        Sno: sno,
+        TestQueueId: reportObj.TestQueueId,
+        SuiteName: cleanDataForCsv(reportObj.SuiteName),
+        TestName: cleanDataForCsv(reportObj.TestName),
+        Os: reportObj.Os,
+        BrowserName: reportObj.BrowserName,
+        Status: reportObj.StatusText,
+        QueuedBy: cleanDataForCsv(reportObj.QueuedBy)
+      };
+
+    }
+
+    function cleanDataForCsv(valueToClean){
+      if(valueToClean){
+        return (valueToClean + "").replace("\n", " ");
+      }
+      return valueToClean;
+    }
   }]);

@@ -12,6 +12,7 @@
 namespace Elephant.Hank.Resources.Dto
 {
     using System;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Configuration;
     using System.Web;
 
@@ -189,11 +190,13 @@ namespace Elephant.Hank.Resources.Dto
         /// <summary>
         /// Gets or sets the variable state container.
         /// </summary>
+        [JsonIgnore]
         public string VariableStateContainer { get; set; }
 
         /// <summary>
         /// Gets or sets the log container.
         /// </summary>
+        [JsonIgnore]
         public string LogContainer { get; set; }
 
         /// <summary>

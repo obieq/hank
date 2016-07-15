@@ -11,7 +11,6 @@
 
 namespace Elephant.Hank.Framework.TestDataServices
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Common.DataService;
@@ -19,9 +18,8 @@ namespace Elephant.Hank.Framework.TestDataServices
     using Common.TestDataServices;
     using Data;
     using DataService.DBSchema;
-    using Newtonsoft.Json;
+
     using Resources.Dto;
-    using Resources.Json;
     using Resources.Messages;
 
     /// <summary>
@@ -35,11 +33,6 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly IRepository<TblTicketComment> table;
 
         /// <summary>
-        /// The mapper factory
-        /// </summary>
-        private readonly IMapperFactory mapperFactory;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="TicketCommentService"/> class.
         /// </summary>
         /// <param name="mapperFactory">The mapper factory.</param>
@@ -47,7 +40,6 @@ namespace Elephant.Hank.Framework.TestDataServices
         public TicketCommentService(IMapperFactory mapperFactory, IRepository<TblTicketComment> table)
             : base(mapperFactory, table)
         {
-            this.mapperFactory = mapperFactory;
             this.table = table;
         }
         
@@ -57,17 +49,14 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <param name="sourceData">The source data.</param>
         /// <param name="userId">The user identifier.</param>       
         /// <param name="ticketId">The ticketId.</param>
-        /// <param name="comment">The comment.</param>
         /// <returns>
         /// Tin object
         /// </returns>
-        public ResultMessage<TblTicketCommentDto> Save(TblTicketCommentDto sourceData, long userId, long ticketId, string comment)
+        public ResultMessage<TblTicketCommentDto> Save(TblTicketCommentDto sourceData, long userId, long ticketId)
         {
             var result = new ResultMessage<TblTicketCommentDto>();
             
-            var map = this.mapperFactory.GetMapper<TblTicketCommentDto, TblTicketCommentDto>().Map(sourceData);
-
-            var dbResult = this.Save(new List<TblTicketCommentDto> { map }, userId, ticketId, sourceData.Description);
+            var dbResult = this.Save(new List<TblTicketCommentDto> { sourceData }, userId, ticketId);
 
             if (dbResult == null)
             {
@@ -90,15 +79,12 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <param name="sourceDataList">The source data list.</param>
         /// <param name="userId">The user identifier.</param>
         /// <param name="ticketId">The ticketId.</param>
-        /// <param name="comment">The comment.</param>
         /// <returns>
         /// Tin object
         /// </returns>
-        public ResultMessage<IEnumerable<TblTicketCommentDto>> Save(IEnumerable<TblTicketCommentDto> sourceDataList, long userId, long ticketId, string comment)
+        public ResultMessage<IEnumerable<TblTicketCommentDto>> Save(IEnumerable<TblTicketCommentDto> sourceDataList, long userId, long ticketId)
         {
             var result = new ResultMessage<IEnumerable<TblTicketCommentDto>>();
-
-            var entities = sourceDataList.Select(this.mapperFactory.GetMapper<TblTicketCommentDto, TblTicketComment>().Map).ToList();
 
             if (userId == 0)
             {
@@ -106,26 +92,14 @@ namespace Elephant.Hank.Framework.TestDataServices
             }
             else
             {
-                foreach (var entity in entities)
+                foreach (var entity in sourceDataList)
                 {
                     entity.ModifiedBy = userId;
-                    entity.Description = comment;
                     entity.TicketId = ticketId;
                     entity.CreatedBy = userId;
-                    entity.CreatedOn = DateTime.Now;
-                    this.table.Insert(entity);
                 }
 
-                var resultCount = this.table.Commit();
-
-                if (resultCount == 0)
-                {
-                    result.Messages.Add(new Message(null, "Record not found!"));
-                }
-                else
-                {
-                    result.Item = entities.Select(this.mapperFactory.GetMapper<TblTicketComment, TblTicketCommentDto>().Map);
-                }
+                result = this.SaveOrUpdate(sourceDataList, userId);
             }
 
             return result;
@@ -140,7 +114,7 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// </returns>
         public IEnumerable<TblTicketCommentDto> GetByTicketId(long ticketId)
         {
-            var comments = this.table.Find(m => m.TicketId == ticketId);
+            var comments = this.table.Find(m => m.TicketId == ticketId && !m.IsDeleted);
 
             var items = comments.Select(comment => new TblTicketCommentDto
             {

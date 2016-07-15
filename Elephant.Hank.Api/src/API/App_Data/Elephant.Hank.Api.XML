@@ -329,20 +329,6 @@
             <param name="ticketId">The identifier.</param>
             <returns>TblTicketMasterDto objects</returns>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.GetCommentsById(System.Int64)">
-            <summary>
-            Gets all comments based on ticketId
-            </summary>
-            <param name="ticketId">The identifier.</param>
-            <returns>TblTicketMasterDto objects</returns>
-        </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.GetHistoryById(System.Int64)">
-            <summary>
-            Gets all History based on ticketId
-            </summary>
-            <param name="ticketId">The identifier.</param>
-            <returns>TblTicketHistoryDto objects</returns>
-        </member>
         <member name="M:Elephant.Hank.Api.Controllers.TicketsController.DeleteById(System.Int64)">
             <summary>
             Deletes the by identifier.
@@ -359,6 +345,16 @@
             Newly added object
             </returns>
         </member>
+        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.Update(Elephant.Hank.Resources.Dto.TblTicketMasterDto,System.Int64)">
+            <summary>
+            Updates the specified TicketMaster dto.
+            </summary>
+            <param name="ticketMasterDto">The TicketMaster dto.</param>
+            <param name="ticketId">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
         <member name="M:Elephant.Hank.Api.Controllers.TicketsController.SaveComment(Elephant.Hank.Resources.Dto.TblTicketCommentDto,System.Int64)">
             <summary>
             Save a comment
@@ -369,15 +365,19 @@
             Newly added object
             </returns>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.Update(Elephant.Hank.Resources.Dto.TblTicketMasterDto,System.Int64)">
+        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.GetCommentsById(System.Int64)">
             <summary>
-            Updates the specified TicketMaster dto.
+            Gets all comments based on ticketId
             </summary>
-            <param name="ticketMasterDto">The TicketMaster dto.</param>
             <param name="ticketId">The identifier.</param>
-            <returns>
-            Newly updated object
-            </returns>
+            <returns>TblTicketMasterDto objects</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.TicketsController.GetHistoryById(System.Int64)">
+            <summary>
+            Gets all History based on ticketId
+            </summary>
+            <param name="ticketId">The identifier.</param>
+            <returns>TblTicketHistoryDto objects</returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.TicketsController.AddUpdate(Elephant.Hank.Resources.Dto.TblTicketMasterDto)">
             <summary>

@@ -13,27 +13,25 @@ namespace Elephant.Hank.Common.TestDataServices
 {
     using System.Collections.Generic;
 
-    using DataService;
+    using Elephant.Hank.Common.DataService;
+    using Elephant.Hank.Resources.Dto;
+    using Elephant.Hank.Resources.Messages;
 
-    using Resources.Dto;
-    using Resources.Messages;
-    
     /// <summary>
     /// The ITicketCommentService interface
     /// </summary>
     public interface ITicketCommentService : IBaseService<TblTicketCommentDto>
-    {     
+    {
         /// <summary>
         /// Saves Ticket Comment
         /// </summary>
         /// <param name="sourceData">The source data.</param>
         /// <param name="userId">The user identifier.</param>
         /// <param name="ticketId">The ticketId.</param>
-        /// <param name="comment">The comment.</param>
         /// <returns>
         /// Tin object
         /// </returns>
-        ResultMessage<TblTicketCommentDto> Save(TblTicketCommentDto sourceData, long userId, long ticketId, string comment);
+        ResultMessage<TblTicketCommentDto> Save(TblTicketCommentDto sourceData, long userId, long ticketId);
 
         /// <summary>
         /// Gets the by ticket identifier.
