@@ -49,7 +49,6 @@ var JsonHelper = function () {
     varName = this.checkVariableInVariableAndGetValue(varName);
 
 
-
     var indexes = varName.match(/\[(.*?)\]/g) || [];
 
     for (var i = 0; i < indexes.length; i++) {
@@ -403,7 +402,41 @@ var JsonHelper = function () {
     }
 
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-  }
+  };
+
+  this.readDataFromHTMLControl = function (key) {
+    var defer = protractor.promise.defer();
+    var tblData = [];
+    key.getTagName().then(function (tagName) {
+      if (tagName == "table") {
+        key.all(by.tagName('tr')).each(function (trEle, trInd) {
+          tblData[trInd] = [];
+          trEle.all(by.tagName('td')).each(function (tdEle, tdInd) {
+            tdEle.getText().then(function (text) {
+              tblData[trInd][tdInd] = text;
+            });
+          });
+        }).then(function () {
+          defer.fulfill(JSON.stringify(tblData));
+        });
+      }
+      else if (tagName == "select") {
+        tblData[0] = ['DDLData', 'DDLValue'];
+        key.all(by.tagName('option')).each(function (optEle, optInd) {
+          optEle.getText().then(function (text) {
+            optEle.getAttribute('value').then(function (value) {
+              tblData[optInd + 1] = [];
+              tblData[optInd + 1][0] = text;
+              tblData[optInd + 1][1] = value;
+            });
+          });
+        }).then(function () {
+          defer.fulfill(JSON.stringify(tblData));
+        });
+      }
+    });
+    return defer.promise;
+  };
 
 };
 module.exports = JsonHelper;

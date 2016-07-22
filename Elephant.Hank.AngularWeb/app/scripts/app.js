@@ -733,21 +733,21 @@ var app = angular
         templateUrl: "views/Tickets/tickets.html",
         controller: 'TicketsController',
         ncyBreadcrumb: {label: 'Tickets'},
-        permissionData: {Roles: ["TestAdmin"]}
+        permissionData: {Roles: ["TestAdmin", "TestUser"]}
       })
       .state('Tickets.Update', {
         url: "/{Id:int}",
         templateUrl: 'views/Tickets/ticket-add-update.html',
         controller: 'TicketsController',
         ncyBreadcrumb: {label: '{{Ticket.Title}}', parent: "Tickets.List"},
-        permissionData: {Roles: ["TestAdmin"]}
+        permissionData: {Roles: ["TestAdmin", "TestUser"]}
       })
       .state('Tickets.Add', {
         url: "/Add",
         templateUrl: 'views/Tickets/ticket-add-update.html',
         controller: 'TicketsController',
         ncyBreadcrumb: {label: 'New Ticket', parent: "Tickets.List"},
-        permissionData: {Roles: ["TestAdmin"]}
+        permissionData: {Roles: ["TestAdmin", "TestUser"]}
       })
   })
   .constant('ngAppSettings', {

@@ -23,6 +23,9 @@ var InputHelper = function () {
   var ApiTestHelper = require('./../helpers/ApiTestHelper.js');
   var apiTestHelper = new ApiTestHelper();
 
+  var CustomAssertHelper = require('./../helpers/CustomAssertHelper.js');
+  var customAssertHelper = new CustomAssertHelper();
+
   var fs = require('fs');
   var FS = require("q-io/fs");
   var hotkeys = require('protractor-hotkeys');
@@ -216,7 +219,7 @@ var InputHelper = function () {
         if (testInstance.StepType == 4) {
           browser.getCurrentUrl().then(function (url) {
             apiTestHelper.callApi(testInstance, function (response) {
-              thisobj.setVariable(testInstance.ExecutionSequence,testInstance.VariableName,response,"");
+              thisobj.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, response, "");
             });
           });
         }
@@ -229,17 +232,17 @@ var InputHelper = function () {
     return key;
   };
 
-  this.waitReady = function(elementFinder, testInstance){
-    if(actionConstant.AssertElementToBePresent != testInstance.Action){
+  this.waitReady = function (elementFinder, testInstance) {
+    if (actionConstant.AssertElementToBePresent != testInstance.Action) {
       element(elementFinder).waitReady();
     }
-  }
+  };
 
   this.setInput = function (key, testInstance, testName) {
     if (key != null) {
 
       this.GetSharedVariable(testInstance);
-      if (testInstance.VariableName.trim() == '' || testInstance.Action == actionConstant.LogText || testInstance.Action == actionConstant.DeclareVariable || testInstance.Action == actionConstant.SetVariable || testInstance.Action == actionConstant.SetVariableManually) {
+      if (testInstance.VariableName.trim() == '' || testInstance.VariableName.startsWith('#arraycomp') || testInstance.Action == actionConstant.LogText || testInstance.Action == actionConstant.DeclareVariable || testInstance.Action == actionConstant.SetVariable || testInstance.Action == actionConstant.SetVariableManually || testInstance.Action == actionConstant.ReadControlText) {
 
         switch (testInstance.Action) {
           case actionConstant.SetText:
@@ -356,8 +359,19 @@ var InputHelper = function () {
           case actionConstant.AssertToEqual:
           {
             if (key == "") {
-              expect(testInstance.Value + "").toEqual(jsonHelper.customTrim(testInstance.ToCompareWith + ""));
-              browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
+              if (testInstance.VariableName.startsWith('#arraycomp')) {
+                browser.getCurrentUrl().then(function (urle) {
+                  var splitedVar = testInstance.VariableName.split('#');
+                  var assertresult = customAssertHelper.arrayComparisionAssert(splitedVar[2], splitedVar[3]);
+                  if (assertresult) {
+                    expect("both array are equal").toEqual("both array are equal");
+                  }
+                });
+              }
+              else {
+                expect(testInstance.Value + "").toEqual(jsonHelper.customTrim(testInstance.ToCompareWith + ""));
+                browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
+              }
             }
             else {
               this.performAssertOperation(testInstance.ExecutionSequence, key, testInstance.Value, true);
@@ -415,7 +429,6 @@ var InputHelper = function () {
                   thisobj.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, JSON.stringify(a), testInstance.DisplayName);
                   browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
                 });
-
               });
             }
             else {
@@ -435,6 +448,7 @@ var InputHelper = function () {
               this.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, testInstance.Value, testInstance.DisplayName);
             }
             else {
+
               var response = hashTagHelper.computeHashTags(testInstance.Value).then(function (response) {
                 thisobj.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, response.toString(), testInstance.DisplayName);
               });
@@ -645,6 +659,15 @@ var InputHelper = function () {
             browser.executeScript("arguments[0].click();", key.getWebElement());
             break;
           }
+
+          case actionConstant.ReadControlText:
+          {
+            jsonHelper.readDataFromHTMLControl(key).then(function (htmlControlData) {
+              thisobj.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, htmlControlData, testInstance.DisplayName);
+            });
+
+            break;
+          }
         }
 
 
@@ -698,7 +721,6 @@ var InputHelper = function () {
       }
 
       if (!flag) {
-
         browser.params.config.variableContainer.push({
           Name: variableName,
           Value: textVal,
@@ -750,85 +772,87 @@ var InputHelper = function () {
   };
 
   this.GetSharedVariable = function (testInstance) {
-    if (testInstance.VariableName.trim() != '' && testInstance.Action != actionConstant.SetVariable && testInstance.Action != actionConstant.SetVariableManually) {
-      browser.getCurrentUrl().then(function (actualUrl) {
+    if (testInstance.VariableName.trim() != '' && testInstance.Action != actionConstant.SetVariable && testInstance.Action != actionConstant.SetVariableManually && testInstance.Action != actionConstant.ReadControlText) {
+      if (!testInstance.VariableName.startsWith('#arraycomp')) {
+        browser.getCurrentUrl().then(function (actualUrl) {
 
-        var toCompareValue = testInstance.Value;
-        if (testInstance.VariableName.indexOf('[') == -1) {
-          if (testInstance.VariableName.indexOf('{') == -1) {
-            if (testInstance.VariableName.indexOf('#') == -1) {
+          var toCompareValue = testInstance.Value;
+          if (testInstance.VariableName.indexOf('[') == -1) {
+            if (testInstance.VariableName.indexOf('{') == -1) {
+              if (testInstance.VariableName.indexOf('#') == -1) {
+                for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
+                  if (testInstance.VariableName == browser.params.config.variableContainer[k].Name) {
+                    testInstance.Value = browser.params.config.variableContainer[k].Value;
+                    break;
+                  }
+                }
+              }
+              else {
+                var variables = testInstance.VariableName.split('#');
+                for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
+                  if (variables[0] == browser.params.config.variableContainer[k].Name) {
+                    testInstance.Value = browser.params.config.variableContainer[k].Value;
+                  }
+                  else if (variables[1] == browser.params.config.variableContainer[k].Name) {
+                    toCompareValue = browser.params.config.variableContainer[k].Value;
+                  }
+                }
+              }
+            }
+            else {
               for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
-                if (testInstance.VariableName == browser.params.config.variableContainer[k].Name) {
-                  testInstance.Value = browser.params.config.variableContainer[k].Value;
+                if (testInstance.VariableName.substring(0, testInstance.VariableName.indexOf('{')) == browser.params.config.variableContainer[k].Name) {
+                  var subStrIndex = testInstance.VariableName.substring(testInstance.VariableName.indexOf('{') + 1, testInstance.VariableName.indexOf('}'));
+                  testInstance.Value = eval("browser.params.config.variableContainer[k].Value.substring(" + subStrIndex + ")");
+
                   break;
                 }
               }
+            }
+          }
+          else {
+            if (testInstance.VariableName.indexOf('#') == -1) {
+              testInstance.Value = jsonHelper.GetIndexedVariableValueFromVariableContainer(testInstance.VariableName);
             }
             else {
               var variables = testInstance.VariableName.split('#');
-              for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
-                if (variables[0] == browser.params.config.variableContainer[k].Name) {
-                  testInstance.Value = browser.params.config.variableContainer[k].Value;
-                }
-                else if (variables[1] == browser.params.config.variableContainer[k].Name) {
-                  toCompareValue = browser.params.config.variableContainer[k].Value;
-                }
-              }
-            }
-          }
-          else {
-            for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
-              if (testInstance.VariableName.substring(0, testInstance.VariableName.indexOf('{')) == browser.params.config.variableContainer[k].Name) {
-                var subStrIndex = testInstance.VariableName.substring(testInstance.VariableName.indexOf('{') + 1, testInstance.VariableName.indexOf('}'));
-                testInstance.Value = eval("browser.params.config.variableContainer[k].Value.substring(" + subStrIndex + ")");
-
-                break;
-              }
-            }
-          }
-        }
-        else {
-          if (testInstance.VariableName.indexOf('#') == -1) {
-            testInstance.Value = jsonHelper.GetIndexedVariableValueFromVariableContainer(testInstance.VariableName);
-          }
-          else {
-            var variables = testInstance.VariableName.split('#');
-            if (variables[0].indexOf('[') == -1) {
-              for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
-                if (variables[0] == browser.params.config.variableContainer[k].Name) {
-                  testInstance.Value = browser.params.config.variableContainer[k].Value;
-                  break;
+              if (variables[0].indexOf('[') == -1) {
+                for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
+                  if (variables[0] == browser.params.config.variableContainer[k].Name) {
+                    testInstance.Value = browser.params.config.variableContainer[k].Value;
+                    break;
+                  }
                 }
               }
-            }
-            else {
-              testInstance.Value = jsonHelper.GetIndexedVariableValueFromVariableContainer(variables[0]);
-            }
-            if (variables[1].indexOf('[') == -1) {
-              for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
-                if (variables[1] == browser.params.config.variableContainer[k].Name) {
-                  toCompareValue = browser.params.config.variableContainer[k].Value;
-                  break;
+              else {
+                testInstance.Value = jsonHelper.GetIndexedVariableValueFromVariableContainer(variables[0]);
+              }
+              if (variables[1].indexOf('[') == -1) {
+                for (var k = 0; k < browser.params.config.variableContainer.length; k++) {
+                  if (variables[1] == browser.params.config.variableContainer[k].Name) {
+                    toCompareValue = browser.params.config.variableContainer[k].Value;
+                    break;
+                  }
                 }
               }
+              else {
+                toCompareValue = jsonHelper.GetIndexedVariableValueFromVariableContainer(variables[1]);
+              }
+
             }
-            else {
-              toCompareValue = jsonHelper.GetIndexedVariableValueFromVariableContainer(variables[1]);
-            }
-
-          }
-        }
-
-        if (testInstance.Action != actionConstant.LogText) {
-          testInstance.VariableName = '';
-
-          if (testInstance.Action == actionConstant.AssertToEqual && testInstance.DisplayName == null) {
-            testInstance.ToCompareWith = toCompareValue;
           }
 
-          thisobj.setLocator(testInstance);
-        }
-      });
+          if (testInstance.Action != actionConstant.LogText) {
+            testInstance.VariableName = '';
+
+            if (testInstance.Action == actionConstant.AssertToEqual && testInstance.DisplayName == null) {
+              testInstance.ToCompareWith = toCompareValue;
+            }
+
+            thisobj.setLocator(testInstance);
+          }
+        });
+      }
     }
   };
 
@@ -912,19 +936,19 @@ var InputHelper = function () {
   };
 
   this.performAssertElementToBePresent = function (executionSequence, key, value) {
-    if(key.isPresent){
-      key.isPresent().then(function(isPresent){
-        if(isPresent){
+    if (key.isPresent) {
+      key.isPresent().then(function (isPresent) {
+        if (isPresent) {
           expect(key.isDisplayed()).toBe(value == 'true');
-        } else{
+        } else {
           expect(false).toBe(value == 'true');
         }
       });
-    } else{
-      key.then(function(items){
-        if(items.length == 0){
+    } else {
+      key.then(function (items) {
+        if (items.length == 0) {
           expect(false).toBe(value == 'true');
-        } else{
+        } else {
           thisobj.performAssertElementToBePresent(executionSequence, items[0], value);
         }
       });

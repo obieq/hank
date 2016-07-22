@@ -24,13 +24,13 @@ namespace Elephant.Hank.Api.Controllers
     using Resources.Dto;
     using Resources.Messages;
     using Resources.Models;
-    using Security;    
+    using Security;
 
     /// <summary>
     /// The ActionController class
     /// </summary>
     [RoutePrefix("api/tickets")]
-    [CustomAuthorize]
+    [Authorize]
     public class TicketsController : BaseApiController
     {
         /// <summary>
@@ -47,7 +47,7 @@ namespace Elephant.Hank.Api.Controllers
         /// The TicketCommentService service
         /// </summary>
         private readonly ITicketCommentService ticketCommentService;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TicketsController"/> class.
         /// </summary>
@@ -84,12 +84,11 @@ namespace Elephant.Hank.Api.Controllers
 
             return this.CreateCustomResponse(result);
         }
-        
+
         /// <summary>
         /// Gets all.
         /// </summary>
         /// <returns>List of TblTicketMasterDto objects</returns>
-        [AllowAnonymous]
         public IHttpActionResult GetAll()
         {
             var result = new ResultMessage<IEnumerable<TblTicketMasterDto>>();
@@ -103,7 +102,7 @@ namespace Elephant.Hank.Api.Controllers
                 LoggerService.LogException(ex);
                 result.Messages.Add(new Message(null, ex.Message));
             }
-            
+
             return this.CreateCustomResponse(result);
         }
 
@@ -113,13 +112,12 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="ticketId">The identifier.</param>
         /// <returns>TblTicketMasterDto objects</returns>
         [Route("{ticketId}")]
-        [AllowAnonymous]
         public IHttpActionResult GetById(long ticketId)
         {
             var result = new ResultMessage<TblTicketMasterDto>();
             try
             {
-                result = this.ticketManagerService.GetById(ticketId);                
+                result = this.ticketManagerService.GetById(ticketId);
             }
             catch (Exception ex)
             {
@@ -192,7 +190,6 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route("{ticketId}/comment")]
         [HttpPost]
-        [AllowAnonymous]
         public IHttpActionResult SaveComment([FromBody]TblTicketCommentDto tblTicketCommentDto, long ticketId)
         {
             var result = new ResultMessage<TblTicketCommentDto>();
@@ -215,7 +212,6 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="ticketId">The identifier.</param>
         /// <returns>TblTicketMasterDto objects</returns>
         [Route("{ticketId}/comment")]
-        [AllowAnonymous]
         public IHttpActionResult GetCommentsById(long ticketId)
         {
             var result = new ResultMessage<IEnumerable<TblTicketCommentDto>>();
@@ -238,7 +234,6 @@ namespace Elephant.Hank.Api.Controllers
         /// <param name="ticketId">The identifier.</param>
         /// <returns>TblTicketHistoryDto objects</returns>
         [Route("{ticketId}/history")]
-        [AllowAnonymous]
         public IHttpActionResult GetHistoryById(long ticketId)
         {
             var result = new ResultMessage<IEnumerable<TblTicketMasterDto>>();
@@ -263,7 +258,7 @@ namespace Elephant.Hank.Api.Controllers
         private IHttpActionResult AddUpdate(TblTicketMasterDto ticketMasterDto)
         {
             var result = new ResultMessage<TblTicketMasterDto>();
-            
+
             try
             {
                 result = this.ticketManagerService.SaveOrUpdate(ticketMasterDto, this.UserId);
