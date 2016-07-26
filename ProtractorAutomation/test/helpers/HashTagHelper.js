@@ -50,7 +50,7 @@ var HashTagHelper = function () {
         defer.fulfill(currentCycleDate);
       });
     }
-    else if (splittedHashTagArray[1].split('~')[0].toLowerCase() == 'add' || splittedHashTagArray[1].split('~')[0].toLowerCase() == 'subtract') {
+    else if (splittedHashTagArray[1].split('~')[0].toLowerCase() == 'add' || splittedHashTagArray[1].split('~')[0].toLowerkCase() == 'subtract') {
       browser.getCurrentUrl().then(function (curUrl) {
         var hashTagAction = splittedHashTagArray[1].split('~')[0].toLowerCase();
         result = thisobj.ProcessMathematicOperation([jsonHelper.ExtractVariableValue(splittedHashTagArray[1].split('~')[1].replace('{', '').replace('}', '')), jsonHelper.ExtractVariableValue(splittedHashTagArray[1].split('~')[2].replace('{', '').replace('}', ''))], hashTagAction);

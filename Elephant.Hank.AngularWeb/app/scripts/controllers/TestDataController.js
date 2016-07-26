@@ -186,7 +186,7 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
               $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
               $scope.InputControlDisplayStatus.ddlDisplayName = true;
             }
-            else if ($scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId && $scope.TestData.LocatorIdentifierId == undefined) {
+            else if (($scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainActionId) && $scope.TestData.LocatorIdentifierId == undefined) {
               $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
               if ($scope.TestData.VariableName != null && !!$scope.TestData.VariableName.trim()) {
                 $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
@@ -580,7 +580,7 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
             commonUi.showErrorPopup(response);
           });
         }
-        else if ($scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId) {
+        else if ($scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainActionId) {
           crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
             $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
             $scope.PagesList = response;
@@ -664,7 +664,7 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
     $scope.onAssignVariableClick = function () {
       if ($scope.TestData.IsAssignVariableName) {
         $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
-        $scope.InputControlDisplayStatus.txtValue = $scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId && $scope.TestData.PageId == undefined ? true : false;
+        $scope.InputControlDisplayStatus.txtValue = ($scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainActionId) && $scope.TestData.PageId == undefined ? true : false;
       }
       else {
         $scope.InputControlDisplayStatus.txtAutoCompVariableName = false;

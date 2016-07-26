@@ -242,7 +242,7 @@ var InputHelper = function () {
     if (key != null) {
 
       this.GetSharedVariable(testInstance);
-      if (testInstance.VariableName.trim() == '' || testInstance.VariableName.startsWith('#arraycomp') || testInstance.Action == actionConstant.LogText || testInstance.Action == actionConstant.DeclareVariable || testInstance.Action == actionConstant.SetVariable || testInstance.Action == actionConstant.SetVariableManually || testInstance.Action == actionConstant.ReadControlText) {
+      if (testInstance.VariableName.trim() == '' || testInstance.VariableName.startsWith('#arraycompare') || testInstance.VariableName.startsWith('#arraycontain') || testInstance.Action == actionConstant.LogText || testInstance.Action == actionConstant.DeclareVariable || testInstance.Action == actionConstant.SetVariable || testInstance.Action == actionConstant.SetVariableManually || testInstance.Action == actionConstant.ReadControlText) {
 
         switch (testInstance.Action) {
           case actionConstant.SetText:
@@ -333,8 +333,6 @@ var InputHelper = function () {
             }
             break;
           }
-
-
           case actionConstant.CJCustomRadioButton:
           {
             this.RadioButtonClick(testInstance.ExecutionSequence, key, testInstance.Value, testInstance);
@@ -355,16 +353,26 @@ var InputHelper = function () {
             this.performAssertCountToEqual(testInstance.ExecutionSequence, key, testInstance.Value);
             break;
           }
-
           case actionConstant.AssertToEqual:
           {
             if (key == "") {
-              if (testInstance.VariableName.startsWith('#arraycomp')) {
+              if (testInstance.VariableName.startsWith('#arraycompare')) {
                 browser.getCurrentUrl().then(function (urle) {
                   var splitedVar = testInstance.VariableName.split('#');
-                  var assertresult = customAssertHelper.arrayComparisionAssert(splitedVar[2], splitedVar[3]);
+                  console.log("Inside Assert to equal's arraycompare testInstance.VariableName= " + testInstance.VariableName);
+                  var assertresult = customAssertHelper.arrayComparisionAssert(splitedVar[2], splitedVar[3], false);
                   if (assertresult) {
                     expect("both array are equal").toEqual("both array are equal");
+                  }
+                });
+              }
+              else if (testInstance.VariableName.startsWith('#arraycontain')) {
+                browser.getCurrentUrl().then(function (urle) {
+                  var splitedVar = testInstance.VariableName.split('#');
+                  console.log("Inside Assert to equal's arraycontain testInstance.VariableName= " + testInstance.VariableName);
+                  var assertresult = customAssertHelper.arrayComparisionAssert(splitedVar[2], splitedVar[3], true);
+                  if (assertresult) {
+                    expect("array one contains in second array").toEqual("array one contains in second array");
                   }
                 });
               }
@@ -378,7 +386,29 @@ var InputHelper = function () {
             }
             break;
           }
-
+          case actionConstant.AssertToContain:
+          {
+            if (key == "") {
+              if (testInstance.VariableName.startsWith('#arraycontain')) {
+                browser.getCurrentUrl().then(function (urle) {
+                  var splitedVar = testInstance.VariableName.split('#');
+                  console.log("Inside Assert to equal's arraycontain testInstance.VariableName= " + testInstance.VariableName);
+                  var assertresult = customAssertHelper.arrayComparisionAssert(splitedVar[2], splitedVar[3], true);
+                  if (assertresult) {
+                    expect("array one contains in second array").toEqual("array one contains in second array");
+                  }
+                });
+              }
+              else {
+                expect(testInstance.Value + "").toContain(jsonHelper.customTrim(testInstance.ToCompareWith + ""));
+                browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
+              }
+            }
+            else {
+              this.performAssertToContain(testInstance.ExecutionSequence, key, testInstance.Value);
+            }
+            break;
+          }
           case actionConstant.AssertNotToEqual:
           {
             if (key == "") {
@@ -390,7 +420,6 @@ var InputHelper = function () {
             }
             break;
           }
-
           case actionConstant.LogText:
           {
             if (testInstance.StepType == 3) {
@@ -444,11 +473,14 @@ var InputHelper = function () {
           }
           case actionConstant.SetVariableManually:
           {
+            browser.controlFlow().execute(function () {
+              console.log("Inside the set variable manually");
+            });
             if (testInstance.Value.indexOf('#') == -1) {
               this.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, testInstance.Value, testInstance.DisplayName);
+
             }
             else {
-
               var response = hashTagHelper.computeHashTags(testInstance.Value).then(function (response) {
                 thisobj.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, response.toString(), testInstance.DisplayName);
               });
@@ -492,7 +524,6 @@ var InputHelper = function () {
             });
             break;
           }
-
           case actionConstant.LoadNewUrl:
           {
             browser.getCurrentUrl().then(function (curUrl) {
@@ -557,14 +588,12 @@ var InputHelper = function () {
             }
             break;
           }
-
           case actionConstant.AssertUrlToContain:
           {
-            var url = browser.getCurrentUrl();
-            this.performAssertToContain(testInstance.ExecutionSequence, url, testInstance.Value);
+            expect(browser.getCurrentUrl()).toContain(testInstance.Value);
+            browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
             break;
           }
-
           case actionConstant.HandleBrowserAlertPopup:
           {
             if (testInstance.Value.toLowerCase() == 'ok') {
@@ -591,7 +620,6 @@ var InputHelper = function () {
             }
             break;
           }
-
           case actionConstant.Wait:
           {
             var timeOut = this.isInt(testInstance.Value) ? parseInt(testInstance.Value) : maxTimeOut;
@@ -601,7 +629,6 @@ var InputHelper = function () {
 
             break;
           }
-
           case actionConstant.ScrollToElement:
           {
             var scrollToScript = 'document.getElementById("' + testInstance.Value + '").scrollIntoView();';
@@ -623,14 +650,12 @@ var InputHelper = function () {
             browser.sleep(1000);
             break;
           }
-
           case actionConstant.WaitForTheElementDisappear:
           {
             var timeOut = this.isInt(testInstance.Value) ? parseInt(testInstance.Value) : maxTimeOut;
             this.CheckExpectedCondition(testInstance, true, timeOut);
             break;
           }
-
           case actionConstant.SwitchToWindow:
           {
             browser.getAllWindowHandles().then(function (handles) {
@@ -640,7 +665,6 @@ var InputHelper = function () {
             });
             break;
           }
-
           case actionConstant.SendKey:
           {
             /* if (testInstance.Value == "ctrl+shift+n") {
@@ -659,7 +683,6 @@ var InputHelper = function () {
             browser.executeScript("arguments[0].click();", key.getWebElement());
             break;
           }
-
           case actionConstant.ReadControlText:
           {
             jsonHelper.readDataFromHTMLControl(key).then(function (htmlControlData) {
@@ -669,8 +692,6 @@ var InputHelper = function () {
             break;
           }
         }
-
-
       }
     }
   };
@@ -697,7 +718,6 @@ var InputHelper = function () {
       thisobj.setVariable(executionSequence, value, text, displayName);
     }, true);
   };
-
 
   this.setVariable = function (executionSequence, variableName, value, displayName) {
     browser.getCurrentUrl().then(function (urle) {
@@ -773,7 +793,7 @@ var InputHelper = function () {
 
   this.GetSharedVariable = function (testInstance) {
     if (testInstance.VariableName.trim() != '' && testInstance.Action != actionConstant.SetVariable && testInstance.Action != actionConstant.SetVariableManually && testInstance.Action != actionConstant.ReadControlText) {
-      if (!testInstance.VariableName.startsWith('#arraycomp')) {
+      if (!testInstance.VariableName.startsWith('#arrayco')) {
         browser.getCurrentUrl().then(function (actualUrl) {
 
           var toCompareValue = testInstance.Value;
@@ -956,8 +976,12 @@ var InputHelper = function () {
   };
 
   this.performAssertToContain = function (executionSequence, key, value) {
-    expect(key).toContain(value);
-    browser.params.config.LastStepExecuted = executionSequence;
+    thisobj.GetText(key, function (_value) {
+      var typeofText = typeof(value) + "";
+      var textVal = ((value == null || typeofText == 'string' ? value : value[0]) + "").replace(/\n/gi, "");
+      expect(jsonHelper.customTrim(textVal)).toContain(jsonHelper.customTrim(_value));
+      browser.params.config.LastStepExecuted = executionSequence;
+    });
   };
 
   this.setDropDown = function selectOption(executionSequence, key, value, selectFirst, milliseconds) {
@@ -1041,7 +1065,6 @@ var InputHelper = function () {
     });
 
   };
-
 
   this.RadioButtonClick = function (executionSequence, key, value, ti) {
     key.all(by.tagName('label')).getText().then

@@ -16,6 +16,7 @@ var ActionConstant = function () {
   this.LogText = 'Log Text';
   this.AssertCountToEqual = 'Assert Count To Equal';
   this.AssertToEqual = 'Assert To Equal';
+  this.AssertToContain = 'Assert To Contain';
   this.AssertElementToBePresent = 'Assert Element To Be Present';
   this.SetVariable = "Set Variable";
   this.SetVariableManually = "Set Variable Manually";

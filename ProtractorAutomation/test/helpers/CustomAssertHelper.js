@@ -7,7 +7,23 @@ var CustomAssertHelper = function () {
   var JsonHelper = require('./JsonHelper.js');
   var jsonHelper = new JsonHelper();
 
-  this.arrayComparisionAssert = function (var1, var2) {
+  this.arrayContainsAssert = function (value, variable) {
+    var varName = variable.split('[')[0];
+    var varValue = jsonHelper.ExtractVariableValue(varName);
+    var colIndexes = this.getColIndex(variable, varValue);
+    var varJsonValue = JSON.parse(varValue);
+    for (var i = 0; i < colIndexes.length; i++) {
+      for (var l = 1; l < varJsonValue.length; l++) {
+        if (varJsonValue[l][colIndexes[i].indx] == value) {
+          expect(value).toEqual(varJsonValue[l][colIndexes[i].indx]);
+          return;
+        }
+      }
+    }
+    return;
+  };
+
+  this.arrayComparisionAssert = function (var1, var2, isContainOperation) {
     var varName1 = var1.split('[')[0];
     var varName2 = var2.split('[')[0];
     console.log("varName1= " + varName1 + " varName2" + varName2);
@@ -33,7 +49,8 @@ var CustomAssertHelper = function () {
       }
     }
     console.log("colIndexes1= " + colIndexes1 + " colIndexes2" + colIndexes2);
-    if (var1JsonValue.length != var2JsonValue.length || colIndexes1.length != colIndexes2.length) {
+
+    if ((var1JsonValue.length != var2JsonValue.length || colIndexes1.length != colIndexes2.length) && !isContainOperation) {
       console.log("inside not equal lenght   section");
       expect("variable1 length").toEqual("variable1 length");
       return false;
@@ -44,38 +61,67 @@ var CustomAssertHelper = function () {
       return false;
     }
     else {
-      for (var k = 0; k < colIndexes1.length; k++) {
-        for (var l = 1; l < var1JsonValue.length; l++) {
-          console.log("colIndexes2[k].indx= " + colIndexes2[k].indx + " var1JsonValue[l][colIndexes1[k].indx]= " + var1JsonValue[l][colIndexes1[k].indx])
-          if (!this.checkValueExist(var2JsonValue, colIndexes2[k].indx, var1JsonValue[l][colIndexes1[k].indx])) {
-            expect("variable " + varName1 + " columns " + colIndexes1[k].name).toEqual("variable " + varName2 + " columns " + colIndexes2[k].name);
-            return false;
-          }
-        }
-        for (var m = 1; m < var2JsonValue.length; m++) {
-          console.log("colIndexes1[k].indx= " + colIndexes1[k].indx + " var2JsonValue[m][colIndexes2[k].indx]= " + var2JsonValue[m][colIndexes2[k].indx])
-          if (!this.checkValueExist(var1JsonValue, colIndexes1[k].indx, var2JsonValue[m][colIndexes2[k].indx])) {
-            //expectation failed
-            expect("variable " + varName2 + " columns " + colIndexes2[k].name).toEqual("variable " + varName1 + " columns " + colIndexes1[k].name);
-            return false;
-          }
-        }
+      var forwardTrace = this.checkValueExist(var1JsonValue, var2JsonValue, colIndexes1, colIndexes2);
+      var backwardTrace = forwardTrace && !isContainOperation ? this.checkValueExist(var2JsonValue, var1JsonValue, colIndexes2, colIndexes1) : false;
+      if (forwardTrace && backwardTrace) {
+        return true;
+      }
+      else if (forwardTrace && isContainOperation) {
+        return true;
+      }
+      else if (!forwardTrace) {
+        expect("First Variable").toEqual("Second Variable");
+        return false
+      }
+      else if (!backwardTrace) {
+        expect("Second Variable").toEqual("First Variable");
+        return false
       }
     }
     return true;
   };
 
-  this.checkValueExist = function (arr, indx, value) {
+  this.checkValueExist = function (array1, array2, array1ColIndex, array2ColIndex) {
     console.log("Inside checkValue");
-    var isValueExist = false;
-    for (var k = 1; k < arr.length; k++) {
-      if (arr[k][indx] == value) {
-        isValueExist = true;
-        break;
+    for (var i = 1; i < array1.length; i++) {
+      var isRowMatched = false;
+      for (var j = 1; j < array2.length; j++) {
+        var isValueExist = false;
+        for (var k = 0; k < array1ColIndex.length; k++) {
+          if (array1[i][array1ColIndex[k].indx] == array2[j][array2ColIndex[k].indx]) {
+            isValueExist = true;
+          }
+          else {
+            isValueExist = false;
+            break;
+          }
+        }
+        if (isValueExist) {
+          console.log("Inside is value exist");
+          isRowMatched = true;
+          break;
+        }
+      }
+      if (!isRowMatched) {
+        console.log("Inside is row matched");
+        return false;
       }
     }
-    return isValueExist;
+    return true;
   };
+
+  /*
+   this.checkValueExist = function (arr, indx, value) {
+   console.log("Inside checkValue");
+   var isValueExist = false;
+   for (var k = 1; k < arr.length; k++) {
+   if (arr[k][indx] == value) {
+   isValueExist = true;
+   break;
+   }
+   }
+   return isValueExist;
+   };*/
 
 
   this.getIndexes = function (varName) {

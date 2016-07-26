@@ -63,7 +63,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
     $scope.loadDataForList = function () {
       var deferred = $q.defer();
       var promises = [];
-      promises.push(crudService.getAll(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.WebsiteId,$stateParams.SharedTestId)).then(function (response) {
+      promises.push(crudService.getAll(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.WebsiteId, $stateParams.SharedTestId)).then(function (response) {
         $scope.SharedTestDataList = response;
       }, function (response) {
         commonUi.showErrorPopup(response);
@@ -79,11 +79,11 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
     };
 
 
-    $scope.addUpdateSharedTestData=function(){
-      if($scope.stateParamSharedTestDataId){
+    $scope.addUpdateSharedTestData = function () {
+      if ($scope.stateParamSharedTestDataId) {
         $scope.updateSharedTestData();
       }
-      else{
+      else {
         $scope.addSharedTestData();
       }
     };
@@ -135,8 +135,8 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
       $scope.resetAllInputControlDisplayStatus();
       $scope.resetModel();
       $scope.loadDataForEdit().then(function () {
-        $scope.InputControlDisplayStatus.chkSkipByDefault=true;
-        $scope.InputControlDisplayStatus.chkOptional=true;
+        $scope.InputControlDisplayStatus.chkSkipByDefault = true;
+        $scope.InputControlDisplayStatus.chkOptional = true;
         switch ($scope.SharedTestData.StepType) {
           case 0:
           {
@@ -144,7 +144,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
             if ($scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId) {
               $scope.InputControlDisplayStatus.txtValue = true;
             }
-            else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId ||$scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.TerminateTestActionId) {
+            else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.TerminateTestActionId) {
             }
             else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.DeclareVariableActionId) {
               $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
@@ -155,7 +155,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
               $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
               $scope.InputControlDisplayStatus.ddlDisplayName = true;
             }
-            else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.AssertToEqualActionId && $scope.SharedTestData.LocatorIdentifierId == undefined) {
+            else if (($scope.SharedTestData.ActionId == $scope.ActionConstants.AssertToEqualActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertToContainActionId) && $scope.SharedTestData.LocatorIdentifierId == undefined) {
               $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
               if ($scope.SharedTestData.VariableName != null && !!$scope.SharedTestData.VariableName.trim()) {
                 $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
@@ -296,7 +296,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
       $scope.SharedTestData.PageId = $scope.InputControlDisplayStatus.ddlPage ? $scope.SharedTestData.PageId : 0;
       $scope.SharedTestData.LocatorIdentifierId = $scope.InputControlDisplayStatus.ddlDisplayName ? $scope.SharedTestData.LocatorIdentifierId : null;
 
-      crudService.update(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.WebsiteId,$stateParams.SharedTestId), $scope.SharedTestData).then(function (response) {
+      crudService.update(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.WebsiteId, $stateParams.SharedTestId), $scope.SharedTestData).then(function (response) {
         $state.go("Website.SharedTestData", {
           WebsiteId: $scope.stateParamWebsiteId,
           SharedTestId: $scope.SharedTest.Id
@@ -308,15 +308,13 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
 
     $scope.deleteSharedTestData = function (sharedTestDataId) {
       if (confirm("Are you sure u want to delete step?")) {
-        crudService.delete(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.WebsiteId,$stateParams.SharedTestId), {'Id': sharedTestDataId}).then(function (response) {
+        crudService.delete(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.WebsiteId, $stateParams.SharedTestId), {'Id': sharedTestDataId}).then(function (response) {
           $scope.onLoadList();
         }, function (response) {
           commonUi.showErrorPopup(response);
         });
       }
     };
-
-
 
 
     $scope.onStepTypeChange = function () {
@@ -382,10 +380,10 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
           $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
           $scope.InputControlDisplayStatus.txtValue = $scope.SharedTestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId ? true : false;
         }
-        else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId ||$scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId ||$scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId ||$scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId) {
+        else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId) {
           $scope.InputControlDisplayStatus.txtValue = true;
         }
-        else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId ||$scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.TerminateTestActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId) {
+        else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.TerminateTestActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId) {
           $scope.InputControlDisplayStatus.txtValue = false;
         }
         else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SetVariableActionId) {
@@ -398,7 +396,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
             commonUi.showErrorPopup(response);
           });
         }
-        else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.AssertToEqualActionId) {
+        else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.AssertToEqualActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertToContainActionId) {
           crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
             $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
             $scope.PagesList = response;
@@ -439,7 +437,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
     $scope.onAssignVariableClick = function () {
       if ($scope.SharedTestData.IsAssignVariableName) {
         $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
-        $scope.InputControlDisplayStatus.txtValue = $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertToEqualActionId && $scope.SharedTestData.PageId == undefined ? true : false;
+        $scope.InputControlDisplayStatus.txtValue = ($scope.SharedTestData.ActionId == $scope.ActionConstants.AssertToEqualActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertToContainActionId ) && $scope.SharedTestData.PageId == undefined ? true : false;
 
       }
       else {
