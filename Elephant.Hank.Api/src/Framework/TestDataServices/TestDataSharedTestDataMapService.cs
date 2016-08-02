@@ -87,10 +87,13 @@ namespace Elephant.Hank.Framework.TestDataServices
             sourceData.ForEach(
                 x =>
                 {
-                    x.TestDataId = testDataId;
-                    x.CreatedBy = userId;
-                    x.ModifiedBy = userId;
-                    x.ModifiedOn = DateTime.Now;
+                    if (x.Id == 0)
+                    {
+                        x.TestDataId = testDataId;
+                        x.CreatedBy = userId;
+                        x.ModifiedBy = userId;
+                        x.ModifiedOn = DateTime.Now;
+                    }
                 });
 
             var testDataSharedTestDataMap = this.table.Find(x => x.TestDataId == testDataId).ToList();
@@ -106,12 +109,16 @@ namespace Elephant.Hank.Framework.TestDataServices
                     var updatedObject = sourceData.FirstOrDefault(x => x.Id == item.Id);
                     if (updatedObject != null)
                     {
+                        if (item.NewOrder != updatedObject.NewOrder || item.NewValue != updatedObject.NewValue || item.NewVariable != updatedObject.NewVariable || item.IsIgnored != updatedObject.IsIgnored)
+                        {
+                            item.ModifiedBy = userId;
+                            item.ModifiedOn = DateTime.Now;
+                        }
+
                         item.NewOrder = updatedObject.NewOrder;
                         item.IsIgnored = updatedObject.IsIgnored;
                         item.NewValue = updatedObject.NewValue;
                         item.NewVariable = updatedObject.NewVariable;
-                        item.ModifiedBy = userId;
-                        item.ModifiedOn = DateTime.Now;
                     }
                 }
             }

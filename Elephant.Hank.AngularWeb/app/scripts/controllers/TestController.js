@@ -121,7 +121,13 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
         if ($scope.CopyTestData.HasTestData && $scope.CopyTestData.IsCopy && $scope.CopyTestData.Test != null) {
           $scope.CopyTestData.DataToSend.ToTestId = response.Item.Id;
           $scope.CopyTestData.DataToSend.FromTestId = $scope.CopyTestData.Test.Id;
-          $scope.CopyTestData.DataToSend.CopyAll = $scope.CopyTestData.AllTestDataChecked;
+          var uncheckedValues = _.where($scope.CopyTestData.TestDataList, {Checked: false});
+          if (uncheckedValues.length > 0) {
+            $scope.CopyTestData.DataToSend.CopyAll = false;
+          }
+          else {
+            $scope.CopyTestData.DataToSend.CopyAll = true;
+          }
           for (var i = 0; i < $scope.CopyTestData.TestDataList.length; i++) {
             if ($scope.CopyTestData.TestDataList[i].Checked == true) {
               $scope.CopyTestData.DataToSend.TestDataIdList.push($scope.CopyTestData.TestDataList[i].Id);
@@ -188,7 +194,6 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
         $scope.CopyTestData.TestDataList[i].Checked = $scope.CopyTestData.AllTestDataChecked;
       }
     };
-
     $scope.markUnMarkAllBrowser = function (browserobj) {
       if (browserobj) {
         $scope.SelectAllBrowsers = $scope.SelectAllBrowsers && browserobj.Checked;
