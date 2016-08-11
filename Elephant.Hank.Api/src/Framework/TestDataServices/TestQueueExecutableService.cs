@@ -687,9 +687,9 @@ namespace Elephant.Hank.Framework.TestDataServices
                     if (item.Value.IndexOf('~') >= 0 && item.LocatorIdentifier.IndexOf('{') >= 0)
                     {
                         var resolvedLocator = this.IsInAutoGenArray(item.Value).ToList();
+                        item.Value = resolvedLocator[0];
                         resolvedLocator.RemoveAt(0);
-                        item.LocatorIdentifier = string.Format(item.LocatorIdentifier, resolvedLocator.ToArray());
-                        item.Value = item.Value.Split('~')[0];
+                        item.LocatorIdentifier = string.Format(item.LocatorIdentifier, resolvedLocator.ToArray());                        
                     }
                     else
                     {
