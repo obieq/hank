@@ -33,7 +33,8 @@ var InputHelper = function () {
   var TakeScreenShotBrowser = null;
   var GlobalAutoIncrementArray = [];
 
-  this.setLocator = function (testInstance, testName, takeScreenShot, takeScreenShotBrowser) {
+  this.setLocator = function (testInstance, testName, takeScreenShot, takeScreenShotBrowser, seq) {
+    GlobalAutoIncrementArray[seq] = 0;
     TakeScreenShot = takeScreenShot != undefined ? takeScreenShot : TakeScreenShot;
     TakeScreenShotBrowser = takeScreenShotBrowser != undefined ? takeScreenShotBrowser : TakeScreenShotBrowser;
     var key = null;
@@ -44,8 +45,8 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.model(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          this.waitReady(by.model(testInstance.LocatorIdentifier), testInstance);
-          this.setInput(element(by.model(testInstance.LocatorIdentifier)), testInstance);
+          //this.waitReady(by.model(testInstance.LocatorIdentifier), testInstance);
+          this.waitReady(by.model(testInstance.LocatorIdentifier), testInstance, testName, seq);
         }
         break;
       }
@@ -60,7 +61,7 @@ var InputHelper = function () {
                 (
                   function (buttonsRadioModel) {
                     if (buttonsRadioModel == testInstance.LocatorIdentifier) {
-                      thisobj.setInput(buttonsRadio[i], testInstance);
+                      thisobj.setInput(buttonsRadio[i], testInstance, testName, seq);
                     }
                   }
                 );
@@ -76,8 +77,8 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.css(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          this.waitReady(by.css(testInstance.LocatorIdentifier), testInstance);
-          this.setInput(element(by.css(testInstance.LocatorIdentifier)), testInstance);
+          //this.waitReady(by.css(testInstance.LocatorIdentifier), testInstance);
+          this.waitReady(by.css(testInstance.LocatorIdentifier), testInstance, testName, seq);
         }
         break;
       }
@@ -87,8 +88,8 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.tagName(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          this.waitReady(by.tagName(testInstance.LocatorIdentifier), testInstance);
-          this.setInput(element(by.tagName(testInstance.LocatorIdentifier)), testInstance);
+          //this.waitReady(by.tagName(testInstance.LocatorIdentifier), testInstance);
+          this.waitReady(by.tagName(testInstance.LocatorIdentifier), testInstance, testName, seq);
         }
         break;
       }
@@ -98,8 +99,8 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.id(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          this.waitReady(by.id(testInstance.LocatorIdentifier), testInstance);
-          this.setInput(element(by.id(testInstance.LocatorIdentifier)), testInstance);
+          //this.waitReady(by.id(testInstance.LocatorIdentifier), testInstance);
+          this.waitReady(by.id(testInstance.LocatorIdentifier), testInstance, testName, seq);
         }
         break;
       }
@@ -109,8 +110,8 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.xpath(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          this.waitReady(by.xpath(testInstance.LocatorIdentifier), testInstance);
-          thisobj.setInput(element.all(by.xpath(testInstance.LocatorIdentifier)), testInstance, testName);
+          //this.waitReady(by.xpath(testInstance.LocatorIdentifier), testInstance);
+          thisobj.waitReady(by.xpath(testInstance.LocatorIdentifier), testInstance, testName, seq);
         }
         break;
       }
@@ -125,11 +126,11 @@ var InputHelper = function () {
       case locatorTypeConstant.css:
       {
         if (testInstance.IsOptional) {
-          this.checkForOptionalElement(element(by.css(testInstance.LocatorIdentifier)), testInstance);
+          this.checkForOptionalElement(by.css(testInstance.LocatorIdentifier), testInstance);
         }
         else {
-          this.waitReady(by.css(testInstance.LocatorIdentifier), testInstance);
-          this.setInput(element(by.css(testInstance.LocatorIdentifier)), testInstance);
+          //this.waitReady(by.css(testInstance.LocatorIdentifier), testInstance);
+          this.waitReady(by.css(testInstance.LocatorIdentifier), testInstance, testName, seq);
         }
         break;
       }
@@ -139,8 +140,8 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.buttonText(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          this.waitReady(by.buttonText(testInstance.LocatorIdentifier), testInstance);
-          this.setInput(element(by.buttonText(testInstance.LocatorIdentifier)), testInstance);
+          //this.waitReady(by.buttonText(testInstance.LocatorIdentifier), testInstance);
+          this.waitReady(by.buttonText(testInstance.LocatorIdentifier), testInstance, testName, seq);
         }
         break;
       }
@@ -150,8 +151,8 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.partialButtonText(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          this.waitReady(by.partialButtonText(testInstance.LocatorIdentifier), testInstance);
-          this.setInput(element(by.partialButtonText(testInstance.LocatorIdentifier)), testInstance);
+          //this.waitReady(by.partialButtonText(testInstance.LocatorIdentifier), testInstance);
+          this.waitReady(by.partialButtonText(testInstance.LocatorIdentifier), testInstance, testName, seq);
         }
         break;
       }
@@ -161,8 +162,8 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.linkText(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          this.waitReady(by.linkText(testInstance.LocatorIdentifier), testInstance);
-          this.setInput(element(by.linkText(testInstance.LocatorIdentifier)), testInstance);
+          //this.waitReady(by.linkText(testInstance.LocatorIdentifier), testInstance);
+          this.waitReady(by.linkText(testInstance.LocatorIdentifier), testInstance, testName, seq);
         }
         break;
       }
@@ -173,8 +174,8 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.partialLinkText(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          this.waitReady(by.partialLinkText(testInstance.LocatorIdentifier), testInstance);
-          this.setInput(element(by.partialLinkText(testInstance.LocatorIdentifier)), testInstance);
+          //this.waitReady(by.partialLinkText(testInstance.LocatorIdentifier), testInstance);
+          this.waitReady(by.partialLinkText(testInstance.LocatorIdentifier), testInstance, testName, seq);
         }
         break;
       }
@@ -185,8 +186,8 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.cssContainingText(testInstance.LocatorIdentifier.split('~')[0], testInstance.LocatorIdentifier.split('~')[1])), testInstance);
         }
         else {
-          this.waitReady(by.cssContainingText(testInstance.LocatorIdentifier.split('~')[0], testInstance.LocatorIdentifier.split('~')[1]), testInstance);
-          this.setInput(element(by.cssContainingText(testInstance.LocatorIdentifier.split('~')[0], testInstance.LocatorIdentifier.split('~')[1])), testInstance);
+          //this.waitReady(by.cssContainingText(testInstance.LocatorIdentifier.split('~')[0], testInstance.LocatorIdentifier.split('~')[1]), testInstance);
+          this.waitReady(by.cssContainingText(testInstance.LocatorIdentifier.split('~')[0], testInstance.LocatorIdentifier.split('~')[1]), testInstance, testName, seq);
         }
         break;
       }
@@ -197,8 +198,8 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.name(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          element(by.name(testInstance.LocatorIdentifier)).waitReady();
-          this.setInput(element(by.name(testInstance.LocatorIdentifier)), testInstance);
+          //element(by.name(testInstance.LocatorIdentifier)).waitReady();
+          this.waitReady(by.name(testInstance.LocatorIdentifier), testInstance, testName, seq);
         }
         break;
       }
@@ -208,8 +209,8 @@ var InputHelper = function () {
           this.checkForOptionalElement(element(by.js(testInstance.LocatorIdentifier)), testInstance);
         }
         else {
-          this.waitReady(by.js(testInstance.LocatorIdentifier), testInstance);
-          this.setInput(element(by.js(testInstance.LocatorIdentifier)), testInstance);
+          //this.waitReady(by.js(testInstance.LocatorIdentifier), testInstance);
+          this.waitReady(by.js(testInstance.LocatorIdentifier), testInstance, testName, seq);
         }
         break;
       }
@@ -232,10 +233,37 @@ var InputHelper = function () {
     return key;
   };
 
-  this.waitReady = function (elementFinder, testInstance) {
-    if (actionConstant.AssertElementToBePresent != testInstance.Action) {
-      element(elementFinder).waitReady();
-    }
+  this.waitReady = function (key, testInstance, testName, seq) {
+    //console.log("Outside Wait ready status as true Seq= " + seq);
+    browser.isElementPresent(key).then(function (status) {
+      GlobalAutoIncrementArray[seq] = GlobalAutoIncrementArray[seq] + 1;
+      if (status) {
+        console.log("Inside Wait ready status as true Seq= " + seq);
+        thisobj.setInput(element(key), testInstance, testName);
+      }
+      else {
+        console.log("Inside Wait ready status as false Seq= " + seq);
+        console.log("Inside Wait ready status as false maxCheck= " + browser.params.config.maxCheck + " GlobalAutoIncrementArray[seq]= " + GlobalAutoIncrementArray[seq]);
+        if (browser.params.config.maxCheck > GlobalAutoIncrementArray[seq]) {
+          browser.sleep(browser.params.config.maxCheckWait).then(function () {
+            console.log("I am waiting....");
+            browser.controlFlow().execute(function () {
+              thisobj.waitReady(key, testInstance, testName, seq);
+            });
+          });
+
+        }
+        else {
+          expect("The custom avalablity check").toEqual("available but its false");
+          thisobj.setInput(element(key), testInstance, testName);
+        }
+      }
+    });
+
+
+    /*  if (actionConstant.AssertElementToBePresent != testInstance.Action) {
+     element(elementFinder).waitReady();
+     }*/
   };
 
   this.setInput = function (key, testInstance, testName) {
