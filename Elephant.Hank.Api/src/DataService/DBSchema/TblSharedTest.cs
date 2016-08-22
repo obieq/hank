@@ -15,6 +15,7 @@ namespace Elephant.Hank.DataService.DBSchema
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using Elephant.Hank.Resources.Attributes;
+    using Elephant.Hank.DataService.DBSchema.CustomIdentity;
 
     /// <summary>
     /// The TblSharedTest class
@@ -48,5 +49,14 @@ namespace Elephant.Hank.DataService.DBSchema
         /// Gets or sets the SharedTestDataList
         /// </summary>
         public virtual ICollection<TblSharedTestData> SharedTestDataList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the modified by user.
+        /// </summary>
+        /// <value>
+        /// The name of the modified by user.
+        /// </value>
+        [ForeignKey("ModifiedBy")]
+        public virtual CustomUser ModifiedByUser { get; set; }
     }
 }

@@ -19,6 +19,7 @@ namespace Elephant.Hank.Common.TestDataServices
     using Elephant.Hank.Resources.Messages;
     using Elephant.Hank.Resources.Models;
     using Elephant.Hank.Resources.ViewModal;
+    using System;
 
     /// <summary>
     /// The IReportDataService interface
@@ -74,5 +75,14 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <param name="groupName">group identifier</param>
         /// <returns>list of report data</returns>
         ResultMessage<IEnumerable<TblReportDataDto>> GetAllUnprocessedForGroup(string groupName);
+
+        /// <summary>
+        /// Gets the chart data.
+        /// </summary>
+        /// <param name="websiteId">The website identifier.</param>
+        /// <param name="startDate">The start date.</param>
+        /// <param name="endDate">The end date.</param>
+        /// <returns></returns>
+        ResultMessage<IEnumerable<ChartData>> GetChartData(long websiteId, DateTime startDate, DateTime endDate);
     }
 }

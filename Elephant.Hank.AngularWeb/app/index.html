@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <link rel="stylesheet" href="styles/css/red.css">
   <link rel="stylesheet" href="styles/css/style.css">
+
   <style type="text/css">
     .col-xs-12, .col-xs-6 {
       background-color: #ecf0f5;
@@ -183,7 +184,8 @@
           </li>
           <!--Website.DBCat-->
 
-          <li ng-class="isActive(2, 'Website.DataBaseCategories')" ng-show="IsLoggedIn && WebsiteId &&  isWebsiteSelected">
+          <li ng-class="isActive(2, 'Website.DataBaseCategories')"
+              ng-show="IsLoggedIn && WebsiteId &&  isWebsiteSelected">
             <a ui-sref="Website.DataBaseCategories({WebsiteId: WebsiteId})">
               <i class="fa fa-database"></i> <span>Data Base Categories</span>
             </a>
@@ -250,7 +252,7 @@
             </a>
           </li>
 
-           <li ng-class="isActive(1, 'Tickets.List')" ng-show="IsLoggedIn">
+          <li ng-class="isActive(1, 'Tickets.List')" ng-show="IsLoggedIn">
             <a ui-sref="Tickets.List">
               <i class="fa fa-book"></i> <span>Tickets</span>
             </a>
@@ -334,6 +336,9 @@
 <script src="bower_components/admin-lte/bootstrap/js/bootstrap.js"></script>
 <script src="bower_components/ng-csv/build/ng-csv.min.js"></script>
 <script src="bower_components/angularUtils-pagination/dirPagination.js"></script>
+
+<script src="http://carlcraig.github.io/tc-angular-chartjs/js/vendor/Chart.js"></script>
+<script src="http://carlcraig.github.io/tc-angular-chartjs/js/vendor/tc-angular-chartjs.min.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
@@ -374,6 +379,7 @@
 <script src="scripts/controllers/UserController.js"></script>
 <script src="scripts/controllers/DataBaseCategoriesController.js"></script>
 <script src="scripts/controllers/DataBaseConnectionController.js"></script>
+<script src="scripts/controllers/DashboardController.js"></script>
 
 <script src="scripts/controllers/ApiTestModule/ApiCategoriesController.js"></script>
 <script src="scripts/controllers/ApiTestModule/ApiConnectionController.js"></script>
@@ -388,6 +394,7 @@
 <script src="scripts/services/StringComparisionService.js"></script>
 <script src="scripts/directives/whenScrollEnds.js"></script>
 <script src="scripts/directives/CkEditor.js"></script>
+<script src="scripts/directives/scSchedule.js"></script>
 <script src="styles/js/resemble.js"></script>
 <!-- endbuild -->
 <!-- build:js({.tmp,app}) scripts/scripts-custom.js -->

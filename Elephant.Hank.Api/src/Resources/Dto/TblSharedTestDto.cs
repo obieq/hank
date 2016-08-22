@@ -50,5 +50,13 @@ namespace Elephant.Hank.Resources.Dto
             get;
             set;
         }
+
+        /// <summary>
+        /// Gets or sets the name of the modified by user.
+        /// </summary>
+        /// <value>
+        /// The name of the modified by user.
+        /// </value>
+        public string ModifiedByUserName { get; set; }
     }
 }

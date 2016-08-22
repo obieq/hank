@@ -168,7 +168,7 @@ namespace Elephant.Hank.Api.Controllers
             catch (Exception ex)
             {
                 this.LoggerService.LogException(ex);
-                result.Messages.Add(new Message(null, ex.Message)); 
+                result.Messages.Add(new Message(null, ex.Message));
             }
 
             return this.CreateCustomResponse(result);
@@ -244,6 +244,24 @@ namespace Elephant.Hank.Api.Controllers
             try
             {
                 result = this.reportDataService.GetAllUnprocessedForGroup(groupName);
+            }
+            catch (Exception ex)
+            {
+                this.LoggerService.LogException(ex);
+                result.Messages.Add(new Message(null, ex.Message));
+            }
+
+            return this.CreateCustomResponse(result);
+        }
+
+        [Route("get-chart-data/{startDate}/{endDate}")]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Reports)]
+        public IHttpActionResult GetChartData(long websiteId, DateTime startDate, DateTime endDate)
+        {
+            var result = new ResultMessage<IEnumerable<ChartData>>();
+            try
+            {
+                result = this.reportDataService.GetChartData(websiteId, startDate, endDate);
             }
             catch (Exception ex)
             {
