@@ -17,13 +17,13 @@ namespace Elephant.Hank.Framework.TestDataServices
     using System.Data.SqlClient;
     using System.Linq;
 
+    using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Enum;
     using Elephant.Hank.Resources.Messages;
     using Elephant.Hank.Resources.Models;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// The ExecuteSqlForProtractorService class
@@ -36,6 +36,11 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly ITestQueueService testQueueService;
 
         /// <summary>
+        /// The logger service
+        /// </summary>
+        private readonly ILoggerService loggerService;
+
+        /// <summary>
         /// The scheduler service
         /// </summary>
         private readonly ISchedulerService schedulerService;
@@ -46,16 +51,18 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly IDataBaseConnectionService dataBaseConnectionService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExecuteSqlForProtractorService"/> class.
+        /// Initializes a new instance of the <see cref="ExecuteSqlForProtractorService" /> class.
         /// </summary>
         /// <param name="testQueueService">the test Queue Service</param>
         /// <param name="dataBaseConnectionService">the DataBase Connection Service</param>
         /// <param name="schedulerService">The Scheduler Service</param>
-        public ExecuteSqlForProtractorService(ITestQueueService testQueueService, IDataBaseConnectionService dataBaseConnectionService, ISchedulerService schedulerService)
+        /// <param name="loggerService">The logger service.</param>
+        public ExecuteSqlForProtractorService(ITestQueueService testQueueService, IDataBaseConnectionService dataBaseConnectionService, ISchedulerService schedulerService, ILoggerService loggerService)
         {
             this.testQueueService = testQueueService;
             this.dataBaseConnectionService = dataBaseConnectionService;
             this.schedulerService = schedulerService;
+            this.loggerService = loggerService;
         }
 
         /// <summary>
@@ -137,7 +144,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                 }
                 else
                 {
-                    string jsonString = "[{'ExceptionMessage':" + "No connection strung found with the mentioned category and environment id" + "}]";
+                    string jsonString = "[{'ExceptionMessage':'No connection strung found with the mentioned category and environment id'}]";
                     object jobject = (object)JsonConvert.DeserializeObject(jsonString);
                     result.Item = jobject;
                 }
@@ -146,6 +153,8 @@ namespace Elephant.Hank.Framework.TestDataServices
             }
             catch (Exception ex)
             {
+                this.loggerService.LogException("ExecuteSql: " + ex.Message);
+
                 string jsonString = "[{\"ExceptionMessage\": \"" + ex.Message + "\"}]";
                 object jobject = (object)JsonConvert.DeserializeObject(jsonString);
                 result.Item = jobject;
