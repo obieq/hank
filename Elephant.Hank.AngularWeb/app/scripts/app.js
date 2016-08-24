@@ -821,6 +821,7 @@ var app = angular
 
     ReportUrl: "website/{0}/Report",
     ReportChartUrl: "website/{0}/report/get-chart-data/{1}/{2}",
+    ReportPieChartUrl: "website/{0}/report/get-pie-chart-data/{1}/{2}/status/{3}",
     SearchReportUrl: "website/{0}/Report/SearchReport",
     ReportByExecutionGroupUrl: "website/{0}/report/execution-group/{1}",
     ReportByExecutionGroupWhereScreenShotArrayExistUrl: "website/{0}/report/execution-group/{1}/screen-shot-array",

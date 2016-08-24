@@ -254,6 +254,13 @@ namespace Elephant.Hank.Api.Controllers
             return this.CreateCustomResponse(result);
         }
 
+        /// <summary>
+        /// Gets the chart data.
+        /// </summary>
+        /// <param name="websiteId">The website identifier.</param>
+        /// <param name="startDate">The start date.</param>
+        /// <param name="endDate">The end date.</param>
+        /// <returns>returns the chart specific data</returns>
         [Route("get-chart-data/{startDate}/{endDate}")]
         [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Reports)]
         public IHttpActionResult GetChartData(long websiteId, DateTime startDate, DateTime endDate)
@@ -262,6 +269,34 @@ namespace Elephant.Hank.Api.Controllers
             try
             {
                 result = this.reportDataService.GetChartData(websiteId, startDate, endDate);
+            }
+            catch (Exception ex)
+            {
+                this.LoggerService.LogException(ex);
+                result.Messages.Add(new Message(null, ex.Message));
+            }
+
+            return this.CreateCustomResponse(result);
+        }
+
+        /// <summary>
+        /// Gets the pie chart data.
+        /// </summary>
+        /// <param name="websiteId">The website identifier.</param>
+        /// <param name="startDate">The start date.</param>
+        /// <param name="endDate">The end date.</param>
+        /// <param name="status">The status.</param>
+        /// <returns>
+        /// Provide pie chart specific data
+        /// </returns>
+        [Route("get-pie-chart-data/{startDate}/{endDate}/status/{status}")]
+        [CustomAuthorize(ActionType = ActionTypes.Read, ModuleType = FrameworkModules.Reports)]
+        public IHttpActionResult GetPieChartData(long websiteId, DateTime startDate, DateTime endDate, int status)
+        {
+            var result = new ResultMessage<IEnumerable<PieChart>>();
+            try
+            {
+                result = this.reportDataService.GetPieChartData(websiteId, startDate, endDate, status);
             }
             catch (Exception ex)
             {

@@ -1,67 +1,74 @@
+<section class="content-header">
+  <h1>
+    Dashboard
+  </h1>
+
+</section>
+
 <section class="content" ng-init="onWebsiteChange(true)">
+  <!-- Small boxes (Stat box) -->
   <div class="row">
-    <!-- left column -->
-    <div class="col-xs-12">
-      <!-- general form elements -->
-      <div class="box box-primary">
-        <div class="box-header with-border" class="col-xs-12">
-          <div class="col-xs-6" align="left" style="background-color: transparent;font-size: 20px">
-            <b>Dashboard</b>
-          </div>
-          <div class="col-xs-6" align="right" style="background-color: transparent">
-            <button type="button" class="btn btn-primary fa" ng-class="SectionOpen ? 'fa-minus' : 'fa-plus'"
-                    title="Show/hide filters" ng-click="SectionOpen = !SectionOpen"></button>
-          </div>
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-aqua">
+        <div class="inner">
+          <h3>{{TotalTest}}</h3>
+
+          <p>Total</p>
         </div>
-        <!-- /.box-header -->
-        <!-- form start -->
-        <form class="form-horizontal" name="SuiteForm" ng-show="SectionOpen">
-          <div class="box-body">
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Start Date</label>
-
-              <div style="padding-left: 15px;;padding-right:15px" class="input-group date form_date col-sm-4"
-                   data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2"
-                   data-link-format="yyyy-mm-dd">
-                <div class="input-group-addon">
-                  <i class="fa fa-calendar"></i>
-                </div>
-                <input class="form-control" size="16" type="text" value="" ng-model="StartDate"
-                       readonly="">
-              </div>
-              <input type="hidden" id="dtp_input1" value="">
-            </div>
-
-            <div class="form-group">
-              <label class="col-sm-2 control-label">End Date</label>
-
-              <div style="padding-left: 15px;;padding-right:15px" class="input-group date form_date col-sm-4"
-                   data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2"
-                   data-link-format="yyyy-mm-dd">
-                <div class="input-group-addon">
-                  <i class="fa fa-calendar"></i>
-                </div>
-                <input class="form-control" size="16" type="text" value="" ng-model="EndDate"
-                       readonly="">
-              </div>
-              <input type="hidden" id="dtp_input2" value="">
-            </div>
-
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Website</label>
-
-              <div class="col-sm-4">
-                <select ng-change="onWebsiteChange();" class="form-control" ng-model="WebsiteId"
-                        ng-options="website.Id as website.Name for website in WebsiteList" name="WebsiteId" required>
-                </select>
-              </div>
-            </div>
-
-          </div>
-        </form>
+        <div class="icon">
+          <i class="ion ion-briefcase"></i>
+        </div>
+        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
       </div>
-
     </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-green">
+        <div class="inner">
+          <h3>{{PassedTest}}</h3>
+
+          <p>Passed</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-thumbsup"></i>
+        </div>
+        <a href="#/Website/{{WebsiteId}}/Report?StartDate={{date.startDate.format('MM-DD-YYYY')}}&EndDate={{date.endDate.format('MM-DD-YYYY')}}&State=8"
+           class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-red">
+        <div class="inner">
+          <h3>{{FailedTest}}</h3>
+
+          <p>Failed</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-thumbsdown"></i>
+        </div>
+        <a href="#/Website/{{WebsiteId}}/Report?StartDate={{date.startDate.format('MM-DD-YYYY')}}&EndDate={{date.endDate.format('MM-DD-YYYY')}}&State=9" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-yellow">
+        <div class="inner">
+          <h3>{{UnProcessedTest}}</h3>
+
+          <p>Un-Processed</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-help-circled"></i>
+        </div>
+        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
   </div>
 
   <div class="row">
@@ -70,11 +77,57 @@
       <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border" class="col-xs-12">
-          <div id="cv">
-            <canvas tc-chartjs-line chart-options="options" chart-data="data" auto-legend></canvas>
-          </div>
+          <!-- <div class="col-xs-6" align="left" style="background-color: transparent;font-size: 20px">
+             <b>Dashboard</b>
+           </div>-->
         </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal">
+          <div class="box-body">
+            <div class="form-group">
+              <label class="col-sm-1 control-label">Range</label>
+
+              <div class="col-sm-2">
+                <input date-range-picker class="form-control date-picker" type="text" ng-model="date"
+                       options="{format: 'YYYY/MM/DD'}"/>
+              </div>
+              <label class="col-sm-1 control-label">Website</label>
+
+              <div class="col-sm-2">
+                <select ng-change="" class="form-control" ng-model="WebsiteId"
+                        ng-options="website.Id as website.Name for website in WebsiteList" name="WebsiteId" required>
+                </select>
+              </div>
+
+              <div class="col-sm-2">
+                <button class="btn btn-primary" type="button" ng-click="onWebsiteChange()">Show</button>
+                <a class="btn btn-primary" ui-sref="Website.TestCat({ WebsiteId: WebsiteId})">Go To Website</a>
+              </div>
+
+              <div class="col-sm-1">
+
+              </div>
+            </div>
+            <section class="col-lg-6">
+              <div id="cv" class="col-xs-12 col-md-12 col-xl-12">
+                <canvas tc-chartjs-line chart-options="options" chart-data="data" auto-legend></canvas>
+              </div>
+            </section>
+            <section class="col-lg-6">
+              <div class="col-xs-12 col-md-12 col-xl-12" id="pieCP">
+                <canvas tc-chartjs-doughnut chart-options="pieOptions" chart-data="pieDataPassed" auto-legend></canvas>
+                <div class="col-md-2 col-md-offset-4"><b>Passed</b></div>
+              </div>
+              <div class="col-xs-12 col-md-12 col-xl-12" id="pieCF">
+                <canvas tc-chartjs-doughnut chart-options="pieOptions" chart-data="pieDataFailed"></canvas>
+                <div class="col-md-2 col-md-offset-4"><b>Failed</b></div>
+              </div>
+            </section>
+          </div>
+        </form>
       </div>
+
     </div>
   </div>
 
@@ -95,11 +148,15 @@
 </script>
 
 
-
 <style type="text/css">
   #cv canvas {
     width: 80% !important;
-    height: 50% !important;
+    height: 517px !important;
+  }
+
+  #pieCP canvas, #pieCF canvas {
+    width: 78% !important;
+    height: 237px !important;
   }
 
   .tc-chart-js-legend li span {
@@ -114,5 +171,8 @@
     list-style-type: none;
     padding-left: 0px;
     float: right;
+    padding-top: 23px;
   }
+
+
 </style>

@@ -83,10 +83,10 @@ app.controller('AccountController', ['$scope', '$state', '$stateParams', 'authSe
         $state.go(returnToState, returnToStateParams);
       }
       else if (user.type == "TestAdmin") {
-        $state.go("Website.List");
+        $state.go("Website.Dashboard");
       }
       else if (user.type == "TestUser") {
-        $state.go("Website.List");
+        $state.go("Website.Dashboard");
       }
     }
   }]);

@@ -14,8 +14,8 @@ namespace Elephant.Hank.DataService.DBSchema
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using Elephant.Hank.Resources.Attributes;
     using Elephant.Hank.DataService.DBSchema.CustomIdentity;
+    using Elephant.Hank.Resources.Attributes;
 
     /// <summary>
     /// The TblSharedTest class

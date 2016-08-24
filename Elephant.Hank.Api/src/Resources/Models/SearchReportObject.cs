@@ -58,7 +58,18 @@ namespace Elephant.Hank.Resources.Models
         /// <summary>
         /// Gets or sets the CreatedOn
         /// </summary>
-        public DateTime? CreatedOn { get; set; }
+        /// <value>
+        /// The start date.
+        /// </value>
+        public DateTime? StartDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the end date.
+        /// </summary>
+        /// <value>
+        /// The end date.
+        /// </value>
+        public DateTime? EndDate { get; set; }
 
         /// <summary>
         /// Gets or sets the page num.

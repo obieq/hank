@@ -4,8 +4,8 @@
 
 'use strict';
 
-app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider', '$q',
-  function ($scope, $rootScope, $filter, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider, $q) {
+app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider', '$q', '$location',
+  function ($scope, $rootScope, $filter, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider, $q, $location) {
 
     $scope.SectionOpen = true;
     $scope.ReportDetail = {};
@@ -32,9 +32,16 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$statePa
     ];
 
     dataProvider.currentWebSite($scope);
-
-    if ($stateParams.CreatedOn == '' || $stateParams.CreatedOn == undefined) {
-      $scope.SearchObject = {'CreatedOn': $scope.CurrentDate};
+    var queryParams = $location.search();
+    if (($stateParams.CreatedOn == '' || $stateParams.CreatedOn == undefined) && (!queryParams.StartDate && !queryParams.EndDate && !queryParams.State)) {
+      $scope.SearchObject = {'StartDate': $scope.CurrentDate, 'EndDate': $scope.CurrentDate};
+    }
+    else if (!!queryParams.StartDate && !!queryParams.EndDate) {
+      $scope.SearchObject = {
+        'StartDate': queryParams.StartDate,
+        'EndDate': queryParams.EndDate,
+        'TestStatus': queryParams.State
+      };
     }
     else {
       $scope.SearchObject = {'executiongroup': $stateParams.CreatedOn};
@@ -133,13 +140,13 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$statePa
           var logLength = reportList[i].JsonLogContainer ? reportList[i].JsonLogContainer.length : 0;
           var maxLen = (variableLength > logLength ? variableLength : logLength);
 
-          if(maxLen == 0){
+          if (maxLen == 0) {
             result.push(obj);
             continue;
           }
 
           for (var j = 0; j < maxLen; j++) {
-            if(j > 0){
+            if (j > 0) {
               obj = getReportObject(reportList[i], count);
             }
             if (reportList[i].JsonVariableStateContainer) {
@@ -161,7 +168,7 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$statePa
       return deferred.promise;
     };
 
-    function getReportObject(reportObj, sno){
+    function getReportObject(reportObj, sno) {
       return {
         Sno: sno,
         TestQueueId: reportObj.TestQueueId,
@@ -175,8 +182,8 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$statePa
 
     }
 
-    function cleanDataForCsv(valueToClean){
-      if(valueToClean){
+    function cleanDataForCsv(valueToClean) {
+      if (valueToClean) {
         return (valueToClean + "").replace("\n", " ");
       }
       return valueToClean;

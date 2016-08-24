@@ -11,6 +11,7 @@
 
 namespace Elephant.Hank.Common.TestDataServices
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -19,7 +20,6 @@ namespace Elephant.Hank.Common.TestDataServices
     using Elephant.Hank.Resources.Messages;
     using Elephant.Hank.Resources.Models;
     using Elephant.Hank.Resources.ViewModal;
-    using System;
 
     /// <summary>
     /// The IReportDataService interface
@@ -82,7 +82,19 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <param name="websiteId">The website identifier.</param>
         /// <param name="startDate">The start date.</param>
         /// <param name="endDate">The end date.</param>
-        /// <returns></returns>
+        /// <returns>return the the chart specific data</returns>
         ResultMessage<IEnumerable<ChartData>> GetChartData(long websiteId, DateTime startDate, DateTime endDate);
+
+        /// <summary>
+        /// Gets the pie chart data.
+        /// </summary>
+        /// <param name="websiteId">The website identifier.</param>
+        /// <param name="startDate">The start date.</param>
+        /// <param name="endDate">The end date.</param>
+        /// <param name="status">The status.</param>
+        /// <returns>
+        /// returns pie chart specific data
+        /// </returns>
+        ResultMessage<IEnumerable<PieChart>> GetPieChartData(long websiteId, DateTime startDate, DateTime endDate, int status);
     }
 }

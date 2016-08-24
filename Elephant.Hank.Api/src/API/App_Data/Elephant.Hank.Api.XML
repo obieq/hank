@@ -2553,6 +2553,27 @@
             <param name="groupName">group identifier</param>
             <returns>list of report data</returns>
         </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ReportsController.GetChartData(System.Int64,System.DateTime,System.DateTime)">
+            <summary>
+            Gets the chart data.
+            </summary>
+            <param name="websiteId">The website identifier.</param>
+            <param name="startDate">The start date.</param>
+            <param name="endDate">The end date.</param>
+            <returns>returns the chart specific data</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ReportsController.GetPieChartData(System.Int64,System.DateTime,System.DateTime,System.Int32)">
+            <summary>
+            Gets the pie chart data.
+            </summary>
+            <param name="websiteId">The website identifier.</param>
+            <param name="startDate">The start date.</param>
+            <param name="endDate">The end date.</param>
+            <param name="status">The status.</param>
+            <returns>
+            Provide pie chart specific data
+            </returns>
+        </member>
         <member name="T:Elephant.Hank.Api.Controllers.AccountController">
             <summary>
             The AccountController class

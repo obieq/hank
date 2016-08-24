@@ -11,6 +11,7 @@
 
 namespace Elephant.Hank.Framework.TestDataServices
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -28,7 +29,6 @@ namespace Elephant.Hank.Framework.TestDataServices
     using Elephant.Hank.Resources.Messages;
     using Elephant.Hank.Resources.Models;
     using Elephant.Hank.Resources.ViewModal;
-    using System;
 
     /// <summary>
     /// The ReportDataService service
@@ -144,8 +144,12 @@ namespace Elephant.Hank.Framework.TestDataServices
             Dictionary<string, object> dictionary = new Dictionary<string, object>
                                                         {
                                                             {
-                                                                "createdOn",
-                                                                searchReportObject.CreatedOn
+                                                                "startdate",
+                                                                searchReportObject.StartDate
+                                                            },
+                                                            {
+                                                                "enddate",
+                                                                searchReportObject.EndDate
                                                             },
                                                             {
                                                                 "websiteid",
@@ -193,7 +197,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                                                             }
                                                         };
 
-            var entities = this.Table.SqlQuery<TblReportDataDto>("Select * from procsearchreportv2(@createdOn, @websiteid, @suiteid, @testid, @osname, @browser, @teststatus, @userid, @startat, @pagesize, @extraData, @executiongroup);", dictionary).ToList();
+            var entities = this.Table.SqlQuery<TblReportDataDto>("Select * from procsearchreportv3(@startdate,@enddate, @websiteid, @suiteid, @testid, @osname, @browser, @teststatus, @userid, @startat, @pagesize, @extraData, @executiongroup);", dictionary).ToList();
 
             if (!entities.Any())
             {
@@ -351,19 +355,54 @@ namespace Elephant.Hank.Framework.TestDataServices
             return result;
         }
 
-
         /// <summary>
         /// Gets the chart data.
         /// </summary>
         /// <param name="websiteId">The website identifier.</param>
         /// <param name="startDate">The start date.</param>
         /// <param name="endDate">The end date.</param>
-        /// <returns></returns>
+        /// <returns>returns the chart specific data</returns>
         public ResultMessage<IEnumerable<ChartData>> GetChartData(long websiteId, DateTime startDate, DateTime endDate)
         {
             var result = new ResultMessage<IEnumerable<ChartData>>();
             Dictionary<string, object> dictionary = new Dictionary<string, object> { { "websiteid", websiteId }, { "startdate", startDate }, { "enddate", endDate } };
             var entities = this.Table.SqlQuery<ChartData>("Select * from procgetchartdata(@websiteid,@startdate,@enddate);", dictionary).ToList();
+            if (!entities.Any())
+            {
+                result.Messages.Add(new Message(null, "Record not found!"));
+            }
+            else
+            {
+                result.Item = entities;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the pie chart data.
+        /// </summary>
+        /// <param name="websiteId">The website identifier.</param>
+        /// <param name="startDate">The start date.</param>
+        /// <param name="endDate">The end date.</param>
+        /// <param name="status">The status.</param>
+        /// <returns>
+        /// returns pie chart specific data
+        /// </returns>
+        public ResultMessage<IEnumerable<PieChart>> GetPieChartData(long websiteId, DateTime startDate, DateTime endDate, int status)
+        {
+            var result = new ResultMessage<IEnumerable<PieChart>>();
+            Dictionary<string, object> dictionary = new Dictionary<string, object> { { "websiteid", websiteId }, { "startdate", startDate }, { "enddate", endDate }, { "status", status } };
+
+            var entities = this.Table.SqlQuery<PieChart>(
+                                                            "select Count(*) as \"Value\", \"RD\".\"Value\"::json->>'BrowserName' as \"Label\" from \"TblReportData\" as \"RD\"" +
+
+                                                            "Left Join \"TblTestQueue\" as \"TQ\" on \"TQ\".\"Id\"=\"RD\".\"TestQueueId\"" +
+
+                                                            "Left Join \"TblTest\" as \"T\" on \"T\".\"Id\"=\"TQ\".\"TestId\"" +
+
+                                                            "Where \"RD\".\"CreatedOn\"::Date between @startdate and @enddate AND \"RD\".\"Status\"=@status AND \"T\".\"WebsiteId\"=@websiteid group by \"Value\"::json->>'BrowserName'",
+                                                            dictionary).ToList();
             if (!entities.Any())
             {
                 result.Messages.Add(new Message(null, "Record not found!"));
