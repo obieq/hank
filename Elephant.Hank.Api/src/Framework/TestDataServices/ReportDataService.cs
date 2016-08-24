@@ -28,6 +28,7 @@ namespace Elephant.Hank.Framework.TestDataServices
     using Elephant.Hank.Resources.Messages;
     using Elephant.Hank.Resources.Models;
     using Elephant.Hank.Resources.ViewModal;
+    using System;
 
     /// <summary>
     /// The ReportDataService service
@@ -338,6 +339,31 @@ namespace Elephant.Hank.Framework.TestDataServices
             var result = new ResultMessage<IEnumerable<TblReportDataDto>>();
             Dictionary<string, object> dictionary = new Dictionary<string, object> { { "executiongroup", groupName } };
             var entities = this.Table.SqlQuery<TblReportDataDto>("Select * from procgetallunprocessedforgroup(@executiongroup);", dictionary).ToList();
+            if (!entities.Any())
+            {
+                result.Messages.Add(new Message(null, "Record not found!"));
+            }
+            else
+            {
+                result.Item = entities;
+            }
+
+            return result;
+        }
+
+
+        /// <summary>
+        /// Gets the chart data.
+        /// </summary>
+        /// <param name="websiteId">The website identifier.</param>
+        /// <param name="startDate">The start date.</param>
+        /// <param name="endDate">The end date.</param>
+        /// <returns></returns>
+        public ResultMessage<IEnumerable<ChartData>> GetChartData(long websiteId, DateTime startDate, DateTime endDate)
+        {
+            var result = new ResultMessage<IEnumerable<ChartData>>();
+            Dictionary<string, object> dictionary = new Dictionary<string, object> { { "websiteid", websiteId }, { "startdate", startDate }, { "enddate", endDate } };
+            var entities = this.Table.SqlQuery<ChartData>("Select * from procgetchartdata(@websiteid,@startdate,@enddate);", dictionary).ToList();
             if (!entities.Any())
             {
                 result.Messages.Add(new Message(null, "Record not found!"));

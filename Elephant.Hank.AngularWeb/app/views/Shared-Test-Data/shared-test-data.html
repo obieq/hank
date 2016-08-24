@@ -33,6 +33,7 @@
               <th>Value</th>
               <th>Variable Name</th>
               <th class="col-md-4">Description</th>
+              <th>Modified By</th>
               <th class="col-md-2" ng-if="Authentication.CanWrite || Authentication.CanDelete"></th>
             </tr>
             </thead>
@@ -53,6 +54,7 @@
               <td ng-class="sharedTestData.css">{{sharedTestData.Value}}</td>
               <td ng-class="sharedTestData.css">{{sharedTestData.VariableName}}</td>
               <td>{{sharedTestData.Description}}</td>
+              <td>{{sharedTestData.ModifiedByUserName}}</td>
               <td ng-if="Authentication.CanWrite || Authentication.CanDelete">
                 <a ng-show="$index == 0" ng-if="Authentication.CanWrite"
                    ui-sref="Website.SharedTestDataAdd({WebsiteId: stateParamWebsiteId, SharedTestId: SharedTest.Id, ExecutionSequence: sharedTestData.ExecutionSequence })">Add

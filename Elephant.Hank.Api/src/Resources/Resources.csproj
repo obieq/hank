@@ -142,6 +142,7 @@
     <Compile Include="Messages\ResultMessage.cs" />
     <Compile Include="Models\AutoGenModel.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
+    <Compile Include="Models\ChartData.cs" />
     <Compile Include="Models\CopyTestDataModel.cs" />
     <Compile Include="Models\ErrorTrace.cs" />
     <Compile Include="Models\FullTrace.cs" />

@@ -32,10 +32,12 @@
             <tr>
               <th>Seq</th>
               <th class="col-md-2">Display Name</th>
+
               <th>Action</th>
               <th>Value</th>
               <th>Variable Name</th>
               <th class="col-md-4">Description</th>
+              <th>Modified By</th>
               <th class="col-md-2" ng-if="Authentication.CanWrite || Authentication.CanDelete"></th>
             </tr>
             </thead>
@@ -54,6 +56,7 @@
                 <span ng-if="testData.Description.length>0">({{testData.Description}})</span>
               </td>
 
+
               <td ng-if="testData.LinkTestType==StepTypeCodes.WebsiteTestStep" colspan="5" style="font-weight: bold;">
                 <a target="_blank" ui-sref="Website.TestData({ WebsiteId: testData.SharedStepWebsiteId, TestCatId: 0, TestId: testData.SharedStepWebsiteTestId })"  >{{testData.SharedStepWebsiteName}} - ({{testData.SharedStepWebsiteTestName}})</a>
 
@@ -68,6 +71,11 @@
               <td  ng-if="testData.LinkTestType==StepTypeCodes.TestStep || testData.LinkTestType==StepTypeCodes.SqlTestStep">{{testData.Value }}</td>
               <td  ng-if="testData.LinkTestType==StepTypeCodes.TestStep || testData.LinkTestType==StepTypeCodes.SqlTestStep">{{testData.VariableName }}</td>
               <td ng-if="testData.LinkTestType==StepTypeCodes.TestStep || testData.LinkTestType==StepTypeCodes.SqlTestStep">{{testData.Description}}</td>
+
+              <td>
+                {{testData.ModifiedByUserName}}
+              </td>
+
               <td ng-if="Authentication.CanWrite || Authentication.CanDelete">
                 <a ng-if="Authentication.CanWrite" ng-show="$index == 0"
                    ui-sref="Website.TestDataAdd({WebsiteId: stateParamWebsiteId, TestCatId: TestCatId, TestId: Test.Id, ExecutionSequence: testData.ExecutionSequence })">

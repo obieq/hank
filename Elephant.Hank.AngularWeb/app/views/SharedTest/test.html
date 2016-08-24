@@ -29,6 +29,7 @@
               <th class="col-md-2">Shared Test Name</th>
               <th class="col-md-7">Description</th>
               <th class="col-md-2">Website</th>
+              <th>Modified By</th>
               <th class="col-md-1" ng-if="Authentication.CanWrite"></th>
             </tr>
             </thead>
@@ -38,6 +39,7 @@
               <td> <a ui-sref="Website.SharedTestData({ WebsiteId: stateParamWebsiteId, SharedTestId: sharedTest.Id })">{{sharedTest.TestName}}</a></td>
               <td>{{sharedTest.Description}}</td>
               <td>{{sharedTest.WebsiteName}}</td>
+              <td>{{sharedTest.ModifiedByUserName}}</td>
               <td ng-if="Authentication.CanWrite">
                 <a ui-sref="Website.SharedTestUpdate({ WebsiteId: stateParamWebsiteId, SharedTestId: sharedTest.Id })">Edit</a>
               </td>

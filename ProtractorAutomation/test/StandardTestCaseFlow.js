@@ -70,18 +70,19 @@ var StandardTestCaseFlow =
                 browser.ignoreSynchronization = website.IsAngular == false;
 
                 var nextStatus = 3;
-                if(params.config.isCancelled){
+                if (params.config.isCancelled) {
                   nextStatus = 5;
                 }
-                restApiHelper.doPost(jsonHelper.format(params.config.baseApiUrl + params.config.baseTestStateUrl, params.config.TestQueueId, nextStatus), {}, function () {});
+                restApiHelper.doPost(jsonHelper.format(params.config.baseApiUrl + params.config.baseTestStateUrl, params.config.TestQueueId, nextStatus), {}, function () {
+                });
 
-                if(params.config.isCancelled){
+                if (params.config.isCancelled) {
                   expect("ErroMessage:").toEqual("Test execution has been cancelled by the user!")
                 } else {
                   browser.get(params.config.urlToTest);
 
                   for (var i = 0; i < testDataList.length; i++) {
-                    var key = inputHelper.setLocator(testDataList[i], testCase.TestName, TakeScreenShot, TakeScreenShotBrowser);
+                    var key = inputHelper.setLocator(testDataList[i], testCase.TestName, TakeScreenShot, TakeScreenShotBrowser, i);
                   }
                 }
               }

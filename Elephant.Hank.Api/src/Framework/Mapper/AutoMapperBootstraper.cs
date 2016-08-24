@@ -107,10 +107,11 @@ namespace Elephant.Hank.Framework.Mapper
             AutoMapper.Mapper.CreateMap<TblTicketMasterDto, TblTicketHistoryDto>().ReverseMap();
 
             AutoMapper.Mapper.CreateMap<TblTicketComment, TblTicketCommentDto>()
-               .ForMember(x => x.CreatedByUserName, opt => opt.MapFrom(src => src.CreatedByUser != null ? src.CreatedByUser.FullName : null))               
+               .ForMember(x => x.CreatedByUserName, opt => opt.MapFrom(src => src.CreatedByUser != null ? src.CreatedByUser.FullName : null))
                .ReverseMap();
-            
+
             AutoMapper.Mapper.CreateMap<TblTestData, TblTestDataDto>()
+                .ForMember(x => x.ModifiedByUserName, opt => opt.MapFrom(src => src.ModifiedByUser != null ? src.ModifiedByUser.FirstName : null))
                 .ForMember(x => x.TestName, opt => opt.MapFrom(src => src.Test != null ? src.Test.TestName : null))
                 .ForMember(x => x.DisplayNameValue, opt => opt.MapFrom(src => src.LocatorIdentifier != null ? src.LocatorIdentifier.DisplayName : null))
                 .ForMember(x => x.PageId, opt => opt.MapFrom(src => src.LocatorIdentifier != null ? src.LocatorIdentifier.PageId : 0))
@@ -162,6 +163,7 @@ namespace Elephant.Hank.Framework.Mapper
             AutoMapper.Mapper.CreateMap<TblReportData, TblReportDataDto>().ReverseMap();
 
             AutoMapper.Mapper.CreateMap<TblSharedTestData, TblSharedTestDataDto>()
+                 .ForMember(x => x.ModifiedByUserName, opt => opt.MapFrom(src => src.ModifiedByUser.FirstName))
                .ForMember(x => x.TestName, opt => opt.MapFrom(src => src.SharedTest != null ? src.SharedTest.TestName : null))
                .ForMember(x => x.DisplayNameValue, opt => opt.MapFrom(src => src.LocatorIdentifier != null ? src.LocatorIdentifier.DisplayName : null))
                .ForMember(x => x.PageId, opt => opt.MapFrom(src => src.LocatorIdentifier != null ? src.LocatorIdentifier.PageId : 0))
@@ -171,6 +173,7 @@ namespace Elephant.Hank.Framework.Mapper
                .ReverseMap();
 
             AutoMapper.Mapper.CreateMap<TblSharedTest, TblSharedTestDto>()
+                 .ForMember(x => x.ModifiedByUserName, opt => opt.MapFrom(src => src.ModifiedByUser != null ? src.ModifiedByUser.FirstName : null))
                 .ForMember(x => x.WebsiteName, opt => opt.MapFrom(src => src.Website != null ? src.Website.Name : null))
                 .ForMember(x => x.SharedTestDataList, opt => opt.MapFrom(src => src.SharedTestDataList != null ? src.SharedTestDataList.Where(m => m.IsDeleted == false) : null))
                 .ReverseMap();

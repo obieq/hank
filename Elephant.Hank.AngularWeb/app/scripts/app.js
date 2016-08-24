@@ -25,7 +25,8 @@ var app = angular
     'ncy-angular-breadcrumb',
     'daterangepicker',
     'LocalStorageModule',
-    'angularUtils.directives.dirPagination'
+    'angularUtils.directives.dirPagination',
+    'tc.chartjs'
   ])
   .factory('RestangularCustom', RestangularCustom())
   .constant('AppSettings', AppSettings())
@@ -295,6 +296,14 @@ var app = angular
         ncyBreadcrumb: {label: 'Home'},
         permissionData: {Roles: ["TestAdmin", "TestUser"]}
       })
+      .state('Website.Dashboard', {
+        url: "/dashboard",
+        templateUrl: 'views/dashboard.html',
+        controller: 'DashboardController',
+        ncyBreadcrumb: {label: 'Home'},
+        permissionData: {Roles: ["TestAdmin", "TestUser"]}
+      })
+
       .state('Website.Add', {
         url: "/Add",
         templateUrl: 'views/website-add-update.html',
@@ -811,6 +820,7 @@ var app = angular
     ActionForSqlTestStep: "action/action-for-sql-test-step",
 
     ReportUrl: "website/{0}/Report",
+    ReportChartUrl: "website/{0}/report/get-chart-data/{1}/{2}",
     SearchReportUrl: "website/{0}/Report/SearchReport",
     ReportByExecutionGroupUrl: "website/{0}/report/execution-group/{1}",
     ReportByExecutionGroupWhereScreenShotArrayExistUrl: "website/{0}/report/execution-group/{1}/screen-shot-array",

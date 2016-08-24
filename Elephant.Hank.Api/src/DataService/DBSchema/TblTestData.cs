@@ -149,5 +149,14 @@ namespace Elephant.Hank.DataService.DBSchema
         /// </summary>
         [ForeignKey("SharedStepWebsiteTestId")]
         public virtual TblTest SharedStepWebsiteTest { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the modified by user.
+        /// </summary>
+        /// <value>
+        /// The name of the modified by user.
+        /// </value>
+        [ForeignKey("ModifiedBy")]
+        public virtual CustomUser ModifiedByUser { get; set; }
     }
 }

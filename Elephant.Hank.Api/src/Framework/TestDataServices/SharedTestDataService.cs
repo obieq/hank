@@ -106,14 +106,14 @@ namespace Elephant.Hank.Framework.TestDataServices
             {
                 long existingSeqNum = testDataId == 0 ? 0 : testData.Item.ExecutionSequence;
 
-                string updateQuery = "update \"TblSharedTestData\" as \"t1\" set \"ModifiedBy\"=" + userId + ", \"ModifiedOn\" = current_timestamp, \"ExecutionSequence\" = \"t2\".\"RowNum\" + "
+                string updateQuery = "update \"TblSharedTestData\" as \"t1\" set  \"ExecutionSequence\" = \"t2\".\"RowNum\" + "
                                      + "(" + existingSeqNum + "- 1)"
                                      + " from (select row_number() over(order by \"ExecutionSequence\") as \"RowNum\", * from \"TblSharedTestData\" "
                                      + " Where " + existingSeqNum + " > 0 and \"SharedTestId\" = " + sharedTestCaseId
                                      + " and \"ExecutionSequence\" > " + existingSeqNum + " and \"IsDeleted\" <> 't') \"t2\" "
                                      + " where \"t1\".\"Id\" = \"t2\".\"Id\";"
 
-                                     + " update \"TblSharedTestData\" as \"t1\" set \"ModifiedBy\"=" + userId + ", \"ModifiedOn\" = current_timestamp, \"ExecutionSequence\" = \"t2\".\"RowNum\" + " + testDataNewSeq
+                                     + " update \"TblSharedTestData\" as \"t1\" set \"ExecutionSequence\" = \"t2\".\"RowNum\" + " + testDataNewSeq
                                      + " from (select row_number() over(order by \"ExecutionSequence\") as \"RowNum\", * from \"TblSharedTestData\" "
                                      + " Where " + testDataNewSeq + " > 0 and \"SharedTestId\" = " + sharedTestCaseId + " and \"Id\" <> " + testDataId
                                      + " and \"ExecutionSequence\" >= " + testDataNewSeq + " and \"IsDeleted\" <> 't') \"t2\" "
