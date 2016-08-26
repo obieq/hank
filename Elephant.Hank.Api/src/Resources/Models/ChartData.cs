@@ -1,4 +1,4 @@
-﻿// ---------------------------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------------------------
 // <copyright file="ChartData.cs" company="Elephant Insurance Services, LLC">
 //     Copyright (c) 2015 All Right Reserved
 // </copyright>
@@ -7,7 +7,7 @@
 // <summary>
 //     The ChartData class
 // </summary>
-// ---------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------
 
 namespace Elephant.Hank.Resources.Models
 {
@@ -65,5 +65,21 @@ namespace Elephant.Hank.Resources.Models
         /// The total.
         /// </value>
         public long Total { get; set; }
+
+        /// <summary>
+        /// Gets or sets the count inqueue.
+        /// </summary>
+        /// <value>
+        /// The count inqueue.
+        /// </value>
+        public long CountInqueue { get; set; }
+
+        /// <summary>
+        /// Gets or sets the count in progress.
+        /// </summary>
+        /// <value>
+        /// The count in progress.
+        /// </value>
+        public long CountInProgress { get; set; }
     }
 }

@@ -26,5 +26,11 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <param name="name">The name.</param>
         /// <returns>TblEnvironmentDto object</returns>
         ResultMessage<TblEnvironmentDto> GetByName(string name);
+
+        /// <summary>
+        /// Gets the default environment.
+        /// </summary>
+        /// <returns>return the object of default environment</returns>
+        ResultMessage<TblEnvironmentDto> GetDefaultEnvironment();
     }
 }

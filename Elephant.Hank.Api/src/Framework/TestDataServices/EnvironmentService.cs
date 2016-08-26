@@ -64,5 +64,29 @@ namespace Elephant.Hank.Framework.TestDataServices
 
             return result;
         }
+
+        /// <summary>
+        /// Gets the by name.
+        /// </summary>
+        /// <returns>
+        /// return the object of default environment
+        /// </returns>
+        public ResultMessage<TblEnvironmentDto> GetDefaultEnvironment()
+        {
+            var result = new ResultMessage<TblEnvironmentDto>();
+
+            var entity = this.Table.Find(x => x.IsDeleted != true).OrderBy(x => x.Id).FirstOrDefault();
+
+            if (entity == null)
+            {
+                result.Messages.Add(new Message(null, "Record not found!"));
+            }
+            else
+            {
+                result.Item = this.mapperFactory.GetMapper<TblEnvironment, TblEnvironmentDto>().Map(entity);
+            }
+
+            return result;
+        }
     }
 }

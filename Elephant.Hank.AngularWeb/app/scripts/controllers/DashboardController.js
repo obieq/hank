@@ -2,14 +2,14 @@
  * Created by vyom.sharma on 16-08-2016.
  */
 
-app.controller('DashboardController', ['$scope', 'CrudService', 'ngAppSettings', '$filter', function ($scope, crudService, ngAppSettings, $filter) {
+app.controller('DashboardController', ['$scope', 'CrudService', 'ngAppSettings', '$filter', 'CommonUiService', function ($scope, crudService, ngAppSettings, $filter, commonUi) {
   $scope.date = {};
   $scope.date.endDate = moment();
   $scope.date.startDate = moment().subtract(7, "days");
 
 
   $scope.onWebsiteChange = function (IsDefault) {
-    $scope.TotalTest = $scope.PassedTest = $scope.FailedTest = $scope.UnProcessedTest = 0;
+    $scope.CancelledTest =$scope.InProgressTest = $scope.InqueueTest = $scope.TotalTest = $scope.PassedTest = $scope.FailedTest = $scope.UnProcessedTest = 0;
     crudService.getAll(ngAppSettings.WebSiteUrl).then(function (response) {
       $scope.WebsiteList = response;
       IsDefault ? $scope.WebsiteId = $scope.WebsiteList[0].Id : $scope.WebsiteId;
@@ -28,6 +28,12 @@ app.controller('DashboardController', ['$scope', 'CrudService', 'ngAppSettings',
         });
         var resultCancelled = response.map(function (a) {
           return a.CountCancelled;
+        });
+        var resultInqueue = response.map(function (a) {
+          return a.CountInqueue;
+        });
+        var resultInProgress = response.map(function (a) {
+          return a.CountInProgress;
         });
         var labels = response.map(function (a) {
           return a.CreatedOn.split('T')[0];
@@ -51,7 +57,15 @@ app.controller('DashboardController', ['$scope', 'CrudService', 'ngAppSettings',
         for (i = 0; i < resultUnProcessed.length; i++) {
           $scope.UnProcessedTest += resultUnProcessed[i];
         }
-
+        for (i = 0; i < resultInqueue.length; i++) {
+          $scope.InqueueTest += resultInqueue[i];
+        }
+        for (i = 0; i < resultInProgress.length; i++) {
+          $scope.InProgressTest += resultInProgress[i];
+        }
+        for (i = 0; i < resultCancelled.length; i++) {
+          $scope.CancelledTest += resultCancelled[i];
+        }
       }, function (response) {
         commonUi.showErrorPopup(response);
       });

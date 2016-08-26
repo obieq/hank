@@ -85,6 +85,11 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly ISharedTestDataService sharedTestDataService;
 
         /// <summary>
+        /// The environment service
+        /// </summary>
+        private readonly IEnvironmentService environmentService;
+
+        /// <summary>
         /// The table test data
         /// </summary>
         private readonly IRepository<TblTestData> table;
@@ -118,6 +123,7 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <param name="sharedTestDataService">The shared test data service.</param>
         /// <param name="apiConncetionService">The API conncetion service.</param>
         /// <param name="schedulerHistoryService">The scheduler history service.</param>
+        /// <param name="environmentService">The environment service.</param>
         public TestQueueExecutableService(
             IRepository<TblTestData> table,
             ISuiteService suiteService,
@@ -129,7 +135,8 @@ namespace Elephant.Hank.Framework.TestDataServices
             ITestDataSharedTestDataMapService testDataSharedTestDataMapService,
             ISharedTestDataService sharedTestDataService,
             IApiConnectionService apiConncetionService,
-            ISchedulerHistoryService schedulerHistoryService)
+            ISchedulerHistoryService schedulerHistoryService,
+            IEnvironmentService environmentService)
         {
             this.table = table;
             this.suiteService = suiteService;
@@ -142,6 +149,7 @@ namespace Elephant.Hank.Framework.TestDataServices
             this.sharedTestDataService = sharedTestDataService;
             this.apiConncetionService = apiConncetionService;
             this.schedulerHistoryService = schedulerHistoryService;
+            this.environmentService = environmentService;
         }
 
         /// <summary>
@@ -194,10 +202,18 @@ namespace Elephant.Hank.Framework.TestDataServices
                                 {
                                     ResultMessage<TblSchedulerDto> schedulerDto = this.schedulerService.GetById(testQueue.SchedulerId.Value);
                                     environMentId = schedulerDto.Item.UrlId;
+                                    if (environMentId == 0)
+                                    {
+                                        environMentId = environmentService.GetDefaultEnvironment().Item.Id;
+                                    }
                                 }
                                 else
                                 {
                                     environMentId = testQueue.Settings.UrlId;
+                                    if (environMentId == 0)
+                                    {
+                                        environMentId = environmentService.GetDefaultEnvironment().Item.Id;
+                                    }
                                 }
 
                                 ResultMessage<TblApiConnectionDto> apiConnectionDto = this.apiConncetionService.GetByEnvironmentAndCategoryId(environMentId, item.ApiTestData.ApiCategoryId.Value);
@@ -689,7 +705,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                         var resolvedLocator = this.IsInAutoGenArray(item.Value).ToList();
                         item.Value = resolvedLocator[0];
                         resolvedLocator.RemoveAt(0);
-                        item.LocatorIdentifier = string.Format(item.LocatorIdentifier, resolvedLocator.ToArray());                        
+                        item.LocatorIdentifier = string.Format(item.LocatorIdentifier, resolvedLocator.ToArray());
                     }
                     else
                     {

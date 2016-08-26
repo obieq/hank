@@ -21,6 +21,7 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$statePa
     $scope.EndNum = 0;
     $scope.CurrentPage = 1;
     $scope.PageSize = ngAppSettings.PageSize;
+    $scope.date = {};
 
     $scope.PageSizes = [
       {Name: "10", Value: 10},
@@ -34,9 +35,16 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$statePa
     dataProvider.currentWebSite($scope);
     var queryParams = $location.search();
     if (($stateParams.CreatedOn == '' || $stateParams.CreatedOn == undefined) && (!queryParams.StartDate && !queryParams.EndDate && !queryParams.State)) {
-      $scope.SearchObject = {'StartDate': $scope.CurrentDate, 'EndDate': $scope.CurrentDate};
+      $scope.date.endDate = moment();
+      $scope.date.startDate = moment();
+      $scope.SearchObject = {
+        'StartDate': $scope.date.startDate.format("MM-DD-YYYY"),
+        'EndDate': $scope.date.endDate.format("MM-DD-YYYY")
+      };
     }
     else if (!!queryParams.StartDate && !!queryParams.EndDate) {
+      $scope.date.startDate = moment(queryParams.StartDate).format('MM-DD-YYYY');
+      $scope.date.endDate = moment(queryParams.EndDate).format('MM-DD-YYYY');
       $scope.SearchObject = {
         'StartDate': queryParams.StartDate,
         'EndDate': queryParams.EndDate,
@@ -67,10 +75,10 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$statePa
     $scope.getReport = function (pageNum) {
       $scope.SearchObject.ExtraData = false;
       $scope.StateParamsWebsiteId = $scope.SearchObject.WebsiteId = $stateParams.WebsiteId;
-
       $scope.SearchObject.PageSize = $scope.PageSize;
       $scope.SearchObject.PageNum = pageNum || 1;
-
+      $scope.SearchObject.StartDate = !!$scope.date.startDate ? $scope.date.startDate.format('MM-DD-YYYY') : undefined;
+      $scope.SearchObject.EndDate = !!$scope.date.endDate ? !!$scope.date.endDate.format('MM-DD-YYYY') : undefined;
       crudService.search(ngAppSettings.SearchReportUrl.format($stateParams.WebsiteId), $scope.SearchObject).then(function (response) {
         $scope.Total = response.Total;
         $scope.PageSize = response.PageSize;

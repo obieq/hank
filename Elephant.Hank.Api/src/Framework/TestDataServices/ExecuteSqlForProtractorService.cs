@@ -51,18 +51,25 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly IDataBaseConnectionService dataBaseConnectionService;
 
         /// <summary>
+        /// The environment service
+        /// </summary>
+        private readonly IEnvironmentService environmentService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ExecuteSqlForProtractorService" /> class.
         /// </summary>
         /// <param name="testQueueService">the test Queue Service</param>
         /// <param name="dataBaseConnectionService">the DataBase Connection Service</param>
         /// <param name="schedulerService">The Scheduler Service</param>
         /// <param name="loggerService">The logger service.</param>
-        public ExecuteSqlForProtractorService(ITestQueueService testQueueService, IDataBaseConnectionService dataBaseConnectionService, ISchedulerService schedulerService, ILoggerService loggerService)
+        /// <param name="environmentService">The environment service.</param>
+        public ExecuteSqlForProtractorService(ITestQueueService testQueueService, IDataBaseConnectionService dataBaseConnectionService, ISchedulerService schedulerService, ILoggerService loggerService, IEnvironmentService environmentService)
         {
             this.testQueueService = testQueueService;
             this.dataBaseConnectionService = dataBaseConnectionService;
             this.schedulerService = schedulerService;
             this.loggerService = loggerService;
+            this.environmentService = environmentService;
         }
 
         /// <summary>
@@ -78,11 +85,21 @@ namespace Elephant.Hank.Framework.TestDataServices
             {
                 ResultMessage<TblSchedulerDto> schedulerDto = this.schedulerService.GetById(resultTestQueue.Item.SchedulerId.Value);
                 long environMentId = Convert.ToInt64(schedulerDto.Item.UrlId);
+                if (environMentId == 0)
+                {
+                    environMentId = this.environmentService.GetDefaultEnvironment().Item.Id;
+                }
+
                 return this.ExecuteSql(executableTestDataStep, environMentId);
             }
             else
             {
                 long environMentId = Convert.ToInt64(resultTestQueue.Item.Settings.UrlId);
+                if (environMentId == 0)
+                {
+                    environMentId = this.environmentService.GetDefaultEnvironment().Item.Id;
+                }
+
                 return this.ExecuteSql(executableTestDataStep, environMentId);
             }
         }

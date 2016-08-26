@@ -8,7 +8,7 @@
 <section class="content" ng-init="onWebsiteChange(true)">
   <!-- Small boxes (Stat box) -->
   <div class="row">
-    <div class="col-lg-3 col-xs-6">
+    <div class="col-lg-4 col-xs-6">
       <!-- small box -->
       <div class="small-box bg-aqua">
         <div class="inner">
@@ -19,11 +19,12 @@
         <div class="icon">
           <i class="ion ion-briefcase"></i>
         </div>
-        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="#/Website/{{WebsiteId}}/Report?StartDate={{date.startDate.format('MM-DD-YYYY')}}&EndDate={{date.endDate.format('MM-DD-YYYY')}}"
+           class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
-    <div class="col-lg-3 col-xs-6">
+    <div class="col-lg-4 col-xs-6">
       <!-- small box -->
       <div class="small-box bg-green">
         <div class="inner">
@@ -39,7 +40,7 @@
       </div>
     </div>
 
-    <div class="col-lg-3 col-xs-6">
+    <div class="col-lg-4 col-xs-6">
       <!-- small box -->
       <div class="small-box bg-red">
         <div class="inner">
@@ -65,7 +66,53 @@
         <div class="icon">
           <i class="ion ion-help-circled"></i>
         </div>
-        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        <a  href="#/Website/{{WebsiteId}}/Report?StartDate={{date.startDate.format('MM-DD-YYYY')}}&EndDate={{date.endDate.format('MM-DD-YYYY')}}&State=3" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-orange">
+        <div class="inner">
+          <h3>{{InqueueTest}}</h3>
+
+          <p>In-Queue</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-arrow-right-a"></i>
+        </div>
+        <a  href="#/Website/{{WebsiteId}}/Report?StartDate={{date.startDate.format('MM-DD-YYYY')}}&EndDate={{date.endDate.format('MM-DD-YYYY')}}&State=0" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-purple ">
+        <div class="inner">
+          <h3>{{InProgressTest}}</h3>
+
+          <p>In-Progress</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-playstation"></i>
+        </div>
+        <a  href="#/Website/{{WebsiteId}}/Report?StartDate={{date.startDate.format('MM-DD-YYYY')}}&EndDate={{date.endDate.format('MM-DD-YYYY')}}&State=1" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-aqua">
+        <div class="inner">
+          <h3>{{CancelledTest}}</h3>
+
+          <p>Cancelled</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-close-circled"></i>
+        </div>
+        <a href="#/Website/{{WebsiteId}}/Report?StartDate={{date.startDate.format('MM-DD-YYYY')}}&EndDate={{date.endDate.format('MM-DD-YYYY')}}"
+           class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
 
@@ -90,7 +137,7 @@
 
               <div class="col-sm-2">
                 <input date-range-picker class="form-control date-picker" type="text" ng-model="date"
-                       options="{format: 'YYYY/MM/DD'}"/>
+                       options="{format: 'MM/DD/YYYY'}"/>
               </div>
               <label class="col-sm-1 control-label">Website</label>
 
@@ -151,12 +198,13 @@
 <style type="text/css">
   #cv canvas {
     width: 80% !important;
-    height: 517px !important;
+    height: 350px !important;
   }
 
   #pieCP canvas, #pieCF canvas {
     width: 78% !important;
-    height: 237px !important;
+    height: 134px !important;
+    margin-top: 20px;
   }
 
   .tc-chart-js-legend li span {
