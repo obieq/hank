@@ -448,7 +448,7 @@ var app = angular
         url: "/{WebsiteId:int}/test-category/{TestCatId:int}/Test/Add",
         templateUrl: "views/TestScripts/test-add.html",
         controller: 'TestController',
-        ncyBreadcrumb: {label: 'New Test Script', parent: "Website.TestCatTest"},
+        ncyBreadcrumb: {label: 'New Test Script', parent: "Website.TestCatUpdate"},
         permissionData: {Roles: ["TestAdmin", "TestUser"]}
       })
       .state('Website.TestCatTestUpdate', {
@@ -462,7 +462,7 @@ var app = angular
         url: "/{WebsiteId:int}/test-category/{TestCatId:int}/Test/{TestId:int}/test-data",
         templateUrl: 'views/Test-Data/test-data.html',
         controller: 'TestDataController',
-        ncyBreadcrumb: {label: 'Test Data', parent: "Website.TestCatTestUpdate"},
+        ncyBreadcrumb: {label: '{{Test.TestName}}', parent: "Website.TestCatTest"},
         permissionData: {Roles: ["TestAdmin", "TestUser"]}
       })
       .state('Website.TestDataAdd', {

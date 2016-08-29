@@ -26,6 +26,10 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
       'chkAssignVariableValue': false
     };
 
+    crudService.getById(ngAppSettings.TestCatUrl.format($stateParams.WebsiteId), $stateParams.TestCatId).then(function(response){
+      $scope.TestCat = response.Item;
+    },function(response){ commonUi.showErrorPopup(response); });
+
     $scope.Test = {Id: $stateParams.TestId};
     $scope.stateParamWebsiteId = $stateParams.WebsiteId;
     $scope.stateParamTestDataId = $stateParams.TestDataId;

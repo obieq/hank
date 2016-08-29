@@ -115,6 +115,10 @@ namespace Elephant.Hank.Resources.Dto
                     {
                         return firstOrDefault.Url;
                     }
+                    else
+                    {
+                        return this.Settings.CustomUrlToTest;
+                    }
                 }
 
                 return string.Empty;

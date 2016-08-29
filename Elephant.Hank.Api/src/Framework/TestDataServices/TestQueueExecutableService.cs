@@ -204,7 +204,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                                     environMentId = schedulerDto.Item.UrlId;
                                     if (environMentId == 0)
                                     {
-                                        environMentId = environmentService.GetDefaultEnvironment().Item.Id;
+                                        environMentId = this.environmentService.GetDefaultEnvironment().Item.Id;
                                     }
                                 }
                                 else
@@ -212,7 +212,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                                     environMentId = testQueue.Settings.UrlId;
                                     if (environMentId == 0)
                                     {
-                                        environMentId = environmentService.GetDefaultEnvironment().Item.Id;
+                                        environMentId = this.environmentService.GetDefaultEnvironment().Item.Id;
                                     }
                                 }
 
