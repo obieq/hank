@@ -78,7 +78,7 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$statePa
       $scope.SearchObject.PageSize = $scope.PageSize;
       $scope.SearchObject.PageNum = pageNum || 1;
       $scope.SearchObject.StartDate = !!$scope.date.startDate ? $scope.date.startDate.format('MM-DD-YYYY') : undefined;
-      $scope.SearchObject.EndDate = !!$scope.date.endDate ? !!$scope.date.endDate.format('MM-DD-YYYY') : undefined;
+      $scope.SearchObject.EndDate = !!$scope.date.endDate ? $scope.date.endDate.format('MM-DD-YYYY') : undefined;
       crudService.search(ngAppSettings.SearchReportUrl.format($stateParams.WebsiteId), $scope.SearchObject).then(function (response) {
         $scope.Total = response.Total;
         $scope.PageSize = response.PageSize;

@@ -111,7 +111,7 @@
         <div class="icon">
           <i class="ion ion-close-circled"></i>
         </div>
-        <a href="#/Website/{{WebsiteId}}/Report?StartDate={{date.startDate.format('MM-DD-YYYY')}}&EndDate={{date.endDate.format('MM-DD-YYYY')}}"
+        <a href="#/Website/{{WebsiteId}}/Report?StartDate={{date.startDate.format('MM-DD-YYYY')}}&EndDate={{date.endDate.format('MM-DD-YYYY')}}&State=5"
            class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
@@ -158,12 +158,13 @@
             </div>
             <section class="col-lg-6">
               <div id="cv" class="col-xs-12 col-md-12 col-xl-12">
-                <canvas tc-chartjs-line chart-options="options" chart-data="data" auto-legend></canvas>
+                <canvas tc-chartjs-line chart-options="options" chart-data="data"  chart-click="onChartClick(event)"
+                        chart-legend="lineChart"></canvas>
               </div>
             </section>
             <section class="col-lg-6">
               <div class="col-xs-12 col-md-12 col-xl-12" id="pieCP">
-                <canvas tc-chartjs-doughnut chart-options="pieOptions" chart-data="pieDataPassed" auto-legend></canvas>
+                <canvas tc-chartjs-doughnut chart-options="pieOptions" chart-data="pieDataPassed"></canvas>
                 <div class="col-md-2 col-md-offset-4"><b>Passed</b></div>
               </div>
               <div class="col-xs-12 col-md-12 col-xl-12" id="pieCF">
@@ -197,13 +198,13 @@
 
 <style type="text/css">
   #cv canvas {
-    width: 80% !important;
-    height: 350px !important;
+    width: 100% !important;
+    height: 340px !important;
   }
 
   #pieCP canvas, #pieCF canvas {
-    width: 78% !important;
-    height: 134px !important;
+    width: 100% !important;
+    height: 300px !important;
     margin-top: 20px;
   }
 

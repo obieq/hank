@@ -9,7 +9,7 @@ app.controller('DashboardController', ['$scope', 'CrudService', 'ngAppSettings',
 
 
   $scope.onWebsiteChange = function (IsDefault) {
-    $scope.CancelledTest =$scope.InProgressTest = $scope.InqueueTest = $scope.TotalTest = $scope.PassedTest = $scope.FailedTest = $scope.UnProcessedTest = 0;
+    $scope.CancelledTest = $scope.InProgressTest = $scope.InqueueTest = $scope.TotalTest = $scope.PassedTest = $scope.FailedTest = $scope.UnProcessedTest = 0;
     crudService.getAll(ngAppSettings.WebSiteUrl).then(function (response) {
       $scope.WebsiteList = response;
       IsDefault ? $scope.WebsiteId = $scope.WebsiteList[0].Id : $scope.WebsiteId;
@@ -72,9 +72,9 @@ app.controller('DashboardController', ['$scope', 'CrudService', 'ngAppSettings',
       crudService.getAll(ngAppSettings.ReportPieChartUrl.format($scope.WebsiteId, $scope.date.startDate.format("YYYY-MM-DD"), $scope.date.endDate.format("YYYY-MM-DD"), 8)).then(function (response) {
         $scope.pieDataPassed = angular.copy(pieChartData);
         for (var j = 0; j < response.length; j++) {
-          for (var k = 0; k < pieChartData.length; k++) {
-            if (response[j].Label == pieChartData[k].label) {
-              $scope.pieDataPassed[k].value = response[j].Value;
+          for (var k = 0; k < pieChartData.labels.length; k++) {
+            if (response[j].Label == pieChartData.labels[k]) {
+              $scope.pieDataPassed.datasets[0].data[k] = response[j].Value;
               break;
             }
           }
@@ -86,9 +86,9 @@ app.controller('DashboardController', ['$scope', 'CrudService', 'ngAppSettings',
       crudService.getAll(ngAppSettings.ReportPieChartUrl.format($scope.WebsiteId, $scope.date.startDate.format("YYYY-MM-DD"), $scope.date.endDate.format("YYYY-MM-DD"), 9)).then(function (response) {
         $scope.pieDataFailed = angular.copy(pieChartData);
         for (var j = 0; j < response.length; j++) {
-          for (var k = 0; k < pieChartData.length; k++) {
-            if (response[j].Label == pieChartData[k].label) {
-              $scope.pieDataFailed[k].value = response[j].Value;
+          for (var k = 0; k < pieChartData.labels.length; k++) {
+            if (response[j].Label == pieChartData.labels[k]) {
+              $scope.pieDataFailed.datasets[0].data[k] = response[j].Value;
               break;
             }
           }
@@ -102,54 +102,137 @@ app.controller('DashboardController', ['$scope', 'CrudService', 'ngAppSettings',
     });
   };
 
+  $scope.chartOptions = {};
+
+  $scope.onChartClick = function (event) {
+    console.log('LineController', 'onChartClick', event);
+  };
+
+
   var chartData = {
-    labels: [],
+    labels: ["January", "February", "March", "April", "May", "June", "July"],
     datasets: [
       {
         label: 'Passed',
-        fillColor: 'transparent',
-        strokeColor: 'rgba(57, 131, 44, 1)',
-        pointColor: 'rgba(57, 131, 44, 1)',
-        pointStrokeColor: '#fff',
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: 'rgba(57, 131, 44, 0.4)',
+        borderColor: 'rgba(57, 131, 44, 1)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: "rgba(75,192,192,1)",
+        pointBackgroundColor: '#fff',
         pointHighlightFill: '#fff',
-        pointHighlightStroke: 'rgba(57, 131, 44, 1)',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(57, 131, 44, 1)',
+        pointHoverBorderColor: "rgba(220,220,220,1)",
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        spanGaps: false,
         data: []
       },
       {
         label: 'Failed',
-        fillColor: 'transparent',
-        strokeColor: 'rgba(252, 5, 5, 1)',
-        pointColor: 'rgba(252, 5, 5, 1)',
-        pointStrokeColor: '#fff',
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: 'rgba(252, 5, 5, 0.4)',
+        borderColor: 'rgba(252, 5, 5, 1)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: "rgba(252, 5, 5,1)",
+        pointBackgroundColor: '#fff',
         pointHighlightFill: '#fff',
-        pointHighlightStroke: 'rgba(252,5,5,1)',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(252, 5, 5, 1)',
+        pointHoverBorderColor: "rgba(220,220,220,1)",
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        spanGaps: false,
         data: []
       },
       {
         label: 'Un-Processed',
-        fillColor: 'transparent',
-        strokeColor: 'rgba(255, 208, 50, 1)',
-        pointColor: 'rgba(255, 208, 50, 1)',
-        pointStrokeColor: '#fff',
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: 'rgba(255, 208, 50, 0.4)',
+        borderColor: 'rgba(255, 208, 50,1)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: "rgba(255, 208, 50,1)",
+        pointBackgroundColor: '#fff',
         pointHighlightFill: '#fff',
-        pointHighlightStroke: 'rgba(255, 208, 50, 1)',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(255, 208, 50, 1)',
+        pointHoverBorderColor: "rgba(220,220,220,1)",
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        spanGaps: false,
         data: []
       }
       ,
       {
         label: 'Cancelled',
-        fillColor: 'transparent',
-        strokeColor: 'rgba(146, 74, 44,1)',
-        pointColor: 'rgba(146, 74, 44,1)',
-        pointStrokeColor: '#fff',
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: 'rgba(146, 74, 44, 0.4)',
+        borderColor: 'rgba(146, 74, 44,1)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: "rgba(146, 74, 44,1)",
+        pointBackgroundColor: '#fff',
         pointHighlightFill: '#fff',
-        pointHighlightStroke: 'rgba(146, 74, 44,1)',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(146, 74, 44, 1)',
+        pointHoverBorderColor: "rgba(220,220,220,1)",
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        spanGaps: false,
         data: []
       }
     ]
   };
 
-  var pieChartData = [
+  var pieChartData={
+    labels: [
+      "firefox",
+      "chrome",
+      "internet explorer"
+    ],
+    datasets: [
+      {
+        data: [0,0,0],
+        backgroundColor: [
+          "#FF6384",
+          "#36A2EB",
+          "#FFCE56"
+        ],
+        hoverBackgroundColor: [
+          "#FF6384",
+          "#36A2EB",
+          "#FFCE56"
+        ]
+      }
+    ]
+  };
+
+
+  /*var pieChartData = [
     {
       value: 0,
       color: '#F7464A',
@@ -168,9 +251,10 @@ app.controller('DashboardController', ['$scope', 'CrudService', 'ngAppSettings',
       highlight: '#FFC870',
       label: 'internet explorer'
     }
-  ];
+  ];*/
 
-  $scope.options = {
+
+ /* $scope.options = {
 
     // Sets the chart to be responsive
     responsive: true,
@@ -255,6 +339,6 @@ app.controller('DashboardController', ['$scope', 'CrudService', 'ngAppSettings',
     //String - A legend template
     legendTemplate: '<ul class="tc-chart-js-legend"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><br/><%}%></ul>'
 
-  };
+  };*/
 
 }]);

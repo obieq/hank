@@ -58,6 +58,7 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
       'Id': 4,
       'Type': 'Api Test Step'
     }];
+
     $scope.StepTypeCodes = ngAppSettings.StepTypes;
     $scope.WebsiteList = [];
     $scope.TestList = [];
