@@ -34,6 +34,11 @@ namespace Elephant.Hank.WindowsApplication.Resources.ApiModels.Enum
         /// <summary>
         /// The Monthly
         /// </summary>
-        Monthly
+        Monthly,
+
+        /// <summary>
+        /// The on demand
+        /// </summary>
+        OnDemand
     }
 }

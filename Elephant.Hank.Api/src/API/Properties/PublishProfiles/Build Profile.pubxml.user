@@ -58,22 +58,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/19/2016 19:48:02</publishTime>
     </File>
     <File Include="bin/Elephant.Hank.Api.dll">
-      <publishTime>06/10/2016 15:59:25</publishTime>
+      <publishTime>09/05/2016 17:53:28</publishTime>
     </File>
     <File Include="bin/Elephant.Hank.Api.XML">
-      <publishTime>06/10/2016 15:59:25</publishTime>
+      <publishTime>09/05/2016 17:53:28</publishTime>
     </File>
     <File Include="bin/Elephant.Hank.Common.dll">
-      <publishTime>06/10/2016 15:59:23</publishTime>
+      <publishTime>09/05/2016 17:53:18</publishTime>
     </File>
     <File Include="bin/Elephant.Hank.DataService.dll">
-      <publishTime>06/10/2016 15:59:23</publishTime>
+      <publishTime>09/05/2016 17:53:21</publishTime>
     </File>
     <File Include="bin/Elephant.Hank.Framework.dll">
-      <publishTime>06/10/2016 15:59:24</publishTime>
+      <publishTime>09/05/2016 17:53:23</publishTime>
     </File>
     <File Include="bin/Elephant.Hank.Resources.dll">
-      <publishTime>06/10/2016 15:59:22</publishTime>
+      <publishTime>09/05/2016 17:53:14</publishTime>
     </File>
     <File Include="bin/Elephant.Protractor.Testing.Api.dll">
       <publishTime>11/24/2015 12:35:11</publishTime>
@@ -286,7 +286,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/08/2016 20:29:09</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>05/31/2016 14:05:40</publishTime>
+      <publishTime>09/05/2016 17:54:36</publishTime>
     </File>
   </ItemGroup>
 </Project>
