@@ -4,32 +4,49 @@
 
 'use strict';
 
-app.controller('EnvironmentController',['$scope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService',
-  function ($scope, $stateParams, $state, crudService, ngAppSettings, commonUi) {
-    $scope.EnvironmentList = [ ];
-    $scope.Environment = {} ;
+app.controller('EnvironmentController', ['$scope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService',
+  function ($scope, $stateParams, $state, crudService, ngAppSettings, commonUi, $route) {
+    $scope.EnvironmentList = [];
+    $scope.Environment = {};
 
-    $scope.getAllEnvironment = function(){
-      crudService.getAll(ngAppSettings.EnvironmentUrl).then(function(response){
+    $scope.getAllEnvironment = function () {
+      crudService.getAll(ngAppSettings.EnvironmentUrl).then(function (response) {
         $scope.EnvironmentList = response;
-      },function(response){ commonUi.showErrorPopup(response); });
+      }, function (response) {
+        commonUi.showErrorPopup(response);
+      });
     };
 
-    $scope.getEnvironmentById = function(){
-      crudService.getById(ngAppSettings.EnvironmentUrl, $stateParams.Id).then(function(response){
+    $scope.getEnvironmentById = function () {
+      crudService.getById(ngAppSettings.EnvironmentUrl, $stateParams.Id).then(function (response) {
         $scope.Environment = response.Item;
-      },function(response){ commonUi.showErrorPopup(response); });
+      }, function (response) {
+        commonUi.showErrorPopup(response);
+      });
     };
 
-    $scope.updateEnvironment = function(){
-      crudService.update(ngAppSettings.EnvironmentUrl, $scope.Environment).then(function(response){
+    $scope.updateEnvironment = function () {
+      crudService.update(ngAppSettings.EnvironmentUrl, $scope.Environment).then(function (response) {
         $state.go("Environment.List");
-      },function(response){ commonUi.showErrorPopup(response); });
+      }, function (response) {
+        commonUi.showErrorPopup(response);
+      });
     };
 
-    $scope.addEnvironment = function(){
-      crudService.add(ngAppSettings.EnvironmentUrl, $scope.Environment).then(function(response){
+    $scope.addEnvironment = function () {
+      crudService.add(ngAppSettings.EnvironmentUrl, $scope.Environment).then(function (response) {
         $state.go("Environment.List");
-      },function(response){ commonUi.showErrorPopup(response); });
+      }, function (response) {
+        commonUi.showErrorPopup(response);
+      });
     };
+
+    $scope.deleteEnvironment = function (environmentId) {
+      crudService.delete(ngAppSettings.EnvironmentUrl, {'Id': environmentId}).then(function (response) {
+       $scope.getAllEnvironment();
+      }, function (response) {
+        commonUi.showErrorPopup(response);
+      });
+    };
+
   }]);

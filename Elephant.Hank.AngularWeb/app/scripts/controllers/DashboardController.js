@@ -102,7 +102,7 @@ app.controller('DashboardController', ['$scope', 'CrudService', 'ngAppSettings',
     });
   };
 
-  $scope.chartOptions = {};
+  //$scope.chartOptions = {};
 
   $scope.onChartClick = function (event) {
     console.log('LineController', 'onChartClick', event);
@@ -254,7 +254,7 @@ app.controller('DashboardController', ['$scope', 'CrudService', 'ngAppSettings',
   ];*/
 
 
- /* $scope.options = {
+  $scope.options = {
 
     // Sets the chart to be responsive
     responsive: true,
@@ -307,7 +307,7 @@ app.controller('DashboardController', ['$scope', 'CrudService', 'ngAppSettings',
     legendTemplate: '<ul class="tc-chart-js-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].strokeColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><br/><%}%></ul>'
   };
 
-  $scope.pieOptions = {
+ /* $scope.pieOptions = {
 
     // Sets the chart to be responsive
     responsive: true,

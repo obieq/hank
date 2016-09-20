@@ -43,8 +43,8 @@ app.controller('ReportController', ['$scope', '$rootScope', '$filter', '$statePa
       };
     }
     else if (!!queryParams.StartDate && !!queryParams.EndDate) {
-      $scope.date.startDate = moment(queryParams.StartDate).format('MM-DD-YYYY');
-      $scope.date.endDate = moment(queryParams.EndDate).format('MM-DD-YYYY');
+      $scope.date.startDate = moment(queryParams.StartDate,'MM-DD-YYYY');
+      $scope.date.endDate = moment(queryParams.EndDate,'MM-DD-YYYY');
       $scope.SearchObject = {
         'StartDate': queryParams.StartDate,
         'EndDate': queryParams.EndDate,

@@ -14,12 +14,14 @@ namespace Elephant.Hank.Api.DependencyResolution
     using System.Data.Entity;
 
     using Elephant.Hank.Api.Areas.HelpPage.Controllers;
+    using Elephant.Hank.Common.CustomValidationService;
     using Elephant.Hank.Common.DataService;
     using Elephant.Hank.Common.Helper;
     using Elephant.Hank.Common.LogService;
     using Elephant.Hank.Common.Mapper;
     using Elephant.Hank.Common.Report;
     using Elephant.Hank.DataService;
+    using Elephant.Hank.Framework.CustomValidationService;
     using Elephant.Hank.Framework.Data;
     using Elephant.Hank.Framework.Mapper;
     using Elephant.Hank.Framework.Report;
@@ -50,6 +52,7 @@ namespace Elephant.Hank.Api.DependencyResolution
 
             this.For(typeof(DbContext)).Use(typeof(AuthContext));
             this.For(typeof(IRepository<>)).Use(typeof(Repository<>));
+            this.For(typeof(IValidationService<>)).Use(typeof(EnvironmentValidationService));
 
             this.For(typeof(IUserStore<>)).Use(typeof(UserStore<>));
             this.For(typeof(UserManager<>)).Singleton().Use(typeof(UserManager<>));

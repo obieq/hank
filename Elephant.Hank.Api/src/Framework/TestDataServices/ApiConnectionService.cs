@@ -80,6 +80,30 @@ namespace Elephant.Hank.Framework.TestDataServices
             return result;
         }
 
+        /// <summary>
+        /// Gets the by environment.
+        /// </summary>
+        /// <param name="environmentId">The environment identifier.</param>
+        /// <returns>Return ApiConnection object that mathes recieved environmentid</returns>
+        public ResultMessage<IEnumerable<TblApiConnectionDto>> GetByEnvironmentId(long environmentId)
+        {
+            var result = new ResultMessage<IEnumerable<TblApiConnectionDto>>();
+
+            var entities = this.Table.Find(x => x.EnvironmentId == environmentId && x.IsDeleted != true).ToList();
+
+            if (entities.Count == 0)
+            {
+                result.Messages.Add(new Message(null, "Record not found!"));
+            }
+            else
+            {
+                var mapper = this.MapperFactory.GetMapper<TblApiConnection, TblApiConnectionDto>();
+                result.Item = entities.Select(mapper.Map);
+            }
+
+            return result;
+        }
+
         #endregion
     }
 }

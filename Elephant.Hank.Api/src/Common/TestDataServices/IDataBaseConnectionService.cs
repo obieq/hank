@@ -44,5 +44,12 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <param name="categoryId">database category identifier</param>
         /// <returns>TblDataBaseConnectionDto object</returns>
         ResultMessage<IEnumerable<TblDataBaseConnectionDto>> GetByCategoryId(long categoryId);
+
+        /// <summary>
+        /// Gets the by environment identifier.
+        /// </summary>
+        /// <param name="environmentId">The environment identifier.</param>
+        /// <returns>List of DataBase connection by environment id</returns>
+        ResultMessage<IEnumerable<TblDataBaseConnectionDto>> GetByEnvironmentId(long environmentId);
     }
 }

@@ -1832,12 +1832,18 @@
             The environment service
             </summary>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.EnvironmentController.#ctor(Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.IEnvironmentService)">
+        <member name="F:Elephant.Hank.Api.Controllers.EnvironmentController.validationService">
+            <summary>
+            The validation service
+            </summary>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.EnvironmentController.#ctor(Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.IEnvironmentService,Elephant.Hank.Common.CustomValidationService.IValidationService{Elephant.Hank.Resources.Dto.TblEnvironmentDto})">
             <summary>
             Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.EnvironmentController"/> class.
             </summary>
             <param name="loggerService">The logger service.</param>
             <param name="environmentService">The environment service.</param>
+            <param name="validationService">The validation service.</param>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.EnvironmentController.GetAll">
             <summary>

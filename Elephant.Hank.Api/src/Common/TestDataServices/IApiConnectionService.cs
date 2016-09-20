@@ -36,5 +36,12 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <param name="categoryId">The category identifier.</param>
         /// <returns>TblApiConnectionDto objects</returns>
         ResultMessage<TblApiConnectionDto> GetByEnvironmentAndCategoryId(long environmentId, long categoryId);
+
+        /// <summary>
+        /// Gets the by environment.
+        /// </summary>
+        /// <param name="environmentId">The environment identifier.</param>
+        /// <returns>Return ApiConnection object that mathes recieved environmentid</returns>
+        ResultMessage<IEnumerable<TblApiConnectionDto>> GetByEnvironmentId(long environmentId);
     }
 }

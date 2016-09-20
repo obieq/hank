@@ -53,10 +53,8 @@
               <label class="col-sm-2 control-label">Url for {{environment.Name}}</label>
 
               <div class="col-sm-6">
-                <input type="url" class="form-control" ng-model="environment.Url" name="{{environment.Name}}" placeholder="Url" required>
-               <span ng-show="WebsiteForm.{{environment.Name}}.$touched || WebsiteForm.$submitted">
-                  <small class="help-block" ng-show="WebsiteForm.{{environment.Name}}.$error.required" style="color:red">Please enter url.</small>
-                </span>
+                <input type="url" class="form-control" ng-model="environment.Url" name="{{environment.Name}}" placeholder="Url" oninvalid="this.setCustomValidity('Please enter url.')" required="Please enter url">
+
               </div>
             </div>
 

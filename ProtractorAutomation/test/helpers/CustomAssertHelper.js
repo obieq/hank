@@ -2,6 +2,8 @@
  * Created by vyom.sharma on 22-07-2016.
  */
 
+require('./DateHelper.js');
+
 var CustomAssertHelper = function () {
 
   var JsonHelper = require('./JsonHelper.js');
@@ -10,8 +12,8 @@ var CustomAssertHelper = function () {
   this.arrayContainsAssert = function (value, variable) {
     var varName = variable.split('[')[0];
     var varValue = jsonHelper.ExtractVariableValue(varName);
-    var colIndexes = this.getColIndex(variable, varValue);
     var varJsonValue = JSON.parse(varValue);
+    var colIndexes = this.getColIndex(variable, varJsonValue);
     for (var i = 0; i < colIndexes.length; i++) {
       for (var l = 1; l < varJsonValue.length; l++) {
         if (varJsonValue[l][colIndexes[i].indx] == value) {
@@ -26,14 +28,20 @@ var CustomAssertHelper = function () {
   this.arrayComparisionAssert = function (var1, var2, isContainOperation) {
     var varName1 = var1.split('[')[0];
     var varName2 = var2.split('[')[0];
+    console.log("var1= " + var1 + " var2= " + var2);
     console.log("varName1= " + varName1 + " varName2" + varName2);
     var var1Value = jsonHelper.ExtractVariableValue(varName1);
     var var2Value = jsonHelper.ExtractVariableValue(varName2);
     console.log("var1Value= " + var1Value + " var2Value" + var2Value);
-    var colIndexes1 = this.getColIndex(var1, var1Value);
-    var colIndexes2 = this.getColIndex(var2, var2Value);
     var var1JsonValue = JSON.parse(var1Value);
     var var2JsonValue = JSON.parse(var2Value);
+
+    var1JsonValue = this.formatColumn(var1, var1JsonValue);
+    var2JsonValue = this.formatColumn(var2, var2JsonValue);
+
+    var colIndexes1 = this.getColIndex(var1, var1JsonValue);
+    var colIndexes2 = this.getColIndex(var2, var2JsonValue);
+
     if (colIndexes1.length > 0 && colIndexes2.length == 0) {
       colIndexes2 = colIndexes1;
     }
@@ -110,20 +118,6 @@ var CustomAssertHelper = function () {
     return true;
   };
 
-  /*
-   this.checkValueExist = function (arr, indx, value) {
-   console.log("Inside checkValue");
-   var isValueExist = false;
-   for (var k = 1; k < arr.length; k++) {
-   if (arr[k][indx] == value) {
-   isValueExist = true;
-   break;
-   }
-   }
-   return isValueExist;
-   };*/
-
-
   this.getIndexes = function (varName) {
     var indexes = varName.match(/\[(.*?)\]/g) || [];
     for (var i = 0; i < indexes.length; i++) {
@@ -135,8 +129,12 @@ var CustomAssertHelper = function () {
   this.getColIndex = function (varName, varValue) {
     var colIndexes = [];
     var indexes = this.getIndexes(varName);
-    var varJsonValue = JSON.parse(varValue);
+    var varJsonValue = varValue;
     for (var k = 0; k < indexes.length; k++) {
+      var format = indexes[k].split('|');
+      if (!!format[1]) {
+        indexes[k] = format[0];
+      }
       for (var i = 0; i < varJsonValue[0].length; i++) {
         if (varJsonValue[0][i] == indexes[k]) {
           colIndexes.push({indx: i, name: indexes[k]});
@@ -145,6 +143,39 @@ var CustomAssertHelper = function () {
       }
     }
     return colIndexes;
+  };
+
+  this.formatColumn = function (varName, value) {
+    console.log("Inside format column previous value:- ");
+    console.log(value);
+    var indexes = this.getIndexes(varName);
+    console.log("Inside format column varName= " + varName);
+    console.log("Inside format column indexes:= ");
+    console.log(indexes);
+    for (var k = 0; k < indexes.length; k++) {
+      var format = indexes[k].split('|');
+      console.log("Inside format column format[1]= " + format[1]);
+      if (!!format[1]) {
+        if (format[1].startsWith('format')) {
+          console.log("Inside format column inside starts with");
+          for (var i = 0; i < value[0].length; i++) {
+            if (value[0][i] == format[0]) {
+              console.log("goes inside it");
+              for (var l = 1; l < value.length; l++) {
+                console.log("goes in it value[" + l + "]" + "[" + i + "]= " + value[l][i]);
+                var dateToConvert = new Date(value[l][i]);
+                console.log("goes in it dateToConvert= " + dateToConvert);
+                value[l][i] = dateToConvert.format(format[1].split('~')[1]);
+              }
+              break;
+            }
+          }
+        }
+      }
+    }
+    console.log("Inside format column value after format function:- ");
+    console.log(value);
+    return value;
   };
 
 };

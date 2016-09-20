@@ -143,5 +143,29 @@ namespace Elephant.Hank.Framework.TestDataServices
 
             return result;
         }
+
+        /// <summary>
+        /// Gets the by URL identifier.
+        /// </summary>
+        /// <param name="urlId">The URL identifier.</param>
+        /// <returns>returns the list of Scheduler by mathing urlid</returns>
+        public ResultMessage<IEnumerable<TblSchedulerDto>> GetByUrlId(long urlId)
+        {
+            var result = new ResultMessage<IEnumerable<TblSchedulerDto>>();
+
+            var entities = this.Table.Find(x => x.UrlId == urlId && x.IsDeleted != true).ToList();
+
+            if (entities.Count == 0)
+            {
+                result.Messages.Add(new Message(null, "Record not found!"));
+            }
+            else
+            {
+                var mapper = this.mapperFactory.GetMapper<TblScheduler, TblSchedulerDto>();
+                result.Item = entities.Select(mapper.Map);
+            }           
+
+            return result;
+        }
     }
 }

@@ -26,9 +26,12 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
       'chkAssignVariableValue': false
     };
 
-    crudService.getById(ngAppSettings.TestCatUrl.format($stateParams.WebsiteId), $stateParams.TestCatId).then(function(response){
+    crudService.getById(ngAppSettings.TestCatUrl.format($stateParams.WebsiteId), $stateParams.TestCatId).then(function (response) {
       $scope.TestCat = response.Item;
-    },function(response){ commonUi.showErrorPopup(response); });
+    }, function (response) {
+      $scope.TestCat = {};
+      $scope.TestCat.Name = "View All";
+    });
 
     $scope.Test = {Id: $stateParams.TestId};
     $scope.stateParamWebsiteId = $stateParams.WebsiteId;
@@ -354,22 +357,22 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
 
     //#End Section For Update#//
 
-    $scope.getCsvHeaders = function(){
+    $scope.getCsvHeaders = function () {
       return ['Sequence', 'Display Name', 'Action', 'Value', 'Variable Name', 'Description'];
     };
 
-    $scope.getCsvData = function(){
+    $scope.getCsvData = function () {
       var result = [];
       var count = 1;
       for (var i = 0; i < $scope.TestDataList.length; i++) {
-        if($scope.TestDataList[i].SharedTest && $scope.TestDataList[i].SharedTest.SharedTestDataList) {
-          for(var j = 0; j < $scope.TestDataList[i].SharedTest.SharedTestDataList.length; j++){
+        if ($scope.TestDataList[i].SharedTest && $scope.TestDataList[i].SharedTest.SharedTestDataList) {
+          for (var j = 0; j < $scope.TestDataList[i].SharedTest.SharedTestDataList.length; j++) {
             var testData = $scope.TestDataList[i].SharedTest.SharedTestDataList[j];
             result.push(testDataToUi(testData, count));
             count++;
           }
         }
-        else{
+        else {
           result.push(testDataToUi($scope.TestDataList[i], count));
           count++;
         }
@@ -378,15 +381,15 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
       return result;
     };
 
-    function testDataToUi(testData, sno){
+    function testDataToUi(testData, sno) {
       var obj = {};
       obj.Sequence = sno;
 
-      if(testData) {
-        if(testData.SharedStepWebsiteName) {
+      if (testData) {
+        if (testData.SharedStepWebsiteName) {
           obj.DisplayName = testData.SharedStepWebsiteName + " - (" + testData.SharedStepWebsiteTestName + ")";
         }
-        else{
+        else {
           obj.DisplayName = testData.DisplayNameValue;
         }
 
@@ -415,7 +418,7 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
                 $scope.TestDataList[i].SharedTest.SharedTestDataList[j].UIValue = lnkSharedStep.NewValue;
                 $scope.TestDataList[i].SharedTest.SharedTestDataList[j].UIVariableName = lnkSharedStep.NewVariable;
                 $scope.TestDataList[i].SharedTest.SharedTestDataList[j].UIExecutionSequence = lnkSharedStep.NewOrder;
-                $scope.TestDataList[i].SharedTest.SharedTestDataList[j].UIModifiedByUserName=lnkSharedStep.ModifiedByUserName;
+                $scope.TestDataList[i].SharedTest.SharedTestDataList[j].UIModifiedByUserName = lnkSharedStep.ModifiedByUserName;
                 $scope.TestDataList[i].SharedTest.SharedTestDataList[j].LnkId = lnkSharedStep.Id;
               }
             }

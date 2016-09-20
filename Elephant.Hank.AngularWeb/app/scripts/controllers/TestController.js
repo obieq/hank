@@ -121,8 +121,8 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
         if ($scope.CopyTestData.HasTestData && $scope.CopyTestData.IsCopy && $scope.CopyTestData.Test != null) {
           $scope.CopyTestData.DataToSend.ToTestId = response.Item.Id;
           $scope.CopyTestData.DataToSend.FromTestId = $scope.CopyTestData.Test.Id;
-          var uncheckedValues = _.where($scope.CopyTestData.TestDataList, {Checked: false});
-          if (uncheckedValues.length > 0) {
+          var checkedValues = _.where($scope.CopyTestData.TestDataList, {Checked: true});
+          if ($scope.CopyTestData.TestDataList.length != checkedValues.length) {
             $scope.CopyTestData.DataToSend.CopyAll = false;
           }
           else {

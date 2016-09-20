@@ -36,7 +36,8 @@
               <td>{{environment.Name}}</td>
               <td>{{environment.Description}}</td>
               <td>
-                <a ui-sref="Environment.Update({ Id: environment.Id })">Edit</a>
+                <a ui-sref="Environment.Update({ Id: environment.Id })">Edit</a> |
+                <a ng-click="deleteEnvironment(environment.Id)">Delete</a>
               </td>
             </tr>
             </tbody>

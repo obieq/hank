@@ -60,7 +60,10 @@
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
       <HintPath>..\..\packages\Microsoft.AspNet.Identity.EntityFramework.2.0.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Npgsql, Version=2.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Npgsql.2.2.5\lib\net45\Npgsql.dll</HintPath>
@@ -91,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomApi\CustomResult.cs" />
+    <Compile Include="CustomValidationService\EnvironmentValidationService.cs" />
     <Compile Include="Data\GlobalService.cs" />
     <Compile Include="Extensions\IdentityResultExtensions.cs" />
     <Compile Include="Mapper\TypeConverters\TblTestDataExecutableTestDataConverter.cs" />

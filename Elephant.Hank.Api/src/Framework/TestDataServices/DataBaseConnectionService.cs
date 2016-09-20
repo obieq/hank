@@ -126,5 +126,29 @@ namespace Elephant.Hank.Framework.TestDataServices
 
             return result;
         }
+
+        /// <summary>
+        /// Gets the by environment identifier.
+        /// </summary>
+        /// <param name="environmentId">The environment identifier.</param>
+        /// <returns>List of database connection that match the environmentid</returns>
+        public ResultMessage<IEnumerable<TblDataBaseConnectionDto>> GetByEnvironmentId(long environmentId)
+        {
+            var result = new ResultMessage<IEnumerable<TblDataBaseConnectionDto>>();
+
+            var entities = this.Table.Find(x => x.EnvironmentId == environmentId && x.IsDeleted != true).ToList();
+
+            if (entities.Count == 0)
+            {
+                result.Messages.Add(new Message(null, "Record not found!"));
+            }
+            else
+            {
+                var mapper = this.mapperFactory.GetMapper<TblDataBaseConnection, TblDataBaseConnectionDto>();
+                result.Item = entities.Select(mapper.Map);
+            }
+
+            return result;
+        }
     }
 }

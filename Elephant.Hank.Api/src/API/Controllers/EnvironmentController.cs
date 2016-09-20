@@ -17,13 +17,14 @@ namespace Elephant.Hank.Api.Controllers
     using System.Web.Http;
 
     using Elephant.Hank.Api.Security;
+    using Elephant.Hank.Common.CustomValidationService;
     using Elephant.Hank.Common.LogService;
-    using Elephant.Hank.Common.TestDataServices;    
+    using Elephant.Hank.Common.TestDataServices;
     using Elephant.Hank.Framework.Extensions;
     using Elephant.Hank.Resources.Constants;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Messages;
-    
+
     /// <summary>
     /// The EnvironmentController class
     /// </summary>
@@ -37,14 +38,21 @@ namespace Elephant.Hank.Api.Controllers
         private readonly IEnvironmentService environmentService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnvironmentController"/> class.
+        /// The validation service
+        /// </summary>
+        private readonly IValidationService<TblEnvironmentDto> validationService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnvironmentController" /> class.
         /// </summary>
         /// <param name="loggerService">The logger service.</param>
         /// <param name="environmentService">The environment service.</param>
-        public EnvironmentController(ILoggerService loggerService, IEnvironmentService environmentService)
+        /// <param name="validationService">The validation service.</param>
+        public EnvironmentController(ILoggerService loggerService, IEnvironmentService environmentService, IValidationService<TblEnvironmentDto> validationService)
             : base(loggerService)
         {
             this.environmentService = environmentService;
+            this.validationService = validationService;
         }
 
         /// <summary>
@@ -103,7 +111,15 @@ namespace Elephant.Hank.Api.Controllers
             var result = new ResultMessage<TblEnvironmentDto>();
             try
             {
-                result = this.environmentService.DeleteById(environmentId, this.UserId);
+                var isValid = this.validationService.ValidateDelete(new TblEnvironmentDto { Id = environmentId });
+                if (isValid.Item)
+                {
+                    result = this.environmentService.DeleteById(environmentId, this.UserId);
+                }
+                else
+                {
+                    result.Messages.AddRange(isValid.Messages);
+                }
             }
             catch (Exception ex)
             {

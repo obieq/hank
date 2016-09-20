@@ -16,7 +16,7 @@ namespace Elephant.Hank.Common.TestDataServices
     using Elephant.Hank.Common.DataService;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Messages;
-    
+
     /// <summary>
     /// the ISchedulerService class
     /// </summary>
@@ -48,5 +48,12 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <param name="port">The port.</param>
         /// <returns>Group name</returns>
         ResultMessage<string> ForceExecute(long userId, long schedulerId, string target, int? port);
+
+        /// <summary>
+        /// Gets the by URL identifier.
+        /// </summary>
+        /// <param name="urlId">The URL identifier.</param>
+        /// <returns>returns the list of Scheduler by mathing urlid</returns>
+        ResultMessage<IEnumerable<TblSchedulerDto>> GetByUrlId(long urlId);
     }
 }
