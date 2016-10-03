@@ -691,6 +691,21 @@ var InputHelper = function () {
 
             break;
           }
+          case actionConstant.SwitchToFrame:
+          {
+            console.log('Inside switch frame= '+ testInstance.Value);
+            browser.switchTo().frame(testInstance.Value);
+            //browser.wait(3000);
+            break;
+          }
+          case actionConstant.SwitchToDefaultContent:
+          {
+            console.log('Inside switch deafult');
+            browser.switchTo().defaultContent();
+           // browser.wait(3000);
+            break;
+          }
+
         }
       }
     }

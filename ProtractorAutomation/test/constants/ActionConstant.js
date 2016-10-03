@@ -39,6 +39,8 @@ var ActionConstant = function () {
   this.OpenNewWindow = "Open New Window";
   this.AssertNotToEqual = 'Assert Not To Equal';
   this.ReadControlText = 'Read Control Text';
+  this.SwitchToFrame = 'Switch To Frame';
+  this.SwitchToDefaultContent='Switch To Default Content';
 };
 
 module.exports = ActionConstant;

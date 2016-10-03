@@ -232,5 +232,33 @@ namespace Elephant.Hank.Resources.Json
                 return ConfigurationManager.AppSettings["AssertToContainActionId"].ToInt64();
             }
         }
+
+        /// <summary>
+        /// Gets the switch to frame action identifier.
+        /// </summary>
+        /// <value>
+        /// The switch to frame action identifier.
+        /// </value>
+        public long SwitchFrameActionId
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SwitchToFrameActionId"].ToInt64();
+            }
+        }
+
+        /// <summary>
+        /// Gets the switch to default content action identifier.
+        /// </summary>
+        /// <value>
+        /// The switch to default content action identifier.
+        /// </value>
+        public long SwitchToDefaultContentActionId
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SwitchToDefaultContentActionId"].ToInt64();
+            }
+        }
     }
 }
