@@ -240,7 +240,6 @@ var InputHelper = function () {
 
   this.setInput = function (key, testInstance, testName) {
     if (key != null) {
-
       this.GetSharedVariable(testInstance);
       if (testInstance.VariableName.trim() == '' || testInstance.VariableName.startsWith('#arraycompare') || testInstance.VariableName.startsWith('#arraycontain') || testInstance.Action == actionConstant.LogText || testInstance.Action == actionConstant.DeclareVariable || testInstance.Action == actionConstant.SetVariable || testInstance.Action == actionConstant.SetVariableManually || testInstance.Action == actionConstant.ReadControlText) {
 
@@ -693,7 +692,7 @@ var InputHelper = function () {
           }
           case actionConstant.SwitchToFrame:
           {
-            console.log('Inside switch frame= '+ testInstance.Value);
+            console.log('Inside switch frame= ' + testInstance.Value);
             browser.switchTo().frame(testInstance.Value);
             //browser.wait(3000);
             break;
@@ -702,7 +701,7 @@ var InputHelper = function () {
           {
             console.log('Inside switch deafult');
             browser.switchTo().defaultContent();
-           // browser.wait(3000);
+            // browser.wait(3000);
             break;
           }
 
@@ -789,6 +788,20 @@ var InputHelper = function () {
         key.all(by.tagName('tr')).each(function (trEle, trInd) {
           tblData[trInd] = [];
           trEle.all(by.tagName('td')).each(function (tdEle, tdInd) {
+            tdEle.getText().then(function (text) {
+              tblData[trInd][tdInd] = text;
+            });
+          });
+        }).then(function () {
+          console.log(tblData);
+          onSuccess(JSON.stringify(tblData), tblData);
+        });
+      }
+      else if (tagName == "div" && isSetVar) {
+        var tblData = [];
+        key.all(by.css('.tr')).each(function (trEle, trInd) {
+          tblData[trInd] = [];
+          trEle.all(by.css('.td')).each(function (tdEle, tdInd) {
             tdEle.getText().then(function (text) {
               tblData[trInd][tdInd] = text;
             });
