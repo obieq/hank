@@ -79,6 +79,7 @@ var JsonHelper = function () {
 
         if (!!tmpData[1]) {
           if (tmpData[1].startsWith('%')) {
+
             containsOpearation = true;
             tmpData[1] = tmpData[1].replace('%', '');
           }
@@ -93,6 +94,7 @@ var JsonHelper = function () {
           if (!containsOpearation) {
             if (colNameValuePair[j].Value && colNameValuePair[j].Value.toLowerCase() != (aryData[i][colNameValuePair[j].ColIndex] + "").toLowerCase()) {
               isMatchFound = false;
+
               break;
             }
           }
@@ -160,6 +162,7 @@ var JsonHelper = function () {
 
     var indexes = varName.match(/\[(.*?)\]/g) || [];
 
+
     for (var i = 0; i < indexes.length; i++) {
       indexes[i] = indexes[i].replace("[", "").replace("]", "");
     }
@@ -167,13 +170,13 @@ var JsonHelper = function () {
     if (indexes.length > 0) {
       var res = varName.substring(0, varName.indexOf('['));
       for (var m = 0; m < browser.params.config.variableContainer.length; m++) {
+
         if (browser.params.config.variableContainer[m].Name == res) {
           browser.params.config.variableContainer[m].JsonValue = JSON.parse(browser.params.config.variableContainer[m].Value);
-
           var aryData = browser.params.config.variableContainer[m].JsonValue;
 
           var indexs = this.GetIndexesFromVariable(varName, aryData);
-          console.log("Final variable", indexs.varName);
+
           return eval("aryData" + indexs.varName.substring(indexs.varName.indexOf('[')));
         }
       }
