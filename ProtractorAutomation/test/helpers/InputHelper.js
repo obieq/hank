@@ -799,9 +799,9 @@ var InputHelper = function () {
       }
       else if (tagName == "div" && isSetVar) {
         var tblData = [];
-        key.all(by.css('.tr')).each(function (trEle, trInd) {
+        key.all(by.css('.hank-tr')).each(function (trEle, trInd) {
           tblData[trInd] = [];
-          trEle.all(by.css('.td')).each(function (tdEle, tdInd) {
+          trEle.all(by.css('.hank-td')).each(function (tdEle, tdInd) {
             tdEle.getText().then(function (text) {
               tblData[trInd][tdInd] = text;
             });
