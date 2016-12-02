@@ -84,7 +84,12 @@ var JsonHelper = function () {
             tmpData[1] = tmpData[1].replace('%', '');
           }
         }
-        colNameValuePair.push({ColIndex: this.inArray(aryData[0], tmpData[0], true), Value: tmpData[1]});
+        if (isNaN(tmpData[0])) {
+          colNameValuePair.push({ColIndex: this.inArray(aryData[0], tmpData[0], true), Value: tmpData[1]});
+        }
+        else {
+          colNameValuePair.push({ColIndex: tmpData[0], Value: tmpData[1]});
+        }
       }
 
       var isMatchFound = false;
@@ -94,13 +99,14 @@ var JsonHelper = function () {
           if (!containsOpearation) {
             if (colNameValuePair[j].Value && colNameValuePair[j].Value.toLowerCase() != (aryData[i][colNameValuePair[j].ColIndex] + "").toLowerCase()) {
               isMatchFound = false;
-
               break;
             }
           }
           else {
+
             if (colNameValuePair[j].Value && !(aryData[i][colNameValuePair[j].ColIndex] + "").toLowerCase().includes(colNameValuePair[j].Value.toLowerCase())) {
               isMatchFound = false;
+
               break;
             }
           }
@@ -108,6 +114,7 @@ var JsonHelper = function () {
         }
 
         if (isMatchFound) {
+
           rowIndex = colNameValuePair.length == 1 && colNameValuePair[0].Value == undefined ? 1 : i;
           tmpColIndex = colNameValuePair[colNameValuePair.length - 1].ColIndex;
           break;
@@ -130,6 +137,7 @@ var JsonHelper = function () {
       idxColVal = this.inArray(aryData[0], idxRow, true);
 
       for (var i = 0; i < aryData.length; i++) {
+
         if (aryData[i][idxColVal].toLowerCase() == idxCol.toLowerCase()) {
           idxRowVal = i;
           break;
@@ -154,6 +162,7 @@ var JsonHelper = function () {
     varName = varName.replace(idxCol, idxColVal);
     varName = varName.replace(idxRow, idxRowVal);
 
+
     return {varName: varName, idxCol: idxCol, idxColVal: idxColVal, idxRow: idxRow, idxRowVal: idxRowVal};
   };
 
@@ -174,7 +183,6 @@ var JsonHelper = function () {
         if (browser.params.config.variableContainer[m].Name == res) {
           browser.params.config.variableContainer[m].JsonValue = JSON.parse(browser.params.config.variableContainer[m].Value);
           var aryData = browser.params.config.variableContainer[m].JsonValue;
-
           var indexs = this.GetIndexesFromVariable(varName, aryData);
 
           return eval("aryData" + indexs.varName.substring(indexs.varName.indexOf('[')));
