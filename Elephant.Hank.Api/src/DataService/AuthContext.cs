@@ -211,7 +211,7 @@ namespace Elephant.Hank.DataService
         /// The table request types.
         /// </value>
         public DbSet<TblRequestTypes> TblRequestTypes { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the Tickets Master action.
         /// </summary>
@@ -252,8 +252,7 @@ namespace Elephant.Hank.DataService
 
             foreach (var item in dbEntityEntries)
             {
-                var classname = item.Entity.GetType().Name.Split('_')[0];
-
+                string classname = this.GetClassName(item);
                 if (entityToIgnore.Contains(classname))
                 {
                     continue;
@@ -287,7 +286,7 @@ namespace Elephant.Hank.DataService
 
             foreach (var item in dbEntityEntries)
             {
-                string classname = item.Entity.GetType().Name.Split('_')[0];
+                string classname = this.GetClassName(item);
 
                 if (!entityToIgnore.Contains(classname))
                 {
@@ -432,6 +431,22 @@ namespace Elephant.Hank.DataService
             string str = JsonConvert.SerializeObject(entity, new JsonSerializerSettings { ContractResolver = contractResolver });
             object objToReturn = JsonConvert.DeserializeObject(str, type);
             return objToReturn;
+        }
+
+        /// <summary>
+        /// Gets the name of the class.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        /// <returns>name of the class</returns>
+        private string GetClassName(DbEntityEntry entity)
+        {
+            string classname = entity.Entity.GetType().BaseType.Name;
+            if (classname == "BaseTable")
+            {
+                classname = entity.Entity.GetType().Name;
+            }
+
+            return classname;
         }
     }
 }
