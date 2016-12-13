@@ -298,7 +298,7 @@ var InputHelper = function () {
                       if (Url != UrlBeforeClick) {
                         browser.takeScreenshot().then(function (png) {
                           browser.getCapabilities().then(function (capabilities) {
-                            if (TakeScreenShotBrowser.Platform.toLowerCase() == capabilities.caps_.platform.toLowerCase() && TakeScreenShotBrowser.ConfigName.toLowerCase() == capabilities.caps_.browserName.toLowerCase()) {
+                            if (TakeScreenShotBrowser.Platform.toLowerCase() == capabilities.get('platform').toLowerCase() && TakeScreenShotBrowser.ConfigName.toLowerCase() == capabilities.get('browserName').toLowerCase()) {
 
                               var reportPath = jsonHelper.buildPath(browser.params.config.curLocation, browser.params.config.descriptionArray, capabilities) + '.png';
                               var reportPathWithBaseDirectory = constant.reportBaseDirectory + "\\" + reportPath;
@@ -358,7 +358,6 @@ var InputHelper = function () {
               if (testInstance.VariableName.startsWith('#arraycompare')) {
                 browser.getCurrentUrl().then(function (urle) {
                   var splitedVar = testInstance.VariableName.split('#');
-                  console.log("Inside Assert to equal's arraycompare testInstance.VariableName= " + testInstance.VariableName);
                   var assertresult = customAssertHelper.arrayComparisionAssert(splitedVar[2], splitedVar[3], false);
                   if (assertresult) {
                     expect("both array are equal").toEqual("both array are equal");
@@ -368,7 +367,6 @@ var InputHelper = function () {
               else if (testInstance.VariableName.startsWith('#arraycontain')) {
                 browser.getCurrentUrl().then(function (urle) {
                   var splitedVar = testInstance.VariableName.split('#');
-                  console.log("Inside Assert to equal's arraycontain testInstance.VariableName= " + testInstance.VariableName);
                   var assertresult = customAssertHelper.arrayComparisionAssert(splitedVar[2], splitedVar[3], true);
                   if (assertresult) {
                     expect("array one contains in second array").toEqual("array one contains in second array");
@@ -391,7 +389,6 @@ var InputHelper = function () {
               if (testInstance.VariableName.startsWith('#arraycontain')) {
                 browser.getCurrentUrl().then(function (urle) {
                   var splitedVar = testInstance.VariableName.split('#');
-                  console.log("Inside Assert to equal's arraycontain testInstance.VariableName= " + testInstance.VariableName);
                   var assertresult = customAssertHelper.arrayComparisionAssert(splitedVar[2], splitedVar[3], true);
                   if (assertresult) {
                     expect("array one contains in second array").toEqual("array one contains in second array");
@@ -473,7 +470,6 @@ var InputHelper = function () {
           case actionConstant.SetVariableManually:
           {
             browser.controlFlow().execute(function () {
-              console.log("Inside the set variable manually");
             });
             if (testInstance.Value.indexOf('#') == -1) {
               this.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, testInstance.Value, testInstance.DisplayName);
@@ -692,14 +688,12 @@ var InputHelper = function () {
           }
           case actionConstant.SwitchToFrame:
           {
-            console.log('Inside switch frame= ' + testInstance.Value);
             browser.switchTo().frame(testInstance.Value);
             //browser.wait(3000);
             break;
           }
           case actionConstant.SwitchToDefaultContent:
           {
-            console.log('Inside switch deafult');
             browser.switchTo().defaultContent();
             // browser.wait(3000);
             break;
@@ -793,7 +787,6 @@ var InputHelper = function () {
             });
           });
         }).then(function () {
-          console.log(tblData);
           onSuccess(JSON.stringify(tblData), tblData);
         });
       }
@@ -807,7 +800,6 @@ var InputHelper = function () {
             });
           });
         }).then(function () {
-          console.log(tblData);
           onSuccess(JSON.stringify(tblData), tblData);
         });
       }

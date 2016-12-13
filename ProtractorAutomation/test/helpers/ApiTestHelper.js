@@ -5,7 +5,8 @@
 
 var ApiTestHelper = function () {
 
-  var parser = require('xml2json');
+  var X2JS = require('./xml2js');
+  var x2js = new X2JS();
 
   var JsonHelper = require('./JsonHelper.js');
   var jsonHelper = new JsonHelper();
@@ -14,6 +15,7 @@ var ApiTestHelper = function () {
   var keyIndx = 0;
   var mainIndx = 1;
 
+
   this.callApi = function (testInstance, callBackFunction) {
     var apiParameters = {
       method: testInstance.RequestType,
@@ -21,7 +23,6 @@ var ApiTestHelper = function () {
       headers: this.evaluateHeader(testInstance),
       body: jsonHelper.replaceVariableWithValue(testInstance.RequestBody)
     };
-
     var flow = protractor.promise.controlFlow();
     flow.wait(executeRequest(apiParameters)).then(callBackFunction);
   };
@@ -31,7 +32,7 @@ var ApiTestHelper = function () {
     for (var i = 0; i < testInstance.Headers.length; i++) {
       var IsIgnoreHeader = false;
       for (var k = 0; k < testInstance.IgnoreHeaders.length; k++) {
-        if ((testInstance.IgnoreHeaders[k].Name + "").toLowerCase() == (testInstance.Headers[i].Name+ "").toLowerCase()) {
+        if ((testInstance.IgnoreHeaders[k].Name + "").toLowerCase() == (testInstance.Headers[i].Name + "").toLowerCase()) {
           IsIgnoreHeader = true;
           break;
         }
@@ -44,28 +45,46 @@ var ApiTestHelper = function () {
     return header;
   };
 
+  this.customParseJson = function (obj) {
+    if (typeof(obj) == 'object') {
+      var properties = Object.keys(obj) || [];
+      if (properties.length == 0) {
+        return obj;
+      }
+      else if (properties.length == 3 && properties[0] == '__prefix' && properties[1] == '__text' && properties[2] == 'toString') {
+        return obj.__text;
+      }
+      else {
+        for (var i = 0; i < properties.length; i++) {
+          if (!!obj[properties[i]]) {
+            obj[properties[i]] = thisObj.customParseJson(obj[properties[i]])
+          }
+        }
+      }
+    }
+    return obj;
+  };
+
   function executeRequest(reqOption) {
     var request = require('request');
-
     var defer = protractor.promise.defer();
-
     request(reqOption, function (error, message) {
-      var resultMessage = null;
-      if(message == undefined || message == ""){
-        message = { body: "No response returned!" }
-      }
-      if(jsonHelper.isJson(message.body)){
-        resultMessage = JSON.parse(message.body);
-      }  else if(jsonHelper.isXml(message.body)){
-        resultMessage = parser.toJson(message.body, { object: true, reversible: false, sanitize: true, coerce: false });
-      } else {
-        resultMessage = { response: message.body }
-      }
-
+      var resultMessage = {};
       resultMessage.responsestatusCode = message.statusCode;
-
-      var response = jsonHelper.converToTwoDimensionalArray(resultMessage);
-      defer.fulfill(JSON.stringify(response));
+      if (message == undefined || message == "") {
+        message = {body: "No response returned!"};
+      }
+      if (jsonHelper.isJson(message.body)) {
+        resultMessage = JSON.parse(message.body);
+        defer.fulfill(JSON.stringify(jsonHelper.converToTwoDimensionalArray(resultMessage)));
+      } else if (jsonHelper.isXml(message.body)) {
+        var result = x2js.xml_str2json(message.body.toString());
+        var parsedResult = thisObj.customParseJson(result);
+        defer.fulfill(JSON.stringify(jsonHelper.converToTwoDimensionalArray(parsedResult)));
+      } else {
+        resultMessage = {response: message.body};
+        defer.fulfill(JSON.stringify(jsonHelper.converToTwoDimensionalArray(err)));
+      }
     });
 
     return defer.promise;

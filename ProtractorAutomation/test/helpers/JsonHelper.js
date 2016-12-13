@@ -201,14 +201,11 @@ var JsonHelper = function () {
 
   this.parseJsonToExecuteSql = function (testInstance) {
     var defer = protractor.promise.defer();
-    console.log("Inside set variable step type 3");
     var params = browser.params;
 
     var urleTohit = this.format(params.config.baseApiUrl + params.config.executeSqlUrl, params.config.TestQueueId);
-    console.log("urleTohit= " + urleTohit);
     var rex = /\{([^}]+)\}/g;
     var matches = testInstance.Value.match(rex);
-    console.log("matches= " + matches);
     if (matches != undefined || matches != null) {
       testInstance.VariablesUsedInQuery = [];
       for (var l = 0; l < matches.length; l++) {
@@ -230,8 +227,6 @@ var JsonHelper = function () {
     var a = [];
     restApiHelper.doPost(urleTohit, testInstance, function (msg) {
       var resultMessage = JSON.parse(msg.body);
-      console.log("Length= " + resultMessage.Item.length);
-
       if (resultMessage.Item != "null") {
         var keyIndx = 0;
         var mainIndx = 1;
@@ -298,22 +293,29 @@ var JsonHelper = function () {
     if (reportPath == "" || reportPath == undefined) {
       reportPath = day + '-' + month + '-' + date.getFullYear() + '-' + date.getHours();
     }
-    var browserDetails = capabilities.caps_.platform + " " + capabilities.caps_.browserName + " " + capabilities.caps_.version;
+    var browserDetails = capabilities.get('platform') + " " + capabilities.get('browserName') + " " + capabilities.get('version');
     var timeCode = date.getHours() + " " + date.getMinutes() + " " + date.getSeconds();
 
     var lastPart = (descriptions.join('-') + timeCode).replace(/[^a-z\d\s-]+/gi, "");
-
     curTestReportPath = path.join(reportPath, browserDetails, lastPart);
     return curTestReportPath;
   };
 
-  this.gatherDescriptions = function (suite, soFar) {
-    soFar.push(suite.description);
-    if (suite.parentSuite) {
-      return this.gatherDescriptions(suite.parentSuite, soFar);
-    } else {
-      return soFar;
-    }
+  /* this.gatherDescriptions = function (suite, soFar) {
+   soFar.push(suite.description);
+   if (suite.parentSuite) {
+   return this.gatherDescriptions(suite.parentSuite, soFar);
+   } else {
+   return soFar;
+   }
+   };*/
+
+  this.gatherDescriptions = function (fullName) {
+    var splittedFullName = fullName.split('Elephant.com');
+    splittedFullName = splittedFullName.reverse();
+    splittedFullName[3] = splittedFullName[2]
+    splittedFullName[2] = 'Elephant.com';
+    return splittedFullName;
   };
 
   this.checkVariableInVariableAndGetValue = function (varName) {

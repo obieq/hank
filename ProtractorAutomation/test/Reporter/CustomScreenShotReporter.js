@@ -9,19 +9,28 @@ var FS = require("q-io/fs");
 var path = require('path');
 var RestApiHelper = require('./../helpers/RestApiHelper.js');
 var restApiHelper = new RestApiHelper();
+var jasmineCore = require('jasmine-core');
+var jasmine = jasmineCore.boot(jasmineCore);
+var timer;
 
 function CustomScreenShotReporter(options) {
-  console.log("Inside CustomScreenShotReporter base");
-}
 
-CustomScreenShotReporter.prototype.reportSpecResults =
-  function reportSpecResults(spec, descriptions, results, capabilities) {
+
+  this.jasmineStarted = function () {
+
+     timer = new jasmine.Timer();
+     timer.start();
+  };
+
+  this.specDone = function (result) {
+
     browser.takeScreenshot().then(function (png) {
       browser.getCapabilities().then(function (capabilities) {
+
         var config = browser.params.config;
-        var description = jsonHelper.gatherDescriptions(spec.suite, [spec.description]);
+        var description = jsonHelper.gatherDescriptions(result.fullName);
         var curTestReportPath = jsonHelper.buildPath(config.curLocation, description, capabilities);
-        var browserDetails = capabilities.caps_.platform + " " + capabilities.caps_.browserName + " " + capabilities.caps_.version;
+        var browserDetails = capabilities.get('platform') + " " + capabilities.get('browserName') + " " + capabilities.get('version');
         var pathtoCheck = path.join("reports", config.curLocation, browserDetails);
         FS.isDirectory(pathtoCheck).then(function (IsExist) {
           if (IsExist) {
@@ -33,7 +42,9 @@ CustomScreenShotReporter.prototype.reportSpecResults =
             });
           }
         });
-        var itemLength = (spec.results().items_ != undefined ? spec.results().items_.length : 0) - 1;
+        var specResults = result.passedExpectations.concat(result.failedExpectations);
+        var itemLength = (specResults != undefined ? specResults.length : 0) - 1;
+
         var reportData = {
           TestQueueId: config.TestQueueId,
           description: config.testDescription,
@@ -43,16 +54,16 @@ CustomScreenShotReporter.prototype.reportSpecResults =
           ScreenShotArray: config.screenShotArray,
           logContainer: config.logContainer,
           variableStateContainer: config.variableStateContainer,
-          status: config.isCancelled ? 5 : (spec.results().passed() ? 8 : 9),
-          passed: spec.results().passed(),
-          message: itemLength >= 0 ? spec.results().items_[itemLength].message : undefined,
-          trace: itemLength >= 0 ? spec.results().items_[itemLength].trace + "" : undefined,
-          traceFull: spec.results().items_,
-          finishTime: spec.finishTime,
-          finishedAt: spec.finishedAt,
-          os: capabilities.caps_.platform,
-          browserName: capabilities.caps_.browserName,
-          browserVersion: capabilities.caps_.version,
+          status: config.isCancelled ? 5 : (result.status == 'passed' ? 8 : 9),
+          passed: result.status == 'passed',
+          message: itemLength >= 0 ? specResults[itemLength].message : undefined,
+          trace: itemLength >= 0 ? specResults[itemLength].message + "" : undefined,
+          traceFull: specResults,
+          finishTime: timer.elapsed() ,
+          finishedAt: new Date(),
+          os: capabilities.get('platform'),
+          browserName: capabilities.get('browserName'),
+          browserVersion: capabilities.get('version'),
           ReportSource: "HanksTestSystem",
           LastStepExecuted: config.LastStepExecuted
         };
@@ -66,18 +77,20 @@ CustomScreenShotReporter.prototype.reportSpecResults =
           ScreenShotArray: config.screenShotArray,
           logContainer: config.logContainer,
           variableStateContainer: config.variableStateContainer,
-          passed: spec.results().passed(),
-          message: itemLength >= 0 ? spec.results().items_[itemLength].message : undefined,
-          trace: itemLength >= 0 ? spec.results().items_[itemLength].trace + "" : undefined,
-          traceFull: spec.results().items_,
-          finishTime: spec.finishTime,
-          finishedAt: spec.finishedAt,
-          os: capabilities.caps_.platform,
-          browserName: capabilities.caps_.browserName,
-          browserVersion: capabilities.caps_.version,
+          status: config.isCancelled ? 5 : (result.status == 'passed' ? 8 : 9),
+          passed: result.status == 'passed',
+          message: itemLength >= 0 ? specResults[itemLength].message : undefined,
+          trace: itemLength >= 0 ? specResults[itemLength].message + "" : undefined,
+          traceFull: specResults,
+          finishTime: timer.elapsed(),
+          finishedAt: new Date(),
+          os: capabilities.get('platform'),
+          browserName: capabilities.get('browserName'),
+          browserVersion: capabilities.get('version'),
           ReportSource: "WindowService",
           LastStepExecuted: config.LastStepExecuted
         };
+
 
         var jsonPathtoCheck = path.join("reports", config.curLocation, 'JSON');
         FS.isDirectory(jsonPathtoCheck).then(function (IsExist) {
@@ -92,16 +105,22 @@ CustomScreenShotReporter.prototype.reportSpecResults =
           }
         });
 
-
         restApiHelper.doPost(jsonHelper.format(config.baseApiUrl + config.baseTestReportUrl), reportData, function () {
-
         });
-
 
 
       });
     });
-
   };
+}
+
+
+CustomScreenShotReporter.prototype.suiteDone = function (result) {
+
+};
+
+CustomScreenShotReporter.prototype.jasmineDone = function (result) {
+
+};
 
 module.exports = CustomScreenShotReporter;
