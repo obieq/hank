@@ -2,12 +2,9 @@
   "name": "webquoteang",
   "version": "0.0.0",
   "dependencies": {
-    "xml2json": "^0.9.1"
-  },
-  "dependencies": {
-    "protractor": "^4.0.11",
     "protractor-hotkeys": "0.0.5",
     "q-io": "^1.13.2",
-    "request": "^2.79.0"
+    "request": "^2.79.0",
+    "xmldom": "^0.1.27"
   }
 }
