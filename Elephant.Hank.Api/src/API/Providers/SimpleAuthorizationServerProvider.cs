@@ -168,6 +168,9 @@ namespace Elephant.Hank.Api.Providers
                     },
                     {
                         "LastName", user.LastName
+                    },
+                    {
+                        "FullName", user.FullName
                     }
                 });
 

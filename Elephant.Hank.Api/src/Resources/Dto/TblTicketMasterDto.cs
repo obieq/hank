@@ -103,13 +103,13 @@ namespace Elephant.Hank.Resources.Dto
         public IEnumerable<TblTicketMasterDto> TicketHistory { get; set; }
 
         /// <summary>
-        /// Gets or sets the CreatedByUserName.
+        /// Gets or sets the CreatedByFullName.
         /// </summary>
-        public string CreatedByUserName { get; set; }
+        public string CreatedByFullName { get; set; }
 
         /// <summary>
         /// Gets or sets the Assigned To UserName.
         /// </summary>
-        public string AssignedToUserName { get; set; }
+        public string AssignedToFullName { get; set; }
     }
 }

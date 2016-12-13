@@ -11,7 +11,9 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
     dataProvider.setAuthenticationParameters($scope, $stateParams.WebsiteId, ngAppSettings.ModuleType.TestScripts);
     var authData = authService.getAuthData();
 
-    $scope.LoggeddInUserName = authData.userName;
+    console.log(authData);
+
+    $scope.LoggeddInUserName = authData.FullName;
 
     $scope.testAccessStatusList = [{
       Id: 1,
@@ -70,7 +72,7 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
       crudService.getAll(ngAppSettings.TestCatTestScriptsUrl.format($stateParams.WebsiteId, $scope.TestCatId)).then(function (response) {
         $scope.MasterTestList = $scope.TestList = response;
         $scope.UniqueTestListByCreatedBy = _.uniq($scope.TestList, function (x) {
-          return x.CreatedByUserName;
+          return x.CreatedByFullName;
         });
         $scope.UniqueTestListByCategory = _.uniq($scope.TestList, function (x) {
           return x.CategoryName;
@@ -79,7 +81,7 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
           return x.CategoryName == null;
         });
         $scope.UniqueTestListByCategory.push({CategoryName: 'All', CategoryId: 0});
-        $scope.UniqueTestListByCreatedBy.push({CreatedByUserName: 'All', CreatedBy: 0});
+        $scope.UniqueTestListByCreatedBy.push({CreatedByFullName: 'All', CreatedBy: 0});
       }, function (response) {
         commonUi.showErrorPopup(response);
       });

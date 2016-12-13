@@ -99,15 +99,15 @@ namespace Elephant.Hank.Framework.Mapper
             AutoMapper.Mapper.CreateMap<TblSuite, TblSuiteDto>().ReverseMap();
             AutoMapper.Mapper.CreateMap<TblWebsite, TblWebsiteDto>().ReverseMap();
             AutoMapper.Mapper.CreateMap<TblTicketMaster, TblTicketMasterDto>()
-                .ForMember(x => x.CreatedByUserName, opt => opt.MapFrom(src => src.CreatedByUser != null ? src.CreatedByUser.FullName : null))
-                .ForMember(x => x.AssignedToUserName, opt => opt.MapFrom(src => src.AssignedToUser != null ? src.AssignedToUser.FullName : null))
+                .ForMember(x => x.CreatedByFullName, opt => opt.MapFrom(src => src.CreatedByUser != null ? src.CreatedByUser.FullName : null))
+                .ForMember(x => x.AssignedToFullName, opt => opt.MapFrom(src => src.AssignedToUser != null ? src.AssignedToUser.FullName : null))
                 .ReverseMap();
             AutoMapper.Mapper.CreateMap<TblTicketHistory, TblTicketHistoryDto>()
-                .ForMember(x => x.CreatedByUserName, opt => opt.MapFrom(src => src.CreatedByUser != null ? src.CreatedByUser.FullName : null)).ReverseMap();
+                .ForMember(x => x.CreatedByFullName, opt => opt.MapFrom(src => src.CreatedByUser != null ? src.CreatedByUser.FullName : null)).ReverseMap();
             AutoMapper.Mapper.CreateMap<TblTicketMasterDto, TblTicketHistoryDto>().ReverseMap();
 
             AutoMapper.Mapper.CreateMap<TblTicketComment, TblTicketCommentDto>()
-               .ForMember(x => x.CreatedByUserName, opt => opt.MapFrom(src => src.CreatedByUser != null ? src.CreatedByUser.FullName : null))
+               .ForMember(x => x.CreatedByFullName, opt => opt.MapFrom(src => src.CreatedByUser != null ? src.CreatedByUser.FullName : null))
                .ReverseMap();
 
             AutoMapper.Mapper.CreateMap<TblTestData, TblTestDataDto>()
@@ -127,7 +127,7 @@ namespace Elephant.Hank.Framework.Mapper
             AutoMapper.Mapper.CreateMap<TblTest, TblTestDto>()
                 .ForMember(x => x.WebsiteName, opt => opt.MapFrom(src => src.Website != null ? src.Website.Name : null))
                 .ForMember(x => x.CategoryName, opt => opt.MapFrom(src => src.Category != null ? src.Category.Name : null))
-                .ForMember(x => x.CreatedByUserName, opt => opt.MapFrom(src => src.CreatedByUser != null ? src.CreatedByUser.UserName : null))
+                .ForMember(x => x.CreatedByFullName, opt => opt.MapFrom(src => src.CreatedByUser != null ? src.CreatedByUser.FullName : null))
                 .ReverseMap();
 
             AutoMapper.Mapper.CreateMap<TblPages, TblPagesDto>()

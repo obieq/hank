@@ -54,9 +54,9 @@
               </td>
               <td>{{test.Description}}</td>
               <td>{{test.CategoryName}}</td>
-              <td>{{ test.CreatedByUserName }}</td>
+              <td>{{ test.CreatedByFullName }}</td>
               <td ng-if="Authentication.CanWrite || Authentication.CanExecute">
-                <a ng-if="Authentication.CanWrite && (test.TestCaseAccessStatus==1 || test.CreatedByUserName==LoggeddInUserName)"
+                <a ng-if="Authentication.CanWrite && (test.TestCaseAccessStatus==1 || test.CreatedByFullName==LoggeddInUserName)"
                   ui-sref="Website.TestCatTestUpdate({ WebsiteId: stateParamWebsiteId, TestCatId: TestCatId, TestId: test.Id })">Edit</a>
                 |
                 <a style="pointer:cursor" ng-click="onQueueClick(test.Id)" ng-if="Authentication.CanExecute">Queue</a>
