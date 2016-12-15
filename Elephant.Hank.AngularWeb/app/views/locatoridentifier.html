@@ -37,7 +37,10 @@
               <td style="word-break: break-all;">{{locatorIdentifier.Value}}</td>
               <td>{{locatorIdentifier.LocatorValue}}</td>
               <td>{{locatorIdentifier.WebsiteName}}</td>
-              <td><a ng-if="Authentication.CanWrite" ui-sref="Website.PagesLocatorIdentifierUpdate({ WebsiteId: stateParamWebsiteId, PageId: stateParamPageId, LocatorIdentifierId: locatorIdentifier.Id })">Edit</a></td>
+              <td>
+                <a ng-if="Authentication.CanWrite" ui-sref="Website.PagesLocatorIdentifierUpdate({ WebsiteId: stateParamWebsiteId, PageId: stateParamPageId, LocatorIdentifierId: locatorIdentifier.Id })">Edit</a>
+                <a ng-if="IsAdmin" ng-click="deleteLocatorIdentifierById(locatorIdentifier.Id)" > | Delete </a>
+              </td>
             </tr>
             </tbody>
           </table>

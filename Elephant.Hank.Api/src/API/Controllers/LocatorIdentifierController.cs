@@ -100,7 +100,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>Deleted object</returns>
         [Route("{locatorIdentifierId}")]
         [HttpDelete]
-        [CustomAuthorize(Roles = RoleName.TestUserRole + "," + RoleName.TestAdminRole, ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.LocatorIdentifier)]
+        [Authorize(Roles = "TestAdmin")]
         public IHttpActionResult DeleteById(long locatorIdentifierId)
         {
             var result = new ResultMessage<TblLocatorIdentifierDto>();

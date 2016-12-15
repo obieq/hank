@@ -5,7 +5,8 @@
       <h1>
         Shared Test's
         <small></small>
-        <a ng-if="Authentication.CanWrite" ui-sref="Website.SharedTestAdd({ WebsiteId: stateParamWebsiteId })" class=" btn btn-primary" style="float:right;cursor: pointer">Add New Shared Test</a></h1>
+        <a ng-if="Authentication.CanWrite" ui-sref="Website.SharedTestAdd({ WebsiteId: stateParamWebsiteId })"
+           class=" btn btn-primary" style="float:right;cursor: pointer">Add New Shared Test</a></h1>
     </div>
   </div>
 </section>
@@ -36,12 +37,14 @@
             <tbody ng-init="getAllSharedTests()">
             <tr ng-repeat="sharedTest in SharedTestList | orderBy:'TestName'">
               <td>{{sharedTest.Id}}</td>
-              <td> <a ui-sref="Website.SharedTestData({ WebsiteId: stateParamWebsiteId, SharedTestId: sharedTest.Id })">{{sharedTest.TestName}}</a></td>
+              <td><a ui-sref="Website.SharedTestData({ WebsiteId: stateParamWebsiteId, SharedTestId: sharedTest.Id })">{{sharedTest.TestName}}</a>
+              </td>
               <td>{{sharedTest.Description}}</td>
               <td>{{sharedTest.WebsiteName}}</td>
               <td>{{sharedTest.ModifiedByUserName}}</td>
               <td ng-if="Authentication.CanWrite">
                 <a ui-sref="Website.SharedTestUpdate({ WebsiteId: stateParamWebsiteId, SharedTestId: sharedTest.Id })">Edit</a>
+                <a ng-click="deleteSharedTestById(sharedTest.Id)">| Delete</a>
               </td>
             </tr>
             </tbody>

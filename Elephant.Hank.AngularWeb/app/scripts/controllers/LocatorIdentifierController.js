@@ -4,8 +4,8 @@
 
 'use strict';
 
-app.controller('LocatorIdentifierController', ['$scope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider',
-  function ($scope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider) {
+app.controller('LocatorIdentifierController', ['$scope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider','authService',
+  function ($scope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider,authService) {
     $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
     dataProvider.setAuthenticationParameters($scope,$stateParams.WebsiteId,ngAppSettings.ModuleType.LocatorIdentifier);
     $scope.LocatorIdentifierList = [];
@@ -13,6 +13,8 @@ app.controller('LocatorIdentifierController', ['$scope', '$stateParams', '$state
     $scope.LocatorList = [];
     $scope.stateParamPageId = $stateParams.PageId;
     $scope.stateParamWebsiteId = $stateParams.WebsiteId;
+    var authData = authService.getAuthData();
+    $scope.IsAdmin = authData.type == 'TestAdmin' ? true : false;
 
     $scope.getAllLocatorIdentifiers = function () {
       $scope.loadData(1);
@@ -42,6 +44,17 @@ app.controller('LocatorIdentifierController', ['$scope', '$stateParams', '$state
       }, function (response) {
         commonUi.showErrorPopup(response);
       });
+    };
+
+    $scope.deleteLocatorIdentifierById = function (locatorIdentifierById) {
+      var deleteConfirmation = confirm("Are you sure you want to delete?");
+      if (deleteConfirmation) {
+        crudService.delete(ngAppSettings.LocatorIdentifierUrl.format($stateParams.WebsiteId), {'Id': locatorIdentifierById}).then(function (response) {
+          $scope.getAllLocatorIdentifiers();
+        }, function (response) {
+          commonUi.showErrorPopup(response);
+        });
+      }
     };
 
     $scope.onRegularExpressionInputKeyUp=function(){

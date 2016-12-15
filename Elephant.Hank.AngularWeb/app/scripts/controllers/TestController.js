@@ -10,7 +10,7 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
     $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
     dataProvider.setAuthenticationParameters($scope, $stateParams.WebsiteId, ngAppSettings.ModuleType.TestScripts);
     var authData = authService.getAuthData();
-
+    $scope.IsAdmin = authData.type == 'TestAdmin' ? true : false;
     console.log(authData);
 
     $scope.LoggeddInUserName = authData.FullName;
@@ -101,6 +101,17 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
       }, function (response) {
         commonUi.showErrorPopup(response);
       });
+    };
+
+    $scope.deleteTestById = function (testId) {
+      var deleteConfirmation = confirm("Are you sure you want to delete?");
+      if (deleteConfirmation) {
+        crudService.delete(ngAppSettings.TestUrl.format($stateParams.WebsiteId, $stateParams.TestCatId), {'Id': testId}).then(function (response) {
+          $scope.getAllTests();
+        }, function (response) {
+          commonUi.showErrorPopup(response);
+        });
+      }
     };
 
     $scope.updateTest = function () {

@@ -40,6 +40,7 @@
               <td>{{page.Description}}</td>
               <td ng-if="Authentication.CanWrite">
                 <a  ui-sref="Website.PagesUpdate({ WebsiteId: stateParamWebsiteId, PageId: page.Id })">Edit</a>
+                <a ng-if="IsAdmin" ng-click="deletePageById(page.Id)">| Delete</a>
               </td>
             </tr>
             </tbody>

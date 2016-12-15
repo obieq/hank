@@ -110,7 +110,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>Deleted object</returns>
         [Route("{testId}")]
         [HttpDelete]
-        [CustomAuthorize(ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.TestScripts)]
+        [Authorize(Roles = "TestAdmin")]
         public IHttpActionResult DeleteById(long testId)
         {
             var result = new ResultMessage<TblTestDto>();

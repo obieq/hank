@@ -4,8 +4,8 @@
 
 'use strict';
 
-app.controller('PagesController', ['$scope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider', 'localStorageService',
-  function ($scope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider, localStorageService) {
+app.controller('PagesController', ['$scope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider', 'localStorageService','authService',
+  function ($scope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider, localStorageService,authService) {
     $scope.PagesList = [];
     $scope.Page = {};
     $scope.Website = [];
@@ -13,6 +13,8 @@ app.controller('PagesController', ['$scope', '$stateParams', '$state', 'CrudServ
 
     $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
     dataProvider.setAuthenticationParameters($scope, $stateParams.WebsiteId, ngAppSettings.ModuleType.Page);
+    var authData = authService.getAuthData();
+    $scope.IsAdmin = authData.type == 'TestAdmin' ? true : false;
 
     $scope.getAllPages = function () {
       $scope.loadData();
@@ -29,6 +31,17 @@ app.controller('PagesController', ['$scope', '$stateParams', '$state', 'CrudServ
       }, function (response) {
         commonUi.showErrorPopup(response);
       });
+    };
+
+    $scope.deletePageById = function (pageId) {
+      var deleteConfirmation = confirm("Are you sure you want to delete?");
+      if (deleteConfirmation) {
+        crudService.delete(ngAppSettings.PagesUrl.format($stateParams.WebsiteId), {'Id': pageId}).then(function (response) {
+          $scope.getAllPages();
+        }, function (response) {
+          commonUi.showErrorPopup(response);
+        });
+      }
     };
 
     $scope.updatePage = function () {
