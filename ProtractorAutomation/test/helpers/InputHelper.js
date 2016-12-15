@@ -766,48 +766,60 @@ var InputHelper = function () {
 
   this.GetText = function (key, onSuccess, isSetVar) {
     key.getTagName().then(function (tagName) {
-      tagName = (tagName + "").toLowerCase();
-      if (tagName == "input" || tagName == "textarea") {
-        key.getAttribute("value").then(function (attrValue) {
-          onSuccess(attrValue);
-        });
-      }
-      else if (tagName == "select") {
-        key.$('option:checked').getText().then(function (optionText) {
-          onSuccess(optionText);
-        });
-      }
-      else if (tagName == "table" && isSetVar) {
-        var tblData = [];
-        key.all(by.tagName('tr')).each(function (trEle, trInd) {
-          tblData[trInd] = [];
-          trEle.all(by.tagName('td')).each(function (tdEle, tdInd) {
-            tdEle.getText().then(function (text) {
-              tblData[trInd][tdInd] = text;
+      key.getAttribute("hank-data-table").then(function (isHankDataTable) {
+        key.getAttribute("hank-data-table-format").then(function (tableFormat) {
+          tagName = (tagName + "").toLowerCase();
+          if (tagName == "input" || tagName == "textarea") {
+            key.getAttribute("value").then(function (attrValue) {
+              onSuccess(attrValue);
             });
-          });
-        }).then(function () {
-          onSuccess(JSON.stringify(tblData), tblData);
-        });
-      }
-      else if (tagName == "div" && isSetVar) {
-        var tblData = [];
-        key.all(by.css('.tr')).each(function (trEle, trInd) {
-          tblData[trInd] = [];
-          trEle.all(by.css('.td')).each(function (tdEle, tdInd) {
-            tdEle.getText().then(function (text) {
-              tblData[trInd][tdInd] = text;
+          }
+          else if (tagName == "select") {
+            key.$('option:checked').getText().then(function (optionText) {
+              onSuccess(optionText);
             });
-          });
-        }).then(function () {
-          onSuccess(JSON.stringify(tblData), tblData);
+          }
+          else if (tagName == "table" && isSetVar) {
+            var tblData = [];
+            key.all(by.tagName('tr')).each(function (trEle, trInd) {
+              tblData[trInd] = [];
+              trEle.all(by.tagName('td')).each(function (tdEle, tdInd) {
+                tdEle.getText().then(function (text) {
+                  tblData[trInd][tdInd] = text;
+                });
+              });
+            }).then(function () {
+              console.log(tblData);
+              onSuccess(JSON.stringify(tblData), tblData);
+            });
+          }
+          else if (tagName == "div" && !!isHankDataTable && isSetVar) {
+            var tblData = [];
+            key.all(by.css('.hank-tr')).each(function (trEle, trInd) {
+              tblData[trInd] = [];
+              trEle.all(by.css('.hank-td')).each(function (tdEle, tdInd) {
+                tdEle.getText().then(function (text) {
+                  if(tableFormat=='horizontal'){
+                    tblData[trInd][tdInd] = text;
+                  }
+                  if(tableFormat=='vertical'){
+                    tblData[tdInd][trInd] = text;
+                  }
+                });
+              });
+            }).then(function () {
+              console.log(tblData);
+              onSuccess(JSON.stringify(tblData), tblData);
+            });
+          }
+          else {
+            key.getText().then(function (text) {
+              onSuccess(text);
+            });
+          }
         });
-      }
-      else {
-        key.getText().then(function (text) {
-          onSuccess(text);
-        });
-      }
+
+      });
     });
   };
 
