@@ -69,11 +69,54 @@
 
                   <select ng-if="stateParamTestDataId" class="form-control" ng-model="TestData.ActionId" name="ActionId"
                           ng-options="action.Id as action.Value for action in ActionList | orderBy:'Value'"
-                          required  ng-change="onActionChange()">
+                          required ng-change="onActionChange()">
                     <option style="display:none" value="">--Select--</option>
                   </select>
                 </div>
               </div>
+
+              <!-- #start Load Report Data  -->
+
+              <div class="form-group" ng-if="TestData.ActionId==ActionConstants.LoadReportDataActionId">
+                <label class="col-sm-2 control-label">Website</label>
+
+                <div class="col-sm-4">
+                  <select class="form-control" ng-model="TestData.SharedStepWebsiteId"
+                          ng-options="website.Id as website.Name for website in WebsiteList | orderBy:'Name'"
+                          ng-change="onWebsiteChange()" name="SharedStepWebsiteId" required="Please select website">
+                    <option style="display:none" value="">--Select--</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group"
+                   ng-if="TestData.ActionId==ActionConstants.LoadReportDataActionId && !!TestData.SharedStepWebsiteId">
+                <label class="col-sm-2 control-label">Test Category</label>
+
+                <div class="col-sm-4">
+                  <select class="form-control" ng-model="TestData.SharedStepWebsiteTestCategoryId"
+                          ng-options="testCat.Id as testCat.Name for testCat in TestCategoryList | orderBy:'Name'"
+                          ng-change="onTestCategoryChange()" name="SharedStepWebsiteTestCategoryId"
+                          required="Please select test category">
+                    <option style="display:none" value="">--Select--</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group"
+                   ng-if="TestData.ActionId==ActionConstants.LoadReportDataActionId && !!TestData.SharedStepWebsiteId && !!TestData.SharedStepWebsiteTestCategoryId">
+                <label class="col-sm-2 control-label">Test</label>
+
+                <div class="col-sm-4">
+                  <select class="form-control" ng-model="TestData.SharedStepWebsiteTestId"
+                          ng-options="test.Id as test.TestName for test in TestList | orderBy:'TestName'"
+                          name="SharedStepWebsiteTestId" required="Please select test">
+                    <option style="display:none" value="">--Select--</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- #end  Load Report Data  -->
 
               <div class="form-group" ng-if="InputControlDisplayStatus.ddlPageNonValidation">
                 <label class="col-sm-2 control-label">Page</label>
@@ -189,7 +232,7 @@
                 </div>
               </div>
 
-              <table class="table table-bordered table-striped"  ng-if="TestData.SharedTestDataList.length>0">
+              <table class="table table-bordered table-striped" ng-if="TestData.SharedTestDataList.length>0">
                 <thead>
                 <tr>
                   <th>Default Sequence</th>
@@ -205,13 +248,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="testData in TestData.SharedTestDataList | orderBy:'ExecutionSequence'"  ng-class="testData.Ignore ? 'alert-danger' : ''">
+                <tr ng-repeat="testData in TestData.SharedTestDataList | orderBy:'ExecutionSequence'"
+                    ng-class="testData.Ignore ? 'alert-danger' : ''">
                   <td>{{testData.ExecutionSequence}}</td>
                   <td><input type="text" style="width: 100%" ng-model="testData.UIExecutionSequence"></td>
                   <td>{{testData.DisplayNameValue}}</td>
                   <td>{{testData.ActionValue}}</td>
                   <td align="center"><input type="checkbox" disabled ng-model="testData.IsIgnored"></td>
-                  <td align="center"> <input type="checkbox" ng-model="testData.Ignore"></td>
+                  <td align="center"><input type="checkbox" ng-model="testData.Ignore"></td>
                   <td>{{testData.VariableName}}</td>
                   <td><input type="text" ng-model="testData.UIVariableName"></td>
                   <td>{{testData.Value}}</td>
@@ -348,7 +392,8 @@
                 <label class="col-sm-2 control-label">Request Type </label>
 
                 <div class="col-sm-4">
-                  <select ng-change="onRequestTypeChange()" class="form-control" ng-model="TestData.ApiTestData.RequestTypeId" name="RequestTypeId"
+                  <select ng-change="onRequestTypeChange()" class="form-control"
+                          ng-model="TestData.ApiTestData.RequestTypeId" name="RequestTypeId"
                           ng-options="requestType.Id as requestType.Name for requestType in RequestTypeList | orderBy:'Name'"
                           required>
                     <option style="display:none" value="">--Select--</option>

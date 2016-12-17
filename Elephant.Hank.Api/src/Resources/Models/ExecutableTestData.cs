@@ -125,5 +125,13 @@ namespace Elephant.Hank.Resources.Models
         /// The URL.
         /// </value>
         public string ApiUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the load report data test identifier.
+        /// </summary>
+        /// <value>
+        /// The load report data test identifier.
+        /// </value>
+        public long LoadReportDataTestId { get; set; }
     }
 }

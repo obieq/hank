@@ -183,7 +183,7 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
             if ($scope.TestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.TestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.TestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchFrameActionId) {
               $scope.InputControlDisplayStatus.txtValue = true;
             }
-            else if ($scope.TestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.TestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.TerminateTestActionId  || $scope.TestData.ActionId == $scope.ActionConstants.SwitchToDefaultContentActionId) {
+            else if ($scope.TestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.TestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.TerminateTestActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchToDefaultContentActionId) {
             }
             else if ($scope.TestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId || $scope.TestData.ActionId == $scope.ActionConstants.DeclareVariableActionId) {
               $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
@@ -597,10 +597,17 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
             commonUi.showErrorPopup(response);
           });
         }
-        else if ($scope.TestData.ActionId == $scope.ActionConstants.SendKeyActionId ) {
+        else if ($scope.TestData.ActionId == $scope.ActionConstants.SendKeyActionId) {
           crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
             $scope.PagesList = response;
             $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
+          }, function (response) {
+            commonUi.showErrorPopup(response);
+          });
+        }
+        else if ($scope.TestData.ActionId == $scope.ActionConstants.LoadReportDataActionId) {
+          crudService.getAll(ngAppSettings.WebSiteUrl).then(function (response) {
+            $scope.WebsiteList = response;
           }, function (response) {
             commonUi.showErrorPopup(response);
           });
@@ -634,6 +641,16 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
           commonUi.showErrorPopup(response);
         });
       }
+      if (!!$scope.TestData.SharedStepWebsiteId && $scope.TestData.ActionId == $scope.ActionConstants.LoadReportDataActionId) {
+        crudService.getAll(ngAppSettings.WebSiteTestCatUrl.format($scope.TestData.SharedStepWebsiteId)).then(function (response) {
+          $scope.TestCategoryList = response;
+        }, function (response) {
+        });
+      }
+    };
+
+    $scope.onTestCategoryChange = function () {
+
     };
 
     $scope.removeHeader = function (headerIndex, type) {

@@ -260,5 +260,19 @@ namespace Elephant.Hank.Resources.Json
                 return ConfigurationManager.AppSettings["SwitchToDefaultContentActionId"].ToInt64();
             }
         }
+
+        /// <summary>
+        /// Gets the load report data action identifier.
+        /// </summary>
+        /// <value>
+        /// The load report data action identifier.
+        /// </value>
+        public long LoadReportDataActionId
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["LoadReportDataActionId"].ToInt64();
+            }
+        }
     }
 }

@@ -413,6 +413,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
             commonUi.showErrorPopup(response);
           });
         }
+
         else {
           crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
             $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
