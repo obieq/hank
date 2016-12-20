@@ -11,7 +11,6 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
     dataProvider.setAuthenticationParameters($scope, $stateParams.WebsiteId, ngAppSettings.ModuleType.TestScripts);
     var authData = authService.getAuthData();
     $scope.IsAdmin = authData.type == 'TestAdmin' ? true : false;
-    console.log(authData);
 
     $scope.LoggeddInUserName = authData.FullName;
 

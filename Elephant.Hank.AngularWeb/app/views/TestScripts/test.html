@@ -38,7 +38,7 @@
               </th>
               <th class="col-md-2"> Created By
                 <select class="form-control" ng-change="onFilterChange()" ng-model="createdByFilter"
-                        ng-options="test.CreatedBy as test.CreatedByUserName for test in UniqueTestListByCreatedBy|orderBy:'CreatedBy'">
+                        ng-options="test.CreatedBy as test.CreatedByFullName for test in UniqueTestListByCreatedBy|orderBy:'CreatedBy'">
                   <option style="display:none" value="">--Select--</option>
                 </select>
               </th>
