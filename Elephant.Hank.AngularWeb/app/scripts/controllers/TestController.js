@@ -4,8 +4,8 @@
 
 'use strict';
 
-app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider', 'JsonHelper',
-  function ($scope, $rootScope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider, jsonHelper) {
+app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider', 'authService',
+  function ($scope, $rootScope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider, authService) {
 
     $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
     dataProvider.setAuthenticationParameters($scope, $stateParams.WebsiteId, ngAppSettings.ModuleType.TestScripts);
@@ -102,7 +102,6 @@ app.controller('TestController', ['$scope', '$rootScope', '$stateParams', '$stat
       var deleteConfirmation = confirm("Are you sure you want to delete?");
       if (deleteConfirmation) {
         crudService.delete(ngAppSettings.TestUrl.format($stateParams.WebsiteId, $stateParams.TestCatId), {'Id': testId}).then(function (response) {
-          $scope.MasterTestList = jsonHelper.deleteByProperty(angular.copy($scope.MasterTestList), "Id", testId);
           $scope.getAllTests();
         }, function (response) {
           commonUi.showErrorPopup(response);
