@@ -4,8 +4,8 @@
 
 'use strict';
 
-app.controller('PagesController', ['$scope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider', 'localStorageService','authService',
-  function ($scope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider, localStorageService,authService) {
+app.controller('PagesController', ['$scope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider', 'localStorageService','JsonHelper',
+  function ($scope, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider, localStorageService,jsonHelper) {
     $scope.PagesList = [];
     $scope.Page = {};
     $scope.Website = [];
@@ -13,8 +13,6 @@ app.controller('PagesController', ['$scope', '$stateParams', '$state', 'CrudServ
 
     $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
     dataProvider.setAuthenticationParameters($scope, $stateParams.WebsiteId, ngAppSettings.ModuleType.Page);
-    var authData = authService.getAuthData();
-    $scope.IsAdmin = authData.type == 'TestAdmin' ? true : false;
 
     $scope.getAllPages = function () {
       $scope.loadData();
@@ -37,7 +35,7 @@ app.controller('PagesController', ['$scope', '$stateParams', '$state', 'CrudServ
       var deleteConfirmation = confirm("Are you sure you want to delete?");
       if (deleteConfirmation) {
         crudService.delete(ngAppSettings.PagesUrl.format($stateParams.WebsiteId), {'Id': pageId}).then(function (response) {
-          $scope.getAllPages();
+          $scope.PagesList = jsonHelper.deleteByProperty(angular.copy($scope.PagesList), "Id", pageId);
         }, function (response) {
           commonUi.showErrorPopup(response);
         });

@@ -6,7 +6,6 @@
 
 app.controller('GroupUserController', ['$scope', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService',
   function ($scope, $stateParams, $state, crudService, ngAppSettings, commonUi) {
-    debugger;
     $scope.UserList = [];
     $scope.GroupUserList = [];
 

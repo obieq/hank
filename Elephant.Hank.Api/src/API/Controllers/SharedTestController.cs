@@ -114,7 +114,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <returns>Deleted object</returns>
         [Route("{sharedTestId}")]
         [HttpDelete]
-        [Authorize(Roles = "TestAdmin")]
+        [CustomAuthorize(ActionType = ActionTypes.Delete, ModuleType = FrameworkModules.SharedTestCases)]
         public IHttpActionResult DeleteById(long sharedTestId)
         {
             var result = new ResultMessage<TblSharedTestDto>();

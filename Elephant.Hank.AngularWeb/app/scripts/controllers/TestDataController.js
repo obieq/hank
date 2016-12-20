@@ -180,7 +180,7 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
             }
             $scope.InputControlDisplayStatus.ddlAction = true;
 
-            if ($scope.TestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.TestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.TestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchFrameActionId) {
+            if ($scope.TestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.TestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.TestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchFrameActionId || $scope.TestData.ActionId == $scope.ActionConstants.LoadReportDataActionId) {
               $scope.InputControlDisplayStatus.txtValue = true;
             }
             else if ($scope.TestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.TestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.TerminateTestActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchToDefaultContentActionId) {
@@ -285,7 +285,8 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
           {
             if ($scope.TestData.ActionId != $scope.ActionConstants.DeclareVariableActionId &&
               $scope.TestData.ActionId != $scope.ActionConstants.TakeScreenShotActionId &&
-              $scope.TestData.ActionId != $scope.ActionConstants.SetVariableManuallyActionId) {
+              $scope.TestData.ActionId != $scope.ActionConstants.SetVariableManuallyActionId &&
+              $scope.TestData.ActionId != $scope.ActionConstants.LoadReportDataActionId) {
               promises.push(crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
                 $scope.PagesList = response;
               }, function (response) {
@@ -296,6 +297,21 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
                 $scope.DisplayNameList = response;
               }, function (response) {
                 commonUi.showErrorPopup(response);
+              }));
+            }
+            else if ($scope.TestData.ActionId == $scope.ActionConstants.LoadReportDataActionId) {
+              promises.push(crudService.getAll(ngAppSettings.WebSiteUrl).then(function (response) {
+                $scope.WebsiteList = response;
+              }, function (response) {
+                commonUi.showErrorPopup(response);
+              }));
+              promises.push(crudService.getAll(ngAppSettings.WebSiteTestCatUrl.format($scope.TestData.SharedStepWebsiteId)).then(function (response) {
+                $scope.TestCategoryList = response;
+              }, function (response) {
+              }));
+              promises.push(crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($scope.TestData.SharedStepWebsiteId, $scope.TestData.SharedStepWebsiteTestCategoryId)).then(function (response) {
+                $scope.TestList = response;
+              }, function (response) {
               }));
             }
             break;
@@ -634,7 +650,7 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
     };
 
     $scope.onWebsiteChange = function () {
-      if ($scope.TestData.SharedStepWebsiteId > 0) {
+      if ($scope.TestData.SharedStepWebsiteId > 0 && $scope.TestData.ActionId != $scope.ActionConstants.LoadReportDataActionId) {
         crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($scope.TestData.SharedStepWebsiteId, 0)).then(function (response) {
           $scope.TestList = response;
         }, function (response) {
@@ -650,7 +666,11 @@ app.controller('TestDataController', ['$scope', '$rootScope', '$q', '$stateParam
     };
 
     $scope.onTestCategoryChange = function () {
-
+      crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($scope.TestData.SharedStepWebsiteId, $scope.TestData.SharedStepWebsiteTestCategoryId)).then(function (response) {
+        $scope.TestList = response;
+      }, function (response) {
+        commonUi.showErrorPopup(response);
+      });
     };
 
     $scope.removeHeader = function (headerIndex, type) {

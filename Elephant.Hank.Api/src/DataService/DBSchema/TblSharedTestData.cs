@@ -112,6 +112,30 @@ namespace Elephant.Hank.DataService.DBSchema
         public long? ApiTestDataId { get; set; }
 
         /// <summary>
+        /// Gets or sets the report data website identifier.
+        /// </summary>
+        /// <value>
+        /// The report data website identifier.
+        /// </value>
+        public long? ReportDataWebsiteId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the report data website identifier.
+        /// </summary>
+        /// <value>
+        /// The report data website identifier.
+        /// </value>
+        public long? ReportDataCategoryId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the report data test identifier.
+        /// </summary>
+        /// <value>
+        /// The report data test identifier.
+        /// </value>
+        public long? ReportDataTestId { get; set; }
+
+        /// <summary>
         /// Gets or sets the API test data.
         /// </summary>
         /// <value>

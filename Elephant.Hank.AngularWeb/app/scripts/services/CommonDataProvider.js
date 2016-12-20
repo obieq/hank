@@ -87,15 +87,15 @@ app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettin
 
         /* if($stateParams.TestCatId && $stateParams.TestCatId != 0)
          {*/
-            crudService.getById(ngAppSettings.TestUrl.format($stateParams.WebsiteId, $stateParams.TestCatId), $stateParams.TestId).then(function (response) {
-                storage.CurrentTest = response.Item;
-                storage.CurrentTest.timestamp = new Date().getTime();
-                storage.CurrentTest.expireTimeInMilliseconds = ngAppSettings.StorageTimeOut;
-                $scope.Test = storage.CurrentTest;
-              }
-              , function (response) {
-                //commonUi.showErrorPopup(response);
-              });
+        crudService.getById(ngAppSettings.TestUrl.format($stateParams.WebsiteId, $stateParams.TestCatId), $stateParams.TestId).then(function (response) {
+            storage.CurrentTest = response.Item;
+            storage.CurrentTest.timestamp = new Date().getTime();
+            storage.CurrentTest.expireTimeInMilliseconds = ngAppSettings.StorageTimeOut;
+            $scope.Test = storage.CurrentTest;
+          }
+          , function (response) {
+            //commonUi.showErrorPopup(response);
+          });
         //}
       },
 
@@ -110,6 +110,7 @@ app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettin
 
       setAuthenticationParameters: function (scope, websiteId, moduleId, operation) {
         var authData = authService.getAuthData();
+        scope.LoggeddInUserName = authData.FullName;
         if (authData.type == "TestUser") {
           var groupData = authService.getGroupAuthData();
           var check = _.where(groupData.Item, {WebsiteId: websiteId, ModuleId: moduleId});
@@ -126,6 +127,9 @@ app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettin
           }
         }
         else {
+          if (authData.type == "TestAdmin") {
+            scope.IsAdmin = true;
+          }
           scope.Authentication.CanWrite = true;
           scope.Authentication.CanDelete = true;
           scope.Authentication.CanExecute = true;

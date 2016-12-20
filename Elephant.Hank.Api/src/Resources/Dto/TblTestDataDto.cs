@@ -163,6 +163,14 @@ namespace Elephant.Hank.Resources.Dto
         public long? ApiTestDataId { get; set; }
 
         /// <summary>
+        /// Gets or sets the test category identifier.
+        /// </summary>
+        /// <value>
+        /// The test category identifier.
+        /// </value>
+        public long? SharedStepWebsiteTestCategoryId { get; set; }
+
+        /// <summary>
         /// Gets or sets the API test data.
         /// </summary>
         /// <value>

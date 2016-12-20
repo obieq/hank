@@ -141,7 +141,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
           case 0:
           {
             $scope.InputControlDisplayStatus.ddlAction = true;
-            if ($scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId) {
+            if ($scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId) {
               $scope.InputControlDisplayStatus.txtValue = true;
             }
             else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.TerminateTestActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchToDefaultContentActionId) {
@@ -197,6 +197,23 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
       });
     };
 
+    $scope.onWebsiteChange = function () {
+      if ($scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId) {
+        crudService.getAll(ngAppSettings.WebSiteTestCatUrl.format($scope.SharedTestData.ReportDataWebsiteId)).then(function (response) {
+          $scope.TestCategoryList = response;
+        }, function (response) {
+        });
+      }
+    };
+
+    $scope.onTestCategoryChange = function () {
+      crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($scope.SharedTestData.ReportDataWebsiteId, $scope.SharedTestData.ReportDataCategoryId)).then(function (response) {
+        $scope.TestList = response;
+      }, function (response) {
+        commonUi.showErrorPopup(response);
+      });
+    };
+
     $scope.loadDataForEdit = function () {
       var deferred = $q.defer();
       var promises = [];
@@ -222,7 +239,8 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
           {
             if ($scope.SharedTestData.ActionId != $scope.ActionConstants.DeclareVariableActionId &&
               $scope.SharedTestData.ActionId != $scope.ActionConstants.TakeScreenShotActionId &&
-              $scope.SharedTestData.ActionId != $scope.ActionConstants.SetVariableManuallyActionId) {
+              $scope.SharedTestData.ActionId != $scope.ActionConstants.SetVariableManuallyActionId &&
+              $scope.SharedTestData.ActionId != $scope.ActionConstants.LoadReportDataActionId) {
               promises.push(crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
                 $scope.PagesList = response;
               }, function (response) {
@@ -233,6 +251,21 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
                 $scope.DisplayNameList = response;
               }, function (response) {
                 commonUi.showErrorPopup(response);
+              }));
+            }
+            else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId) {
+              promises.push(crudService.getAll(ngAppSettings.WebSiteUrl).then(function (response) {
+                $scope.WebsiteList = response;
+              }, function (response) {
+                commonUi.showErrorPopup(response);
+              }));
+              promises.push(crudService.getAll(ngAppSettings.WebSiteTestCatUrl.format($scope.SharedTestData.ReportDataWebsiteId)).then(function (response) {
+                $scope.TestCategoryList = response;
+              }, function (response) {
+              }));
+              promises.push(crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($scope.SharedTestData.ReportDataWebsiteId, $scope.SharedTestData.ReportDataCategoryId)).then(function (response) {
+                $scope.TestList = response;
+              }, function (response) {
               }));
             }
             break;
@@ -254,7 +287,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
               commonUi.showErrorPopup(response);
             }));
 
-            promises.push(crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($scope.SharedTestData.SharedStepWebsiteId, 0)).then(function (response) {
+            promises.push(crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($scope.SharedTestData.ReportDataWebsiteId, 0)).then(function (response) {
               $scope.TestList = response;
             }, function (response) {
               //commonUi.showErrorPopup(response);
@@ -409,6 +442,13 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
           crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
             $scope.PagesList = response;
             $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
+          }, function (response) {
+            commonUi.showErrorPopup(response);
+          });
+        }
+        else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId) {
+          crudService.getAll(ngAppSettings.WebSiteUrl).then(function (response) {
+            $scope.WebsiteList = response;
           }, function (response) {
             commonUi.showErrorPopup(response);
           });

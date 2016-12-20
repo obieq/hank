@@ -12,7 +12,7 @@
 namespace Elephant.Hank.Resources.Dto
 {
     using System.ComponentModel.DataAnnotations;
-    using Elephant.Hank.Resources.Dto.CustomIdentity;    
+    using Elephant.Hank.Resources.Dto.CustomIdentity;
 
     /// <summary>
     /// The TblSharedTestDataDto class
@@ -84,7 +84,7 @@ namespace Elephant.Hank.Resources.Dto
         /// <summary>
         /// Gets or sets the action.
         /// </summary>
-        public string LocatorIdentifierValue { get; set; }       
+        public string LocatorIdentifierValue { get; set; }
 
         /// <summary>
         /// Gets or sets the variable name
@@ -129,5 +129,29 @@ namespace Elephant.Hank.Resources.Dto
         /// The name of the modified by user.
         /// </value>
         public string ModifiedByUserName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the report data website identifier.
+        /// </summary>
+        /// <value>
+        /// The report data website identifier.
+        /// </value>
+        public long? ReportDataWebsiteId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the report data website identifier.
+        /// </summary>
+        /// <value>
+        /// The report data website identifier.
+        /// </value>
+        public long? ReportDataCategoryId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the report data test identifier.
+        /// </summary>
+        /// <value>
+        /// The report data test identifier.
+        /// </value>
+        public long? ReportDataTestId { get; set; }
     }
 }

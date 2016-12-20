@@ -25,7 +25,7 @@ app.controller('GroupTabController', ['$scope', '$stateParams', '$state', 'CrudS
       }, function (response) {
         commonUi.showErrorPopup(response);
       });
-    } ;
+    };
 
     $scope.isActive = function (matchIndex, stateName) {
 
