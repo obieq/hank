@@ -11,6 +11,7 @@
 
 namespace Elephant.Hank.Resources.Dto
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -163,6 +164,30 @@ namespace Elephant.Hank.Resources.Dto
         public long? ApiTestDataId { get; set; }
 
         /// <summary>
+        /// Gets or sets the day till past.
+        /// </summary>
+        /// <value>
+        /// The day till past.
+        /// </value>
+        public long? DayTillPast { get; set; }
+
+        /// <summary>
+        /// Gets or sets the day till past by date.
+        /// </summary>
+        /// <value>
+        /// The day till past by date.
+        /// </value>
+        public DateTime? DayTillPastByDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [day till past by date CBX].
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if [day till past by date CBX]; otherwise, <c>false</c>.
+        /// </value>
+        public bool? DayTillPastByDateCbx { get; set; }
+
+        /// <summary>
         /// Gets or sets the test category identifier.
         /// </summary>
         /// <value>
@@ -225,5 +250,13 @@ namespace Elephant.Hank.Resources.Dto
         /// The name of the modified by user.
         /// </value>
         public string ModifiedByUserName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the load report data report identifier.
+        /// </summary>
+        /// <value>
+        /// The load report data report identifier.
+        /// </value>
+        public long? LoadReportDataReportId { get; set; }
     }
 }

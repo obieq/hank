@@ -157,9 +157,80 @@
                 </div>
               </div>
 
+              <!-- #start Load Report Data  -->
+
+              <div class="form-group" ng-if="SharedTestData.ActionId==ActionConstants.LoadReportDataActionId || SharedTestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId">
+                <label class="col-sm-2 control-label">Website</label>
+                <div class="col-sm-4">
+                  <select class="form-control" ng-model="SharedTestData.ReportDataWebsiteId"
+                          ng-options="website.Id as website.Name for website in WebsiteList | orderBy:'Name'"
+                          ng-change="onWebsiteChange()" name="SharedStepWebsiteId" required="Please select website">
+                    <option style="display:none" value="">--Select--</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group"
+                   ng-if="SharedTestData.ActionId==ActionConstants.LoadReportDataActionId || SharedTestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId && !!SharedTestData.ReportDataWebsiteId">
+                <label class="col-sm-2 control-label">Test Category</label>
+                <div class="col-sm-4">
+                  <select class="form-control" ng-model="SharedTestData.ReportDataCategoryId"
+                          ng-options="testCat.Id as testCat.Name for testCat in TestCategoryList | orderBy:'Name'"
+                          ng-change="onTestCategoryChange()" name="ReportDataCategoryId"
+                          required="Please select test category">
+                    <option style="display:none" value="">--Select--</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group"
+                   ng-if="SharedTestData.ActionId==ActionConstants.LoadReportDataActionId || SharedTestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId && !!SharedTestData.ReportDataWebsiteId && !!SharedTestData.ReportDataCategoryId">
+                <label class="col-sm-2 control-label">Test</label>
+                <div class="col-sm-4">
+                  <select class="form-control" ng-model="SharedTestData.ReportDataTestId"
+                          ng-options="test.Id as test.TestName for test in TestList | orderBy:'TestName'"
+                          name="SharedStepWebsiteTestId" required="Please select test">
+                    <option style="display:none" value="">--Select--</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group"
+                   ng-if="SharedTestData.ActionId==ActionConstants.LoadReportDataActionId || SharedTestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId && !!SharedTestData.ReportDataTestId">
+                <label class="col-sm-2 control-label">Day till past</label>
+
+                <div class="col-sm-4" ng-if="!SharedTestData.DayTillPastByDateCbx">
+                  <input type="number" class="form-control" placeholder="Day till past" name="DayTillPast"
+                         ng-model="SharedTestData.DayTillPast" required>
+                </div>
+
+                <div class="input-group date form_datetime col-sm-4" data-link-field="dtp_input1"
+                     ng-if="SharedTestData.DayTillPastByDateCbx">
+                  <input class="form-control" data-date-format="MM-dd-yyyy" size="16" type="text" value=""
+                         ng-model="SharedTestData.DayTillPastByDate"
+                         readonly
+                         name="DayTillPastByDate" required>
+                  <span class="input-group-addon" onclick="enableDateTimePicker()"><span
+                    class="glyphicon glyphicon-th"></span></span>
+                </div>
+                <input type="hidden" id="dtp_input1" value=""/><br/>
+              </div>
+
+              <div class="form-group"
+                   ng-show="SharedTestData.ActionId==ActionConstants.LoadReportDataActionId || SharedTestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId && !!SharedTestData.ReportDataTestId">
+                <label class="col-sm-2 control-label">Day till past by date?</label>
+
+                <div class="col-sm-4">
+                  <input type="checkbox" ng-click="onDayTillPastByDateCbxClick()"
+                         ng-model="SharedTestData.DayTillPastByDateCbx">
+                </div>
+              </div>
+
+
+              <!-- #end  Load Report Data  -->
+
               <div class="form-group" ng-if="InputControlDisplayStatus.ddlPageNonValidation">
                 <label class="col-sm-2 control-label">Page</label>
-
                 <div class="col-sm-4">
                   <select class="form-control" ng-model="SharedTestData.PageId"
                           ng-options="page.Id as page.Value for page in PagesList | orderBy:'Value'"
@@ -429,3 +500,20 @@
     </div>
   </div>
 </section>
+
+<script type="text/javascript">
+  enableDateTimePicker = function () {
+    $('.form_datetime').datetimepicker({
+      endDate: '+0d',
+      format: 'mm-dd-yyyy',
+      weekStart: 1,
+      todayBtn: 1,
+      autoclose: 1,
+      todayHighlight: 1,
+      startView: 2,
+      minView: 2,
+      forceParse: 0
+    });
+
+  }
+</script>

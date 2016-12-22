@@ -274,5 +274,19 @@ namespace Elephant.Hank.Resources.Json
                 return ConfigurationManager.AppSettings["LoadReportDataActionId"].ToInt64();
             }
         }
+
+        /// <summary>
+        /// Gets the mark load data from report.
+        /// </summary>
+        /// <value>
+        /// The mark load data from report.
+        /// </value>
+        public long MarkLoadDataFromReportActionId
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["MarkLoadDataFromReportActionId"].ToInt64();
+            }
+        }
     }
 }

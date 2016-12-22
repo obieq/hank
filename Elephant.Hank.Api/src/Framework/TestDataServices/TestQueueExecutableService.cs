@@ -95,6 +95,11 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly IRepository<TblTestData> table;
 
         /// <summary>
+        /// The report data service
+        /// </summary>
+        private readonly IReportDataService reportDataService;
+
+        /// <summary>
         /// The automatic gen array
         /// </summary>
         private List<AutoGenModel> autoGenArray;
@@ -124,6 +129,7 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <param name="apiConncetionService">The API conncetion service.</param>
         /// <param name="schedulerHistoryService">The scheduler history service.</param>
         /// <param name="environmentService">The environment service.</param>
+        /// <param name="reportDataService">The report data service.</param>
         public TestQueueExecutableService(
             IRepository<TblTestData> table,
             ISuiteService suiteService,
@@ -136,7 +142,8 @@ namespace Elephant.Hank.Framework.TestDataServices
             ISharedTestDataService sharedTestDataService,
             IApiConnectionService apiConncetionService,
             ISchedulerHistoryService schedulerHistoryService,
-            IEnvironmentService environmentService)
+            IEnvironmentService environmentService,
+            IReportDataService reportDataService)
         {
             this.table = table;
             this.suiteService = suiteService;
@@ -150,6 +157,7 @@ namespace Elephant.Hank.Framework.TestDataServices
             this.apiConncetionService = apiConncetionService;
             this.schedulerHistoryService = schedulerHistoryService;
             this.environmentService = environmentService;
+            this.reportDataService = reportDataService;
         }
 
         /// <summary>
@@ -185,6 +193,17 @@ namespace Elephant.Hank.Framework.TestDataServices
                                 if (item.ActionId.Value != ActionConstants.Instance.TerminateTestActionId)
                                 {
                                     item.ExecutionSequence = this.ExecutionSequence++;
+                                    if (item.ActionId.Value == ActionConstants.Instance.LoadReportDataActionId)
+                                    {
+                                        item.ExecutionSequence = this.ExecutionSequence++;
+                                        ResultMessage<IEnumerable<ReportLinkData>> reportData = this.reportDataService.GetReportLinkData(item.DayTillPastByDateCbx == null ? false : item.DayTillPastByDateCbx.Value, item.DayTillPast == null ? 1 : item.DayTillPast.Value, item.SharedStepWebsiteTestId.Value, item.DayTillPastByDate == null ? DateTime.Now : item.DayTillPastByDate.Value);
+                                        if (!reportData.IsError)
+                                        {
+                                            item.Value = reportData.Item.FirstOrDefault().Value;
+                                            item.LoadReportDataReportId = reportData.Item.FirstOrDefault().ReportId;
+                                        }
+                                    }
+
                                     this.testPlan.Add(item);
                                 }
                                 else
@@ -274,6 +293,16 @@ namespace Elephant.Hank.Framework.TestDataServices
                                         }
 
                                         sharedStep.IsIgnored = lnkSharedTestStep.IsIgnored ?? false;
+                                    }
+
+                                    if (sharedStep.ActionId == ActionConstants.Instance.LoadReportDataActionId && !sharedStep.IsIgnored)
+                                    {
+                                        ResultMessage<IEnumerable<ReportLinkData>> reportData = this.reportDataService.GetReportLinkData(sharedStep.DayTillPastByDateCbx == null ? false : sharedStep.DayTillPastByDateCbx.Value, sharedStep.DayTillPast == null ? 1 : sharedStep.DayTillPast.Value, sharedStep.ReportDataTestId.Value, sharedStep.DayTillPastByDate == null ? DateTime.Now : item.DayTillPastByDate.Value);
+                                        if (!reportData.IsError)
+                                        {
+                                            sharedStep.Value = reportData.Item.FirstOrDefault().Value;
+                                            sharedStep.LoadReportDataReportId = reportData.Item.FirstOrDefault().ReportId;
+                                        }
                                     }
 
                                     if (sharedStep.ActionId == ActionConstants.Instance.TerminateTestActionId && !sharedStep.IsIgnored)

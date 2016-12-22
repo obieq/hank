@@ -41,6 +41,7 @@ var ActionConstant = function () {
   this.ReadControlText = 'Read Control Text';
   this.SwitchToFrame = 'Switch To Frame';
   this.SwitchToDefaultContent='Switch To Default Content';
+  //this.SwitchToDefaultContent='Switch To Default Content';
 };
 
 module.exports = ActionConstant;

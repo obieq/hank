@@ -28,7 +28,7 @@
           <div class="box-body">
 
             <div class="form-group">
-              <label class="col-sm-2 control-label">Execution Sequence</label>
+              <label class="col-sm-2 control-label">Execution Sequence </label>
 
               <div class="col-sm-4">
                 <input type="number" class="form-control" ng-model="TestData.ExecutionSequence" name="ExecutionSequence"
@@ -77,7 +77,7 @@
 
               <!-- #start Load Report Data  -->
 
-              <div class="form-group" ng-if="TestData.ActionId==ActionConstants.LoadReportDataActionId">
+              <div class="form-group" ng-if="TestData.ActionId==ActionConstants.LoadReportDataActionId || TestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId">
                 <label class="col-sm-2 control-label">Website</label>
 
                 <div class="col-sm-4">
@@ -90,7 +90,7 @@
               </div>
 
               <div class="form-group"
-                   ng-if="TestData.ActionId==ActionConstants.LoadReportDataActionId && !!TestData.SharedStepWebsiteId">
+                   ng-if="(TestData.ActionId==ActionConstants.LoadReportDataActionId || TestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId) && !!TestData.SharedStepWebsiteId">
                 <label class="col-sm-2 control-label">Test Category</label>
 
                 <div class="col-sm-4">
@@ -104,7 +104,7 @@
               </div>
 
               <div class="form-group"
-                   ng-if="TestData.ActionId==ActionConstants.LoadReportDataActionId && !!TestData.SharedStepWebsiteId && !!TestData.SharedStepWebsiteTestCategoryId">
+                   ng-if="(TestData.ActionId==ActionConstants.LoadReportDataActionId || TestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId) && !!TestData.SharedStepWebsiteId && !!TestData.SharedStepWebsiteTestCategoryId">
                 <label class="col-sm-2 control-label">Test</label>
 
                 <div class="col-sm-4">
@@ -115,6 +115,38 @@
                   </select>
                 </div>
               </div>
+
+              <div class="form-group"
+                   ng-if="(TestData.ActionId==ActionConstants.LoadReportDataActionId || TestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId) && !!TestData.SharedStepWebsiteTestId">
+                <label class="col-sm-2 control-label">Day till past</label>
+
+                <div class="col-sm-4" ng-if="!TestData.DayTillPastByDateCbx">
+                  <input type="number" class="form-control" placeholder="Day till past" name="DayTillPast"
+                         ng-model="TestData.DayTillPast">
+                </div>
+
+                <div class="input-group date form_datetime col-sm-4" data-link-field="dtp_input1"
+                     ng-if="TestData.DayTillPastByDateCbx">
+                  <input class="form-control" data-date-format="MM-dd-yyyy" size="16" type="text" value=""
+                         ng-model="TestData.DayTillPastByDate"
+                         readonly
+                         name="DayTillPastByDate" required>
+                  <span class="input-group-addon" onclick="enableDateTimePicker()"><span
+                    class="glyphicon glyphicon-th"></span></span>
+                </div>
+                <input type="hidden" id="dtp_input1" value=""/><br/>
+              </div>
+
+              <div class="form-group"
+                   ng-show="(TestData.ActionId==ActionConstants.LoadReportDataActionId || TestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId) && !!TestData.SharedStepWebsiteTestId">
+                <label class="col-sm-2 control-label">Day till past by date?</label>
+
+                <div class="col-sm-4">
+                  <input type="checkbox" ng-click="onDayTillPastByDateCbxClick()"
+                         ng-model="TestData.DayTillPastByDateCbx">
+                </div>
+              </div>
+
 
               <!-- #end  Load Report Data  -->
 
@@ -508,20 +540,31 @@
                             name="Description" placeholder="Description"></textarea>
                 </div>
               </div>
-
-
               <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                   <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
               </div>
-
             </section>
-
-
           </div>
         </form>
       </div>
     </div>
   </div>
 </section>
+
+<script type="text/javascript">
+  enableDateTimePicker = function () {
+    $('.form_datetime').datetimepicker({
+      endDate: '+0d',
+      format: 'mm-dd-yyyy',
+      weekStart: 1,
+      todayBtn: 1,
+      autoclose: 1,
+      todayHighlight: 1,
+      startView: 2,
+      minView: 2,
+      forceParse: 0
+    });
+  }
+</script>

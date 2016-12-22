@@ -189,6 +189,7 @@ namespace Elephant.Hank.Framework.Mapper
             AutoMapper.Mapper.CreateMap<TblSharedTestDataDto, TblTestDataDto>()
                 .ForMember(x => x.LinkTestType, opt => opt.MapFrom(src => src.StepType < 0 ? 0 : src.StepType))
                 .ForMember(x => x.SharedTestDataId, opt => opt.MapFrom(src => src.Id < 0 ? 0 : src.Id))
+                .ForMember(x => x.SharedStepWebsiteTestId, opt => opt.MapFrom(src => src.ReportDataTestId < 0 ? 0 : src.ReportDataTestId))
                 .ReverseMap();
 
             AutoMapper.Mapper.CreateMap<TblEnvironmentDto, TblEnvironment>().ReverseMap();

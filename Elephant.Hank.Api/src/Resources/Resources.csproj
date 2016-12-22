@@ -152,6 +152,7 @@
     <Compile Include="Models\NameValuePair.cs" />
     <Compile Include="Models\PieChart.cs" />
     <Compile Include="Models\ProtractorVariableModel.cs" />
+    <Compile Include="Models\ReportLinkData.cs" />
     <Compile Include="Models\ResetPasswordModel.cs" />
     <Compile Include="Models\TicketsData.cs" />
     <Compile Include="Models\SearchCriteriaData.cs" />

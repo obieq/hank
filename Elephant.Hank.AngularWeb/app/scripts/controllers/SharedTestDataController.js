@@ -4,8 +4,8 @@
 
 'use strict';
 
-app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$state', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider', '$route',
-  function ($scope, $q, $stateParams, $state, crudService, ngAppSettings, commonUi, dataProvider, $route) {
+app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$state', '$filter', 'CrudService', 'ngAppSettings', 'CommonUiService', 'CommonDataProvider', '$route',
+  function ($scope, $q, $stateParams, $state, $filter, crudService, ngAppSettings, commonUi, dataProvider, $route) {
 
     $scope.Authentication = {CanWrite: false, CanDelete: false, CanExecute: false};
     dataProvider.setAuthenticationParameters($scope, $stateParams.WebsiteId, ngAppSettings.ModuleType.SharedTestCases);
@@ -122,6 +122,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
     };
 
     $scope.addSharedTestData = function () {
+      $scope.SharedTestData.DayTillPastByDateCbx = !!$scope.SharedTestData.DayTillPastByDateCbx;
       crudService.add(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.WebsiteId, $stateParams.SharedTestId), $scope.SharedTestData).then(function (response) {
         $state.go("Website.SharedTestData", {
           WebsiteId: $scope.stateParamWebsiteId,
@@ -141,7 +142,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
           case 0:
           {
             $scope.InputControlDisplayStatus.ddlAction = true;
-            if ($scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId) {
+            if ($scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.MarkLoadDataFromReportActionId) {
               $scope.InputControlDisplayStatus.txtValue = true;
             }
             else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.TerminateTestActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchToDefaultContentActionId) {
@@ -198,9 +199,10 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
     };
 
     $scope.onWebsiteChange = function () {
-      if ($scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId) {
+      if ($scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.MarkLoadDataFromReportActionId) {
         crudService.getAll(ngAppSettings.WebSiteTestCatUrl.format($scope.SharedTestData.ReportDataWebsiteId)).then(function (response) {
           $scope.TestCategoryList = response;
+          $scope.TestCategoryList.splice(0, 0, {"Id": "0", "Name": "--View All--"});
         }, function (response) {
         });
       }
@@ -234,13 +236,15 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
       }));
       promises.push(crudService.getById(ngAppSettings.SharedTestDataAllBySharedTestIdUrl.format($stateParams.WebsiteId, $stateParams.SharedTestId), $stateParams.TestDataId).then(function (response) {
         $scope.SharedTestData = response.Item;
+        $scope.SharedTestData.DayTillPastByDate = !!$scope.SharedTestData.DayTillPastByDate ? $scope.SharedTestData.DayTillPastByDate.dateFormat($filter) : '';
         switch ($scope.SharedTestData.StepType) {
           case 0:
           {
             if ($scope.SharedTestData.ActionId != $scope.ActionConstants.DeclareVariableActionId &&
               $scope.SharedTestData.ActionId != $scope.ActionConstants.TakeScreenShotActionId &&
               $scope.SharedTestData.ActionId != $scope.ActionConstants.SetVariableManuallyActionId &&
-              $scope.SharedTestData.ActionId != $scope.ActionConstants.LoadReportDataActionId) {
+              $scope.SharedTestData.ActionId != $scope.ActionConstants.LoadReportDataActionId &&
+              $scope.SharedTestData.ActionId != $scope.ActionConstants.MarkLoadDataFromReportActionId) {
               promises.push(crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
                 $scope.PagesList = response;
               }, function (response) {
@@ -253,7 +257,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
                 commonUi.showErrorPopup(response);
               }));
             }
-            else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId) {
+            else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.MarkLoadDataFromReportActionId) {
               promises.push(crudService.getAll(ngAppSettings.WebSiteUrl).then(function (response) {
                 $scope.WebsiteList = response;
               }, function (response) {
@@ -446,7 +450,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
             commonUi.showErrorPopup(response);
           });
         }
-        else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId) {
+        else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.MarkLoadDataFromReportActionId) {
           crudService.getAll(ngAppSettings.WebSiteUrl).then(function (response) {
             $scope.WebsiteList = response;
           }, function (response) {
@@ -539,6 +543,24 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
         $scope.SharedTestData.ApiTestData.IgnoreHeaders.push({});
       }
     };
+
+    $scope.onDayTillPastByDateCbxClick = function () {
+
+      $('.form_datetime').datetimepicker({
+        endDate: '+0d',
+        format: 'mm-dd-yyyy',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+      });
+
+
+    };
+
 
   }
 ])

@@ -11,6 +11,7 @@
 
 namespace Elephant.Hank.DataService.DBSchema
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -128,6 +129,30 @@ namespace Elephant.Hank.DataService.DBSchema
         /// The API test data identifier.
         /// </value>
         public long? ApiTestDataId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the day till past.
+        /// </summary>
+        /// <value>
+        /// The day till past.
+        /// </value>
+        public long? DayTillPast { get; set; }
+
+        /// <summary>
+        /// Gets or sets the day till past by date.
+        /// </summary>
+        /// <value>
+        /// The day till past by date.
+        /// </value>
+        public DateTime? DayTillPastByDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether [day till past by date CBX].
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if [day till past by date CBX]; otherwise, <c>false</c>.
+        /// </value>
+        public bool? DayTillPastByDateCbx { get; set; }
 
         /// <summary>
         /// Gets or sets the API test data.
