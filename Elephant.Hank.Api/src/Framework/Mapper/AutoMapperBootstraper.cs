@@ -232,6 +232,9 @@ namespace Elephant.Hank.Framework.Mapper
 
             AutoMapper.Mapper.CreateMap<TblRequestTypes, TblRequestTypesDto>()
                .ReverseMap();
+
+            AutoMapper.Mapper.CreateMap<TblReportLinkData, TblReportLinkDataDto>()
+              .ReverseMap();
         }
     }
 }

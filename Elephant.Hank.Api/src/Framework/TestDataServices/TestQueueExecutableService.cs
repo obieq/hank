@@ -97,7 +97,7 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <summary>
         /// The report data service
         /// </summary>
-        private readonly IReportDataService reportDataService;
+        private readonly IReportLinkDataService reportLinkDataService;
 
         /// <summary>
         /// The automatic gen array
@@ -129,7 +129,7 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <param name="apiConncetionService">The API conncetion service.</param>
         /// <param name="schedulerHistoryService">The scheduler history service.</param>
         /// <param name="environmentService">The environment service.</param>
-        /// <param name="reportDataService">The report data service.</param>
+        /// <param name="reportLinkDataService">The report data service.</param>
         public TestQueueExecutableService(
             IRepository<TblTestData> table,
             ISuiteService suiteService,
@@ -143,7 +143,7 @@ namespace Elephant.Hank.Framework.TestDataServices
             IApiConnectionService apiConncetionService,
             ISchedulerHistoryService schedulerHistoryService,
             IEnvironmentService environmentService,
-            IReportDataService reportDataService)
+            IReportLinkDataService reportLinkDataService)
         {
             this.table = table;
             this.suiteService = suiteService;
@@ -157,7 +157,7 @@ namespace Elephant.Hank.Framework.TestDataServices
             this.apiConncetionService = apiConncetionService;
             this.schedulerHistoryService = schedulerHistoryService;
             this.environmentService = environmentService;
-            this.reportDataService = reportDataService;
+            this.reportLinkDataService = reportLinkDataService;
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace Elephant.Hank.Framework.TestDataServices
                                     if (item.ActionId.Value == ActionConstants.Instance.LoadReportDataActionId)
                                     {
                                         item.ExecutionSequence = this.ExecutionSequence++;
-                                        ResultMessage<IEnumerable<ReportLinkData>> reportData = this.reportDataService.GetReportLinkData(item.DayTillPastByDateCbx == null ? false : item.DayTillPastByDateCbx.Value, item.DayTillPast == null ? 1 : item.DayTillPast.Value, item.SharedStepWebsiteTestId.Value, item.DayTillPastByDate == null ? DateTime.Now : item.DayTillPastByDate.Value);
+                                        ResultMessage<IEnumerable<TblReportLinkDataDto>> reportData = this.reportLinkDataService.GetReportLinkData(item.DayTillPastByDateCbx == null ? false : item.DayTillPastByDateCbx.Value, item.DayTillPast == null ? 1 : item.DayTillPast.Value, item.SharedStepWebsiteTestId.Value, item.DayTillPastByDate == null ? DateTime.Now : item.DayTillPastByDate.Value);
                                         if (!reportData.IsError)
                                         {
                                             item.Value = reportData.Item.FirstOrDefault().Value;
@@ -297,7 +297,7 @@ namespace Elephant.Hank.Framework.TestDataServices
 
                                     if (sharedStep.ActionId == ActionConstants.Instance.LoadReportDataActionId && !sharedStep.IsIgnored)
                                     {
-                                        ResultMessage<IEnumerable<ReportLinkData>> reportData = this.reportDataService.GetReportLinkData(sharedStep.DayTillPastByDateCbx == null ? false : sharedStep.DayTillPastByDateCbx.Value, sharedStep.DayTillPast == null ? 1 : sharedStep.DayTillPast.Value, sharedStep.ReportDataTestId.Value, sharedStep.DayTillPastByDate == null ? DateTime.Now : item.DayTillPastByDate.Value);
+                                        ResultMessage<IEnumerable<TblReportLinkDataDto>> reportData = this.reportLinkDataService.GetReportLinkData(sharedStep.DayTillPastByDateCbx == null ? false : sharedStep.DayTillPastByDateCbx.Value, sharedStep.DayTillPast == null ? 1 : sharedStep.DayTillPast.Value, sharedStep.ReportDataTestId.Value, sharedStep.DayTillPastByDate == null ? DateTime.Now : item.DayTillPastByDate.Value);
                                         if (!reportData.IsError)
                                         {
                                             sharedStep.Value = reportData.Item.FirstOrDefault().Value;

@@ -95,18 +95,6 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <returns>
         /// returns pie chart specific data
         /// </returns>
-        ResultMessage<IEnumerable<PieChart>> GetPieChartData(long websiteId, DateTime startDate, DateTime endDate, int status);
-
-        /// <summary>
-        /// Gets the report link data.
-        /// </summary>
-        /// <param name="dayTillPastByDateCbx">if set to <c>true</c> [day till past by date CBX].</param>
-        /// <param name="dayTillPast">The day till past.</param>
-        /// <param name="testId">The test identifier.</param>
-        /// <param name="dayTillPastDate">The day till past date.</param>
-        /// <returns>
-        /// Unused report data
-        /// </returns>
-        ResultMessage<IEnumerable<ReportLinkData>> GetReportLinkData(bool dayTillPastByDateCbx, long dayTillPast, long testId, DateTime dayTillPastDate);
+        ResultMessage<IEnumerable<PieChart>> GetPieChartData(long websiteId, DateTime startDate, DateTime endDate, int status);       
     }
 }

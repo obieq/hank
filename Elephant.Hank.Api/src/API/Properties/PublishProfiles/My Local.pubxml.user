@@ -52,10 +52,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/14/2016 12:06:19</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>12/12/2016 19:07:55</publishTime>
+      <publishTime>12/12/2016 19:38:34</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>12/12/2016 19:07:55</publishTime>
+      <publishTime>12/12/2016 19:38:34</publishTime>
     </File>
     <File Include="bin/AutoMapper.dll">
       <publishTime>01/14/2016 12:06:18</publishTime>
@@ -64,10 +64,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/14/2016 12:06:17</publishTime>
     </File>
     <File Include="bin/Elephant.Hank.Api.dll">
-      <publishTime>12/05/2016 16:57:11</publishTime>
+      <publishTime>12/12/2016 19:26:28</publishTime>
     </File>
     <File Include="bin/Elephant.Hank.Api.XML">
-      <publishTime>12/05/2016 16:57:11</publishTime>
+      <publishTime>12/12/2016 19:26:28</publishTime>
     </File>
     <File Include="bin/Elephant.Hank.Common.dll">
       <publishTime>09/26/2016 19:54:24</publishTime>
@@ -80,24 +80,6 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="bin/Elephant.Hank.Resources.dll">
       <publishTime>09/26/2016 19:54:22</publishTime>
-    </File>
-    <File Include="bin/Elephant.Protractor.Testing.Api.dll">
-      <publishTime>11/24/2015 12:35:11</publishTime>
-    </File>
-    <File Include="bin/Elephant.Protractor.Testing.Api.XML">
-      <publishTime>11/24/2015 12:35:11</publishTime>
-    </File>
-    <File Include="bin/Elephant.Protractor.Testing.Common.dll">
-      <publishTime>11/24/2015 12:35:07</publishTime>
-    </File>
-    <File Include="bin/Elephant.Protractor.Testing.DataService.dll">
-      <publishTime>11/24/2015 12:35:08</publishTime>
-    </File>
-    <File Include="bin/Elephant.Protractor.Testing.Framework.dll">
-      <publishTime>11/24/2015 12:35:09</publishTime>
-    </File>
-    <File Include="bin/Elephant.Protractor.Testing.Resources.dll">
-      <publishTime>11/24/2015 12:35:06</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>01/14/2016 12:06:15</publishTime>
@@ -252,9 +234,6 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="fonts/glyphicons-halflings-regular.woff">
       <publishTime>01/06/2016 12:14:45</publishTime>
     </File>
-    <File Include="Global.asax">
-      <publishTime>01/06/2016 12:14:45</publishTime>
-    </File>
     <File Include="Images/Lost Image.jpg">
       <publishTime>06/17/2016 19:56:05</publishTime>
     </File>
@@ -262,7 +241,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/05/2016 17:52:47</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>12/12/2016 19:07:41</publishTime>
+      <publishTime>12/12/2016 19:38:30</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>01/06/2016 12:14:45</publishTime>
@@ -295,7 +274,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/06/2016 12:14:45</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/12/2016 19:07:37</publishTime>
+      <publishTime>12/12/2016 19:26:28</publishTime>
     </File>
   </ItemGroup>
 </Project>

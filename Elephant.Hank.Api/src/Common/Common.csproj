@@ -69,6 +69,7 @@
     <Compile Include="CustomValidationService\IValidationService.cs" />
     <Compile Include="Services\IApiClient.cs" />
     <Compile Include="Services\ICacheProvider.cs" />
+    <Compile Include="TestDataServices\IReportLinkDataService.cs" />
     <Compile Include="TestDataServices\ITicketCommentService.cs" />
     <Compile Include="TestDataServices\ITicketHistoryService.cs" />
     <Compile Include="TestDataServices\ITicketManagerService.cs" />

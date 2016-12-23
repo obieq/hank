@@ -258,6 +258,62 @@
             Newly added object
             </returns>
         </member>
+        <member name="T:Elephant.Hank.Api.Controllers.ReportLinkDataController">
+            <summary>
+            the ReportLinkDataController class
+            </summary>
+        </member>
+        <member name="F:Elephant.Hank.Api.Controllers.ReportLinkDataController.reportLinkDataService">
+            <summary>
+            The report data service
+            </summary>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ReportLinkDataController.#ctor(Elephant.Hank.Common.LogService.ILoggerService,Elephant.Hank.Common.TestDataServices.IReportLinkDataService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Elephant.Hank.Api.Controllers.ReportLinkDataController"/> class.
+            </summary>
+            <param name="loggerService">The logger service.</param>
+            <param name="reportLinkDataService">The report link data service.</param>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ReportLinkDataController.GetAll">
+            <summary>
+            Gets all.
+            </summary>
+            <returns>List of TblReportLinkDataDto objects</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ReportLinkDataController.GetById(System.Int64)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="reportLinkId">The identifier.</param>
+            <returns>TblReportLinkDataDto objects</returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ReportLinkDataController.Add(Elephant.Hank.Resources.Dto.TblReportLinkDataDto)">
+            <summary>
+            Gets the by identifier.
+            </summary>
+            <param name="reportLinkDatadto">The report link dto.</param>
+            <returns>
+            Newly added object
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ReportLinkDataController.Update(Elephant.Hank.Resources.Dto.TblReportLinkDataDto,System.Int64)">
+            <summary>
+            Updates the specified environment dto.
+            </summary>
+            <param name="reportLinkDatadto">The report link dto.</param>
+            <param name="reportLinkId">The identifier.</param>
+            <returns>
+            Newly updated object
+            </returns>
+        </member>
+        <member name="M:Elephant.Hank.Api.Controllers.ReportLinkDataController.AddUpdate(Elephant.Hank.Resources.Dto.TblReportLinkDataDto)">
+            <summary>
+            Adds the update.
+            </summary>
+            <param name="reportLinkDatadto">The report link  dto.</param>
+            <returns>Newly added object</returns>
+        </member>
         <member name="T:Elephant.Hank.Api.Controllers.RequestTypesController">
             <summary>
             The RequestTypesController classs

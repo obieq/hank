@@ -414,33 +414,5 @@ namespace Elephant.Hank.Framework.TestDataServices
 
             return result;
         }
-
-        /// <summary>
-        /// Gets the report link data.
-        /// </summary>
-        /// <param name="dayTillPastByDateCbx">if set to <c>true</c> [day till past by date CBX].</param>
-        /// <param name="dayTillPast">The day till past.</param>
-        /// <param name="testId">The test identifier.</param>
-        /// <param name="dayTillPastDate">The day till past date.</param>
-        /// <returns>
-        /// Unused report data
-        /// </returns>
-        public ResultMessage<IEnumerable<ReportLinkData>> GetReportLinkData(bool dayTillPastByDateCbx, long dayTillPast, long testId, DateTime dayTillPastDate)
-        {
-            var result = new ResultMessage<IEnumerable<ReportLinkData>>();
-            dayTillPastDate = dayTillPastByDateCbx ? dayTillPastDate.Date : DateTime.Now.Subtract(TimeSpan.FromDays(dayTillPast)).Date;
-            Dictionary<string, object> dictionary = new Dictionary<string, object> { { "DayTillPastDate", dayTillPastDate }, { "TestId", testId } };
-            var entities = this.Table.SqlQuery<ReportLinkData>("Select * from procgetreportlinkdata(@DayTillPastDate,@TestId);", dictionary).ToList();
-            if (!entities.Any())
-            {
-                result.Messages.Add(new Message(null, "Record not found!"));
-            }
-            else
-            {
-                result.Item = entities;
-            }
-
-            return result;
-        }
     }
 }

@@ -215,6 +215,7 @@
     <Folder Include="Views\GroupUser\" />
     <Folder Include="Views\HashTagDescription\" />
     <Folder Include="Views\Profile\" />
+    <Folder Include="Views\ReportLinkData\" />
     <Folder Include="Views\RequestTypes\" />
     <Folder Include="Views\SchedulerSuite\" />
     <Folder Include="Views\Scheduler\" />
@@ -228,6 +229,7 @@
     <Compile Include="Controllers\HashTagDescriptionController.cs" />
     <Compile Include="Controllers\ApiTestModule\ApiCategoriesController.cs" />
     <Compile Include="Controllers\ApiTestModule\ApiConnectionController.cs" />
+    <Compile Include="Controllers\ReportLinkDataController.cs" />
     <Compile Include="Controllers\RequestTypesController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Security\CustomAuthorizeAttribute.cs" />
@@ -365,6 +367,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Properties\PublishProfiles\My Local.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
