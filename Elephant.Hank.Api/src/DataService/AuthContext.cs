@@ -225,7 +225,15 @@ namespace Elephant.Hank.DataService
         /// <summary>
         /// Gets or sets the TicketComment
         /// </summary>
+        /// <value>
+        /// The table ticket comment.
+        /// </value>
         public DbSet<TblTicketComment> TblTicketComment { get; set; }
+
+        /// <summary>
+        /// Gets or sets the TicketComment
+        /// </summary>
+        public DbSet<TblReportExecutionLinkData> TblReportExecutionLinkData { get; set; }
 
         /// <summary>
         /// override save changes
@@ -391,6 +399,7 @@ namespace Elephant.Hank.DataService
             modelBuilder.Entity<TblTicketMaster>().ToTable("TblTicketMaster", DefaultSchema);
             modelBuilder.Entity<TblTicketHistory>().ToTable("TblTicketHistory", DefaultSchema);
             modelBuilder.Entity<TblTicketComment>().ToTable("TblTicketComment", DefaultSchema);
+            modelBuilder.Entity<TblReportExecutionLinkData>().ToTable("TblReportExecutionLinkData", DefaultSchema);
         }
 
         /// <summary>

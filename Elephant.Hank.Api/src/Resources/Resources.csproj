@@ -88,7 +88,7 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Dto\RollDataDto.cs" />
-    <Compile Include="Dto\TblReportLinkDataDto.cs" />
+    <Compile Include="Dto\TblReportExecutionLinkDataDto.cs" />
     <Compile Include="Dto\TblTicketHistoryDto.cs" />
     <Compile Include="Dto\TblTicketCommentDto.cs" />
     <Compile Include="Dto\TblTicketMasterDto.cs" />

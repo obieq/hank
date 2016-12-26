@@ -21,7 +21,7 @@ namespace Elephant.Hank.Common.TestDataServices
     /// <summary>
     /// the IReportLinkDataService
     /// </summary>
-    public interface IReportLinkDataService : IBaseService<TblReportLinkDataDto>
+    public interface IReportLinkDataService : IBaseService<TblReportExecutionLinkDataDto>
     {
         /// <summary>
         /// Gets the report link data.
@@ -33,6 +33,14 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <returns>
         /// Unused report data
         /// </returns>
-        ResultMessage<IEnumerable<TblReportLinkDataDto>> GetReportLinkData(bool dayTillPastByDateCbx, long dayTillPast, long testId, DateTime dayTillPastDate);
+        ResultMessage<IEnumerable<TblReportExecutionLinkDataDto>> GetReportLinkData(bool dayTillPastByDateCbx, long dayTillPast, long testId, DateTime dayTillPastDate);
+
+        /// <summary>
+        /// Adds the specified report link data dto.
+        /// </summary>
+        /// <param name="reportLinkDataDto">The report link data dto.</param>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>Added object</returns>
+        ResultMessage<TblReportExecutionLinkDataDto> Add(TblReportExecutionLinkDataDto reportLinkDataDto, long userId);
     }
 }

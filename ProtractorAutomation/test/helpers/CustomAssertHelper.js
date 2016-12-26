@@ -29,7 +29,7 @@ var CustomAssertHelper = function () {
     var varName1 = var1.split('[')[0];
     var varName2 = var2.split('[')[0];
     console.log("var1= " + var1 + " var2= " + var2);
-    console.log("varName1= " + varName1 + " varName2" + varName2);
+    console.log("varName1= " + varName1 + " varName2= " + varName2);
     var var1Value = jsonHelper.ExtractVariableValue(varName1);
     var var2Value = jsonHelper.ExtractVariableValue(varName2);
     console.log("var1Value= " + var1Value + " var2Value" + var2Value);

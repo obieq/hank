@@ -196,11 +196,11 @@ namespace Elephant.Hank.Framework.TestDataServices
                                     if (item.ActionId.Value == ActionConstants.Instance.LoadReportDataActionId)
                                     {
                                         item.ExecutionSequence = this.ExecutionSequence++;
-                                        ResultMessage<IEnumerable<TblReportLinkDataDto>> reportData = this.reportLinkDataService.GetReportLinkData(item.DayTillPastByDateCbx == null ? false : item.DayTillPastByDateCbx.Value, item.DayTillPast == null ? 1 : item.DayTillPast.Value, item.SharedStepWebsiteTestId.Value, item.DayTillPastByDate == null ? DateTime.Now : item.DayTillPastByDate.Value);
+                                        ResultMessage<IEnumerable<TblReportExecutionLinkDataDto>> reportData = this.reportLinkDataService.GetReportLinkData(item.DayTillPastByDateCbx == null ? false : item.DayTillPastByDateCbx.Value, item.DayTillPast == null ? 1 : item.DayTillPast.Value, item.SharedStepWebsiteTestId.Value, item.DayTillPastByDate == null ? DateTime.Now : item.DayTillPastByDate.Value);
                                         if (!reportData.IsError)
                                         {
                                             item.Value = reportData.Item.FirstOrDefault().Value;
-                                            item.LoadReportDataReportId = reportData.Item.FirstOrDefault().ReportId;
+                                            item.LoadReportDataReportId = reportData.Item.FirstOrDefault().ReportDataId;
                                         }
                                     }
 
@@ -297,11 +297,11 @@ namespace Elephant.Hank.Framework.TestDataServices
 
                                     if (sharedStep.ActionId == ActionConstants.Instance.LoadReportDataActionId && !sharedStep.IsIgnored)
                                     {
-                                        ResultMessage<IEnumerable<TblReportLinkDataDto>> reportData = this.reportLinkDataService.GetReportLinkData(sharedStep.DayTillPastByDateCbx == null ? false : sharedStep.DayTillPastByDateCbx.Value, sharedStep.DayTillPast == null ? 1 : sharedStep.DayTillPast.Value, sharedStep.ReportDataTestId.Value, sharedStep.DayTillPastByDate == null ? DateTime.Now : item.DayTillPastByDate.Value);
+                                        ResultMessage<IEnumerable<TblReportExecutionLinkDataDto>> reportData = this.reportLinkDataService.GetReportLinkData(sharedStep.DayTillPastByDateCbx == null ? false : sharedStep.DayTillPastByDateCbx.Value, sharedStep.DayTillPast == null ? 1 : sharedStep.DayTillPast.Value, sharedStep.ReportDataTestId.Value, sharedStep.DayTillPastByDate == null ? DateTime.Now : sharedStep.DayTillPastByDate.Value);
                                         if (!reportData.IsError)
                                         {
                                             sharedStep.Value = reportData.Item.FirstOrDefault().Value;
-                                            sharedStep.LoadReportDataReportId = reportData.Item.FirstOrDefault().ReportId;
+                                            sharedStep.LoadReportDataReportId = reportData.Item.FirstOrDefault().ReportDataId;
                                         }
                                     }
 

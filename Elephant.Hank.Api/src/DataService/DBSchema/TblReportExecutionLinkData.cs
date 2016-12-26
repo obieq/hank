@@ -1,36 +1,28 @@
 ﻿// ---------------------------------------------------------------------------------------------------
-// <copyright file="TblReportLinkDataDto.cs" company="Elephant Insurance Services, LLC">
+// <copyright file="TblReportExecutionLinkData.cs" company="Elephant Insurance Services, LLC">
 //     Copyright (c) 2015 All Right Reserved
 // </copyright>
 // <author>Vyom Sharma</author>
 // <date>2016-12-23</date>
 // <summary>
-//     The TblReportLinkDataDto class
+//     The TblReportExecutionLinkData class
 // </summary>
 // ---------------------------------------------------------------------------------------------------
 
-namespace Elephant.Hank.Resources.Dto
+namespace Elephant.Hank.DataService.DBSchema
 {
     /// <summary>
-    /// TblReportLinkDataDto class.
+    /// TblReportExecutionLinkData class
     /// </summary>
-    public class TblReportLinkDataDto : BaseTableDto
-    {
-        /// <summary>
-        /// Gets or sets the value.
-        /// </summary>
-        /// <value>
-        /// The value.
-        /// </value>
-        public string Value { get; set; }
-
+    public class TblReportExecutionLinkData : BaseTable
+    {       
         /// <summary>
         /// Gets or sets the report identifier.
         /// </summary>
         /// <value>
         /// The report identifier.
         /// </value>
-        public long ReportId { get; set; }
+        public long ReportDataId { get; set; }
 
         /// <summary>
         /// Gets or sets the test identifier.

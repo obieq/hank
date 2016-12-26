@@ -10,7 +10,7 @@ var VariableInitializationHelper = function () {
 
     this.setVariables = function (previousTestVariableStateContainer) {
         previousTestVariableStateContainer = this.getUniqueVariable(previousTestVariableStateContainer);
-        browser.params.config.variableStateContainer = config.variableStateContainer.concat(previousTestVariableStateContainer);
+        browser.params.config.variableStateContainer = browser.params.config.variableStateContainer.concat(previousTestVariableStateContainer);
         browser.params.config.variableContainer = this.getUniqueVariable(browser.params.config.variableContainer.concat(previousTestVariableStateContainer));
     };
 

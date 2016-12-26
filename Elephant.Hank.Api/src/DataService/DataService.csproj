@@ -77,7 +77,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DBSchema\TblReportLinkData.cs" />
+    <Compile Include="DBSchema\TblReportExecutionLinkData.cs" />
     <Compile Include="DBSchema\TblTicketHistory.cs" />
     <Compile Include="DBSchema\TblTicketComment.cs" />
     <Compile Include="DBSchema\TblTicketMaster.cs" />

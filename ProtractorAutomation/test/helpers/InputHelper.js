@@ -362,7 +362,9 @@ var InputHelper = function () {
                                 browser.getCurrentUrl().then(function (urle) {
                                     var splitedVar = testInstance.VariableName.split('#');
                                     var assertresult = customAssertHelper.arrayComparisionAssert(splitedVar[2], splitedVar[3], false);
+
                                     if (assertresult) {
+                                        console.log("assertresult= " + assertresult);
                                         expect("both array are equal").toEqual("both array are equal");
                                     }
                                 });
@@ -472,13 +474,13 @@ var InputHelper = function () {
                     }
                     case actionConstant.SetVariableManually:
                     {
-                        browser.controlFlow().execute(function () {
-                        });
                         if (testInstance.Value.indexOf('#') == -1) {
+                            console.log("Inside SetVariableManually case 1st ");
                             this.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, testInstance.Value, testInstance.DisplayName);
 
                         }
                         else {
+                            console.log("Inside SetVariableManually case 2nd ");
                             var response = hashTagHelper.computeHashTags(testInstance.Value).then(function (response) {
                                 thisobj.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, response.toString(), testInstance.DisplayName);
                             });
@@ -703,17 +705,46 @@ var InputHelper = function () {
                     }
                     case actionConstant.LoadReportData:
                     {
-                        var variableStateContainer = JSON.parse(testInstance.Value);
-                        variableInitializationHelper.setVariables(variableStateContainer);
-                        browser.params.config.markReportDataContainer.push({
-                            'ReportId': testInstance.LoadReportDataReportId,
-                            'TestId': testInstance.LoadReportDataTestId
+                        browser.getCurrentUrl().then(function (actualUrl) {
+                            var variableStateContainer = JSON.parse(testInstance.Value);
+                            variableInitializationHelper.setVariables(variableStateContainer);
+                            browser.params.config.markReportDataContainer.push({
+                                'ReportDataId': testInstance.LoadReportDataReportId,
+                                'TestId': testInstance.LoadReportDataTestId,
+                                'Status': false
+                            });
+                            console.log("*** Variable State Container ***");
+                            console.dir(browser.params.config.variableStateContainer);
+                            console.log("*** Variable  Container ***");
+                            console.dir(browser.params.config.variableContainer);
+                            console.log("*** Variable  markReportDataContainer ***");
+                            console.dir(browser.params.config.markReportDataContainer);
                         });
                         break;
                     }
                     case actionConstant.MarkLoadReportData:
                     {
-                        
+                        browser.getCurrentUrl().then(function (actualUrl) {
+                            console.log("*** Inside mark Load action ***");
+                            console.dir(browser.params.config.markReportDataContainer);
+                            for (var i = 0; i < browser.params.config.markReportDataContainer.length; i++) {
+                                console.log("TestId= " + browser.params.config.markReportDataContainer[i].TestId + " and LoadReportDataTestId= " + testInstance.LoadReportDataTestId);
+                                if (browser.params.config.markReportDataContainer[i].TestId == testInstance.LoadReportDataTestId && browser.params.config.markReportDataContainer[i].Status == false) {
+                                    browser.params.config.markReportDataContainer[i].Status = true;
+                                    var RestApiHelper = require('./RestApiHelper.js');
+                                    var restApiHelper = new RestApiHelper();
+                                    restApiHelper.doPost(browser.params.config.baseApiUrl + 'api/website/{websiteId}/report-link-data', {
+                                        'ReportDataId': browser.params.config.markReportDataContainer[i].ReportDataId,
+                                        'TestId': testInstance.LoadReportDataTestId
+                                    }, function (resp) {
+                                        console.log("**** MarkReportData ****");
+                                        console.dir(resp);
+                                    });
+                                    break;
+                                }
+                            }
+                        });
+
                     }
 
                 }
@@ -750,6 +781,7 @@ var InputHelper = function () {
             var flag = false;
             var textVal = ((value == null || typeofText == 'string' ? value : value[0]) + "").replace(/\n/gi, "");
             var variableContainer = browser.params.config.variableContainer;
+            console.log("Inside setVariable textVal= " + textVal);
             for (var k = 0; k < variableContainer.length; k++) {
                 if (variableName == variableContainer[k].Name) {
                     variableContainer[k].Value = textVal;
@@ -766,6 +798,7 @@ var InputHelper = function () {
             }
 
             if (!flag) {
+                console.log("Inside setVariable not flag textVal= " + textVal);
                 browser.params.config.variableContainer.push({
                     Name: variableName,
                     Value: textVal,

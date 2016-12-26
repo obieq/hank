@@ -186,5 +186,13 @@ namespace Elephant.Hank.Resources.Dto
         /// The load report data report identifier.
         /// </value>
         public long LoadReportDataReportId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the load report data report identifier.
+        /// </summary>
+        /// <value>
+        /// The load report data report identifier.
+        /// </value>
+        public long LoadReportDataTestId { get; set; }
     }
 }

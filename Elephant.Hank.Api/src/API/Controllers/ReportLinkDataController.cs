@@ -28,6 +28,7 @@ namespace Elephant.Hank.Api.Controllers
     /// <summary>
     /// the ReportLinkDataController class
     /// </summary>
+   [RoutePrefix("api/website/{websiteId}/report-link-data")]
     public class ReportLinkDataController : BaseApiController
     {
         /// <summary>
@@ -53,7 +54,7 @@ namespace Elephant.Hank.Api.Controllers
         [AllowAnonymous]
         public IHttpActionResult GetAll()
         {
-            var result = new ResultMessage<IEnumerable<TblReportLinkDataDto>>();
+            var result = new ResultMessage<IEnumerable<TblReportExecutionLinkDataDto>>();
             try
             {
                 result = this.reportLinkDataService.GetAll();
@@ -76,7 +77,7 @@ namespace Elephant.Hank.Api.Controllers
         [AllowAnonymous]
         public IHttpActionResult GetById(long reportLinkId)
         {
-            var result = new ResultMessage<TblReportLinkDataDto>();
+            var result = new ResultMessage<TblReportExecutionLinkDataDto>();
             try
             {
                 result = this.reportLinkDataService.GetById(reportLinkId);
@@ -98,8 +99,9 @@ namespace Elephant.Hank.Api.Controllers
         /// Newly added object
         /// </returns>
         [HttpPost]
-        public IHttpActionResult Add([FromBody]TblReportLinkDataDto reportLinkDatadto)
-        {           
+        [Route("")]
+        public IHttpActionResult Add([FromBody]TblReportExecutionLinkDataDto reportLinkDatadto)
+        {          
             return this.AddUpdate(reportLinkDatadto);
         }
 
@@ -113,7 +115,7 @@ namespace Elephant.Hank.Api.Controllers
         /// </returns>
         [Route("{reportLinkId}")]
         [HttpPut]
-        public IHttpActionResult Update([FromBody]TblReportLinkDataDto reportLinkDatadto, long reportLinkId)
+        public IHttpActionResult Update([FromBody]TblReportExecutionLinkDataDto reportLinkDatadto, long reportLinkId)
         {          
             reportLinkDatadto.Id = reportLinkId;
             return this.AddUpdate(reportLinkDatadto);
@@ -124,12 +126,12 @@ namespace Elephant.Hank.Api.Controllers
         /// </summary>
         /// <param name="reportLinkDatadto">The report link  dto.</param>
         /// <returns>Newly added object</returns>
-        private IHttpActionResult AddUpdate(TblReportLinkDataDto reportLinkDatadto)
+        private IHttpActionResult AddUpdate(TblReportExecutionLinkDataDto reportLinkDatadto)
         {
-            var result = new ResultMessage<TblReportLinkDataDto>();
+            var result = new ResultMessage<TblReportExecutionLinkDataDto>();
             try
             {
-                result = this.reportLinkDataService.SaveOrUpdate(reportLinkDatadto, this.UserId);
+                result = this.reportLinkDataService.Add(reportLinkDatadto, this.UserId);
             }
             catch (Exception ex)
             {

@@ -26,7 +26,7 @@ namespace Elephant.Hank.Framework.TestDataServices
     /// <summary>
     /// ReportLinkDataService class
     /// </summary>
-    public class ReportLinkDataService : GlobalService<TblReportLinkDataDto, TblReportLinkData>, IReportLinkDataService
+    public class ReportLinkDataService : GlobalService<TblReportExecutionLinkDataDto, TblReportExecutionLinkData>, IReportLinkDataService
     {
         /// <summary>
         /// The mapper factory
@@ -40,7 +40,7 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <param name="table">The table.</param>
         public ReportLinkDataService(
             IMapperFactory mapperFactory,
-            IRepository<TblReportLinkData> table)
+            IRepository<TblReportExecutionLinkData> table)
             : base(mapperFactory, table)
         {
             this.mapperFactory = mapperFactory;
@@ -52,13 +52,17 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <param name="reportLinkDataDto">The report link data dto.</param>
         /// <param name="userId">The user identifier.</param>
         /// <returns>added object</returns>
-        public ResultMessage<TblReportLinkDataDto> Add(TblReportLinkDataDto reportLinkDataDto, long userId)
+        public ResultMessage<TblReportExecutionLinkDataDto> Add(TblReportExecutionLinkDataDto reportLinkDataDto, long userId)
         {
-            ResultMessage<TblReportLinkDataDto> result = new ResultMessage<TblReportLinkDataDto>();
-            result.Item = this.mapperFactory.GetMapper<TblReportLinkData, TblReportLinkDataDto>().Map(this.Table.First(x => x.ReportId == reportLinkDataDto.ReportId && x.TestId == reportLinkDataDto.TestId));
+            ResultMessage<TblReportExecutionLinkDataDto> result = new ResultMessage<TblReportExecutionLinkDataDto>();
+            result.Item = this.mapperFactory.GetMapper<TblReportExecutionLinkData, TblReportExecutionLinkDataDto>().Map(this.Table.First(x => x.ReportDataId == reportLinkDataDto.ReportDataId && x.TestId == reportLinkDataDto.TestId));
             if (result.Item == null)
             {
                 result = this.SaveOrUpdate(reportLinkDataDto, userId);
+            }
+            else
+            {
+                result.Messages.Add(new Message(string.Format("entrty already exist with reportId= {0} and testId= {1}", reportLinkDataDto.ReportDataId, reportLinkDataDto.TestId)));
             }
 
             return result;
@@ -74,12 +78,12 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <returns>
         /// Unused report data
         /// </returns>
-        public ResultMessage<IEnumerable<TblReportLinkDataDto>> GetReportLinkData(bool dayTillPastByDateCbx, long dayTillPast, long testId, DateTime dayTillPastDate)
+        public ResultMessage<IEnumerable<TblReportExecutionLinkDataDto>> GetReportLinkData(bool dayTillPastByDateCbx, long dayTillPast, long testId, DateTime dayTillPastDate)
         {
-            var result = new ResultMessage<IEnumerable<TblReportLinkDataDto>>();
+            var result = new ResultMessage<IEnumerable<TblReportExecutionLinkDataDto>>();
             dayTillPastDate = dayTillPastByDateCbx ? dayTillPastDate.Date : DateTime.Now.Subtract(TimeSpan.FromDays(dayTillPast)).Date;
             Dictionary<string, object> dictionary = new Dictionary<string, object> { { "DayTillPastDate", dayTillPastDate }, { "TestId", testId } };
-            var entities = this.Table.SqlQuery<TblReportLinkDataDto>("Select * from procgetreportlinkdata(@DayTillPastDate,@TestId);", dictionary).ToList();
+            var entities = this.Table.SqlQuery<TblReportExecutionLinkDataDto>("Select * from procgetreportlinkdata(@DayTillPastDate,@TestId);", dictionary).ToList();
             if (!entities.Any())
             {
                 result.Messages.Add(new Message(null, "Record not found!"));

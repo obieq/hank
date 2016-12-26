@@ -288,7 +288,7 @@
             <param name="reportLinkId">The identifier.</param>
             <returns>TblReportLinkDataDto objects</returns>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.ReportLinkDataController.Add(Elephant.Hank.Resources.Dto.TblReportLinkDataDto)">
+        <member name="M:Elephant.Hank.Api.Controllers.ReportLinkDataController.Add(Elephant.Hank.Resources.Dto.TblReportExecutionLinkDataDto)">
             <summary>
             Gets the by identifier.
             </summary>
@@ -297,7 +297,7 @@
             Newly added object
             </returns>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.ReportLinkDataController.Update(Elephant.Hank.Resources.Dto.TblReportLinkDataDto,System.Int64)">
+        <member name="M:Elephant.Hank.Api.Controllers.ReportLinkDataController.Update(Elephant.Hank.Resources.Dto.TblReportExecutionLinkDataDto,System.Int64)">
             <summary>
             Updates the specified environment dto.
             </summary>
@@ -307,7 +307,7 @@
             Newly updated object
             </returns>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.ReportLinkDataController.AddUpdate(Elephant.Hank.Resources.Dto.TblReportLinkDataDto)">
+        <member name="M:Elephant.Hank.Api.Controllers.ReportLinkDataController.AddUpdate(Elephant.Hank.Resources.Dto.TblReportExecutionLinkDataDto)">
             <summary>
             Adds the update.
             </summary>
