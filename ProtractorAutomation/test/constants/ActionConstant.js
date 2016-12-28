@@ -14,17 +14,26 @@ var ActionConstant = function () {
     this.WaitForTheElement = 'Wait For The Element';
     this.GetRepeaterCount = 'Get Repeater Count';
     this.LogText = 'Log Text';
-    this.AssertCountToEqual = 'Assert Count To Equal';
+
     this.AssertToEqual = 'Assert To Equal';
+    this.AssertToEqualIgnoreCase = 'Assert To Equal Ignore case';
+
+    this.AssertNotToEqual = 'Assert Not To Equal';
+    this.AssertNotToEqualIgnoreCase = 'Assert Not To Equal Ignore case';
+
     this.AssertToContain = 'Assert To Contain';
+    this.AssertToContainIgnoreCase = 'Assert To Contain Ignore case';
+
+    this.AssertCountToEqual = 'Assert Count To Equal';
     this.AssertElementToBePresent = 'Assert Element To Be Present';
+    this.AssertUrlToContain = "Assert Url To Contain";
+
     this.SetVariable = "Set Variable";
     this.SetVariableManually = "Set Variable Manually";
     this.DeclareVariable = "Declare Variable";
     this.TakeScreenShot = "Take Screen Shot";
     this.LoadNewUrl = "Load New Url";
     this.SwitchWebsiteType = "Switch Website Type";
-    this.AssertUrlToContain = "Assert Url To Contain";
     this.HandleBrowserAlertPopup = "Handle Browser Alert Popup";
     this.Wait = "Wait";
     this.ScrollToElement = "Scroll To Element";
@@ -37,7 +46,6 @@ var ActionConstant = function () {
     this.MouseHover = "Mouse Hover";
     this.GWMenuClick = "Guidewire Menu Click";
     this.OpenNewWindow = "Open New Window";
-    this.AssertNotToEqual = 'Assert Not To Equal';
     this.ReadControlText = 'Read Control Text';
     this.SwitchToFrame = 'Switch To Frame';
     this.SwitchToDefaultContent = 'Switch To Default Content';

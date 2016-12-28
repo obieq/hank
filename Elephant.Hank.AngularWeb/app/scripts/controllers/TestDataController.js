@@ -214,7 +214,11 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
               $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
               $scope.InputControlDisplayStatus.ddlDisplayName = true;
             }
-            else if (($scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainActionId) && $scope.TestData.LocatorIdentifierId == undefined) {
+            else if (($scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId
+                      || $scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualIgnoreCaseActionId
+                      || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainActionId
+                      || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainIgnoreCaseActionId)
+              && $scope.TestData.LocatorIdentifierId == undefined) {
               $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
               if ($scope.TestData.VariableName != null && !!$scope.TestData.VariableName.trim()) {
                 $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
@@ -642,7 +646,10 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
             commonUi.showErrorPopup(response);
           });
         }
-        else if ($scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainActionId) {
+        else if ($scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId
+              || $scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualIgnoreCaseActionId
+              || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainActionId
+              || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainIgnoreCaseActionId) {
           crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
             $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
             $scope.PagesList = response;
@@ -764,7 +771,11 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
     $scope.onAssignVariableClick = function () {
       if ($scope.TestData.IsAssignVariableName) {
         $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
-        $scope.InputControlDisplayStatus.txtValue = ($scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainActionId) && $scope.TestData.PageId == undefined ? true : false;
+        $scope.InputControlDisplayStatus.txtValue = ($scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId
+                                                    || $scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualIgnoreCaseActionId
+                                                    || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainActionId
+                                                    || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainIgnoreCaseActionId)
+                                                    && $scope.TestData.PageId == undefined;
       }
       else {
         $scope.InputControlDisplayStatus.txtAutoCompVariableName = false;

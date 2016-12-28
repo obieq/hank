@@ -176,6 +176,17 @@ namespace Elephant.Hank.Resources.Json
         }
 
         /// <summary>
+        /// Gets the assert to equal ignore case action identifier.
+        /// </summary>
+        public long AssertToEqualIgnoreCaseActionId
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["AssertToEqualIgnoreCaseActionId"].ToInt64();
+            }
+        }
+
+        /// <summary>
         /// Gets the Switch window Action's Identifier
         /// </summary>
         public long SwitchWindowActionId
@@ -230,6 +241,17 @@ namespace Elephant.Hank.Resources.Json
             get
             {
                 return ConfigurationManager.AppSettings["AssertToContainActionId"].ToInt64();
+            }
+        }
+
+        /// <summary>
+        /// Gets the assert to contain ignore case action identifier.
+        /// </summary>
+        public long AssertToContainIgnoreCaseActionId
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["AssertToContainIgnoreCaseActionId"].ToInt64();
             }
         }
 
