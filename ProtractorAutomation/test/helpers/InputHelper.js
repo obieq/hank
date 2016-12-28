@@ -357,68 +357,32 @@ var InputHelper = function () {
                     }
                     case actionConstant.AssertToEqual:
                     {
-                        if (key == "") {
-                            if (testInstance.VariableName.startsWith('#arraycompare')) {
-                                browser.getCurrentUrl().then(function (urle) {
-                                    var splitedVar = testInstance.VariableName.split('#');
-                                    var assertresult = customAssertHelper.arrayComparisionAssert(splitedVar[2], splitedVar[3], false);
-
-                                    if (assertresult) {
-                                        console.log("assertresult= " + assertresult);
-                                        expect("both array are equal").toEqual("both array are equal");
-                                    }
-                                });
-                            }
-                            else if (testInstance.VariableName.startsWith('#arraycontain')) {
-                                browser.getCurrentUrl().then(function (urle) {
-                                    var splitedVar = testInstance.VariableName.split('#');
-                                    var assertresult = customAssertHelper.arrayComparisionAssert(splitedVar[2], splitedVar[3], true);
-                                    if (assertresult) {
-                                        expect("array one contains in second array").toEqual("array one contains in second array");
-                                    }
-                                });
-                            }
-                            else {
-                                expect(testInstance.Value + "").toEqual(jsonHelper.customTrim(testInstance.ToCompareWith + ""));
-                                browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
-                            }
-                        }
-                        else {
-                            this.performAssertOperation(testInstance.ExecutionSequence, key, testInstance.Value, true);
-                        }
+                        this.assertToEqual(key, testInstance, false);
+                        break;
+                    }
+                    case actionConstant.AssertToEqualIgnoreCase:
+                    {
+                        this.assertToEqual(key, testInstance, true);
                         break;
                     }
                     case actionConstant.AssertToContain:
                     {
-                        if (key == "") {
-                            if (testInstance.VariableName.startsWith('#arraycontain')) {
-                                browser.getCurrentUrl().then(function (urle) {
-                                    var splitedVar = testInstance.VariableName.split('#');
-                                    var assertresult = customAssertHelper.arrayComparisionAssert(splitedVar[2], splitedVar[3], true);
-                                    if (assertresult) {
-                                        expect("array one contains in second array").toEqual("array one contains in second array");
-                                    }
-                                });
-                            }
-                            else {
-                                expect(testInstance.Value + "").toContain(jsonHelper.customTrim(testInstance.ToCompareWith + ""));
-                                browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
-                            }
-                        }
-                        else {
-                            this.performAssertToContain(testInstance.ExecutionSequence, key, testInstance.Value);
-                        }
+                        this.assertToContain(key, testInstance, false);
+                        break;
+                    }
+                    case actionConstant.AssertToContainIgnoreCase:
+                    {
+                        this.assertToContain(key, testInstance, true);
                         break;
                     }
                     case actionConstant.AssertNotToEqual:
                     {
-                        if (key == "") {
-                            expect(testInstance.Value + "").not.toEqual(jsonHelper.customTrim(testInstance.ToCompareWith + ""));
-                            browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
-                        }
-                        else {
-                            this.performAssertOperation(testInstance.ExecutionSequence, key, testInstance.Value, false);
-                        }
+                        this.assertNotToEqual(key, testInstance, false);
+                        break;
+                    }
+                    case actionConstant.AssertNotToEqualIgnoreCase:
+                    {
+                        this.assertNotToEqual(key, testInstance, true);
                         break;
                     }
                     case actionConstant.LogText:
@@ -948,7 +912,7 @@ var InputHelper = function () {
                     if (testInstance.Action != actionConstant.LogText) {
                         testInstance.VariableName = '';
 
-                        if (testInstance.Action == actionConstant.AssertToEqual && testInstance.DisplayName == null) {
+                        if ((testInstance.Action == actionConstant.AssertToEqual || testInstance.Action == actionConstant.AssertToEqualIgnoreCase) && testInstance.DisplayName == null) {
                             testInstance.ToCompareWith = toCompareValue;
                         }
 
@@ -1017,6 +981,94 @@ var InputHelper = function () {
         });
     };
 
+    this.assertNotToEqual = function(key, testInstance, ignoreCase){
+        if (key == "") {
+            var expectedVal = jsonHelper.customTrim(testInstance.Value + "");
+            var targetVal = jsonHelper.customTrim(testInstance.ToCompareWith + "");
+
+            if(ignoreCase){
+                expectedVal = expectedVal.toUpperCase();
+                targetVal = targetVal.toUpperCase();
+            }
+
+            expect(expectedVal).not.toEqual(targetVal);
+
+            browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
+        }
+        else {
+            this.performAssertOperation(testInstance.ExecutionSequence, key, testInstance.Value, 2, ignoreCase);
+        }
+    };
+
+    this.assertToEqual = function(key, testInstance, ignoreCase){
+        if (key == "") {
+            if (testInstance.VariableName.startsWith('#arraycompare')) {
+                browser.getCurrentUrl().then(function (urle) {
+                    var splitedVar = testInstance.VariableName.split('#');
+                    var assertresult = customAssertHelper.arrayComparisionAssert(splitedVar[2], splitedVar[3], false);
+
+                    if (assertresult) {
+                        console.log("assertresult= " + assertresult);
+                        expect("both array are equal").toEqual("both array are equal");
+                    }
+                });
+            }
+            else if (testInstance.VariableName.startsWith('#arraycontain')) {
+                browser.getCurrentUrl().then(function (urle) {
+                    var splitedVar = testInstance.VariableName.split('#');
+                    var assertresult = customAssertHelper.arrayComparisionAssert(splitedVar[2], splitedVar[3], true);
+                    if (assertresult) {
+                        expect("array one contains in second array").toEqual("array one contains in second array");
+                    }
+                });
+            }
+            else {
+                var expectedVal = jsonHelper.customTrim(testInstance.Value + "");
+                var targetVal = jsonHelper.customTrim(testInstance.ToCompareWith + "");
+
+                if(ignoreCase){
+                    expectedVal = expectedVal.toUpperCase();
+                    targetVal = targetVal.toUpperCase();
+                }
+
+                expect(expectedVal).toEqual(targetVal);
+                browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
+            }
+        }
+        else {
+            this.performAssertOperation(testInstance.ExecutionSequence, key, testInstance.Value, 1, ignoreCase);
+        }
+    };
+
+    this.assertToContain = function(key, testInstance, ignoreCase){
+        if (key == "") {
+            if (testInstance.VariableName.startsWith('#arraycontain')) {
+                browser.getCurrentUrl().then(function (urle) {
+                    var splitedVar = testInstance.VariableName.split('#');
+                    var assertresult = customAssertHelper.arrayComparisionAssert(splitedVar[2], splitedVar[3], true);
+                    if (assertresult) {
+                        expect("array one contains in second array").toEqual("array one contains in second array");
+                    }
+                });
+            }
+            else {
+                var expectedVal = jsonHelper.customTrim(testInstance.Value + "");
+                var targetVal = jsonHelper.customTrim(testInstance.ToCompareWith + "");
+
+                if(ignoreCase){
+                    expectedVal = expectedVal.toUpperCase();
+                    targetVal = targetVal.toUpperCase();
+                }
+
+                expect(expectedVal).toContain(targetVal);
+                browser.params.config.LastStepExecuted = testInstance.ExecutionSequence;
+            }
+        }
+        else {
+            this.performAssertOperation(testInstance.ExecutionSequence, key, testInstance.Value, 3, ignoreCase);
+        }
+    };
+
     this.performAssertCountToEqual = function (executionSequence, key, value) {
         key.getText().then(function (item) {
             expect(item.length + "").toEqual(value);
@@ -1024,16 +1076,30 @@ var InputHelper = function () {
         });
     };
 
-    this.performAssertOperation = function (executionSequence, key, value, operationFlag) {
+    this.performAssertOperation = function (executionSequence, key, value, operationType, ignoreCase) {
         thisobj.GetText(key, function (_value) {
+            ignoreCase = ignoreCase || false;
+
             var typeofText = typeof(value) + "";
             var textVal = ((value == null || typeofText == 'string' ? value : value[0]) + "").replace(/\n/gi, "");
-            if (operationFlag) {
-                expect(jsonHelper.customTrim(textVal)).toEqual(jsonHelper.customTrim(_value));
+            textVal = jsonHelper.customTrim(textVal);
+            _value = jsonHelper.customTrim(_value);
+
+            if(textVal && ignoreCase) {
+                textVal = textVal.toUpperCase();
+                _value = _value.toUpperCase()
             }
-            else {
-                expect(jsonHelper.customTrim(textVal)).not.toEqual(jsonHelper.customTrim(_value));
+
+            if (operationType == 1) { // To Equals
+                expect(textVal).toEqual(_value);
             }
+            else if (operationType == 2) { // To not Equals
+                expect(textVal).not.toEqual(_value);
+            }
+            else if (operationType == 3) { // To contains
+                expect(textVal).toContain(_value);
+            }
+
             browser.params.config.LastStepExecuted = executionSequence;
         });
     };
@@ -1056,15 +1122,6 @@ var InputHelper = function () {
                 }
             });
         }
-    };
-
-    this.performAssertToContain = function (executionSequence, key, value) {
-        thisobj.GetText(key, function (_value) {
-            var typeofText = typeof(value) + "";
-            var textVal = ((value == null || typeofText == 'string' ? value : value[0]) + "").replace(/\n/gi, "");
-            expect(jsonHelper.customTrim(textVal)).toContain(jsonHelper.customTrim(_value));
-            browser.params.config.LastStepExecuted = executionSequence;
-        });
     };
 
     this.setDropDown = function selectOption(executionSequence, key, value, selectFirst, milliseconds) {
