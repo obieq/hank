@@ -182,12 +182,30 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
             }
             $scope.InputControlDisplayStatus.ddlAction = true;
 
-            if ($scope.TestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.TestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.TestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchFrameActionId || $scope.TestData.ActionId == $scope.ActionConstants.LoadReportDataActionId || $scope.TestData.ActionId == $scope.ActionConstants.MarkLoadDataFromReportActionId) {
+            if ($scope.TestData.ActionId == $scope.ActionConstants.WaitActionId ||
+              $scope.TestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId ||
+              $scope.TestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId ||
+              $scope.TestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId ||
+              $scope.TestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId ||
+              $scope.TestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId ||
+              $scope.TestData.ActionId == $scope.ActionConstants.SwitchFrameActionId ||
+              $scope.TestData.ActionId == $scope.ActionConstants.LoadReportDataActionId ||
+              $scope.TestData.ActionId == $scope.ActionConstants.MarkLoadDataFromReportActionId) {
               $scope.InputControlDisplayStatus.txtValue = true;
             }
-            else if ($scope.TestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.TestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.TerminateTestActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchToDefaultContentActionId) {
+            else if($scope.TestData.ActionId == $scope.ActionConstants.ReadAttributeActionId){
+              $scope.InputControlDisplayStatus.ddlPage = true;
+              $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
+              $scope.InputControlDisplayStatus.txtValue = true;
             }
-            else if ($scope.TestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId || $scope.TestData.ActionId == $scope.ActionConstants.DeclareVariableActionId) {
+            else if ($scope.TestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId ||
+              $scope.TestData.ActionId == $scope.ActionConstants.SwitchWindowActionId ||
+              $scope.TestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId ||
+              $scope.TestData.ActionId == $scope.ActionConstants.TerminateTestActionId ||
+              $scope.TestData.ActionId == $scope.ActionConstants.SwitchToDefaultContentActionId) {
+            }
+            else if ($scope.TestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId ||
+              $scope.TestData.ActionId == $scope.ActionConstants.DeclareVariableActionId) {
               $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
               $scope.InputControlDisplayStatus.txtValue = true;
             }
@@ -208,6 +226,16 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
             else if ($scope.TestData.ActionId == $scope.ActionConstants.SendKeyActionId && $scope.TestData.LocatorIdentifierId == undefined) {
               $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
               $scope.InputControlDisplayStatus.txtValue = true;
+            }
+            else if ($scope.TestData.ActionId == $scope.ActionConstants.SetCalendarDateActionId) {
+              if (!!$scope.TestData.VariableName) {
+                $scope.TestData.IsAssignVariableName = true;
+                $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
+              }
+              else {
+                $scope.InputControlDisplayStatus.txtValue = true;
+              }
+              $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
             }
             else {
               $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
@@ -590,9 +618,15 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
         $scope.InputControlDisplayStatus.txtValue = true;
         if ($scope.TestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId || $scope.TestData.ActionId == $scope.ActionConstants.DeclareVariableActionId) {
           $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
-          $scope.InputControlDisplayStatus.txtValue = $scope.TestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId ? true : false;
+          $scope.InputControlDisplayStatus.txtValue = $scope.TestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId? true : false;
         }
-        else if ($scope.TestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId || $scope.TestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.TestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.TestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchFrameActionId) {
+        else if ($scope.TestData.ActionId == $scope.ActionConstants.WaitActionId ||
+          $scope.TestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId ||
+          $scope.TestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId ||
+          $scope.TestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId ||
+          $scope.TestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId ||
+          $scope.TestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId ||
+          $scope.TestData.ActionId == $scope.ActionConstants.SwitchFrameActionId) {
           $scope.InputControlDisplayStatus.txtValue = true;
         }
         else if ($scope.TestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.TestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.TestData.ActionId == $scope.ActionConstants.TerminateTestActionId || $scope.TestData.ActionId == $scope.ActionConstants.SwitchToDefaultContentActionId) {
@@ -631,6 +665,20 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
           }, function (response) {
             commonUi.showErrorPopup(response);
           });
+        }
+        else if ($scope.TestData.ActionId == $scope.ActionConstants.SetCalendarDateActionId) {
+          $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
+        }
+        else if($scope.TestData.ActionId == $scope.ActionConstants.ReadAttributeActionId){
+          crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
+            $scope.PagesList = response;
+            $scope.InputControlDisplayStatus.ddlPage = true;
+            $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
+            $scope.InputControlDisplayStatus.txtValue = true;
+          }, function (response) {
+            commonUi.showErrorPopup(response);
+          });
+
         }
         else {
           crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {

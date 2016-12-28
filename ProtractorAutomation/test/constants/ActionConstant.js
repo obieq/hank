@@ -43,6 +43,8 @@ var ActionConstant = function () {
     this.SwitchToDefaultContent = 'Switch To Default Content';
     this.LoadReportData = 'Load Report Data';
     this.MarkLoadReportData = 'Mark Load Data From Report';
+    this.SetCalenderDate = 'Set Calendar Date';
+    this.ReadAttribute = 'Read Attribute';
 };
 
 module.exports = ActionConstant;

@@ -313,7 +313,7 @@ var JsonHelper = function () {
     this.gatherDescriptions = function (fullName) {
         var splittedFullName = fullName.split('Elephant.com');
         splittedFullName = splittedFullName.reverse();
-        splittedFullName[3] = splittedFullName[2]
+        splittedFullName[3] = splittedFullName[2];
         splittedFullName[2] = 'Elephant.com';
         return splittedFullName;
     };
@@ -461,6 +461,8 @@ var JsonHelper = function () {
         }
         return index;
     };
+
+
 
 };
 module.exports = JsonHelper;

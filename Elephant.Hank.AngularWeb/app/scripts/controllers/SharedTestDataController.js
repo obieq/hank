@@ -145,6 +145,11 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
             if ($scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.MarkLoadDataFromReportActionId) {
               $scope.InputControlDisplayStatus.txtValue = true;
             }
+            else if($scope.SharedTestData.ActionId == $scope.ActionConstants.ReadAttributeActionId){
+                $scope.InputControlDisplayStatus.ddlPage = true;
+                $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
+                $scope.InputControlDisplayStatus.txtValue = true;
+            }
             else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.TerminateTestActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchToDefaultContentActionId) {
             }
             else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.DeclareVariableActionId) {
@@ -168,6 +173,16 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
             else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SendKeyActionId && $scope.SharedTestData.LocatorIdentifierId == undefined) {
               $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
               $scope.InputControlDisplayStatus.txtValue = true;
+            }
+            else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SetCalendarDateActionId) {
+              if (!!$scope.SharedTestData.VariableName) {
+                $scope.SharedTestData.IsAssignVariableName = true;
+                $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
+              }
+              else {
+                $scope.InputControlDisplayStatus.txtValue = true;
+              }
+              $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
             }
             else {
               $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
@@ -417,7 +432,17 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
           $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
           $scope.InputControlDisplayStatus.txtValue = $scope.SharedTestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId ? true : false;
         }
-        else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchFrameActionId) {
+        else if($scope.SharedTestData.ActionId == $scope.ActionConstants.ReadAttributeActionId){
+          crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
+            $scope.PagesList = response;
+            $scope.InputControlDisplayStatus.ddlPage = true;
+            $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
+            $scope.InputControlDisplayStatus.txtValue = true;
+          }, function (response) {
+            commonUi.showErrorPopup(response);
+          });
+        }
+        else if ( $scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchFrameActionId) {
           $scope.InputControlDisplayStatus.txtValue = true;
         }
         else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.TerminateTestActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchToDefaultContentActionId) {
@@ -457,7 +482,9 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
             commonUi.showErrorPopup(response);
           });
         }
-
+        else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SetCalendarDateActionId) {
+          $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
+        }
         else {
           crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
             $scope.InputControlDisplayStatus.chkAssignVariableValue = true;

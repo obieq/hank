@@ -288,5 +288,33 @@ namespace Elephant.Hank.Resources.Json
                 return ConfigurationManager.AppSettings["MarkLoadDataFromReportActionId"].ToInt64();
             }
         }
+
+        /// <summary>
+        /// Gets the set calendar date action identifier.
+        /// </summary>
+        /// <value>
+        /// The set calendar date action identifier.
+        /// </value>
+        public long SetCalendarDateActionId
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SetCalendarDateActionId"].ToInt64();
+            }
+        }
+
+        /// <summary>
+        /// Gets the read attribute action identifier.
+        /// </summary>
+        /// <value>
+        /// The read attribute action identifier.
+        /// </value>
+        public long ReadAttributeActionId
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ReadAttributeActionId"].ToInt64();
+            }
+        }
     }
 }

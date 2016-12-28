@@ -41,6 +41,7 @@ exports.config =
             logContainer: [],
             variableContainer:[],
             variableStateContainer: [],
+            markReportDataContainer:[],
             descriptionArray:[],
             screenShotArray:[]
         }

@@ -110,29 +110,32 @@ app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettin
 
       setAuthenticationParameters: function (scope, websiteId, moduleId, operation) {
         var authData = authService.getAuthData();
-        scope.LoggeddInUserName = authData.FullName;
-        if (authData.type == "TestUser") {
-          var groupData = authService.getGroupAuthData();
-          var check = _.where(groupData.Item, {WebsiteId: websiteId, ModuleId: moduleId});
+        if (!!authData) {
+          scope.IsAdmin = authData.type == "TestAdmin" ? true : false;
+          scope.LoggeddInUserName = authData.FullName;
+          if (authData.type == "TestUser") {
+            var groupData = authService.getGroupAuthData();
+            var check = _.where(groupData.Item, {WebsiteId: websiteId, ModuleId: moduleId});
 
-          if (check != null && check != undefined && check.length > 0) {
-            scope.Authentication.CanWrite = check[0].CanWrite;
-            scope.Authentication.CanDelete = check[0].CanDelete;
-            scope.Authentication.CanExecute = check[0].CanExecute;
+            if (check != null && check != undefined && check.length > 0) {
+              scope.Authentication.CanWrite = check[0].CanWrite;
+              scope.Authentication.CanDelete = check[0].CanDelete;
+              scope.Authentication.CanExecute = check[0].CanExecute;
+            }
+            else {
+              scope.Authentication.CanWrite = false;
+              scope.Authentication.CanDelete = false;
+              scope.Authentication.CanExecute = false;
+            }
           }
           else {
-            scope.Authentication.CanWrite = false;
-            scope.Authentication.CanDelete = false;
-            scope.Authentication.CanExecute = false;
+            scope.Authentication.CanWrite = true;
+            scope.Authentication.CanDelete = true;
+            scope.Authentication.CanExecute = true;
           }
         }
         else {
-          if (authData.type == "TestAdmin") {
-            scope.IsAdmin = true;
-          }
-          scope.Authentication.CanWrite = true;
-          scope.Authentication.CanDelete = true;
-          scope.Authentication.CanExecute = true;
+          scope.IsAdmin = false;
         }
       }
     };

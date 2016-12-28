@@ -244,7 +244,7 @@ var InputHelper = function () {
     this.setInput = function (key, testInstance, testName) {
         if (key != null) {
             this.GetSharedVariable(testInstance);
-            if (testInstance.VariableName.trim() == '' || testInstance.VariableName.startsWith('#arraycompare') || testInstance.VariableName.startsWith('#arraycontain') || testInstance.Action == actionConstant.LogText || testInstance.Action == actionConstant.DeclareVariable || testInstance.Action == actionConstant.SetVariable || testInstance.Action == actionConstant.SetVariableManually || testInstance.Action == actionConstant.ReadControlText) {
+            if (testInstance.VariableName.trim() == '' || testInstance.VariableName.startsWith('#arraycompare') || testInstance.VariableName.startsWith('#arraycontain') || testInstance.Action == actionConstant.ReadAttribute || testInstance.Action == actionConstant.LogText || testInstance.Action == actionConstant.DeclareVariable || testInstance.Action == actionConstant.SetVariable || testInstance.Action == actionConstant.SetVariableManually || testInstance.Action == actionConstant.ReadControlText) {
 
                 switch (testInstance.Action) {
                     case actionConstant.SetText:
@@ -713,22 +713,13 @@ var InputHelper = function () {
                                 'TestId': testInstance.LoadReportDataTestId,
                                 'Status': false
                             });
-                            console.log("*** Variable State Container ***");
-                            console.dir(browser.params.config.variableStateContainer);
-                            console.log("*** Variable  Container ***");
-                            console.dir(browser.params.config.variableContainer);
-                            console.log("*** Variable  markReportDataContainer ***");
-                            console.dir(browser.params.config.markReportDataContainer);
                         });
                         break;
                     }
                     case actionConstant.MarkLoadReportData:
                     {
                         browser.getCurrentUrl().then(function (actualUrl) {
-                            console.log("*** Inside mark Load action ***");
-                            console.dir(browser.params.config.markReportDataContainer);
                             for (var i = 0; i < browser.params.config.markReportDataContainer.length; i++) {
-                                console.log("TestId= " + browser.params.config.markReportDataContainer[i].TestId + " and LoadReportDataTestId= " + testInstance.LoadReportDataTestId);
                                 if (browser.params.config.markReportDataContainer[i].TestId == testInstance.LoadReportDataTestId && browser.params.config.markReportDataContainer[i].Status == false) {
                                     browser.params.config.markReportDataContainer[i].Status = true;
                                     var RestApiHelper = require('./RestApiHelper.js');
@@ -737,14 +728,40 @@ var InputHelper = function () {
                                         'ReportDataId': browser.params.config.markReportDataContainer[i].ReportDataId,
                                         'TestId': testInstance.LoadReportDataTestId
                                     }, function (resp) {
-                                        console.log("**** MarkReportData ****");
-                                        console.dir(resp);
                                     });
-                                    break;
+
                                 }
                             }
                         });
+                        break;
+                    }
+                    case actionConstant.SetCalenderDate:
+                    {
+                        var CpCalendarHelper = require('./CpCalendarHelper.js');
+                        var calendarHelper = new CpCalendarHelper();
+                        if (!!testInstance.VariableName) {
+                            browser.controlFlow().execute(function () {
+                                var extractedValue = jsonHelper.ExtractVariableValue(testInstance.VariableName);
+                                calendarHelper.setCalendarDate(extractedValue);
+                            });
+                        }
+                        else {
+                            calendarHelper.setCalendarDate(testInstance.Value);
+                        }
+                        break;
+                    }
 
+                    case actionConstant.ReadAttribute:
+                    {
+                        key.getAttribute(testInstance.Value).then(function (text) {
+                            if (!!text) {
+                                thisobj.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, text, testInstance.DisplayName);
+                            }
+                            else {
+                                expect("Attribute with name " + testInstance.Value + " doesn't Not found").toEqual(" ");
+                            }
+                        });
+                        break;
                     }
 
                 }
@@ -874,7 +891,7 @@ var InputHelper = function () {
     };
 
     this.GetSharedVariable = function (testInstance) {
-        if (testInstance.VariableName.trim() != '' && testInstance.Action != actionConstant.SetVariable && testInstance.Action != actionConstant.SetVariableManually && testInstance.Action != actionConstant.ReadControlText) {
+        if (testInstance.VariableName.trim() != '' && testInstance.Action != actionConstant.ReadAttribute && testInstance.Action != actionConstant.SetVariable && testInstance.Action != actionConstant.SetVariableManually && testInstance.Action != actionConstant.ReadControlText) {
             if (!testInstance.VariableName.startsWith('#arrayco')) {
                 browser.getCurrentUrl().then(function (actualUrl) {
 
