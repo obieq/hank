@@ -110,8 +110,9 @@ app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettin
 
       setAuthenticationParameters: function (scope, websiteId, moduleId, operation) {
         var authData = authService.getAuthData();
-        if (!!authData) {
-          scope.IsAdmin = authData.type == "TestAdmin" ? true : false;
+        scope.IsAdmin = false;
+        if (authData) {
+          scope.IsAdmin = authData.type == "TestAdmin";
           scope.LoggeddInUserName = authData.FullName;
           if (authData.type == "TestUser") {
             var groupData = authService.getGroupAuthData();
@@ -133,9 +134,6 @@ app.factory('CommonDataProvider', ['$localStorage', '$stateParams', 'ngAppSettin
             scope.Authentication.CanDelete = true;
             scope.Authentication.CanExecute = true;
           }
-        }
-        else {
-          scope.IsAdmin = false;
         }
       }
     };

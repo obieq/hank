@@ -66,10 +66,5 @@ var CpCalendarHelper = function () {
     this.getCurrentMonthAndYearFromCalendar = function (callBack) {
         element(by.xpath(this.CurrentMonthLocator)).getText().then(callBack);
     };
-
-    this.getMonthName = function (date) {
-        return thisObj.monthNames[date.getMonth()];
-    };
-
 };
 module.exports = CpCalendarHelper;
