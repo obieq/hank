@@ -147,14 +147,6 @@ namespace Elephant.Hank.DataService.DBSchema
         public DateTime? DayTillPastByDate { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether [day till past by date CBX].
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if [day till past by date CBX]; otherwise, <c>false</c>.
-        /// </value>
-        public bool? DayTillPastByDateCbx { get; set; }
-
-        /// <summary>
         /// Gets or sets the API test data.
         /// </summary>
         /// <value>

@@ -42,5 +42,15 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <param name="userId">The user identifier.</param>
         /// <returns>Added object</returns>
         ResultMessage<TblReportExecutionLinkDataDto> Add(TblReportExecutionLinkDataDto reportLinkDataDto, long userId);
+
+        /// <summary>
+        /// Gets the report link data by test identifier.
+        /// </summary>
+        /// <param name="testDataId">The test data identifier.</param>
+        /// <param name="isSharedTestData">if set to <c>true</c> [is shared test data].</param>
+        /// <returns>
+        /// TblReportExecutionLinkDataDto list
+        /// </returns>
+        ResultMessage<TblReportExecutionLinkDataDto> GetReportLinkDataByTestDataId(long testDataId, bool isSharedTestData);
     }
 }

@@ -142,13 +142,29 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
           case 0:
           {
             $scope.InputControlDisplayStatus.ddlAction = true;
-            if ($scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.MarkLoadDataFromReportActionId) {
+            if ($scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId) {
               $scope.InputControlDisplayStatus.txtValue = true;
             }
-            else if($scope.SharedTestData.ActionId == $scope.ActionConstants.ReadAttributeActionId){
-                $scope.InputControlDisplayStatus.ddlPage = true;
-                $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
-                $scope.InputControlDisplayStatus.txtValue = true;
+            else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.MarkLoadDataFromReportActionId) {
+              $scope.SharedTestData.ReportDataCategoryId = 0;
+              crudService.getById(ngAppSettings.TestUrl.format(0, 0), $scope.SharedTestData.ReportDataTestId).then(function (response) {
+                $scope.SharedTestData.ReportDataWebsiteId = response.Item.WebsiteId;
+                crudService.getAll(ngAppSettings.WebSiteTestCatUrl.format($scope.SharedTestData.ReportDataWebsiteId)).then(function (response) {
+                  $scope.TestCategoryList = response;
+                  crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format( $scope.SharedTestData.ReportDataWebsiteId, 0)).then(function (response) {
+                    $scope.TestList = response;
+                  }, function (response) {
+                  })
+                }, function (response) {
+                });
+              }, function (resp) {
+                console.log(resp)
+              });
+            }
+            else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.ReadAttributeActionId) {
+              $scope.InputControlDisplayStatus.ddlPage = true;
+              $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
+              $scope.InputControlDisplayStatus.txtValue = true;
             }
             else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.TerminateTestActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchToDefaultContentActionId) {
             }
@@ -282,7 +298,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
                 $scope.TestCategoryList = response;
               }, function (response) {
               }));
-              promises.push(crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($scope.SharedTestData.ReportDataWebsiteId, $scope.SharedTestData.ReportDataCategoryId)).then(function (response) {
+              promises.push(crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format(0, 0)).then(function (response) {
                 $scope.TestList = response;
               }, function (response) {
               }));
@@ -432,7 +448,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
           $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
           $scope.InputControlDisplayStatus.txtValue = $scope.SharedTestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId ? true : false;
         }
-        else if($scope.SharedTestData.ActionId == $scope.ActionConstants.ReadAttributeActionId){
+        else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.ReadAttributeActionId) {
           crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
             $scope.PagesList = response;
             $scope.InputControlDisplayStatus.ddlPage = true;
@@ -442,7 +458,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
             commonUi.showErrorPopup(response);
           });
         }
-        else if ( $scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchFrameActionId) {
+        else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchFrameActionId) {
           $scope.InputControlDisplayStatus.txtValue = true;
         }
         else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.TakeScreenShotActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWindowActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.IgnoreLoadNeUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.TerminateTestActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchToDefaultContentActionId) {
@@ -476,6 +492,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
           });
         }
         else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.MarkLoadDataFromReportActionId) {
+          $scope.InputControlDisplayStatus.txtValue = false;
           crudService.getAll(ngAppSettings.WebSiteUrl).then(function (response) {
             $scope.WebsiteList = response;
           }, function (response) {
@@ -572,20 +589,23 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
     };
 
     $scope.onDayTillPastByDateCbxClick = function () {
-
-      $('.form_datetime').datetimepicker({
-        endDate: '+0d',
-        format: 'mm-dd-yyyy',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
-      });
-
-
+      if ($scope.SharedTestData.DayTillPastByDateCbx) {
+        $scope.SharedTestData.DayTillPast = '';
+        $('.form_datetime').datetimepicker({
+          endDate: '+0d',
+          format: 'mm-dd-yyyy',
+          weekStart: 1,
+          todayBtn: 1,
+          autoclose: 1,
+          todayHighlight: 1,
+          startView: 2,
+          minView: 2,
+          forceParse: 0
+        });
+      }
+      else {
+        $scope.SharedTestData.DayTillPastByDate = '';
+      }
     };
 
 

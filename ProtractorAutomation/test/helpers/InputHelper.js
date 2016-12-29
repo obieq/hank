@@ -670,13 +670,19 @@ var InputHelper = function () {
                     case actionConstant.LoadReportData:
                     {
                         browser.getCurrentUrl().then(function (actualUrl) {
-                            var variableStateContainer = JSON.parse(testInstance.Value);
-                            variableInitializationHelper.setVariables(variableStateContainer);
-                            browser.params.config.markReportDataContainer.push({
-                                'ReportDataId': testInstance.LoadReportDataReportId,
-                                'TestId': testInstance.LoadReportDataTestId,
-                                'Status': false
+                            var RestApiHelper = require('./RestApiHelper.js');
+                            var restApiHelper = new RestApiHelper();
+                            restApiHelper.doGet(browser.params.config.baseApiUrl + 'api/website/0/report-link-data/' + testInstance.Id + '/' + testInstance.SharedTestDataId, function (resp) {
+                                var resultMessage = JSON.parse(resp.body);
+                                var variableStateContainer = JSON.parse(resultMessage.Item.Value);
+                                variableInitializationHelper.setVariables(variableStateContainer);
+                                browser.params.config.markReportDataContainer.push({
+                                    'ReportDataId': resultMessage.Item.ReportDataId,
+                                    'TestId': resultMessage.Item.TestId,
+                                    'Status': false
+                                });
                             });
+
                         });
                         break;
                     }
@@ -688,12 +694,11 @@ var InputHelper = function () {
                                     browser.params.config.markReportDataContainer[i].Status = true;
                                     var RestApiHelper = require('./RestApiHelper.js');
                                     var restApiHelper = new RestApiHelper();
-                                    restApiHelper.doPost(browser.params.config.baseApiUrl + 'api/website/{websiteId}/report-link-data', {
+                                    restApiHelper.doPost(browser.params.config.baseApiUrl + 'api/website/0/report-link-data', {
                                         'ReportDataId': browser.params.config.markReportDataContainer[i].ReportDataId,
                                         'TestId': testInstance.LoadReportDataTestId
                                     }, function (resp) {
                                     });
-
                                 }
                             }
                         });
@@ -998,12 +1003,12 @@ var InputHelper = function () {
         });
     };
 
-    this.assertNotToEqual = function(key, testInstance, ignoreCase){
+    this.assertNotToEqual = function (key, testInstance, ignoreCase) {
         if (key == "") {
             var expectedVal = jsonHelper.customTrim(testInstance.Value + "");
             var targetVal = jsonHelper.customTrim(testInstance.ToCompareWith + "");
 
-            if(ignoreCase){
+            if (ignoreCase) {
                 expectedVal = expectedVal.toUpperCase();
                 targetVal = targetVal.toUpperCase();
             }
@@ -1017,7 +1022,7 @@ var InputHelper = function () {
         }
     };
 
-    this.assertToEqual = function(key, testInstance, ignoreCase){
+    this.assertToEqual = function (key, testInstance, ignoreCase) {
         if (key == "") {
             if (testInstance.VariableName.startsWith('#arraycompare')) {
                 browser.getCurrentUrl().then(function (urle) {
@@ -1043,7 +1048,7 @@ var InputHelper = function () {
                 var expectedVal = jsonHelper.customTrim(testInstance.Value + "");
                 var targetVal = jsonHelper.customTrim(testInstance.ToCompareWith + "");
 
-                if(ignoreCase){
+                if (ignoreCase) {
                     expectedVal = expectedVal.toUpperCase();
                     targetVal = targetVal.toUpperCase();
                 }
@@ -1057,7 +1062,7 @@ var InputHelper = function () {
         }
     };
 
-    this.assertToContain = function(key, testInstance, ignoreCase){
+    this.assertToContain = function (key, testInstance, ignoreCase) {
         if (key == "") {
             if (testInstance.VariableName.startsWith('#arraycontain')) {
                 browser.getCurrentUrl().then(function (urle) {
@@ -1072,7 +1077,7 @@ var InputHelper = function () {
                 var expectedVal = jsonHelper.customTrim(testInstance.Value + "");
                 var targetVal = jsonHelper.customTrim(testInstance.ToCompareWith + "");
 
-                if(ignoreCase){
+                if (ignoreCase) {
                     expectedVal = expectedVal.toUpperCase();
                     targetVal = targetVal.toUpperCase();
                 }
@@ -1102,7 +1107,7 @@ var InputHelper = function () {
             textVal = jsonHelper.customTrim(textVal);
             _value = jsonHelper.customTrim(_value);
 
-            if(textVal && ignoreCase) {
+            if (textVal && ignoreCase) {
                 textVal = textVal.toUpperCase();
                 _value = _value.toUpperCase()
             }

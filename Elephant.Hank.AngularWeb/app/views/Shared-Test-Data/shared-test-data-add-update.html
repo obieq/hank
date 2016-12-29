@@ -171,7 +171,7 @@
               </div>
 
               <div class="form-group"
-                   ng-if="SharedTestData.ActionId==ActionConstants.LoadReportDataActionId || SharedTestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId && !!SharedTestData.ReportDataWebsiteId">
+                   ng-if="(SharedTestData.ActionId==ActionConstants.LoadReportDataActionId || SharedTestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId) && !!SharedTestData.ReportDataWebsiteId">
                 <label class="col-sm-2 control-label">Test Category</label>
                 <div class="col-sm-4">
                   <select class="form-control" ng-model="SharedTestData.ReportDataCategoryId"
@@ -184,7 +184,7 @@
               </div>
 
               <div class="form-group"
-                   ng-if="SharedTestData.ActionId==ActionConstants.LoadReportDataActionId || SharedTestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId && !!SharedTestData.ReportDataWebsiteId && !!SharedTestData.ReportDataCategoryId">
+                   ng-if="(SharedTestData.ActionId==ActionConstants.LoadReportDataActionId || SharedTestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId) && !!SharedTestData.ReportDataWebsiteId && (!!SharedTestData.ReportDataCategoryId || SharedTestData.ReportDataCategoryId==0)">
                 <label class="col-sm-2 control-label">Test</label>
                 <div class="col-sm-4">
                   <select class="form-control" ng-model="SharedTestData.ReportDataTestId"
@@ -196,7 +196,7 @@
               </div>
 
               <div class="form-group"
-                   ng-if="SharedTestData.ActionId==ActionConstants.LoadReportDataActionId || SharedTestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId && !!SharedTestData.ReportDataTestId">
+                   ng-if="(SharedTestData.ActionId==ActionConstants.LoadReportDataActionId || SharedTestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId) && !!SharedTestData.ReportDataTestId">
                 <label class="col-sm-2 control-label">Day till past</label>
 
                 <div class="col-sm-4" ng-if="!SharedTestData.DayTillPastByDateCbx">
@@ -217,7 +217,7 @@
               </div>
 
               <div class="form-group"
-                   ng-show="SharedTestData.ActionId==ActionConstants.LoadReportDataActionId || SharedTestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId && !!SharedTestData.ReportDataTestId">
+                   ng-show="(SharedTestData.ActionId==ActionConstants.LoadReportDataActionId || SharedTestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId) && !!SharedTestData.ReportDataTestId">
                 <label class="col-sm-2 control-label">Day till past by date?</label>
 
                 <div class="col-sm-4">

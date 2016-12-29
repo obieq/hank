@@ -34,16 +34,32 @@ namespace Elephant.Hank.Framework.TestDataServices
         private readonly IMapperFactory mapperFactory;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReportLinkDataService"/> class.
+        /// The test data service
+        /// </summary>
+        private readonly ITestDataService testDataService;
+
+        /// <summary>
+        /// The shared test data service
+        /// </summary>
+        private readonly ISharedTestDataService sharedTestDataService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReportLinkDataService" /> class.
         /// </summary>
         /// <param name="mapperFactory">The mapper factory.</param>
         /// <param name="table">The table.</param>
+        /// <param name="testDataService">The test data service.</param>
+        /// <param name="sharedTestDataService">The shared test data service.</param>
         public ReportLinkDataService(
             IMapperFactory mapperFactory,
-            IRepository<TblReportExecutionLinkData> table)
+            IRepository<TblReportExecutionLinkData> table,
+            ITestDataService testDataService,
+            ISharedTestDataService sharedTestDataService)
             : base(mapperFactory, table)
         {
             this.mapperFactory = mapperFactory;
+            this.testDataService = testDataService;
+            this.sharedTestDataService = sharedTestDataService;
         }
 
         /// <summary>
@@ -91,6 +107,57 @@ namespace Elephant.Hank.Framework.TestDataServices
             else
             {
                 result.Item = entities;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the report link data by test identifier.
+        /// </summary>
+        /// <param name="testDataId">The test data identifier.</param>
+        /// <param name="isSharedTestData">if set to <c>true</c> [is shared test data].</param>
+        /// <returns>TblReportExecutionLinkDataDto list</returns>
+        public ResultMessage<TblReportExecutionLinkDataDto> GetReportLinkDataByTestDataId(long testDataId, bool isSharedTestData)
+        {
+            var result = new ResultMessage<TblReportExecutionLinkDataDto>();
+            dynamic testData;
+            DateTime dayTillPastDate = DateTime.Now;
+            if (!isSharedTestData)
+            {
+                testData = this.testDataService.GetById(testDataId);
+                if (testData.Item.DayTillPast != null)
+                {
+                    dayTillPastDate = DateTime.Now.Subtract(TimeSpan.FromDays(testData.Item.DayTillPast)).Date;
+                }
+                else if (testData.Item.DayTillPastByDate != null)
+                {
+                    dayTillPastDate = testData.Item.DayTillPastByDate;
+                }
+            }
+            else
+            {
+                testData = this.sharedTestDataService.GetById(testDataId);
+
+                if (testData.Item.DayTillPast != null)
+                {
+                    dayTillPastDate = DateTime.Now.Subtract(TimeSpan.FromDays(testData.Item.DayTillPast)).Date;
+                }
+                else if (testData.Item.DayTillPastByDate != null)
+                {
+                    dayTillPastDate = testData.Item.DayTillPastByDate;
+                }
+            }
+
+            Dictionary<string, object> dictionary = new Dictionary<string, object> { { "DayTillPastDate", dayTillPastDate }, { "TestId", isSharedTestData ? testData.Item.ReportDataTestId : testData.Item.SharedStepWebsiteTestId } };
+            var entities = this.Table.SqlQuery<TblReportExecutionLinkDataDto>("Select * from procgetreportlinkdata(@DayTillPastDate,@TestId);", dictionary).ToList();
+            if (!entities.Any())
+            {
+                result.Messages.Add(new Message(null, "Record not found!"));
+            }
+            else
+            {
+                result.Item = entities.FirstOrDefault();
             }
 
             return result;

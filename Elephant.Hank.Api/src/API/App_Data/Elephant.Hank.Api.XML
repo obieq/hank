@@ -281,12 +281,15 @@
             </summary>
             <returns>List of TblReportLinkDataDto objects</returns>
         </member>
-        <member name="M:Elephant.Hank.Api.Controllers.ReportLinkDataController.GetById(System.Int64)">
+        <member name="M:Elephant.Hank.Api.Controllers.ReportLinkDataController.GetById(System.Int64,System.Int64)">
             <summary>
             Gets the by identifier.
             </summary>
-            <param name="reportLinkId">The identifier.</param>
-            <returns>TblReportLinkDataDto objects</returns>
+            <param name="testDataId">The test identifier.</param>
+            <param name="sharedTestDataId">The shared test data identifier.</param>
+            <returns>
+            TblReportLinkDataDto objects
+            </returns>
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.ReportLinkDataController.Add(Elephant.Hank.Resources.Dto.TblReportExecutionLinkDataDto)">
             <summary>

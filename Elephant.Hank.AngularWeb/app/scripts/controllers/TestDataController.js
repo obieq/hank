@@ -13,8 +13,7 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
       ExecutionSequence: parseInt($stateParams.ExecutionSequence),
       TestId: $stateParams.TestId,
       SharedTestDataList: [],
-      ApiTestData: {},
-      DayTillPast: 1
+      ApiTestData: {}
     };
     $scope.LastSeqNumber = 1;
     $scope.InputControlDisplayStatus = {
@@ -188,12 +187,19 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
               $scope.TestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId ||
               $scope.TestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId ||
               $scope.TestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId ||
-              $scope.TestData.ActionId == $scope.ActionConstants.SwitchFrameActionId ||
-              $scope.TestData.ActionId == $scope.ActionConstants.LoadReportDataActionId ||
-              $scope.TestData.ActionId == $scope.ActionConstants.MarkLoadDataFromReportActionId) {
+              $scope.TestData.ActionId == $scope.ActionConstants.SwitchFrameActionId) {
               $scope.InputControlDisplayStatus.txtValue = true;
             }
-            else if($scope.TestData.ActionId == $scope.ActionConstants.ReadAttributeActionId){
+            else if ($scope.TestData.ActionId == $scope.ActionConstants.LoadReportDataActionId ||
+              $scope.TestData.ActionId == $scope.ActionConstants.MarkLoadDataFromReportActionId) {
+              if (!!$scope.TestData.DayTillPast) {
+                $scope.TestData.DayTillPastByDateCbx = false;
+              }
+              else {
+                $scope.TestData.DayTillPastByDateCbx = true;
+              }
+            }
+            else if ($scope.TestData.ActionId == $scope.ActionConstants.ReadAttributeActionId) {
               $scope.InputControlDisplayStatus.ddlPage = true;
               $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
               $scope.InputControlDisplayStatus.txtValue = true;
@@ -215,9 +221,9 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
               $scope.InputControlDisplayStatus.ddlDisplayName = true;
             }
             else if (($scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId
-                      || $scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualIgnoreCaseActionId
-                      || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainActionId
-                      || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainIgnoreCaseActionId)
+              || $scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualIgnoreCaseActionId
+              || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainActionId
+              || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainIgnoreCaseActionId)
               && $scope.TestData.LocatorIdentifierId == undefined) {
               $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
               if ($scope.TestData.VariableName != null && !!$scope.TestData.VariableName.trim()) {
@@ -622,7 +628,7 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
         $scope.InputControlDisplayStatus.txtValue = true;
         if ($scope.TestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId || $scope.TestData.ActionId == $scope.ActionConstants.DeclareVariableActionId) {
           $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
-          $scope.InputControlDisplayStatus.txtValue = $scope.TestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId? true : false;
+          $scope.InputControlDisplayStatus.txtValue = $scope.TestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId ? true : false;
         }
         else if ($scope.TestData.ActionId == $scope.ActionConstants.WaitActionId ||
           $scope.TestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId ||
@@ -647,9 +653,9 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
           });
         }
         else if ($scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId
-              || $scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualIgnoreCaseActionId
-              || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainActionId
-              || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainIgnoreCaseActionId) {
+          || $scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualIgnoreCaseActionId
+          || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainActionId
+          || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainIgnoreCaseActionId) {
           crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
             $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
             $scope.PagesList = response;
@@ -667,6 +673,7 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
           });
         }
         else if ($scope.TestData.ActionId == $scope.ActionConstants.LoadReportDataActionId || $scope.TestData.ActionId == $scope.ActionConstants.MarkLoadDataFromReportActionId) {
+          $scope.InputControlDisplayStatus.txtValue = false;
           crudService.getAll(ngAppSettings.WebSiteUrl).then(function (response) {
             $scope.WebsiteList = response;
           }, function (response) {
@@ -676,7 +683,7 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
         else if ($scope.TestData.ActionId == $scope.ActionConstants.SetCalendarDateActionId) {
           $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
         }
-        else if($scope.TestData.ActionId == $scope.ActionConstants.ReadAttributeActionId){
+        else if ($scope.TestData.ActionId == $scope.ActionConstants.ReadAttributeActionId) {
           crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
             $scope.PagesList = response;
             $scope.InputControlDisplayStatus.ddlPage = true;
@@ -727,7 +734,6 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
     };
 
     $scope.onTestCategoryChange = function () {
-      $scope.TestData.DayTillPast = 1;
       crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($scope.TestData.SharedStepWebsiteId, $scope.TestData.SharedStepWebsiteTestCategoryId)).then(function (response) {
         $scope.TestList = response;
       }, function (response) {
@@ -772,10 +778,10 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
       if ($scope.TestData.IsAssignVariableName) {
         $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
         $scope.InputControlDisplayStatus.txtValue = ($scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId
-                                                    || $scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualIgnoreCaseActionId
-                                                    || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainActionId
-                                                    || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainIgnoreCaseActionId)
-                                                    && $scope.TestData.PageId == undefined;
+        || $scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualIgnoreCaseActionId
+        || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainActionId
+        || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainIgnoreCaseActionId)
+        && $scope.TestData.PageId == undefined;
       }
       else {
         $scope.InputControlDisplayStatus.txtAutoCompVariableName = false;
@@ -832,19 +838,23 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
     };
 
     $scope.onDayTillPastByDateCbxClick = function () {
-
-      $('.form_datetime').datetimepicker({
-        endDate: '+0d',
-        format: 'mm-dd-yyyy',
-        weekStart: 1,
-        todayBtn: 1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0
-      });
-
+      if ($scope.TestData.DayTillPastByDateCbx) {
+        $scope.TestData.DayTillPast = '';
+        $('.form_datetime').datetimepicker({
+          endDate: '+0d',
+          format: 'mm-dd-yyyy',
+          weekStart: 1,
+          todayBtn: 1,
+          autoclose: 1,
+          todayHighlight: 1,
+          startView: 2,
+          minView: 2,
+          forceParse: 0
+        });
+      }
+      else {
+        $scope.TestData.DayTillPastByDate = '';
+      }
     };
 
   }]);

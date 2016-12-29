@@ -132,22 +132,6 @@ namespace Elephant.Hank.Resources.Dto
         public string ModifiedByUserName { get; set; }
 
         /// <summary>
-        /// Gets or sets the report data website identifier.
-        /// </summary>
-        /// <value>
-        /// The report data website identifier.
-        /// </value>
-        public long? ReportDataWebsiteId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the report data website identifier.
-        /// </summary>
-        /// <value>
-        /// The report data website identifier.
-        /// </value>
-        public long? ReportDataCategoryId { get; set; }
-
-        /// <summary>
         /// Gets or sets the report data test identifier.
         /// </summary>
         /// <value>
@@ -169,30 +153,6 @@ namespace Elephant.Hank.Resources.Dto
         /// <value>
         /// The day till past by date.
         /// </value>
-        public DateTime? DayTillPastByDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [day till past by date CBX].
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if [day till past by date CBX]; otherwise, <c>false</c>.
-        /// </value>
-        public bool? DayTillPastByDateCbx { get; set; }
-
-        /// <summary>
-        /// Gets or sets the load report data report identifier.
-        /// </summary>
-        /// <value>
-        /// The load report data report identifier.
-        /// </value>
-        public long LoadReportDataReportId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the load report data report identifier.
-        /// </summary>
-        /// <value>
-        /// The load report data report identifier.
-        /// </value>
-        public long LoadReportDataTestId { get; set; }
+        public DateTime? DayTillPastByDate { get; set; }                     
     }
 }
