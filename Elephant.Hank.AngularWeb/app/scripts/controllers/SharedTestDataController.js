@@ -146,20 +146,21 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
               $scope.InputControlDisplayStatus.txtValue = true;
             }
             else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.MarkLoadDataFromReportActionId) {
-              $scope.SharedTestData.ReportDataCategoryId = 0;
               crudService.getById(ngAppSettings.TestUrl.format(0, 0), $scope.SharedTestData.ReportDataTestId).then(function (response) {
                 $scope.SharedTestData.ReportDataWebsiteId = response.Item.WebsiteId;
+                $scope.SharedTestData.ReportDataCategoryId= response.Item.CategoryId
                 crudService.getAll(ngAppSettings.WebSiteTestCatUrl.format($scope.SharedTestData.ReportDataWebsiteId)).then(function (response) {
                   $scope.TestCategoryList = response;
                   crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($scope.SharedTestData.ReportDataWebsiteId, 0)).then(function (response) {
                     $scope.TestList = response;
                   }, function (response) {
-                  })
+                  });
                 }, function (response) {
                 });
               }, function (resp) {
                 console.log(resp)
               });
+
             }
             else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.ReadAttributeActionId) {
               $scope.InputControlDisplayStatus.ddlPage = true;
@@ -366,6 +367,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
         $scope.SharedTestData.ExecutionSequence = $stateParams.ExecutionSequence;
       }
 
+      $scope.SharedTestData.PageId = $scope.InputControlDisplayStatus.ddlPage ? $scope.SharedTestData.PageId : 0;
       $scope.SharedTestData.PageId = $scope.InputControlDisplayStatus.ddlPage ? $scope.SharedTestData.PageId : 0;
       $scope.SharedTestData.LocatorIdentifierId = $scope.InputControlDisplayStatus.ddlDisplayName ? $scope.SharedTestData.LocatorIdentifierId : null;
 
