@@ -28,6 +28,7 @@ namespace Elephant.Hank.Api.Controllers
     /// <summary>
     /// the ReportLinkDataController class
     /// </summary>
+    [CustomAuthorize]
     [RoutePrefix("api/website/{websiteId}/report-link-data")]
     public class ReportLinkDataController : BaseApiController
     {
@@ -50,8 +51,7 @@ namespace Elephant.Hank.Api.Controllers
         /// <summary>
         /// Gets all.
         /// </summary>
-        /// <returns>List of TblReportLinkDataDto objects</returns>
-        [AllowAnonymous]
+        /// <returns>List of TblReportLinkDataDto objects</returns>       
         public IHttpActionResult GetAll()
         {
             var result = new ResultMessage<IEnumerable<TblReportExecutionLinkDataDto>>();
@@ -77,7 +77,6 @@ namespace Elephant.Hank.Api.Controllers
         /// TblReportLinkDataDto objects
         /// </returns>
         [Route("{testDataId}/{sharedTestDataId}")]
-        [AllowAnonymous]
         public IHttpActionResult GetById(long testDataId, long sharedTestDataId)
         {
             var result = new ResultMessage<TblReportExecutionLinkDataDto>();
@@ -141,7 +140,7 @@ namespace Elephant.Hank.Api.Controllers
             var result = new ResultMessage<TblReportExecutionLinkDataDto>();
             try
             {
-                result = this.reportLinkDataService.Add(reportLinkDatadto, this.UserId);
+                result = this.reportLinkDataService.AddOrUpdate(reportLinkDatadto, this.UserId);
             }
             catch (Exception ex)
             {

@@ -151,7 +151,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
                 $scope.SharedTestData.ReportDataWebsiteId = response.Item.WebsiteId;
                 crudService.getAll(ngAppSettings.WebSiteTestCatUrl.format($scope.SharedTestData.ReportDataWebsiteId)).then(function (response) {
                   $scope.TestCategoryList = response;
-                  crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format( $scope.SharedTestData.ReportDataWebsiteId, 0)).then(function (response) {
+                  crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($scope.SharedTestData.ReportDataWebsiteId, 0)).then(function (response) {
                     $scope.TestList = response;
                   }, function (response) {
                   })
@@ -216,14 +216,19 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
           }
           case 3:
           {
-            crudService.getAll(ngAppSettings.WebsiteDataBaseCategoriesUrl.format($stateParams.WebsiteId)).then(function (response) {
-              $scope.DataBaseCategories = response;
-              crudService.getAll(ngAppSettings.ActionForSqlTestStep).then(function (response) {
-                $scope.ActionList = response;
+            if ($scope.DataBaseCategories.length == 0) {
+              crudService.getAll(ngAppSettings.WebsiteDataBaseCategoriesUrl.format($stateParams.WebsiteId)).then(function (response) {
+                $scope.DataBaseCategories = response;
+                crudService.getAll(ngAppSettings.ActionForSqlTestStep).then(function (response) {
+                  $scope.ActionList = response;
+                });
+              }, function (response) {
+                commonUi.showErrorPopup(response);
               });
-            }, function (response) {
-              commonUi.showErrorPopup(response);
-            });
+            }
+            else {
+
+            }
           }
         }
       });
@@ -393,12 +398,17 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
         case 0:
         {
           $scope.resetAllInputControlDisplayStatus();
-          crudService.getAll(ngAppSettings.ActionUrl).then(function (response) {
-            $scope.ActionList = response;
+          if ($scope.ActionList.length == 0) {
+            crudService.getAll(ngAppSettings.ActionUrl).then(function (response) {
+              $scope.ActionList = response;
+              $scope.InputControlDisplayStatus.ddlAction = true;
+            }, function (response) {
+              commonUi.showErrorPopup(response);
+            });
+          }
+          else {
             $scope.InputControlDisplayStatus.ddlAction = true;
-          }, function (response) {
-            commonUi.showErrorPopup(response);
-          });
+          }
           break;
         }
         case 3:
@@ -449,14 +459,22 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
           $scope.InputControlDisplayStatus.txtValue = $scope.SharedTestData.ActionId == $scope.ActionConstants.SetVariableManuallyActionId ? true : false;
         }
         else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.ReadAttributeActionId) {
-          crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
-            $scope.PagesList = response;
+          if ($scope.PagesList.length == 0) {
+            crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
+              $scope.PagesList = response;
+              $scope.InputControlDisplayStatus.ddlPage = true;
+              $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
+              $scope.InputControlDisplayStatus.txtValue = true;
+            }, function (response) {
+              commonUi.showErrorPopup(response);
+            });
+          }
+          else {
             $scope.InputControlDisplayStatus.ddlPage = true;
             $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
             $scope.InputControlDisplayStatus.txtValue = true;
-          }, function (response) {
-            commonUi.showErrorPopup(response);
-          });
+          }
+
         }
         else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.WaitActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchWebsiteTypeActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertUrlToContainActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.HandleBrowserAlertPopupActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadNewUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.LoadPartialUrlActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.SwitchFrameActionId) {
           $scope.InputControlDisplayStatus.txtValue = true;
@@ -465,51 +483,77 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
           $scope.InputControlDisplayStatus.txtValue = false;
         }
         else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SetVariableActionId) {
-          crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
-            $scope.PagesList = response;
+          if ($scope.PagesList.length == 0) {
+            crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
+              $scope.PagesList = response;
+              $scope.InputControlDisplayStatus.ddlPage = true;
+              $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
+              $scope.InputControlDisplayStatus.txtValue = false;
+            }, function (response) {
+              commonUi.showErrorPopup(response);
+            });
+          }
+          else {
             $scope.InputControlDisplayStatus.ddlPage = true;
             $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
             $scope.InputControlDisplayStatus.txtValue = false;
-          }, function (response) {
-            commonUi.showErrorPopup(response);
-          });
+          }
         }
         else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.AssertToEqualActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.AssertToContainActionId) {
-          crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
+          if ($scope.PagesList.length == 0) {
+            crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
+              $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
+              $scope.PagesList = response;
+              $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
+            }, function (response) {
+              commonUi.showErrorPopup(response);
+            });
+          }
+          else {
             $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
-            $scope.PagesList = response;
             $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
-          }, function (response) {
-            commonUi.showErrorPopup(response);
-          });
+          }
         }
         else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SendKeyActionId) {
-          crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
-            $scope.PagesList = response;
+          if ($scope.PagesList.length == 0) {
+            crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
+              $scope.PagesList = response;
+              $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
+            }, function (response) {
+              commonUi.showErrorPopup(response);
+            });
+          }
+          else {
             $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
-          }, function (response) {
-            commonUi.showErrorPopup(response);
-          });
+          }
         }
         else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.MarkLoadDataFromReportActionId) {
           $scope.InputControlDisplayStatus.txtValue = false;
-          crudService.getAll(ngAppSettings.WebSiteUrl).then(function (response) {
-            $scope.WebsiteList = response;
-          }, function (response) {
-            commonUi.showErrorPopup(response);
-          });
+          if (!$scope.WebsiteList) {
+            crudService.getAll(ngAppSettings.WebSiteUrl).then(function (response) {
+              $scope.WebsiteList = response;
+            }, function (response) {
+              commonUi.showErrorPopup(response);
+            });
+          }
         }
         else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SetCalendarDateActionId) {
           $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
         }
         else {
-          crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
+          if ($scope.PagesList.length == 0) {
+            crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
+              $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
+              $scope.PagesList = response;
+              $scope.InputControlDisplayStatus.ddlPage = true;
+            }, function (response) {
+              commonUi.showErrorPopup(response);
+            });
+          }
+          else {
             $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
-            $scope.PagesList = response;
             $scope.InputControlDisplayStatus.ddlPage = true;
-          }, function (response) {
-            commonUi.showErrorPopup(response);
-          });
+          }
         }
       }
     };
@@ -607,8 +651,5 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
         $scope.SharedTestData.DayTillPastByDate = '';
       }
     };
-
-
   }
-])
-;
+]);

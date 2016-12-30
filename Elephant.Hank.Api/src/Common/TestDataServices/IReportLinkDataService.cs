@@ -41,7 +41,7 @@ namespace Elephant.Hank.Common.TestDataServices
         /// <param name="reportLinkDataDto">The report link data dto.</param>
         /// <param name="userId">The user identifier.</param>
         /// <returns>Added object</returns>
-        ResultMessage<TblReportExecutionLinkDataDto> Add(TblReportExecutionLinkDataDto reportLinkDataDto, long userId);
+        ResultMessage<TblReportExecutionLinkDataDto> AddOrUpdate(TblReportExecutionLinkDataDto reportLinkDataDto, long userId);
 
         /// <summary>
         /// Gets the report link data by test identifier.

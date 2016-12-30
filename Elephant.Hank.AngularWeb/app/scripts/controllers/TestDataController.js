@@ -542,12 +542,12 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
         case 0:
         {
           $scope.resetAllInputControlDisplayStatus();
-          crudService.getAll(ngAppSettings.ActionUrl).then(function (response) {
+          !!$scope.ActionList.length ? $scope.ActionList : crudService.getAll(ngAppSettings.ActionUrl).then(function (response) {
             $scope.ActionList = response;
-            $scope.InputControlDisplayStatus.ddlAction = true;
           }, function (response) {
             commonUi.showErrorPopup(response);
           });
+          $scope.InputControlDisplayStatus.ddlAction = true;
           if ($scope.VariableList.length == 0) {
             crudService.getAll(ngAppSettings.TestDataGetVariableForAutoComplete.format($stateParams.WebsiteId, $stateParams.TestCatId, $stateParams.TestId)).then(function (response) {
               $scope.VariableList = response;
@@ -558,7 +558,7 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
         case 1:
         {
           $scope.resetAllInputControlDisplayStatus();
-          crudService.getAll(ngAppSettings.WebSiteSharedTestUrl.format($stateParams.WebsiteId)).then(function (response) {
+          !!$scope.SharedTestList.length ? $scope.SharedTestList : crudService.getAll(ngAppSettings.WebSiteSharedTestUrl.format($stateParams.WebsiteId)).then(function (response) {
             $scope.SharedTestList = response;
           }, function (response) {
             commonUi.showErrorPopup(response);
@@ -568,7 +568,7 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
         case 2:
         {
           $scope.resetAllInputControlDisplayStatus();
-          crudService.getAll(ngAppSettings.WebSiteUrl).then(function (response) {
+          !!$scope.WebsiteList.length ? $scope.WebsiteList : crudService.getAll(ngAppSettings.WebSiteUrl).then(function (response) {
             $scope.WebsiteList = response;
           }, function (response) {
             commonUi.showErrorPopup(response);
@@ -585,7 +585,7 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
                 $scope.VariableList = response;
               });
             }
-            crudService.getAll(ngAppSettings.ActionForSqlTestStep).then(function (response) {
+            !!$scope.ActionList.length ? $scope.ActionList : crudService.getAll(ngAppSettings.ActionForSqlTestStep).then(function (response) {
               $scope.ActionList = response;
             });
           }, function (response) {
@@ -643,38 +643,58 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
           $scope.InputControlDisplayStatus.txtValue = false;
         }
         else if ($scope.TestData.ActionId == $scope.ActionConstants.SetVariableActionId) {
-          crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
-            $scope.PagesList = response;
+          if ($scope.PagesList.length == 0) {
+            crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
+              $scope.PagesList = response;
+              $scope.InputControlDisplayStatus.ddlPage = true;
+              $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
+              $scope.InputControlDisplayStatus.txtValue = false;
+            }, function (response) {
+              commonUi.showErrorPopup(response);
+            });
+          }
+          else {
             $scope.InputControlDisplayStatus.ddlPage = true;
             $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
             $scope.InputControlDisplayStatus.txtValue = false;
-          }, function (response) {
-            commonUi.showErrorPopup(response);
-          });
+          }
         }
         else if ($scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualActionId
           || $scope.TestData.ActionId == $scope.ActionConstants.AssertToEqualIgnoreCaseActionId
           || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainActionId
           || $scope.TestData.ActionId == $scope.ActionConstants.AssertToContainIgnoreCaseActionId) {
-          crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
+          if ($scope.PagesList.length == 0) {
+            crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
+              $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
+              $scope.PagesList = response;
+              $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
+            }, function (response) {
+              commonUi.showErrorPopup(response);
+            });
+          }
+          else {
             $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
-            $scope.PagesList = response;
             $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
-          }, function (response) {
-            commonUi.showErrorPopup(response);
-          });
+          }
+
         }
         else if ($scope.TestData.ActionId == $scope.ActionConstants.SendKeyActionId) {
-          crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
-            $scope.PagesList = response;
+          if ($scope.PagesList.length) {
+            crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
+              $scope.PagesList = response;
+              $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
+            }, function (response) {
+              commonUi.showErrorPopup(response);
+            });
+          }
+          else {
             $scope.InputControlDisplayStatus.ddlPageNonValidation = true;
-          }, function (response) {
-            commonUi.showErrorPopup(response);
-          });
+          }
+
         }
         else if ($scope.TestData.ActionId == $scope.ActionConstants.LoadReportDataActionId || $scope.TestData.ActionId == $scope.ActionConstants.MarkLoadDataFromReportActionId) {
           $scope.InputControlDisplayStatus.txtValue = false;
-          crudService.getAll(ngAppSettings.WebSiteUrl).then(function (response) {
+          !!$scope.WebsiteList.length ? '' : crudService.getAll(ngAppSettings.WebSiteUrl).then(function (response) {
             $scope.WebsiteList = response;
           }, function (response) {
             commonUi.showErrorPopup(response);
@@ -684,35 +704,48 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
           $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
         }
         else if ($scope.TestData.ActionId == $scope.ActionConstants.ReadAttributeActionId) {
-          crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
-            $scope.PagesList = response;
+          if ($scope.PagesList.length == 0) {
+            crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
+              $scope.PagesList = response;
+              $scope.InputControlDisplayStatus.ddlPage = true;
+              $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
+              $scope.InputControlDisplayStatus.txtValue = true;
+            }, function (response) {
+              commonUi.showErrorPopup(response);
+            });
+          }
+          else {
             $scope.InputControlDisplayStatus.ddlPage = true;
             $scope.InputControlDisplayStatus.txtAutoCompVariableName = true;
             $scope.InputControlDisplayStatus.txtValue = true;
-          }, function (response) {
-            commonUi.showErrorPopup(response);
-          });
-
+          }
         }
         else {
-          crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
+          if ($scope.PagesList.length == 0) {
+            crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
+              $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
+              $scope.PagesList = response;
+              $scope.InputControlDisplayStatus.ddlPage = true;
+            }, function (response) {
+              commonUi.showErrorPopup(response);
+            });
+          }
+          else {
             $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
-            $scope.PagesList = response;
             $scope.InputControlDisplayStatus.ddlPage = true;
-          }, function (response) {
-            commonUi.showErrorPopup(response);
-          });
+          }
+
         }
       }
     };
 
     $scope.onPageChange = function () {
-      crudService.getAll(ngAppSettings.LocatorIdentifierUrl.format($stateParams.WebsiteId, $scope.TestData.PageId)).then(function (response) {
-        $scope.DisplayNameList = response;
-        $scope.InputControlDisplayStatus.ddlDisplayName = true;
-      }, function (response) {
-        commonUi.showErrorPopup(response);
-      });
+        crudService.getAll(ngAppSettings.LocatorIdentifierUrl.format($stateParams.WebsiteId, $scope.TestData.PageId)).then(function (response) {
+          $scope.DisplayNameList = response;
+          $scope.InputControlDisplayStatus.ddlDisplayName = true;
+        }, function (response) {
+          commonUi.showErrorPopup(response);
+        });
     };
 
     $scope.onWebsiteChange = function () {

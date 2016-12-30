@@ -11,6 +11,9 @@
 
 namespace Elephant.Hank.Resources.Dto
 {
+    using System.Collections.Generic;
+    using Elephant.Hank.Resources.Models;
+
     /// <summary>
     /// TblReportExecutionLinkDataDto class.
     /// </summary>
@@ -39,5 +42,13 @@ namespace Elephant.Hank.Resources.Dto
         /// The test identifier.
         /// </value>
         public long TestId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value.
+        /// </summary>
+        /// <value>
+        /// The value.
+        /// </value>
+        public List<NameValuePair> VariableStates { get; set; }
     }
 }

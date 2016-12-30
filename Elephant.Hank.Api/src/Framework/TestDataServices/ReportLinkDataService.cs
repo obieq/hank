@@ -22,17 +22,16 @@ namespace Elephant.Hank.Framework.TestDataServices
     using Elephant.Hank.Framework.Data;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Messages;
+    using Elephant.Hank.Resources.Models;
+
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// ReportLinkDataService class
     /// </summary>
     public class ReportLinkDataService : GlobalService<TblReportExecutionLinkDataDto, TblReportExecutionLinkData>, IReportLinkDataService
     {
-        /// <summary>
-        /// The mapper factory
-        /// </summary>
-        private readonly IMapperFactory mapperFactory;
-
         /// <summary>
         /// The test data service
         /// </summary>
@@ -57,7 +56,6 @@ namespace Elephant.Hank.Framework.TestDataServices
             ISharedTestDataService sharedTestDataService)
             : base(mapperFactory, table)
         {
-            this.mapperFactory = mapperFactory;
             this.testDataService = testDataService;
             this.sharedTestDataService = sharedTestDataService;
         }
@@ -68,17 +66,17 @@ namespace Elephant.Hank.Framework.TestDataServices
         /// <param name="reportLinkDataDto">The report link data dto.</param>
         /// <param name="userId">The user identifier.</param>
         /// <returns>added object</returns>
-        public ResultMessage<TblReportExecutionLinkDataDto> Add(TblReportExecutionLinkDataDto reportLinkDataDto, long userId)
+        public ResultMessage<TblReportExecutionLinkDataDto> AddOrUpdate(TblReportExecutionLinkDataDto reportLinkDataDto, long userId)
         {
             ResultMessage<TblReportExecutionLinkDataDto> result = new ResultMessage<TblReportExecutionLinkDataDto>();
-            result.Item = this.mapperFactory.GetMapper<TblReportExecutionLinkData, TblReportExecutionLinkDataDto>().Map(this.Table.First(x => x.ReportDataId == reportLinkDataDto.ReportDataId && x.TestId == reportLinkDataDto.TestId));
+            result.Item = this.MapperFactory.GetMapper<TblReportExecutionLinkData, TblReportExecutionLinkDataDto>().Map(this.Table.First(x => x.ReportDataId == reportLinkDataDto.ReportDataId && x.TestId == reportLinkDataDto.TestId));
             if (result.Item == null)
             {
                 result = this.SaveOrUpdate(reportLinkDataDto, userId);
             }
             else
             {
-                result.Messages.Add(new Message(string.Format("entrty already exist with reportId= {0} and testId= {1}", reportLinkDataDto.ReportDataId, reportLinkDataDto.TestId)));
+                result.Messages.Add(new Message(string.Format("Entry already exist with reportId= {0} and testId= {1}", reportLinkDataDto.ReportDataId, reportLinkDataDto.TestId)));
             }
 
             return result;
@@ -158,9 +156,35 @@ namespace Elephant.Hank.Framework.TestDataServices
             else
             {
                 result.Item = entities.FirstOrDefault();
+                result.Item.VariableStates = this.GetUniqueVariableStates(entities.FirstOrDefault().Value);
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Gets the unique variable states.
+        /// </summary>
+        /// <param name="variable">The variable.</param>
+        /// <returns>Unique Variable State container list</returns>
+        private List<NameValuePair> GetUniqueVariableStates(string variable)
+        {
+            List<NameValuePair> uniqueVariableStateContainer = new List<NameValuePair>();
+            List<NameValuePair> variableStateContainer = JsonConvert.DeserializeObject<List<NameValuePair>>(variable);
+            foreach (var item in variableStateContainer)
+            {
+                NameValuePair variableExistInUniqueList = uniqueVariableStateContainer.Where(x => x.Name == item.Name).FirstOrDefault();
+                if (variableExistInUniqueList != null)
+                {
+                    variableExistInUniqueList.Value = item.Value;
+                }
+                else
+                {
+                    uniqueVariableStateContainer.Add(item);
+                }
+            }
+
+            return uniqueVariableStateContainer;
         }
     }
 }

@@ -673,14 +673,18 @@ var InputHelper = function () {
                             var RestApiHelper = require('./RestApiHelper.js');
                             var restApiHelper = new RestApiHelper();
                             restApiHelper.doGet(browser.params.config.baseApiUrl + 'api/website/0/report-link-data/' + testInstance.Id + '/' + testInstance.SharedTestDataId, function (resp) {
+
                                 var resultMessage = JSON.parse(resp.body);
-                                var variableStateContainer = JSON.parse(resultMessage.Item.Value);
+                                var variableStateContainer = resultMessage.Item.VariableStates;
                                 variableInitializationHelper.setVariables(variableStateContainer);
                                 browser.params.config.markReportDataContainer.push({
                                     'ReportDataId': resultMessage.Item.ReportDataId,
                                     'TestId': resultMessage.Item.TestId,
                                     'Status': false
                                 });
+                            }, function () {
+                                console.log("inside reject callback function ");
+                                expect("Call to url= " + browser.params.config.baseApiUrl + 'api/website/0/report-link-data/' + testInstance.Id + '/' + testInstance.SharedTestDataId + "Gives no data")
                             });
 
                         });

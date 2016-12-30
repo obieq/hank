@@ -279,7 +279,7 @@
             <summary>
             Gets all.
             </summary>
-            <returns>List of TblReportLinkDataDto objects</returns>
+            <returns>List of TblReportLinkDataDto objects</returns>       
         </member>
         <member name="M:Elephant.Hank.Api.Controllers.ReportLinkDataController.GetById(System.Int64,System.Int64)">
             <summary>

@@ -18,6 +18,7 @@ namespace Elephant.Hank.Framework.Mapper.TypeConverters
     using Elephant.Hank.DataService.DBSchema;
     using Elephant.Hank.Resources.Dto;
     using Elephant.Hank.Resources.Enum;
+    using Elephant.Hank.Resources.Json;
     using Elephant.Hank.Resources.Messages;
     using Elephant.Hank.Resources.Models;
 
@@ -52,7 +53,7 @@ namespace Elephant.Hank.Framework.Mapper.TypeConverters
                                  StepType = src.LinkTestType,
                                  CategoryId = src.DataBaseCategoryId,
                                  SharedTestDataId = src.SharedTestDataId,
-                                 LoadReportDataTestId = src.SharedStepWebsiteTestId.HasValue && (src.ActionId == 43 || src.ActionId == 44) ? src.SharedStepWebsiteTestId.Value : 0,
+                                 LoadReportDataTestId = src.SharedStepWebsiteTestId.HasValue && (src.ActionId == ActionConstants.Instance.LoadReportDataActionId || src.ActionId == ActionConstants.Instance.MarkLoadDataFromReportActionId) ? src.SharedStepWebsiteTestId.Value : 0,
                              };
                 result.DisplayName = src.DisplayNameValue;
                 result.Locator = src.LocatorValue + string.Empty;

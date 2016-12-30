@@ -117,12 +117,23 @@
               </div>
 
               <div class="form-group"
+                   ng-show="(TestData.ActionId==ActionConstants.LoadReportDataActionId || TestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId) && !!TestData.SharedStepWebsiteTestId">
+                <label class="col-sm-2 control-label">Day till past by date?</label>
+
+                <div class="col-sm-4">
+                  <input type="checkbox" ng-click="onDayTillPastByDateCbxClick()"
+                         ng-model="TestData.DayTillPastByDateCbx">
+                </div>
+              </div>
+
+
+              <div class="form-group"
                    ng-if="(TestData.ActionId==ActionConstants.LoadReportDataActionId || TestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId) && !!TestData.SharedStepWebsiteTestId">
                 <label class="col-sm-2 control-label">Day till past</label>
 
                 <div class="col-sm-4" ng-if="!TestData.DayTillPastByDateCbx">
                   <input type="number" class="form-control" placeholder="Day till past" name="DayTillPast"
-                         ng-model="TestData.DayTillPast">
+                         ng-model="TestData.DayTillPast" required>
                 </div>
 
                 <div class="input-group date form_datetime col-sm-4" data-link-field="dtp_input1"
@@ -137,15 +148,6 @@
                 <input type="hidden" id="dtp_input1" value=""/><br/>
               </div>
 
-              <div class="form-group"
-                   ng-show="(TestData.ActionId==ActionConstants.LoadReportDataActionId || TestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId) && !!TestData.SharedStepWebsiteTestId">
-                <label class="col-sm-2 control-label">Day till past by date?</label>
-
-                <div class="col-sm-4">
-                  <input type="checkbox" ng-click="onDayTillPastByDateCbxClick()"
-                         ng-model="TestData.DayTillPastByDateCbx">
-                </div>
-              </div>
 
 
               <!-- #end  Load Report Data  -->
