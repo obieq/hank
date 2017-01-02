@@ -1049,8 +1049,8 @@ var InputHelper = function () {
                 });
             }
             else {
-                var expectedVal = jsonHelper.customTrim(testInstance.Value + "");
-                var targetVal = jsonHelper.customTrim(testInstance.ToCompareWith + "");
+                var targetVal = jsonHelper.customTrim(testInstance.Value + "");
+                var expectedVal = jsonHelper.customTrim(testInstance.ToCompareWith + "");
 
                 if (ignoreCase) {
                     expectedVal = expectedVal.toUpperCase();
@@ -1078,8 +1078,8 @@ var InputHelper = function () {
                 });
             }
             else {
-                var expectedVal = jsonHelper.customTrim(testInstance.Value + "");
-                var targetVal = jsonHelper.customTrim(testInstance.ToCompareWith + "");
+                var targetVal = jsonHelper.customTrim(testInstance.Value + "");
+                var expectedVal = jsonHelper.customTrim(testInstance.ToCompareWith + "");
 
                 if (ignoreCase) {
                     expectedVal = expectedVal.toUpperCase();
@@ -1117,13 +1117,13 @@ var InputHelper = function () {
             }
 
             if (operationType == 1) { // To Equals
-                expect(textVal).toEqual(_value);
+                expect(_value).toEqual(textVal);
             }
             else if (operationType == 2) { // To not Equals
-                expect(textVal).not.toEqual(_value);
+                expect(_value).not.toEqual(textVal);
             }
             else if (operationType == 3) { // To contains
-                expect(textVal).toContain(_value);
+                expect(_value).toContain(textVal);
             }
 
             browser.params.config.LastStepExecuted = executionSequence;
