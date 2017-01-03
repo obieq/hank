@@ -148,7 +148,7 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
             else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.LoadReportDataActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.MarkLoadDataFromReportActionId) {
               crudService.getById(ngAppSettings.TestUrl.format(0, 0), $scope.SharedTestData.ReportDataTestId).then(function (response) {
                 $scope.SharedTestData.ReportDataWebsiteId = response.Item.WebsiteId;
-                $scope.SharedTestData.ReportDataCategoryId= response.Item.CategoryId
+                $scope.SharedTestData.ReportDataCategoryId = response.Item.CategoryId;
                 crudService.getAll(ngAppSettings.WebSiteTestCatUrl.format($scope.SharedTestData.ReportDataWebsiteId)).then(function (response) {
                   $scope.TestCategoryList = response;
                   crudService.getAll(ngAppSettings.WebSiteTestCasesUrl.format($scope.SharedTestData.ReportDataWebsiteId, 0)).then(function (response) {
