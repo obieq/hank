@@ -83,34 +83,6 @@ namespace Elephant.Hank.Framework.TestDataServices
         }
 
         /// <summary>
-        /// Gets the report link data.
-        /// </summary>
-        /// <param name="dayTillPastByDateCbx">if set to <c>true</c> [day till past by date CBX].</param>
-        /// <param name="dayTillPast">The day till past.</param>
-        /// <param name="testId">The test identifier.</param>
-        /// <param name="dayTillPastDate">The day till past date.</param>
-        /// <returns>
-        /// Unused report data
-        /// </returns>
-        public ResultMessage<IEnumerable<TblReportExecutionLinkDataDto>> GetReportLinkData(bool dayTillPastByDateCbx, long dayTillPast, long testId, DateTime dayTillPastDate)
-        {
-            var result = new ResultMessage<IEnumerable<TblReportExecutionLinkDataDto>>();
-            dayTillPastDate = dayTillPastByDateCbx ? dayTillPastDate.Date : DateTime.Now.Subtract(TimeSpan.FromDays(dayTillPast)).Date;
-            Dictionary<string, object> dictionary = new Dictionary<string, object> { { "DayTillPastDate", dayTillPastDate }, { "TestId", testId } };
-            var entities = this.Table.SqlQuery<TblReportExecutionLinkDataDto>("Select * from procgetreportlinkdata(@DayTillPastDate,@TestId);", dictionary).ToList();
-            if (!entities.Any())
-            {
-                result.Messages.Add(new Message(null, "Record not found!"));
-            }
-            else
-            {
-                result.Item = entities;
-            }
-
-            return result;
-        }
-
-        /// <summary>
         /// Gets the report link data by test identifier.
         /// </summary>
         /// <param name="testDataId">The test data identifier.</param>
@@ -119,32 +91,16 @@ namespace Elephant.Hank.Framework.TestDataServices
         public ResultMessage<TblReportExecutionLinkDataDto> GetReportLinkDataByTestDataId(long testDataId, bool isSharedTestData)
         {
             var result = new ResultMessage<TblReportExecutionLinkDataDto>();
-            dynamic testData;
+            dynamic testData = this.GetTestData(isSharedTestData, testDataId);
             DateTime dayTillPastDate = DateTime.Now;
-            if (!isSharedTestData)
-            {
-                testData = this.testDataService.GetById(testDataId);
-                if (testData.Item.DayTillPast != null)
-                {
-                    dayTillPastDate = DateTime.Now.Subtract(TimeSpan.FromDays(testData.Item.DayTillPast)).Date;
-                }
-                else if (testData.Item.DayTillPastByDate != null)
-                {
-                    dayTillPastDate = testData.Item.DayTillPastByDate;
-                }
-            }
-            else
-            {
-                testData = this.sharedTestDataService.GetById(testDataId);
 
-                if (testData.Item.DayTillPast != null)
-                {
-                    dayTillPastDate = DateTime.Now.Subtract(TimeSpan.FromDays(testData.Item.DayTillPast)).Date;
-                }
-                else if (testData.Item.DayTillPastByDate != null)
-                {
-                    dayTillPastDate = testData.Item.DayTillPastByDate;
-                }
+            if (testData.Item.DayTillPast != null)
+            {
+                dayTillPastDate = DateTime.Now.Subtract(TimeSpan.FromDays(testData.Item.DayTillPast)).Date;
+            }
+            else if (testData.Item.DayTillPastByDate != null)
+            {
+                dayTillPastDate = testData.Item.DayTillPastByDate;
             }
 
             Dictionary<string, object> dictionary = new Dictionary<string, object> { { "DayTillPastDate", dayTillPastDate }, { "TestId", isSharedTestData ? testData.Item.ReportDataTestId : testData.Item.SharedStepWebsiteTestId } };
@@ -155,8 +111,8 @@ namespace Elephant.Hank.Framework.TestDataServices
             }
             else
             {
-                result.Item = entities.FirstOrDefault();
-                result.Item.VariableStates = this.GetUniqueVariableStates(entities.FirstOrDefault().Value);
+                result.Item = entities.First();
+                result.Item.VariableStates = this.GetUniqueVariableStates(result.Item.Value);
             }
 
             return result;
@@ -185,6 +141,24 @@ namespace Elephant.Hank.Framework.TestDataServices
             }
 
             return uniqueVariableStateContainer;
+        }
+
+        /// <summary>
+        /// Gets the test data.
+        /// </summary>
+        /// <param name="isSharedTestData">if set to <c>true</c> [is shared test data].</param>
+        /// <param name="testDataId">The test data identifier.</param>
+        /// <returns>test data or shared test data step depenting iv the step type</returns>
+        private dynamic GetTestData(bool isSharedTestData, long testDataId)
+        {
+            if (!isSharedTestData)
+            {
+                return this.testDataService.GetById(testDataId);
+            }
+            else
+            {
+                return this.sharedTestDataService.GetById(testDataId);
+            }
         }
     }
 }

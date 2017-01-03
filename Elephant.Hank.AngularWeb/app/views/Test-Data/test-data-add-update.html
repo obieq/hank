@@ -133,7 +133,8 @@
 
                 <div class="col-sm-4" ng-if="!TestData.DayTillPastByDateCbx">
                   <input type="number" class="form-control" placeholder="Day till past" name="DayTillPast"
-                         ng-model="TestData.DayTillPast" required>
+                         ng-model="TestData.DayTillPast" ng-pattern=" /^\d+$/" required>
+                  <div class="error" style="color:red" ng-show="TestDataForm.DayTillPast.$error.pattern">Day till past should be positive number.</div>
                 </div>
 
                 <div class="input-group date form_datetime col-sm-4" data-link-field="dtp_input1"

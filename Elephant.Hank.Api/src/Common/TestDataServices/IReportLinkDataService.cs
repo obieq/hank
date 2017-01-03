@@ -24,18 +24,6 @@ namespace Elephant.Hank.Common.TestDataServices
     public interface IReportLinkDataService : IBaseService<TblReportExecutionLinkDataDto>
     {
         /// <summary>
-        /// Gets the report link data.
-        /// </summary>
-        /// <param name="dayTillPastByDateCbx">if set to <c>true</c> [day till past by date CBX].</param>
-        /// <param name="dayTillPast">The day till past.</param>
-        /// <param name="testId">The test identifier.</param>
-        /// <param name="dayTillPastDate">The day till past date.</param>
-        /// <returns>
-        /// Unused report data
-        /// </returns>
-        ResultMessage<IEnumerable<TblReportExecutionLinkDataDto>> GetReportLinkData(bool dayTillPastByDateCbx, long dayTillPast, long testId, DateTime dayTillPastDate);
-
-        /// <summary>
         /// Adds the specified report link data dto.
         /// </summary>
         /// <param name="reportLinkDataDto">The report link data dto.</param>

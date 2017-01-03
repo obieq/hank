@@ -669,7 +669,7 @@ var InputHelper = function () {
                     }
                     case actionConstant.LoadReportData:
                     {
-                        browser.getCurrentUrl().then(function (actualUrl) {
+                        browser.controlFlow().execute(function () {
                             var RestApiHelper = require('./RestApiHelper.js');
                             var restApiHelper = new RestApiHelper();
                             restApiHelper.doGet(browser.params.config.baseApiUrl + 'api/website/0/report-link-data/' + testInstance.Id + '/' + testInstance.SharedTestDataId, function (resp) {
@@ -684,15 +684,14 @@ var InputHelper = function () {
                                 });
                             }, function () {
                                 console.log("inside reject callback function ");
-                                expect("Call to url= " + browser.params.config.baseApiUrl + 'api/website/0/report-link-data/' + testInstance.Id + '/' + testInstance.SharedTestDataId + "Gives no data")
+                                expect("Call to url= " + browser.params.config.baseApiUrl + 'api/website/0/report-link-data/' + testInstance.Id + '/' + testInstance.SharedTestDataId + "Gives no data").toEqual(" ")
                             });
-
                         });
                         break;
                     }
                     case actionConstant.MarkLoadReportData:
                     {
-                        browser.getCurrentUrl().then(function (actualUrl) {
+                        browser.controlFlow().execute(function () {
                             for (var i = 0; i < browser.params.config.markReportDataContainer.length; i++) {
                                 if (browser.params.config.markReportDataContainer[i].TestId == testInstance.LoadReportDataTestId && browser.params.config.markReportDataContainer[i].Status == false) {
                                     browser.params.config.markReportDataContainer[i].Status = true;

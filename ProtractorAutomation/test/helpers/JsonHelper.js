@@ -135,15 +135,12 @@ var JsonHelper = function () {
 
         if (isNaN(idxRow) && isNaN(idxRowVal) && idxCol && isNaN(idxCol)) {
             idxColVal = this.inArray(aryData[0], idxRow, true);
-
             for (var i = 0; i < aryData.length; i++) {
-
                 if (aryData[i][idxColVal].toLowerCase() == idxCol.toLowerCase()) {
                     idxRowVal = i;
                     break;
                 }
             }
-
             idxColVal = isNaN(idxRowVal) ? "-1" : idxColVal;
             idxRowVal = isNaN(idxRowVal) ? "0" : idxRowVal;
         }
@@ -461,7 +458,6 @@ var JsonHelper = function () {
         }
         return index;
     };
-
 
 
 };
