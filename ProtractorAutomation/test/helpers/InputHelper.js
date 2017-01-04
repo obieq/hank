@@ -245,7 +245,6 @@ var InputHelper = function () {
         if (key != null) {
             this.GetSharedVariable(testInstance);
             if (testInstance.VariableName.trim() == '' || testInstance.VariableName.startsWith('#arraycompare') || testInstance.VariableName.startsWith('#arraycontain') || testInstance.Action == actionConstant.ReadAttribute || testInstance.Action == actionConstant.LogText || testInstance.Action == actionConstant.DeclareVariable || testInstance.Action == actionConstant.SetVariable || testInstance.Action == actionConstant.SetVariableManually || testInstance.Action == actionConstant.ReadControlText) {
-
                 switch (testInstance.Action) {
                     case actionConstant.SetText:
                     {
@@ -445,10 +444,11 @@ var InputHelper = function () {
                         }
                         else {
                             console.log("Inside SetVariableManually case 2nd ");
-                            var response = hashTagHelper.computeHashTags(testInstance.Value).then(function (response) {
-                                thisobj.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, response.toString(), testInstance.DisplayName);
+                            browser.controlFlow().execute(function () {
+                                var response = hashTagHelper.computeHashTags(testInstance.Value).then(function (response) {
+                                    thisobj.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, response.toString(), testInstance.DisplayName);
+                                });
                             });
-
                         }
                         break;
                     }

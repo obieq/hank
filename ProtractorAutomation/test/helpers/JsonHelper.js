@@ -74,7 +74,8 @@ var JsonHelper = function () {
             idxCol = "idxCol";
             varName += "[idxCol]";
 
-            for (var i = 0; i < searchData.length; i++) {
+            for (var i = 0; i < searchData.length; i++)
+            {
                 var tmpData = searchData[i].split('~');
 
                 if (!!tmpData[1]) {
@@ -114,7 +115,6 @@ var JsonHelper = function () {
                 }
 
                 if (isMatchFound) {
-
                     rowIndex = colNameValuePair.length == 1 && colNameValuePair[0].Value == undefined ? 1 : i;
                     tmpColIndex = colNameValuePair[colNameValuePair.length - 1].ColIndex;
                     break;
@@ -181,7 +181,6 @@ var JsonHelper = function () {
                     browser.params.config.variableContainer[m].JsonValue = JSON.parse(browser.params.config.variableContainer[m].Value);
                     var aryData = browser.params.config.variableContainer[m].JsonValue;
                     var indexs = this.GetIndexesFromVariable(varName, aryData);
-
                     return eval("aryData" + indexs.varName.substring(indexs.varName.indexOf('[')));
                 }
             }
