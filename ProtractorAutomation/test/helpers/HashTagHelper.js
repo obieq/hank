@@ -12,110 +12,89 @@ var HashTagHelper = function () {
     var result;
 
     this.computeHashTags = function (hashTagText) {
-        console.log('hashTagText= ' + hashTagText);
+        console.log('hashTagText: ' + hashTagText);
         var defer = protractor.promise.defer();
         var splittedHashTagArray = hashTagText.split('#');
-        var tagNameLowerCase = splittedHashTagArray[1].split('~')[0].toLowerCase();
-        console.log('tagNameLowerCase= ' + tagNameLowerCase);
-        var variableName = splittedHashTagArray[1].substring(splittedHashTagArray[1].indexOf('{') + 1, splittedHashTagArray[1].lastIndexOf('}'));
-        console.log('variableName= ' + variableName);
-        if (tagNameLowerCase == 'now' || tagNameLowerCase == 'variable') {
-            for (var i = 1; i < splittedHashTagArray.length; i++) {
-                var splitedTextValue = splittedHashTagArray[i].split('~');
-                if (splitedTextValue.length > 1) {
-                    if (parseInt(splitedTextValue[1])) {
-                        this.computeDate(splitedTextValue[0].toLowerCase(), parseInt(splitedTextValue[1]));
+
+        if(splittedHashTagArray.length < 2) {
+            defer.reject({error: "Hashtag not found!"});
+        }
+        else {
+            var tagNameLowerCase = splittedHashTagArray[1].split('~')[0].toLowerCase();
+            var variables = splittedHashTagArray[1].match(/\{(.*?)\}/g) || [];
+            var variableName = splittedHashTagArray[1].substring(splittedHashTagArray[1].indexOf('{') + 1, splittedHashTagArray[1].lastIndexOf('}'));
+            console.log('variableName= ' + variableName);
+
+            if (tagNameLowerCase == 'now' || tagNameLowerCase == 'variable') {
+                for (var i = 1; i < splittedHashTagArray.length; i++) {
+                    var splitedTextValue = splittedHashTagArray[i].split('~');
+                    if (splitedTextValue.length > 1) {
+                        this.computeDate(splitedTextValue[0].toLowerCase(), (splitedTextValue[1] + "").toLowerCase());
                     }
                     else {
-                        this.computeDate(splitedTextValue[0].toLowerCase(), splitedTextValue[1].toLowerCase());
+                        this.computeDate(splittedHashTagArray[i].toLowerCase());
                     }
                 }
-                else {
-                    this.computeDate(splittedHashTagArray[i].toLowerCase());
+                defer.fulfill(currentCycleDate);
+            }
+            else if (tagNameLowerCase == 'add' || tagNameLowerCase == 'subtract') {
+                result = thisobj.ProcessMathematicOperation([jsonHelper.ExtractVariableValue(splittedHashTagArray[1].split('~')[1].replace('{', '').replace('}', '')), jsonHelper.ExtractVariableValue(splittedHashTagArray[1].split('~')[2].replace('{', '').replace('}', ''))], tagNameLowerCase);
+                defer.fulfill(result);
+            }
+            else if (tagNameLowerCase == 'assign') {
+                if (variables.length > 0) {
+                    result = jsonHelper.GetIndexedVariableValueFromVariableContainer(variableName);
                 }
+                else {
+                    result = splittedHashTagArray[1].split('~')[1];
+                }
+                defer.fulfill(result);
             }
-            defer.fulfill(currentCycleDate);
-        }
-        /*   else if (tagNameLowerCase == 'variable') {
-         for (i = 1; i < splittedHashTagArray.length; i++) {
-         var splitedTextValue = splittedHashTagArray[i].split('~');
-         if (splitedTextValue.length > 1) {
-         if (parseInt(splitedTextValue[1])) {
-         thisobj.computeDate(splitedTextValue[0].toLowerCase(), parseInt(splitedTextValue[1]));
-         }
-         else {
-         thisobj.computeDate(splitedTextValue[0].toLowerCase(), splitedTextValue[1].toLowerCase());
-         }
-         }
-         else {
-         thisobj.computeDate(splittedHashTagArray[i].toLowerCase());
-         }
-         }
-         defer.fulfill(currentCycleDate);
-
-         }*/
-        else if (tagNameLowerCase == 'add' || tagNameLowerCase == 'subtract') {
-            var hashTagAction = tagNameLowerCase;
-            result = thisobj.ProcessMathematicOperation([jsonHelper.ExtractVariableValue(splittedHashTagArray[1].split('~')[1].replace('{', '').replace('}', '')), jsonHelper.ExtractVariableValue(splittedHashTagArray[1].split('~')[2].replace('{', '').replace('}', ''))], hashTagAction);
-            defer.fulfill(result);
-        }
-        else if (tagNameLowerCase == 'assign') {
-            var variables = hashTagText.match(/\{(.*?)\}/g) || [];
-            if (variables.length > 0) {
+            else if (tagNameLowerCase == 'substring') {
                 result = jsonHelper.GetIndexedVariableValueFromVariableContainer(variableName);
-            }
-            else {
-                result = splittedHashTagArray[1].split('~')[1];
-            }
-            defer.fulfill(result);
-        }
-        else if (tagNameLowerCase == 'substring') {
-            result = jsonHelper.GetIndexedVariableValueFromVariableContainer(variableName);
-            var substrIndex = splittedHashTagArray[1].split('~')[2];
-            if (splittedHashTagArray[1].split('~').length == 4) {
-                var indx = parseInt(splittedHashTagArray[1].split('~')[3]);
-                console.log("Indx= " + indx);
-                if (isNaN(indx)) {
-                    var delimeter = splittedHashTagArray[1].split('~')[3].replace("'", "").replace("'", "");
-                    console.log("delimeter= " + delimeter);
-                    var delimeterIndx = result.indexOf(delimeter) + 1;
-                    console.log("delimeterIndx= " + delimeterIndx);
-                    result = eval("result.substr(delimeterIndx).substr(" + substrIndex + ")");
+                var substrIndex = splittedHashTagArray[1].split('~')[2];
+                if (splittedHashTagArray[1].split('~').length == 4) {
+                    var indx = parseInt(splittedHashTagArray[1].split('~')[3]);
+                    console.log("Indx= " + indx);
+                    if (isNaN(indx)) {
+                        var delimeter = splittedHashTagArray[1].split('~')[3].replace("'", "").replace("'", "");
+                        console.log("delimeter= " + delimeter);
+                        var delimeterIndx = result.indexOf(delimeter) + 1;
+                        console.log("delimeterIndx= " + delimeterIndx);
+                        result = eval("result.substr(delimeterIndx).substr(" + substrIndex + ")");
+                    }
+                    else {
+                        result = eval("result.substr(" + substrIndex + ")");
+                    }
                 }
                 else {
                     result = eval("result.substr(" + substrIndex + ")");
                 }
+                defer.fulfill(result);
             }
-            else {
-                result = eval("result.substr(" + substrIndex + ")");
+            else if (tagNameLowerCase == 'split') {
+                result = jsonHelper.GetIndexedVariableValueFromVariableContainer(variableName);
+                var splitDelimeter = splittedHashTagArray[1].split('~')[2];
+                var defaultArray = [["Output"]];
+                var splittedArray = result.split(splitDelimeter);
+                for (var k = 0; k < splittedArray.length; k++) {
+                    defaultArray.push([splittedArray[k]]);
+                }
+                defer.fulfill(JSON.stringify(defaultArray));
             }
-            defer.fulfill(result);
-        }
-        else if (tagNameLowerCase == 'split') {
-            result = jsonHelper.GetIndexedVariableValueFromVariableContainer(variableName);
-            var splitDelimeter = splittedHashTagArray[1].split('~')[2];
-            var defaultArray = [["Output"]];
-            var splittedArray = result.split(splitDelimeter);
-            for (var k = 0; k < splittedArray.length; k++) {
-                defaultArray.push([splittedArray[k]]);
+            else if (tagNameLowerCase == 'concat') {
+                var concatenatedValues = '';
+                for (var varCount = 0; varCount < variables.length; varCount++) {
+                    concatenatedValues += jsonHelper.GetIndexedVariableValueFromVariableContainer(variables[varCount].substring(variables[varCount].indexOf('{') + 1, variables[varCount].lastIndexOf('}')));
+                }
+                defer.fulfill(concatenatedValues);
             }
-            defer.fulfill(JSON.stringify(defaultArray));
-        }
-        else if (tagNameLowerCase == 'concat') {
-            console.log("Inside concat");
-            var variables = splittedHashTagArray[1].match(/\{(.*?)\}/g);
-            console.log(variables);
-            var concatenatedValues = '';
-            for (var varCount = 0; varCount < variables.length; varCount++) {
-                concatenatedValues += jsonHelper.GetIndexedVariableValueFromVariableContainer(variables[varCount].substring(variables[varCount].indexOf('{') + 1, variables[varCount].lastIndexOf('}')));
+            else if (tagNameLowerCase == 'newguid') {
+                var newGuid = jsonHelper.createGuid();
+                defer.fulfill(newGuid);
             }
-            console.log('concatenatedValues= ' + concatenatedValues);
-            defer.fulfill(concatenatedValues);
         }
-        else if (tagNameLowerCase == 'newguid') {
-            var newGuid = jsonHelper.createGuid();
-            defer.fulfill(newGuid);
-        }
+
         return defer.promise;
     };
 
@@ -143,6 +122,10 @@ var HashTagHelper = function () {
     };
 
     this.computeDate = function (hashTagText, correspondingValue) {
+        if(!isNaN(correspondingValue)) {
+            correspondingValue = parseInt(correspondingValue);
+        }
+
         switch (hashTagText) {
             case 'now':
             {
@@ -151,6 +134,7 @@ var HashTagHelper = function () {
             }
             case 'variable':
             {
+                correspondingValue = correspondingValue + "";
                 var variableContainer = browser.params.config.variableContainer;
 
                 for (var k = 0; k < variableContainer.length; k++) {
