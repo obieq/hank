@@ -13,6 +13,8 @@ var HashTagHelper = function () {
 
     this.computeHashTags = function (hashTagText) {
         console.log('hashTagText: ' + hashTagText);
+        currentCycleDate = undefined;
+
         var defer = protractor.promise.defer();
         var splittedHashTagArray = hashTagText.split('#');
 
@@ -92,6 +94,9 @@ var HashTagHelper = function () {
             else if (tagNameLowerCase == 'newguid') {
                 var newGuid = jsonHelper.createGuid();
                 defer.fulfill(newGuid);
+            } else {
+                console.log(tagNameLowerCase + ": Hashtag isn't supported yet!")
+                defer.reject({error: tagNameLowerCase + ": Hashtag isn't supported yet!"});
             }
         }
 
