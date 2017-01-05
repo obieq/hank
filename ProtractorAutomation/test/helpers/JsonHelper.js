@@ -43,9 +43,19 @@ var JsonHelper = function () {
     };
 
     this.GetIndexesFromVariable = function (varName, aryData) {
-
+        console.log('inside GetIndexesFromVariable varName= ' + varName);
         varName = varName || "";
         var containsOpearation = false;
+        var shouldReturn2DList = false;
+        var colToReturnIn2DResponse = [];
+        var response2DArray = [];
+        var response2DArrayCount = 1;
+
+        if (varName.includes('2DLIST')) {
+            shouldReturn2DList = true;
+            varName = varName.replace('2DLIST~', '');
+        }
+
         varName = this.checkVariableInVariableAndGetValue(varName);
 
 
@@ -71,11 +81,11 @@ var JsonHelper = function () {
             var searchData = idxRow.split(";");
             var colNameValuePair = [];
 
+
             idxCol = "idxCol";
             varName += "[idxCol]";
-
-            for (var i = 0; i < searchData.length; i++)
-            {
+            response2DArray[0] = [];
+            for (var i = 0; i < searchData.length; i++) {
                 var tmpData = searchData[i].split('~');
 
                 if (!!tmpData[1]) {
@@ -90,6 +100,18 @@ var JsonHelper = function () {
                 }
                 else {
                     colNameValuePair.push({ColIndex: tmpData[0], Value: tmpData[1]});
+                }
+
+                if (!tmpData[1] && shouldReturn2DList) {
+                    colToReturnIn2DResponse.push(isNaN(tmpData[0]) ? {
+                        'index': this.inArray(aryData[0], tmpData[0], true),
+                        'name': tmpData[0]
+                    } : {
+                        'index': tmpData[0],
+                        'name': tmpData[0]
+                    });
+
+                    response2DArray[0].push(tmpData[0])
                 }
             }
 
@@ -107,7 +129,6 @@ var JsonHelper = function () {
 
                         if (colNameValuePair[j].Value && !(aryData[i][colNameValuePair[j].ColIndex] + "").toLowerCase().includes(colNameValuePair[j].Value.toLowerCase())) {
                             isMatchFound = false;
-
                             break;
                         }
                     }
@@ -117,9 +138,24 @@ var JsonHelper = function () {
                 if (isMatchFound) {
                     rowIndex = colNameValuePair.length == 1 && colNameValuePair[0].Value == undefined ? 1 : i;
                     tmpColIndex = colNameValuePair[colNameValuePair.length - 1].ColIndex;
-                    break;
+                    if (shouldReturn2DList) {
+                        if (colToReturnIn2DResponse.length > 0) {
+                            response2DArray[response2DArrayCount] = [];
+                        }
+                        for (var k = 0; k < colToReturnIn2DResponse.length; k++) {
+
+                            response2DArray[response2DArrayCount].push(aryData[rowIndex][colToReturnIn2DResponse[k].index]);
+                        }
+                        response2DArrayCount++;
+                    }
+                    else {
+                        break;
+                    }
+
                 }
             }
+            console.log("response2DArray= ");
+            console.log(response2DArray);
             idxRowVal = rowIndex;
             idxColVal = tmpColIndex;
 
@@ -159,8 +195,15 @@ var JsonHelper = function () {
         varName = varName.replace(idxCol, idxColVal);
         varName = varName.replace(idxRow, idxRowVal);
 
-
-        return {varName: varName, idxCol: idxCol, idxColVal: idxColVal, idxRow: idxRow, idxRowVal: idxRowVal};
+        return {
+            varName: varName,
+            idxCol: idxCol,
+            idxColVal: idxColVal,
+            idxRow: idxRow,
+            idxRowVal: idxRowVal,
+            response2DArray: response2DArray,
+            shouldReturn2DList: shouldReturn2DList
+        };
     };
 
     this.GetIndexedVariableValueFromVariableContainer = function (varName) {
@@ -180,8 +223,16 @@ var JsonHelper = function () {
                 if (browser.params.config.variableContainer[m].Name == res) {
                     browser.params.config.variableContainer[m].JsonValue = JSON.parse(browser.params.config.variableContainer[m].Value);
                     var aryData = browser.params.config.variableContainer[m].JsonValue;
+                    console.log("Get Indexed Variable Value From Variable Container= " + varName);
                     var indexs = this.GetIndexesFromVariable(varName, aryData);
-                    return eval("aryData" + indexs.varName.substring(indexs.varName.indexOf('[')));
+                    if (indexs.shouldReturn2DList) {
+                        console.log("Get Indexed Variable Value From Variable Container indexs.response2DArray= ");
+                        console.log(indexs.response2DArray);
+                        return JSON.stringify(indexs.response2DArray) ;
+                    }
+                    else {
+                        return eval("aryData" + indexs.varName.substring(indexs.varName.indexOf('[')));
+                    }
                 }
             }
         }
