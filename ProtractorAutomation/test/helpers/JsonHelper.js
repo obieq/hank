@@ -43,7 +43,6 @@ var JsonHelper = function () {
     };
 
     this.GetIndexesFromVariable = function (varName, aryData) {
-        console.log('inside GetIndexesFromVariable varName= ' + varName);
         varName = varName || "";
         var containsOpearation = false;
         var shouldReturn2DList = false;
@@ -154,8 +153,6 @@ var JsonHelper = function () {
 
                 }
             }
-            console.log("response2DArray= ");
-            console.log(response2DArray);
             idxRowVal = rowIndex;
             idxColVal = tmpColIndex;
 
@@ -223,11 +220,8 @@ var JsonHelper = function () {
                 if (browser.params.config.variableContainer[m].Name == res) {
                     browser.params.config.variableContainer[m].JsonValue = JSON.parse(browser.params.config.variableContainer[m].Value);
                     var aryData = browser.params.config.variableContainer[m].JsonValue;
-                    console.log("Get Indexed Variable Value From Variable Container= " + varName);
                     var indexs = this.GetIndexesFromVariable(varName, aryData);
                     if (indexs.shouldReturn2DList) {
-                        console.log("Get Indexed Variable Value From Variable Container indexs.response2DArray= ");
-                        console.log(indexs.response2DArray);
                         return JSON.stringify(indexs.response2DArray) ;
                     }
                     else {

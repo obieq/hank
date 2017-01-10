@@ -18,6 +18,7 @@ var CpCalendarHelper = function () {
         "July", "August", "September",
         "October", "November", "December"
     ];
+
     var thisObj = this;
 
     this.setCalendarDate = function (date) {

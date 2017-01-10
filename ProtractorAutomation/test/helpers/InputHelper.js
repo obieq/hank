@@ -438,12 +438,12 @@ var InputHelper = function () {
                     case actionConstant.SetVariableManually:
                     {
                         if (testInstance.Value.indexOf('#') == -1) {
-                            console.log("Inside SetVariableManually case 1st ");
+
                             this.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, testInstance.Value, testInstance.DisplayName);
 
                         }
                         else {
-                            console.log("Inside SetVariableManually case 2nd ");
+
                             browser.controlFlow().execute(function () {
                                 var response = hashTagHelper.computeHashTags(testInstance.Value).then(function (response) {
                                     thisobj.setVariable(testInstance.ExecutionSequence, testInstance.VariableName, response.toString(), testInstance.DisplayName);
@@ -770,7 +770,6 @@ var InputHelper = function () {
             var flag = false;
             var textVal = ((value == null || typeofText == 'string' ? value : value[0]) + "").replace(/\n/gi, "");
             var variableContainer = browser.params.config.variableContainer;
-            console.log("Inside setVariable textVal= " + textVal);
             for (var k = 0; k < variableContainer.length; k++) {
                 if (variableName == variableContainer[k].Name) {
                     variableContainer[k].Value = textVal;
@@ -787,7 +786,6 @@ var InputHelper = function () {
             }
 
             if (!flag) {
-                console.log("Inside setVariable not flag textVal= " + textVal);
                 browser.params.config.variableContainer.push({
                     Name: variableName,
                     Value: textVal,
@@ -828,7 +826,7 @@ var InputHelper = function () {
                                 });
                             });
                         }).then(function () {
-                            console.log(tblData);
+
                             onSuccess(JSON.stringify(tblData), tblData);
                         });
                     }
@@ -847,7 +845,7 @@ var InputHelper = function () {
                                 });
                             });
                         }).then(function () {
-                            console.log(tblData);
+
                             onSuccess(JSON.stringify(tblData), tblData);
                         });
                     }
@@ -1033,7 +1031,7 @@ var InputHelper = function () {
                     var assertresult = customAssertHelper.arrayComparisionAssert(splitedVar[2], splitedVar[3], false);
 
                     if (assertresult) {
-                        console.log("assertresult= " + assertresult);
+
                         expect("both array are equal").toEqual("both array are equal");
                     }
                 });

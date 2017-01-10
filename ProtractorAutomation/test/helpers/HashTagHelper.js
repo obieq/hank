@@ -12,7 +12,6 @@ var HashTagHelper = function () {
     var result;
 
     this.computeHashTags = function (hashTagText) {
-        console.log('hashTagText: ' + hashTagText);
         currentCycleDate = undefined;
 
         var defer = protractor.promise.defer();
@@ -25,7 +24,6 @@ var HashTagHelper = function () {
             var tagNameLowerCase = splittedHashTagArray[1].split('~')[0].toLowerCase();
             var variables = splittedHashTagArray[1].match(/\{(.*?)\}/g) || [];
             var variableName = splittedHashTagArray[1].substring(splittedHashTagArray[1].indexOf('{') + 1, splittedHashTagArray[1].lastIndexOf('}'));
-            console.log('variableName= ' + variableName);
 
             if (tagNameLowerCase == 'now' || tagNameLowerCase == 'variable') {
                 for (var i = 1; i < splittedHashTagArray.length; i++) {
@@ -57,12 +55,9 @@ var HashTagHelper = function () {
                 var substrIndex = splittedHashTagArray[1].split('~')[2];
                 if (splittedHashTagArray[1].split('~').length == 4) {
                     var indx = parseInt(splittedHashTagArray[1].split('~')[3]);
-                    console.log("Indx= " + indx);
                     if (isNaN(indx)) {
                         var delimeter = splittedHashTagArray[1].split('~')[3].replace("'", "").replace("'", "");
-                        console.log("delimeter= " + delimeter);
                         var delimeterIndx = result.indexOf(delimeter) + 1;
-                        console.log("delimeterIndx= " + delimeterIndx);
                         result = eval("result.substr(delimeterIndx).substr(" + substrIndex + ")");
                     }
                     else {
@@ -95,7 +90,6 @@ var HashTagHelper = function () {
                 var newGuid = jsonHelper.createGuid();
                 defer.fulfill(newGuid);
             } else {
-                console.log(tagNameLowerCase + ": Hashtag isn't supported yet!")
                 defer.reject({error: tagNameLowerCase + ": Hashtag isn't supported yet!"});
             }
         }

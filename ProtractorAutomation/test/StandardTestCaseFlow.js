@@ -58,6 +58,10 @@ var StandardTestCaseFlow =
             });
           });
 
+            afterAll(function(done){
+              process.nextTick(done);
+            });
+
           it("Start test " + params.config.TestQueueId, function () {
               params.config.testDescription = website.Name + "-" + testCase.TestName;
               params.config.descriptionArray.push("Start test " + params.config.TestQueueId);
