@@ -77,7 +77,8 @@
 
               <!-- #start Load Report Data  -->
 
-              <div class="form-group" ng-if="TestData.ActionId==ActionConstants.LoadReportDataActionId || TestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId">
+              <div class="form-group"
+                   ng-if="TestData.ActionId==ActionConstants.LoadReportDataActionId || TestData.ActionId==ActionConstants.MarkLoadDataFromReportActionId">
                 <label class="col-sm-2 control-label">Website</label>
 
                 <div class="col-sm-4">
@@ -134,7 +135,10 @@
                 <div class="col-sm-4" ng-if="!TestData.DayTillPastByDateCbx">
                   <input type="number" class="form-control" placeholder="Day till past" name="DayTillPast"
                          ng-model="TestData.DayTillPast" ng-pattern=" /^\d+$/" required>
-                  <div class="error" style="color:red" ng-show="TestDataForm.DayTillPast.$error.pattern">Day till past should be positive number.</div>
+
+                  <div class="error" style="color:red" ng-show="TestDataForm.DayTillPast.$error.pattern">Day till past
+                    should be positive number.
+                  </div>
                 </div>
 
                 <div class="input-group date form_datetime col-sm-4" data-link-field="dtp_input1"
@@ -149,9 +153,19 @@
                 <input type="hidden" id="dtp_input1" value=""/><br/>
               </div>
 
-
-
               <!-- #end  Load Report Data  -->
+
+              <div class="form-group" ng-if="InputControlDisplayStatus.ddlBrowserName">
+                <label class="col-sm-2 control-label">Browser</label>
+
+                <div class="col-sm-4">
+                  <select class="form-control" ng-model="TestData.BrowserId"
+                          ng-options="browser.Id as browser.DisplayName for browser in BrowserList | orderBy:'Id'"
+                          name="BrowserId" required="">
+                    <option style="display:none" value="">--Select--</option>
+                  </select>
+                </div>
+              </div>
 
               <div class="form-group" ng-if="InputControlDisplayStatus.ddlPageNonValidation">
                 <label class="col-sm-2 control-label">Page</label>

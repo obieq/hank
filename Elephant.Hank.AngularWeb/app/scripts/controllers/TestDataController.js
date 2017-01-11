@@ -21,6 +21,7 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
       'ddlPage': false,
       'ddlPageNonValidation': false,
       'ddlDisplayName': false,
+      'ddlBrowserName': false,
       'txtValue': false,
       'txtAutoCompVariableName': false,
       'chkAssignVariableValue': false
@@ -172,6 +173,7 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
         switch ($scope.TestData.LinkTestType) {
           case 0:
           {
+            debugger;
             if ($scope.VariableList.length == 0) {
               crudService.getAll(ngAppSettings.TestDataGetVariableForAutoComplete.format($stateParams.WebsiteId, $stateParams.TestCatId, $stateParams.TestId)).then(function (response) {
                 $scope.VariableList = response;
@@ -246,6 +248,18 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
                 $scope.InputControlDisplayStatus.txtValue = true;
               }
               $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
+            }
+
+            else if($scope.TestData.ActionId == $scope.ActionConstants.OpenBrowserActionId || $scope.TestData.ActionId == $scope.ActionConstants.CloseBrowserActionId) {
+
+              crudService.getAll(ngAppSettings.BrowserUrl).then(function (response) {
+                $scope.BrowserList = response;
+                $scope.InputControlDisplayStatus.ddlBrowserName = true;
+                $scope.InputControlDisplayStatus.txtValue = true;
+                if($scope.TestData.ActionId == $scope.ActionConstants.CloseBrowserActionId) {
+                  $scope.InputControlDisplayStatus.txtValue = false;
+                }
+              });
             }
             else {
               $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
@@ -720,6 +734,17 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
             $scope.InputControlDisplayStatus.txtValue = true;
           }
         }
+        else if ($scope.TestData.ActionId == $scope.ActionConstants.OpenBrowserActionId || $scope.TestData.ActionId == $scope.ActionConstants.CloseBrowserActionId) {
+          crudService.getAll(ngAppSettings.BrowserUrl).then(function (response) {
+              $scope.BrowserList = response;
+              $scope.InputControlDisplayStatus.ddlBrowserName = true;
+              if ($scope.TestData.ActionId == $scope.ActionConstants.CloseBrowserActionId) {
+                $scope.InputControlDisplayStatus.txtValue = false;
+              }
+            }
+          );
+        }
+
         else {
           if ($scope.PagesList.length == 0) {
             crudService.getAll(ngAppSettings.WebSitePagesUrl.format($stateParams.WebsiteId)).then(function (response) {
@@ -737,15 +762,16 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
 
         }
       }
-    };
+    }
+    ;
 
     $scope.onPageChange = function () {
-        crudService.getAll(ngAppSettings.LocatorIdentifierUrl.format($stateParams.WebsiteId, $scope.TestData.PageId)).then(function (response) {
-          $scope.DisplayNameList = response;
-          $scope.InputControlDisplayStatus.ddlDisplayName = true;
-        }, function (response) {
-          commonUi.showErrorPopup(response);
-        });
+      crudService.getAll(ngAppSettings.LocatorIdentifierUrl.format($stateParams.WebsiteId, $scope.TestData.PageId)).then(function (response) {
+        $scope.DisplayNameList = response;
+        $scope.InputControlDisplayStatus.ddlDisplayName = true;
+      }, function (response) {
+        commonUi.showErrorPopup(response);
+      });
     };
 
     $scope.onWebsiteChange = function () {
@@ -863,7 +889,10 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
     };
 
     $scope.onQueueClick = function () {
-      $rootScope.$broadcast('openTestQueuePopup', {'TestId': $stateParams.TestId, 'WebsiteId': $stateParams.WebsiteId});
+      $rootScope.$broadcast('openTestQueuePopup', {
+        'TestId': $stateParams.TestId,
+        'WebsiteId': $stateParams.WebsiteId
+      });
     };
 
     $scope.onActionChangeOnEdit = function () {
@@ -890,4 +919,6 @@ app.controller('TestDataController', ['$scope', '$filter', '$rootScope', '$q', '
       }
     };
 
-  }]);
+  }
+])
+;

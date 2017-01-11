@@ -242,5 +242,13 @@ namespace Elephant.Hank.Resources.Dto
         /// The name of the modified by user.
         /// </value>
         public string ModifiedByUserName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the browser identifier.
+        /// </summary>
+        /// <value>
+        /// The browser identifier.
+        /// </value>
+        public long? BrowserId { get; set; }
     }
 }

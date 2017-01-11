@@ -24,7 +24,8 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
       'txtAutoCompVariableName': false,
       'chkAssignVariableValue': false,
       'chkSkipByDefault': false,
-      'chkOptional': false
+      'chkOptional': false,
+      'ddlBrowserName': false
     };
 
     $scope.StepTypes = [{
@@ -200,6 +201,17 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
                 $scope.InputControlDisplayStatus.txtValue = true;
               }
               $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
+            }
+            else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.OpenBrowserActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.CloseBrowserActionId) {
+              crudService.getAll(ngAppSettings.BrowserUrl).then(function (response) {
+                  $scope.BrowserList = response;
+                  $scope.InputControlDisplayStatus.ddlBrowserName = true;
+                  $scope.InputControlDisplayStatus.txtValue = true;
+                  if ($scope.SharedTestData.ActionId == $scope.ActionConstants.CloseBrowserActionId) {
+                    $scope.InputControlDisplayStatus.txtValue = false;
+                  }
+                }
+              );
             }
             else {
               $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
@@ -541,6 +553,16 @@ app.controller('SharedTestDataController', ['$scope', '$q', '$stateParams', '$st
         }
         else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.SetCalendarDateActionId) {
           $scope.InputControlDisplayStatus.chkAssignVariableValue = true;
+        }
+        else if ($scope.SharedTestData.ActionId == $scope.ActionConstants.OpenBrowserActionId || $scope.SharedTestData.ActionId == $scope.ActionConstants.CloseBrowserActionId) {
+          crudService.getAll(ngAppSettings.BrowserUrl).then(function (response) {
+              $scope.BrowserList = response;
+              $scope.InputControlDisplayStatus.ddlBrowserName = true;
+              if ($scope.SharedTestData.ActionId == $scope.ActionConstants.CloseBrowserActionId) {
+                $scope.InputControlDisplayStatus.txtValue = false;
+              }
+            }
+          );
         }
         else {
           if ($scope.PagesList.length == 0) {

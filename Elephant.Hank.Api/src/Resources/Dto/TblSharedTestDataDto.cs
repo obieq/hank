@@ -153,6 +153,14 @@ namespace Elephant.Hank.Resources.Dto
         /// <value>
         /// The day till past by date.
         /// </value>
-        public DateTime? DayTillPastByDate { get; set; }                     
+        public DateTime? DayTillPastByDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the browser identifier.
+        /// </summary>
+        /// <value>
+        /// The browser identifier.
+        /// </value>
+        public long? BrowserId { get; set; }
     }
 }

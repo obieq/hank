@@ -29,7 +29,6 @@ function CustomScreenShotReporter(options) {
         ]).then(function (values) {
             var png = values[0];
             var capabilities = values[1];
-
             var config = browser.params.config;
             var description = jsonHelper.gatherDescriptions(result.fullName);
             var curTestReportPath = jsonHelper.buildPath(config.curLocation, description, capabilities);

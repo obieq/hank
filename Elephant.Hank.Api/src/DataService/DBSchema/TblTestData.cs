@@ -139,6 +139,14 @@ namespace Elephant.Hank.DataService.DBSchema
         public long? DayTillPast { get; set; }
 
         /// <summary>
+        /// Gets or sets the browser identifier.
+        /// </summary>
+        /// <value>
+        /// The browser identifier.
+        /// </value>
+        public long? BrowserId { get; set; }
+
+        /// <summary>
         /// Gets or sets the day till past by date.
         /// </summary>
         /// <value>

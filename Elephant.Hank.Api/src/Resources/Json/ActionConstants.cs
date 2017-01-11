@@ -338,5 +338,33 @@ namespace Elephant.Hank.Resources.Json
                 return ConfigurationManager.AppSettings["ReadAttributeActionId"].ToInt64();
             }
         }
+
+        /// <summary>
+        /// Gets the read attribute action identifier.
+        /// </summary>
+        /// <value>
+        /// The read attribute action identifier.
+        /// </value>
+        public long OpenBrowserActionId
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["OpenBrowserActionId"].ToInt64();
+            }
+        }
+
+        /// <summary>
+        /// Gets the read attribute action identifier.
+        /// </summary>
+        /// <value>
+        /// The read attribute action identifier.
+        /// </value>
+        public long CloseBrowserActionId
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["CloseBrowserActionId"].ToInt64();
+            }
+        }
     }
 }

@@ -231,6 +231,18 @@
 
               <!-- #end  Load Report Data  -->
 
+              <div class="form-group" ng-if="InputControlDisplayStatus.ddlBrowserName">
+                <label class="col-sm-2 control-label">Browser</label>
+
+                <div class="col-sm-4">
+                  <select class="form-control" ng-model="SharedTestData.BrowserId"
+                          ng-options="browser.Id as browser.DisplayName for browser in BrowserList | orderBy:'Id'"
+                          name="BrowserId" required="">
+                    <option style="display:none" value="">--Select--</option>
+                  </select>
+                </div>
+              </div>
+
               <div class="form-group" ng-if="InputControlDisplayStatus.ddlPageNonValidation">
                 <label class="col-sm-2 control-label">Page</label>
                 <div class="col-sm-4">
