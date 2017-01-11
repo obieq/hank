@@ -133,5 +133,13 @@ namespace Elephant.Hank.Resources.Models
         /// The load report data test identifier.
         /// </value>
         public long LoadReportDataTestId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the browser identifier.
+        /// </summary>
+        /// <value>
+        /// The browser identifier.
+        /// </value>
+        public long BrowserId { get; set; }
     }
 }

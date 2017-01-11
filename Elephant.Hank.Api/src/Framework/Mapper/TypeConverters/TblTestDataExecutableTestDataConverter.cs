@@ -53,6 +53,7 @@ namespace Elephant.Hank.Framework.Mapper.TypeConverters
                                  StepType = src.LinkTestType,
                                  CategoryId = src.DataBaseCategoryId,
                                  SharedTestDataId = src.SharedTestDataId,
+                                 BrowserId = src.BrowserId.HasValue ? src.BrowserId.Value : 0,
                                  LoadReportDataTestId = src.SharedStepWebsiteTestId.HasValue && (src.ActionId == ActionConstants.Instance.LoadReportDataActionId || src.ActionId == ActionConstants.Instance.MarkLoadDataFromReportActionId) ? src.SharedStepWebsiteTestId.Value : 0,
                              };
                 result.DisplayName = src.DisplayNameValue;
