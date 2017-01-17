@@ -70,7 +70,7 @@ specs:
         isVerbose: true,
         showColors: true,
         includeStackTrace: true,
-        defaultTimeoutInterval: 1200000
+        defaultTimeoutInterval: 12000000
 },
 
 allScriptsTimeout: 4600000,
