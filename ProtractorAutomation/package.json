@@ -2,6 +2,7 @@
   "name": "webquoteang",
   "version": "0.0.0",
   "dependencies": {
+    "promise": "^7.1.1",
     "protractor-hotkeys": "0.0.5",
     "q-io": "^1.13.2",
     "request": "^2.79.0",

@@ -7,6 +7,7 @@ var InputHelper = function () {
     var ActionConstant = require('./../constants/ActionConstant.js');
     var actionConstant = new ActionConstant();
     var maxTimeOut = 10000;
+    var screenShotWaitTimeOut = 1000;
     var thisobj = this;
     var LocatorTypeConstant = require('./../constants/LocatorTypeConstant.js');
     var locatorTypeConstant = new LocatorTypeConstant();
@@ -297,36 +298,38 @@ var InputHelper = function () {
                                 browser.switchTo().alert().then(null, function (e) {
                                     if (e.code == 27) {
                                         browser.getCurrentUrl().then(function (Url) {
-                                            if (Url != UrlBeforeClick) {
-                                                browser.takeScreenshot().then(function (png) {
-                                                    browser.getCapabilities().then(function (capabilities) {
-                                                        if (TakeScreenShotBrowser.Platform.toLowerCase() == capabilities.get('platform').toLowerCase() && TakeScreenShotBrowser.ConfigName.toLowerCase() == capabilities.get('browserName').toLowerCase()) {
+                                            browser.sleep(screenShotWaitTimeOut).then(function(){
+                                                if (Url != UrlBeforeClick) {
+                                                    browser.takeScreenshot().then(function (png) {
+                                                        browser.getCapabilities().then(function (capabilities) {
+                                                            if (TakeScreenShotBrowser.Platform.toLowerCase() == capabilities.get('platform').toLowerCase() && TakeScreenShotBrowser.ConfigName.toLowerCase() == capabilities.get('browserName').toLowerCase()) {
 
-                                                            var reportPath = jsonHelper.buildPath(browser.params.config.curLocation, browser.params.config.descriptionArray, capabilities) + '.png';
-                                                            var reportPathWithBaseDirectory = constant.reportBaseDirectory + "\\" + reportPath;
-                                                            var loc = reportPathWithBaseDirectory.substring(0, reportPathWithBaseDirectory.lastIndexOf('\\'));
-                                                            FS.isDirectory(loc).then(function (IsExist) {
-                                                                if (IsExist) {
-                                                                    fs.writeFileSync(reportPathWithBaseDirectory, png, {encoding: 'base64'});
-                                                                    browser.params.config.screenShotArray.push({
-                                                                        'Name': Url,
-                                                                        'Value': reportPath
-                                                                    });
-                                                                }
-                                                                else {
-                                                                    FS.makeTree(loc).then(function () {
+                                                                var reportPath = jsonHelper.buildPath(browser.params.config.curLocation, browser.params.config.descriptionArray, capabilities) + '.png';
+                                                                var reportPathWithBaseDirectory = constant.reportBaseDirectory + "\\" + reportPath;
+                                                                var loc = reportPathWithBaseDirectory.substring(0, reportPathWithBaseDirectory.lastIndexOf('\\'));
+                                                                FS.isDirectory(loc).then(function (IsExist) {
+                                                                    if (IsExist) {
                                                                         fs.writeFileSync(reportPathWithBaseDirectory, png, {encoding: 'base64'});
                                                                         browser.params.config.screenShotArray.push({
                                                                             'Name': Url,
                                                                             'Value': reportPath
                                                                         });
-                                                                    });
-                                                                }
-                                                            });
-                                                        }
+                                                                    }
+                                                                    else {
+                                                                        FS.makeTree(loc).then(function () {
+                                                                            fs.writeFileSync(reportPathWithBaseDirectory, png, {encoding: 'base64'});
+                                                                            browser.params.config.screenShotArray.push({
+                                                                                'Name': Url,
+                                                                                'Value': reportPath
+                                                                            });
+                                                                        });
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
                                                     });
-                                                });
-                                            }
+                                                }
+                                            });
                                         });
                                     }
                                 });
