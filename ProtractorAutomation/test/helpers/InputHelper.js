@@ -701,6 +701,7 @@ var InputHelper = function () {
                                         'ReportDataId': browser.params.config.markReportDataContainer[i].ReportDataId,
                                         'TestId': testInstance.LoadReportDataTestId
                                     }, function (resp) {
+                                    }, function (resp) {
                                     });
                                 }
                             }
