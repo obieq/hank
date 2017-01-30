@@ -2,10 +2,8 @@
   <div class="row">
     <!-- left column -->
     <div class=" col-md-8 col-md-offset-2">
-      <h1>
-        Create New Browser
-        <small></small>
-      </h1>
+      <h2 ng-if="!IsEditMode">Create New Browser</h2>
+      <h2 ng-if="IsEditMode">Update Browser</h2>
     </div>
   </div>
 </section>
@@ -25,7 +23,7 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Display name</label>
 
-              <div class="col-sm-6">
+              <div class="col-sm-7">
                 <input type="text" class="form-control" ng-model="Browser.DisplayName" name="DisplayName"
                        placeholder="Display name (i.e firefox 33)" required>
           <span ng-show="BrowserForm.DisplayName.$touched || BrowserForm.$submitted">
@@ -37,9 +35,17 @@
             </div>
 
             <div class="form-group">
+              <label class="col-sm-2 control-label">Is mobile?</label>
+
+              <div class="col-sm-7">
+                <input type="checkbox" ng-model="Browser.IsMobile" name="IsMobile" placeholder="Value">
+              </div>
+            </div>
+
+            <div class="form-group">
               <label class="col-sm-2 control-label">Config name</label>
 
-              <div class="col-sm-6">
+              <div class="col-sm-7">
                 <input type="text" class="form-control" ng-model="Browser.ConfigName" name="ConfigName"
                        placeholder="Config name i.e. firefox" required>
           <span ng-show="BrowserForm.ConfigName.$touched || BrowserForm.$submitted">
@@ -53,9 +59,8 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Platform</label>
 
-              <div class="col-sm-6">
-                <input type="text" class="form-control" ng-model="Browser.Platform" name="Platform"
-                       placeholder="Platform i.e. WINDOWS" required>
+              <div class="col-sm-7">
+                <input type="text" class="form-control" ng-model="Browser.Platform" name="Platform" placeholder="Platform i.e. WINDOWS" required>
           <span ng-show="BrowserForm.Platform.$touched || BrowserForm.$submitted">
             <small class="help-block" ng-show="BrowserForm.Platform.$error.required" style="color:red">Please enter
               specify the Platform.
@@ -64,19 +69,18 @@
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" ng-if="Browser.IsMobile != true">
               <label class="col-sm-2 control-label">Version</label>
 
-              <div class="col-sm-6">
-                <input type="text" class="form-control" ng-model="Browser.Version" name="Version"
-                       placeholder="Version i.e. 33">
+              <div class="col-sm-7">
+                <input type="text" class="form-control" ng-model="Browser.Version" name="Version" placeholder="Version i.e. 33">
               </div>
             </div>
 
             <div class="form-group">
               <label class="col-sm-2 control-label">Share test files</label>
 
-              <div class="col-sm-6">
+              <div class="col-sm-7">
                 <input type="checkbox" ng-model="Browser.ShardTestFiles" name="ShardTestFiles" placeholder="Value">
               </div>
             </div>
@@ -84,9 +88,33 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">Max instances</label>
 
-              <div class="col-sm-6">
+              <div class="col-sm-7">
                 <input type="number" class="form-control" ng-model="Browser.MaxInstances" name="MaxInstances"
                        placeholder="Value">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Additional Params</label>
+              <div class="col-sm-8" style="padding-left: 0px;">
+                <div class="col-sm-12" style="padding-left: 0px;margin-bottom: 10px" ng-repeat="property in Browser.Properties">
+                  <div class="col-sm-5">
+                    <input type="text" class="form-control" placeholder="Name" name="PropertyName" ng-model="property.Name" required="">
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control" placeholder="Value" name="PropertyValue" ng-model="property.Value" required="">
+                  </div>
+                  <div class="col-sm-1 text-right" style="margin-top: 2px">
+                    <button type="button" class="btn btn-danger fa fa-minus" title="Remove" ng-click="removeBrowserProperty($index)"></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label"></label>
+              <div class="col-sm-10 text-left">
+                <button type="button" class="btn btn-success fa fa-plus" title="Add property" ng-click="addBrowserProperty()"></button>
               </div>
             </div>
 

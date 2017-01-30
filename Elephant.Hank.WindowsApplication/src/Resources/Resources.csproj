@@ -51,6 +51,7 @@
     <Compile Include="ApiModels\Hub.cs" />
     <Compile Include="ApiModels\Messages\Message.cs" />
     <Compile Include="ApiModels\Messages\ResultMessage.cs" />
+    <Compile Include="ApiModels\NameValuePair.cs" />
     <Compile Include="ApiModels\ReportData.cs" />
     <Compile Include="ApiModels\Scheduler.cs" />
     <Compile Include="ApiModels\SchedulerHistory.cs" />

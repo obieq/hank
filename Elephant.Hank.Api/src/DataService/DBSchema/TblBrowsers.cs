@@ -11,7 +11,13 @@
 
 namespace Elephant.Hank.DataService.DBSchema
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    using Elephant.Hank.Resources.Models;
+
+    using Newtonsoft.Json;
 
     /// <summary>
     /// The TblBrowsers class
@@ -47,8 +53,35 @@ namespace Elephant.Hank.DataService.DBSchema
         public bool ShardTestFiles { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this instance is mobile.
+        /// </summary>
+        public bool IsMobile { get; set; }
+
+        /// <summary>
         /// Gets or sets the maximum instances.
         /// </summary>
         public int MaxInstances { get; set; }
+
+        /// <summary>
+        /// Gets or sets the property json.
+        /// </summary>
+        public string PropertyJson
+        {
+            get
+            {
+                return JsonConvert.SerializeObject(this.Properties);
+            }
+
+            set
+            {
+                this.Properties = string.IsNullOrWhiteSpace(value) ? null : JsonConvert.DeserializeObject<List<NameValuePair>>(value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the properties.
+        /// </summary>
+        [NotMapped]
+        public IEnumerable<NameValuePair> Properties { get; set; }
     }
 }

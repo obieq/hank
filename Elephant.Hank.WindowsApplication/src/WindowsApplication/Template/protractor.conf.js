@@ -10,17 +10,11 @@
 // ---------------------------------------------------------------------------------------------------
 
 var reportPath = "";
-var curTestReportPath = "";
 var urlToTest = "";
 var CustomScreenShotReporter = require('./../../Reporter/CustomScreenShotReporter.js');
 var path = require('path');
-var RestApiHelper = require('./../../helpers/RestApiHelper.js');
-var restApiHelper = new RestApiHelper();
-var JsonHelper = require('./../../helpers/JsonHelper.js');
-var jsonHelper = new JsonHelper();
 var Constant = require('./../../constants/constant.js');
 var constant = new Constant();
-
 
 exports.config =
 {
@@ -38,6 +32,7 @@ exports.config =
             baseTestReportUrl: 'api/website/0/report',
             executeSqlUrl:'api/execute-sql/{0}',
             autoincrementUrl: "api/website/0/test-queue/auto-increment",
+            isMobile: "##IsMobileBrowser##",
             logContainer: [],
             variableContainer:[],
             variableStateContainer: [],
@@ -48,42 +43,31 @@ exports.config =
     },
 
     multiCapabilities: [
-##Browser-Repeat-Start##
-{
-    platform: "##Platform##",
-        browserName: "##BrowserName##",
-    version: '##Version##',
-    shardTestFiles: ##ShardTestFiles##,
-    maxInstances: ##MaxInstances## // Use number of instances you want
-}
-##Browser-Repeat-End##
-##BrowserDetails##
-],
-
-specs:
-    [
-        'spec/va/*-1-*.js'
+        ##BrowserDetails##
     ],
 
-        jasmineNodeOpts: {
-    onComplete: null,
+    specs:
+        [
+            'spec/va/*-1-*.js'
+        ],
+
+    jasmineNodeOpts: {
+        onComplete: null,
         isVerbose: true,
         showColors: true,
         includeStackTrace: true,
         defaultTimeoutInterval: 12000000
-},
+    },
 
-allScriptsTimeout: 4600000,
+    allScriptsTimeout: 4600000,
 
     onPrepare: function () {
-    require('./../../helpers/WaitReady.js');
-    browser.driver.manage().window().maximize();
-    reportPath = browser.params.config.curLocation;
-    urlToTest = browser.params.config.urlToTest;
-    jasmine.getEnv().addReporter(new CustomScreenShotReporter({
-
-    }));
-}
+        require('./../../helpers/WaitReady.js');
+        reportPath = browser.params.config.curLocation;
+        urlToTest = browser.params.config.urlToTest;
+        jasmine.getEnv().addReporter(new CustomScreenShotReporter({
+        }));
+    }
 };
 
 this.GetNumberToString = function (number) {

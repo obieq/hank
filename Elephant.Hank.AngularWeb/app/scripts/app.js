@@ -266,14 +266,14 @@ var app = angular
       })
       .state('Browser.Update', {
         url: "/{Id:int}",
-        templateUrl: 'views/Browser/browser-update.html',
+        templateUrl: 'views/Browser/browser-add-update.html',
         controller: 'BrowserController',
         ncyBreadcrumb: {label: '{{Browser.DisplayName}}', parent: "Browser.List"},
         permissionData: {Roles: ["TestAdmin"]}
       })
       .state('Browser.Add', {
         url: "/Add",
-        templateUrl: 'views/Browser/browser-add.html',
+        templateUrl: 'views/Browser/browser-add-update.html',
         controller: 'BrowserController',
         ncyBreadcrumb: {label: 'New Browser', parent: "Browser.List"},
         permissionData: {Roles: ["TestAdmin"]}

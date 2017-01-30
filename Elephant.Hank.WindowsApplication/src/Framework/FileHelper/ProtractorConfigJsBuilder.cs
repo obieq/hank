@@ -13,6 +13,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.FileHelper
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using System.Text;
 
@@ -22,23 +23,14 @@ namespace Elephant.Hank.WindowsApplication.Framework.FileHelper
     public class ProtractorConfigJsBuilder
     {
         /// <summary>
-        /// The tr start tag
-        /// </summary>
-        private const string MulticapBrowserStartTag = "##Browser-Repeat-Start##";
-
-        /// <summary>
-        /// The tr end tag
-        /// </summary>
-        private const string MulticapBrowserEndTag = "##Browser-Repeat-End##";
-
-        /// <summary>
         /// Creates the specified test list.
         /// </summary>
         /// <param name="testQueue">The test queue.</param>
+        /// <param name="numberOfTest">The number of test.</param>
         /// <returns>
         /// Location for protractor.conf.js file
         /// </returns>
-        public string Create(TestQueue testQueue)
+        public string Create(TestQueue testQueue, int numberOfTest)
         {
             var baseLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             baseLocation = Path.Combine(baseLocation, "Template", "protractor.conf.js");
@@ -48,17 +40,11 @@ namespace Elephant.Hank.WindowsApplication.Framework.FileHelper
                                  .Replace("##BaseApiUrl##", SettingsHelper.Get().BaseApiUrl)
                                  .Replace("##CurLocation##", testQueue.GroupName);
 
-            int startIndex = jsContent.IndexOf(MulticapBrowserStartTag) + MulticapBrowserStartTag.Length;
-            int length = jsContent.IndexOf(MulticapBrowserEndTag) - startIndex;
-
-            var browserDetailsJson = jsContent.Substring(startIndex, length);
-
             if (testQueue.Browsers != null)
             {
-                jsContent = jsContent.Replace("##BrowserDetails##", this.GetBrowserDetailsJson(browserDetailsJson, testQueue.Browsers));
+                jsContent = jsContent.Replace("##BrowserDetails##", this.GetBrowserDetailsJson(testQueue.Browsers, numberOfTest));
+                jsContent = jsContent.Replace("##IsMobileBrowser##", testQueue.Browsers.Any(x => x.IsMobile).ToString().ToLower());
             }
-
-            jsContent = jsContent.Replace(browserDetailsJson, string.Empty).Replace(MulticapBrowserStartTag, string.Empty).Replace(MulticapBrowserEndTag, string.Empty);
 
             var path = SettingsHelper.Get().BaseSpecPath + "\\" + testQueue.GroupName;
 
@@ -73,24 +59,44 @@ namespace Elephant.Hank.WindowsApplication.Framework.FileHelper
         }
 
         /// <summary>
-        /// Gets the browser details json.
+        /// Gets the browser details JSON.
         /// </summary>
-        /// <param name="browserDetailsJson">The browser details json.</param>
         /// <param name="lstBrowsers">The LST browsers.</param>
+        /// <param name="numberOfTest">The number of test.</param>
         /// <returns>
-        /// Browser details json for config file
+        /// Browser details JSON for config file
         /// </returns>
-        private string GetBrowserDetailsJson(string browserDetailsJson, IEnumerable<Browsers> lstBrowsers)
+        private string GetBrowserDetailsJson(IEnumerable<Browsers> lstBrowsers, int numberOfTest)
         {
             StringBuilder sbDataRow = new StringBuilder();
 
             foreach (var browser in lstBrowsers)
             {
-                sbDataRow.Append(browserDetailsJson.Replace("##Platform##", browser.Platform)
-                                                   .Replace("##BrowserName##", browser.ConfigName)
-                                                   .Replace("##Version##", browser.Version + string.Empty)
-                                                   .Replace("##ShardTestFiles##", browser.ShardTestFiles.ToString().ToLower())
-                                                   .Replace("##MaxInstances##", (browser.MaxInstances <= 0 ? 1 : browser.MaxInstances).ToString()) + ",");
+                var browserProperties = browser.Properties ?? new List<NameValuePair>();
+
+                browserProperties.Add(new NameValuePair { Name = "platform", Value = browser.Platform });
+                browserProperties.Add(new NameValuePair { Name = "browserName", Value = browser.ConfigName });
+                browserProperties.Add(new NameValuePair { Name = "shardTestFiles", Value = browser.ShardTestFiles.ToString().ToLower() });
+                browserProperties.Add(new NameValuePair { Name = "maxInstances", Value = numberOfTest <= 1 ? "1" : ((browser.MaxInstances <= 0 ? 1 : browser.MaxInstances).ToString()) });
+
+                if (!browser.IsMobile)
+                {
+                    browserProperties.Add(new NameValuePair { Name = "version", Value = browser.Version + string.Empty });
+                }
+                
+                string extraProperties = string.Empty;
+
+                foreach (var property in browserProperties)
+                {
+                    extraProperties += "\n\"" + property.Name + "\": \"" + property.Value + "\",";
+                }
+
+                extraProperties = extraProperties.Length > 0
+                                      ? extraProperties.Substring(0, extraProperties.Length - 1)
+                                      : string.Empty;
+
+
+                sbDataRow.Append("{" + extraProperties + "},");
             }
 
             return sbDataRow.Length > 0 ? sbDataRow.ToString().Substring(0, sbDataRow.Length - 1) : string.Empty;

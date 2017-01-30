@@ -152,7 +152,7 @@ namespace Elephant.Hank.WindowsApplication.Framework.Processes
 
                 if (!string.IsNullOrWhiteSpace(directoryName))
                 {
-                    new ProtractorConfigJsBuilder().Create(testQueue.Item[0]);
+                    new ProtractorConfigJsBuilder().Create(testQueue.Item[0], testQueue.Item.Count);
 
                     string groupName = testQueue.Item[0].GroupName;
 

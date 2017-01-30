@@ -11,6 +11,8 @@
 
 namespace Elephant.Hank.WindowsApplication.Resources.ApiModels
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// The Browsers class
     /// </summary>
@@ -42,8 +44,18 @@ namespace Elephant.Hank.WindowsApplication.Resources.ApiModels
         public bool ShardTestFiles { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this instance is mobile.
+        /// </summary>
+        public bool IsMobile { get; set; }
+
+        /// <summary>
         /// Gets or sets the maximum instances.
         /// </summary>
         public int MaxInstances { get; set; }
+
+        /// <summary>
+        /// Gets or sets the properties.
+        /// </summary>
+        public List<NameValuePair> Properties { get; set; }
     }
 }
